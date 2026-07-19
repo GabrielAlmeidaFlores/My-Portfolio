@@ -108,12 +108,52 @@ const techBase: TechBase[] = [
     relatedExperiences: ["ousion-tech-lead"],
   },
   {
+    id: "typescript",
+    name: "TypeScript",
+    category: "backend",
+    relatedProjects: ["syntonia", "pulse"],
+    relatedCertifications: [],
+    relatedExperiences: ["ousion-tech-lead"],
+  },
+  {
     id: "nestjs",
     name: "NestJS",
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
     relatedExperiences: ["ousion-tech-lead"],
+  },
+  {
+    id: "java",
+    name: "Java",
+    category: "backend",
+    relatedProjects: [],
+    relatedCertifications: [],
+    relatedExperiences: [],
+  },
+  {
+    id: "springboot",
+    name: "Spring Boot",
+    category: "backend",
+    relatedProjects: [],
+    relatedCertifications: [],
+    relatedExperiences: [],
+  },
+  {
+    id: "go",
+    name: "Go",
+    category: "backend",
+    relatedProjects: [],
+    relatedCertifications: [],
+    relatedExperiences: [],
+  },
+  {
+    id: "gin",
+    name: "Gin",
+    category: "backend",
+    relatedProjects: [],
+    relatedCertifications: [],
+    relatedExperiences: [],
   },
   {
     id: "dotnet",
@@ -155,14 +195,6 @@ const techBase: TechBase[] = [
     relatedCertifications: ["lpi-linux"],
     relatedExperiences: ["ousion-tech-lead"],
   },
-  {
-    id: "typescript",
-    name: "TypeScript",
-    category: "backend",
-    relatedProjects: ["syntonia", "pulse"],
-    relatedCertifications: [],
-    relatedExperiences: ["ousion-tech-lead"],
-  },
 ];
 
 const descriptions: Record<Locale, Record<string, string>> = {
@@ -179,6 +211,10 @@ const descriptions: Record<Locale, Record<string, string>> = {
     sqlserver: "Persistência em ambientes corporativos .NET.",
     linux: "Infraestrutura, hardening e observabilidade.",
     typescript: "Tipagem forte em APIs e frontends modernos.",
+    java: "APIs e sistemas corporativos robustos.",
+    go: "Serviços de alta performance e concorrência.",
+    springboot: "Microsserviços e APIs REST com Java.",
+    gin: "APIs HTTP leves e performáticas em Go.",
   },
   en: {
     aws: "Cloud-native architecture, Lambda, EC2, S3, and RDS.",
@@ -193,6 +229,10 @@ const descriptions: Record<Locale, Record<string, string>> = {
     sqlserver: "Persistence in .NET enterprise environments.",
     linux: "Infrastructure, hardening, and observability.",
     typescript: "Strong typing for modern APIs and frontends.",
+    java: "Robust APIs and enterprise systems.",
+    go: "High-performance and concurrent services.",
+    springboot: "Microservices and REST APIs with Java.",
+    gin: "Lightweight, high-performance HTTP APIs in Go.",
   },
   es: {
     aws: "Arquitectura cloud-native, Lambda, EC2, S3 y RDS.",
@@ -207,6 +247,10 @@ const descriptions: Record<Locale, Record<string, string>> = {
     sqlserver: "Persistencia en entornos corporativos .NET.",
     linux: "Infraestructura, hardening y observabilidad.",
     typescript: "Tipado fuerte en APIs y frontends modernos.",
+    java: "APIs y sistemas corporativos robustos.",
+    go: "Servicios de alto rendimiento y concurrencia.",
+    springboot: "Microservicios y APIs REST con Java.",
+    gin: "APIs HTTP ligeras y performantes en Go.",
   },
 };
 
