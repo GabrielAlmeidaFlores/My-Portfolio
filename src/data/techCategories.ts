@@ -21,8 +21,11 @@ export const techCategories: TechCategory[] = [
     name: "DevOps",
     technologies: [
       "Docker",
-      "Linux",
       "GitHub Actions",
+      "Jenkins",
+      "Prometheus",
+      "Grafana",
+      "Linux",
       "CI/CD",
       "Nginx",
       "OpenVPN",
@@ -62,6 +65,13 @@ export const techCategories: TechCategory[] = [
   {
     id: "database",
     name: "Banco de Dados",
-    technologies: ["PostgreSQL", "SQL Server", "MongoDB", "MySQL"],
+    technologies: [
+      "PostgreSQL",
+      "MySQL",
+      "SQL Server",
+      "MongoDB",
+      "DynamoDB",
+      "Redis",
+    ],
   },
 ];
