@@ -1,6 +1,6 @@
 # Agents — Guia de Boas Práticas
 
-Este documento define as convenções do projeto **portifolio-gabriel**. Agentes de IA e desenvolvedores devem seguir estas diretrizes para manter a estrutura organizada, o código consistente e a qualidade alta.
+Este documento define as convenções do projeto **Gabriel-Flores-Portfolio**. Agentes de IA e desenvolvedores devem seguir estas diretrizes para manter a estrutura organizada, o código consistente e a qualidade alta.
 
 ---
 
@@ -34,7 +34,7 @@ Landing page profissional em **React** (single page) para Gabriel. Prioridades:
 ## 3. Estrutura de pastas
 
 ```
-portifolio-gabriel/
+Gabriel-Flores-Portfolio/
 ├── public/
 │   ├── images/              # Fotos, projetos, logos, badges
 │   ├── fonts/
