@@ -5,6 +5,9 @@ const pulseImage = "/images/projects/pulse.png";
 const pulseUrl = "https://pulseips.com.br/";
 const xcheckImage = "/images/projects/xcheck.png";
 const xcheckUrl = "https://xcheck.com.br/";
+const httpCliImage =
+  "https://raw.githubusercontent.com/GabrielAlmeidaFlores/GabrielAlmeidaFlores/main/assets/HTTP-CLI/http-cli.gif";
+const httpCliGithub = "https://github.com/GabrielAlmeidaFlores/HTTP-CLI";
 
 export const projectsByLocale: Record<Locale, Project[]> = {
   "pt-BR": [
@@ -67,6 +70,26 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       architecture:
         "Portal em PHP 8.2 puro (sem frameworks) com Apache, MySQL 5.7 e frontend HTML/CSS/JavaScript vanilla. Autenticação JWT nativa, geração de laudo com wkhtmltopdf/FPDF, webhooks (Loja Integrada e Innovatox), notificações WhatsApp/SMTP e deploy containerizado no Azure App Service.",
     },
+    {
+      id: "http-cli",
+      title: "HTTP-CLI",
+      shortDescription:
+        "Teste APIs sem sair do terminal. Um cliente HTTP interativo em TUI — estilo Postman — com navegação vim, autenticação, importação de cURL/Postman e histórico persistente para um fluxo 100% teclado.",
+      image: httpCliImage,
+      githubUrl: httpCliGithub,
+      technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
+      results: [
+        "Layout em três painéis com editor de requisição em abas",
+        "Import/export de cURL e collections Postman v2.1",
+        "Navegação vim e keybindings totalmente configuráveis",
+      ],
+      challenge:
+        "Clientes HTTP gráficos tiram o desenvolvedor do terminal e do fluxo keyboard-driven, tornando testes de API mais lentos no dia a dia.",
+      solution:
+        "O HTTP-CLI oferece criar, organizar e executar requisições HTTP em um TUI interativo em Go, com navegação estilo vim, auth (Bearer, Basic, API Key), upload de arquivos e dicas contextuais.",
+      architecture:
+        "Aplicação CLI em Go com TUI Bubble Tea/Lipgloss, comandos Cobra e configuração YAML. Persistência local de requisições, import/export cURL e Postman, e fluxos de edição no editor externo configurado.",
+    },
   ],
   en: [
     {
@@ -128,6 +151,26 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       architecture:
         "Portal built with pure PHP 8.2 (no frameworks), Apache, MySQL 5.7, and vanilla HTML/CSS/JavaScript. Native JWT auth, PDF reports via wkhtmltopdf/FPDF, webhooks (Loja Integrada and Innovatox), WhatsApp/SMTP notifications, and containerized deploy on Azure App Service.",
     },
+    {
+      id: "http-cli",
+      title: "HTTP-CLI",
+      shortDescription:
+        "Test APIs without leaving the terminal. An interactive Postman-style HTTP client in a TUI — with vim navigation, auth, cURL/Postman import, and persistent history for a fully keyboard-driven workflow.",
+      image: httpCliImage,
+      githubUrl: httpCliGithub,
+      technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
+      results: [
+        "Three-panel layout with tabbed request editor",
+        "Import/export for cURL and Postman v2.1 collections",
+        "Vim navigation and fully configurable keybindings",
+      ],
+      challenge:
+        "GUI HTTP clients pull developers out of the terminal and keyboard-driven workflows, slowing down everyday API testing.",
+      solution:
+        "HTTP-CLI lets you create, organize, and execute HTTP requests in an interactive Go TUI, with vim-style navigation, auth (Bearer, Basic, API Key), file uploads, and contextual hints.",
+      architecture:
+        "Go CLI app with Bubble Tea/Lipgloss TUI, Cobra commands, and YAML configuration. Local request persistence, cURL and Postman import/export, and edit flows in the configured external editor.",
+    },
   ],
   es: [
     {
@@ -188,6 +231,26 @@ export const projectsByLocale: Record<Locale, Project[]> = {
         "XCheck envía el kit a domicilio, permite activación online en minutos y emite un PDF identificado solo por el precinto: sin nombre, CPF ni dirección en el documento, con datos personales eliminados tras el plazo definido.",
       architecture:
         "Portal en PHP 8.2 puro (sin frameworks) con Apache, MySQL 5.7 y frontend HTML/CSS/JavaScript vanilla. Autenticación JWT nativa, generación de informes con wkhtmltopdf/FPDF, webhooks (Loja Integrada e Innovatox), notificaciones WhatsApp/SMTP y deploy containerizado en Azure App Service.",
+    },
+    {
+      id: "http-cli",
+      title: "HTTP-CLI",
+      shortDescription:
+        "Prueba APIs sin salir del terminal. Un cliente HTTP interactivo estilo Postman en TUI — con navegación vim, autenticación, importación cURL/Postman e historial persistente para un flujo 100% teclado.",
+      image: httpCliImage,
+      githubUrl: httpCliGithub,
+      technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
+      results: [
+        "Layout de tres paneles con editor de request por pestañas",
+        "Import/export de cURL y collections Postman v2.1",
+        "Navegación vim y keybindings totalmente configurables",
+      ],
+      challenge:
+        "Los clientes HTTP gráficos sacan al desarrollador del terminal y del flujo keyboard-driven, haciendo más lentas las pruebas de API del día a día.",
+      solution:
+        "HTTP-CLI permite crear, organizar y ejecutar requests HTTP en un TUI interactivo en Go, con navegación estilo vim, auth (Bearer, Basic, API Key), upload de archivos y tips contextuales.",
+      architecture:
+        "App CLI en Go con TUI Bubble Tea/Lipgloss, comandos Cobra y configuración YAML. Persistencia local de requests, import/export cURL y Postman, y edición en el editor externo configurado.",
     },
   ],
 };

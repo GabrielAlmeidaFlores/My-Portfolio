@@ -235,7 +235,7 @@ const techBase: TechBase[] = [
     id: "go",
     name: "Go",
     category: "backend",
-    relatedProjects: [],
+    relatedProjects: ["http-cli"],
     relatedCertifications: [],
     relatedExperiences: ["ousion-tech-lead"],
   },

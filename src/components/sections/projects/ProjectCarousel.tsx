@@ -41,17 +41,19 @@ function ProjectMedia({
   videoUrl,
   embedUrl,
   demoUrl,
+  githubUrl,
   title,
 }: {
   image: string;
   videoUrl?: string;
   embedUrl?: string;
   demoUrl?: string;
+  githubUrl?: string;
   title: string;
 }) {
   const { copy } = useTranslations();
   const [hasError, setHasError] = useState(false);
-  const openUrl = demoUrl ?? embedUrl;
+  const openUrl = demoUrl ?? embedUrl ?? githubUrl;
 
   if (embedUrl) {
     return (
@@ -118,7 +120,7 @@ function ProjectMedia({
       <img
         src={image}
         alt={title}
-        className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+        className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
         loading="lazy"
         decoding="async"
         onError={() => setHasError(true)}
@@ -151,6 +153,7 @@ function ProjectSlide({ project }: { project: Project }) {
           videoUrl={project.videoUrl}
           embedUrl={project.embedUrl}
           demoUrl={project.demoUrl}
+          githubUrl={project.githubUrl}
           title={project.title}
         />
       </div>
@@ -171,9 +174,9 @@ function ProjectSlide({ project }: { project: Project }) {
           ))}
         </div>
         {hasLinks && (
-          <div className="mt-6 flex flex-wrap justify-end gap-2">
+          <div className="mt-6 flex flex-wrap justify-start gap-2">
             {project.githubUrl && (
-              <Button href={project.githubUrl} variant="secondary">
+              <Button href={project.githubUrl} variant="ghost">
                 {copy.projects.github}
               </Button>
             )}
