@@ -38,7 +38,7 @@ export function TechnologiesSection() {
 
   const filtered =
     filter === "all"
-      ? technologies
+      ? technologies.filter((tech) => tech.isFeatured)
       : technologies.filter((tech) => tech.category === filter);
 
   const selectedCategoryColor = selected

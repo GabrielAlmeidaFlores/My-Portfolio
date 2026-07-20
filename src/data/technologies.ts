@@ -17,7 +17,7 @@ export interface TechFilter {
 
 const techFilterLabels: Record<Locale, Record<TechFilterId, string>> = {
   "pt-BR": {
-    all: "Todos",
+    all: "Principais",
     cloud: "Cloud",
     backend: "Backend",
     frontend: "Frontend",
@@ -26,7 +26,7 @@ const techFilterLabels: Record<Locale, Record<TechFilterId, string>> = {
     tools: "Ferramentas",
   },
   en: {
-    all: "All",
+    all: "Featured",
     cloud: "Cloud",
     backend: "Backend",
     frontend: "Frontend",
@@ -35,7 +35,7 @@ const techFilterLabels: Record<Locale, Record<TechFilterId, string>> = {
     tools: "Tools",
   },
   es: {
-    all: "Todos",
+    all: "Principales",
     cloud: "Cloud",
     backend: "Backend",
     frontend: "Frontend",
@@ -434,12 +434,35 @@ const descriptions: Record<Locale, Record<string, string>> = {
   },
 };
 
+const featuredTechIds = new Set([
+  "aws",
+  "azure",
+  "docker",
+  "github-actions",
+  "linux",
+  "react",
+  "nextjs",
+  "typescript",
+  "nodejs",
+  "nestjs",
+  "go",
+  "csharp",
+  "dotnet",
+  "java",
+  "springboot",
+  "postgresql",
+  "dynamodb",
+  "redis",
+  "mysql",
+]);
+
 export function getTechnologies(locale: Locale): Technology[] {
   const localeDescriptions = descriptions[locale];
 
   return techBase.map((tech) => ({
     ...tech,
     description: localeDescriptions[tech.id],
+    isFeatured: featuredTechIds.has(tech.id),
   }));
 }
 

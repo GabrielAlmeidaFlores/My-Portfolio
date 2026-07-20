@@ -15,4 +15,5 @@ export interface Technology {
   relatedProjects: string[];
   relatedCertifications: string[];
   relatedExperiences: string[];
+  isFeatured?: boolean;
 }

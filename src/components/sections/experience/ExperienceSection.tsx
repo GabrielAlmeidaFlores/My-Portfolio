@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { Experience } from "@/types/experience";
 import { useTranslations } from "@/hooks/useTranslations";
 import { SectionWrapper } from "@/components/layout/SectionWrapper";
 import { SectionTitle } from "@/components/ui/SectionTitle";
@@ -9,8 +10,50 @@ import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Badge } from "@/components/ui/Badge";
 import { MonoText } from "@/components/ui/MonoText";
 import { FadeIn } from "@/components/ui/FadeIn";
+import { cn } from "@/lib/cn";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function ExperienceResponsibilities({
+  item,
+  othersLabel,
+  showLessLabel,
+}: {
+  item: Experience;
+  othersLabel: string;
+  showLessLabel: string;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const featured = item.featuredResponsibilities ?? item.responsibilities;
+  const featuredSet = new Set(featured);
+  const others = item.responsibilities.filter(
+    (responsibility) => !featuredSet.has(responsibility),
+  );
+  const visible = isExpanded ? [...featured, ...others] : featured;
+
+  return (
+    <div className="mt-4 flex flex-wrap gap-2">
+      {visible.map((responsibility) => (
+        <Badge key={responsibility}>{responsibility}</Badge>
+      ))}
+      {others.length > 0 && (
+        <button
+          type="button"
+          onClick={() => setIsExpanded((prev) => !prev)}
+          aria-expanded={isExpanded}
+          className={cn(
+            "badge-tech cursor-pointer transition-colors duration-350",
+            "border-dashed border-primary-500/50 text-primary-700 hover:border-primary-500 hover:bg-primary-100",
+            "dark:text-primary-300 dark:hover:bg-primary/10",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          )}
+        >
+          {isExpanded ? showLessLabel : othersLabel}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export function ExperienceSection() {
   const lineRef = useRef<HTMLDivElement>(null);
@@ -63,11 +106,11 @@ export function ExperienceSection() {
                   <p className="text-safe mt-5 text-sm font-semibold">
                     {item.responsibilitiesLabel}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.responsibilities.map((r) => (
-                      <Badge key={r}>{r}</Badge>
-                    ))}
-                  </div>
+                  <ExperienceResponsibilities
+                    item={item}
+                    othersLabel={sectionCopy.others}
+                    showLessLabel={sectionCopy.showLess}
+                  />
                 </SpotlightCard>
               </div>
             </FadeIn>

@@ -34,6 +34,8 @@ export interface SiteCopy {
     title: string;
     subtitle: string;
     ariaLabel: string;
+    others: string;
+    showLess: string;
   };
   projects: {
     title: string;
@@ -156,6 +158,8 @@ const ptBR: SiteCopy = {
     subtitle:
       "Trajetória em empresas de tecnologia, com foco em arquitetura, cloud e liderança de equipes.",
     ariaLabel: "Experiência profissional",
+    others: "Others",
+    showLess: "Ver menos",
   },
   projects: {
     title: "Projetos em Destaque",
@@ -284,6 +288,8 @@ const en: SiteCopy = {
     subtitle:
       "Career path in technology companies, focused on architecture, cloud, and team leadership.",
     ariaLabel: "Professional experience",
+    others: "Others",
+    showLess: "Show less",
   },
   projects: {
     title: "Featured Projects",
@@ -411,6 +417,8 @@ const es: SiteCopy = {
     subtitle:
       "Trayectoria en empresas de tecnología, con foco en arquitectura, cloud y liderazgo de equipos.",
     ariaLabel: "Experiencia profesional",
+    others: "Others",
+    showLess: "Ver menos",
   },
   projects: {
     title: "Proyectos Destacados",
