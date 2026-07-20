@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/favicon.svg" alt="Gabriel Flores Portfolio" width="88" />
+  <img src="./public/images/memoji-contact.png" alt="Gabriel Flores" width="140" />
 </p>
 
 <h1 align="center">João Gabriel Almeida Flores</h1>
