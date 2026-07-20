@@ -14,6 +14,12 @@
 </p>
 
 <p align="center">
+  <a href="https://main.d341b9vn24mb6l.amplifyapp.com/">
+    <img src="https://img.shields.io/badge/Acessar_site-2567A8?style=for-the-badge&logo=amazonaws&logoColor=white" alt="Acessar site" />
+  </a>
+</p>
+
+<p align="center">
   <a href="https://github.com/GabrielAlmeidaFlores">GitHub</a>
   ·
   <a href="https://www.linkedin.com/in/joao-gabriel-flores/">LinkedIn</a>
