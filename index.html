@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfólio de João Gabriel Almeida Flores — Líder Técnico, Arquiteto de Software e Engenheiro Cloud & DevOps."
+    />
+    <meta name="author" content="João Gabriel Almeida Flores" />
+    <meta name="theme-color" content="#fafbfd" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="João Gabriel Almeida Flores — Portfólio" />
+    <meta
+      property="og:description"
+      content="Líder Técnico, Arquiteto de Software e Engenheiro Cloud & DevOps. Especialista em plataformas escaláveis, seguras e cloud-native."
+    />
+    <meta property="og:image" content="/images/profile-hero.jpeg" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="João Gabriel Almeida Flores — Portfólio" />
+    <meta
+      name="twitter:description"
+      content="Líder Técnico, Arquiteto de Software e Engenheiro Cloud & DevOps."
+    />
+    <meta name="twitter:image" content="/images/profile-hero.jpeg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>João Gabriel Almeida Flores — Portfólio</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "João Gabriel Almeida Flores",
+        "jobTitle": "Líder Técnico, Arquiteto de Software e Engenheiro Cloud & DevOps",
+        "email": "gabrielalmeidaflores@hotmail.com",
+        "url": "https://github.com/GabrielAlmeidaFlores",
+        "sameAs": [
+          "https://www.linkedin.com/in/joao-gabriel-flores/",
+          "https://github.com/GabrielAlmeidaFlores"
+        ]
+      }
+    </script>
+    <script>
+      (function () {
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme =
+          storedTheme === "light" || storedTheme === "dark"
+            ? storedTheme
+            : prefersDark
+              ? "dark"
+              : "light";
+        document.documentElement.classList.toggle("dark", theme === "dark");
+
+        const storedLocale = localStorage.getItem("locale");
+        const locale =
+          storedLocale === "pt-BR" || storedLocale === "en" || storedLocale === "es"
+            ? storedLocale
+            : "pt-BR";
+        document.documentElement.lang = locale === "pt-BR" ? "pt-BR" : locale;
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BTievnLG.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DDZlkUUT.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
