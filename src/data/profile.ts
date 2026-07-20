@@ -3,8 +3,8 @@ import type { Profile } from "@/types/profile";
 
 const base = {
   fullName: "João Gabriel Almeida Flores",
-  photo: "/images/profile-hero.png",
-  aboutPhoto: "/images/profile-about.png",
+  photo: "/images/profile-hero.jpeg",
+  aboutPhoto: "/images/profile-about.jpeg",
   cvUrl: "/cv/Gabriel_Flores_ptBR.pdf",
 } as const;
 

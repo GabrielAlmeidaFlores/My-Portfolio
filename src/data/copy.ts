@@ -43,6 +43,9 @@ export interface SiteCopy {
     details: string;
     github: string;
     demo: string;
+    clientProject: string;
+    openSite: string;
+    access: string;
     ariaLabel: string;
   };
   technologies: {
@@ -163,6 +166,9 @@ const ptBR: SiteCopy = {
     details: "Ver detalhes",
     github: "GitHub",
     demo: "Abrir site",
+    clientProject: "Projeto contratado",
+    openSite: "Abrir site",
+    access: "Acessar",
     ariaLabel: "Projetos em destaque",
   },
   technologies: {
@@ -288,6 +294,9 @@ const en: SiteCopy = {
     details: "View details",
     github: "GitHub",
     demo: "Open site",
+    clientProject: "Contracted project",
+    openSite: "Open site",
+    access: "Access",
     ariaLabel: "Featured projects",
   },
   technologies: {
@@ -412,6 +421,9 @@ const es: SiteCopy = {
     details: "Ver detalles",
     github: "GitHub",
     demo: "Abrir sitio",
+    clientProject: "Proyecto contratado",
+    openSite: "Abrir sitio",
+    access: "Acceder",
     ariaLabel: "Proyectos destacados",
   },
   technologies: {

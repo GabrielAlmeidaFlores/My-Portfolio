@@ -1,71 +1,20 @@
 import type { Locale } from "@/types/locale";
 import type { Project } from "@/types/project";
 
+const pulseImage = "/images/projects/pulse.png";
+const pulseUrl = "https://pulseips.com.br/";
+const xcheckImage = "/images/projects/xcheck.png";
+const xcheckUrl = "https://xcheck.com.br/";
+
 export const projectsByLocale: Record<Locale, Project[]> = {
   "pt-BR": [
-    {
-      id: "syntonia",
-      title: "Syntonia",
-      shortDescription:
-        "Motor de aprendizado pessoal com IA: artigos aprofundados gerados sob demanda a partir do seu perfil, sem anúncios nem clickbait.",
-      image: "/images/projects/syntonia.jpg",
-      videoUrl: "/images/projects/syntonia.mp4",
-      demoUrl: "https://main.d2po6kvmcq6ut4.amplifyapp.com/",
-      technologies: [
-        "AWS",
-        "TypeScript",
-        "React",
-        "Node.js",
-        "Gemini",
-        "DynamoDB",
-      ],
-      results: [
-        "Feed vertical focado, um artigo por vez",
-        "Conteúdo personalizado sob demanda com Gemini",
-        "Arquitetura serverless na AWS (sa-east-1)",
-      ],
-      challenge:
-        "A internet tem conteúdo de sobra, mas encontrar material no nível certo, sobre exatamente o que se quer aprender, consome tempo demais — e costuma vir com anúncios, clickbait e conteúdo genérico.",
-      solution:
-        "O usuário descreve quem é e o que o interessa; o Syntonia gera artigos aprofundados sob demanda com Google Gemini, entregues em um feed fluido de scroll vertical, sem distrações.",
-      architecture:
-        "Backend serverless (Node.js 20, TypeScript, Serverless Framework v3) com AWS Lambda, API Gateway, DynamoDB, SQS e Cognito. IA com Gemini 2.5 Flash (primary) e Gemini 2.5 Pro (fallback). Frontend em React 18, Vite 6, Tailwind CSS, Zustand e AWS Amplify. Região sa-east-1 (São Paulo).",
-    },
-    {
-      id: "db-term",
-      title: "DB-Term",
-      shortDescription:
-        "Cliente de banco de dados multiplataforma em terminal: PostgreSQL, MySQL, SQL Server e MongoDB em um único binário leve.",
-      image: "",
-      technologies: [
-        "C++20",
-        "CMake",
-        "FTXUI",
-        "PostgreSQL",
-        "MySQL",
-        "MongoDB",
-        "Docker",
-      ],
-      results: [
-        "Um binário autocontido para quatro bancos",
-        "TUI reativa com realce de sintaxe e exportação CSV/JSON",
-        "Perfis de conexão criptografados localmente com libsodium",
-      ],
-      challenge:
-        "Desenvolvedores precisam de clientes diferentes para cada banco, muitas vezes pesados e com dependências de runtime — o que atrasa o fluxo de trabalho no terminal.",
-      solution:
-        "DB-Term unifica PostgreSQL, MySQL, SQL Server e MongoDB em um cliente TUI em C++20 com FTXUI: navegação de esquemas, queries com realce de sintaxe, exportação CSV/JSON e perfis criptografados via libsodium.",
-      architecture:
-        "C++20 com CMake e vcpkg. TUI com FTXUI; conectores via libpq, libmysqlclient, nanodbc e mongo-cxx-driver; criptografia com libsodium e JSON com nlohmann-json. Distribuído como executável autocontido, compilável via Docker com um único comando.",
-    },
     {
       id: "pulse",
       title: "Pulse",
       shortDescription:
         "SaaS de monitoramento de saúde ocupacional: pesquisas anônimas, alertas por setor e conformidade com a LGPD para o PGR.",
-      image: "/images/projects/pulse.jpg",
-      videoUrl: "/images/projects/pulse.mp4",
-      demoUrl: "https://pulseips.com.br/",
+      image: pulseImage,
+      demoUrl: pulseUrl,
       technologies: [
         "Next.js",
         "React",
@@ -87,71 +36,46 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       architecture:
         "Next.js 16 (App Router), React 19 e TypeScript strict. PostgreSQL 15+ com Prisma v7, Tailwind CSS v4 e shadcn/ui. Filas com BullMQ + Redis; pagamentos com Stripe; e-mail com Resend; arquivos em AWS S3.",
     },
+    {
+      id: "xcheck",
+      title: "XCheck",
+      shortDescription:
+        "Exame toxicológico em cabelo com privacidade por design: coleta em casa, laudo anônimo e janela de detecção de até 90 dias.",
+      image: xcheckImage,
+      demoUrl: xcheckUrl,
+      isClientProject: true,
+      technologies: [
+        "PHP",
+        "MySQL",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Apache",
+        "Docker",
+        "Azure",
+        "JWT",
+      ],
+      results: [
+        "Fluxo completo de kit, ativação e laudo online",
+        "Laudo sem dados pessoais — apenas número de lacre",
+        "Privacidade por design com destruição automática de dados",
+      ],
+      challenge:
+        "Exames toxicológicos tradicionais exigem clínica, exposição de identidade e documentos pessoais no laudo — o que gera fricção e risco à privacidade.",
+      solution:
+        "A XCheck entrega kit em casa, ativação online em minutos e laudo PDF identificado só pelo lacre: sem nome, CPF ou endereço no documento, com dados pessoais apagados após o prazo definido.",
+      architecture:
+        "Portal em PHP 8.2 puro (sem frameworks) com Apache, MySQL 5.7 e frontend HTML/CSS/JavaScript vanilla. Autenticação JWT nativa, geração de laudo com wkhtmltopdf/FPDF, webhooks (Loja Integrada e Innovatox), notificações WhatsApp/SMTP e deploy containerizado no Azure App Service.",
+    },
   ],
   en: [
-    {
-      id: "syntonia",
-      title: "Syntonia",
-      shortDescription:
-        "Personal learning engine powered by AI: in-depth articles generated on demand from your profile — no ads, no clickbait.",
-      image: "/images/projects/syntonia.jpg",
-      videoUrl: "/images/projects/syntonia.mp4",
-      demoUrl: "https://main.d2po6kvmcq6ut4.amplifyapp.com/",
-      technologies: [
-        "AWS",
-        "TypeScript",
-        "React",
-        "Node.js",
-        "Gemini",
-        "DynamoDB",
-      ],
-      results: [
-        "Focused vertical feed, one article at a time",
-        "On-demand personalized content with Gemini",
-        "Serverless architecture on AWS (sa-east-1)",
-      ],
-      challenge:
-        "The internet has plenty of content, but finding material at the right level about exactly what you want to learn takes too much time — and often comes with ads, clickbait, and generic content.",
-      solution:
-        "Users describe who they are and what interests them; Syntonia generates in-depth articles on demand with Google Gemini, delivered in a fluid vertical-scroll feed with no distractions.",
-      architecture:
-        "Serverless backend (Node.js 20, TypeScript, Serverless Framework v3) with AWS Lambda, API Gateway, DynamoDB, SQS, and Cognito. AI with Gemini 2.5 Flash (primary) and Gemini 2.5 Pro (fallback). Frontend with React 18, Vite 6, Tailwind CSS, Zustand, and AWS Amplify. Region sa-east-1 (São Paulo).",
-    },
-    {
-      id: "db-term",
-      title: "DB-Term",
-      shortDescription:
-        "Cross-platform terminal database client: PostgreSQL, MySQL, SQL Server, and MongoDB in a single lightweight binary.",
-      image: "",
-      technologies: [
-        "C++20",
-        "CMake",
-        "FTXUI",
-        "PostgreSQL",
-        "MySQL",
-        "MongoDB",
-        "Docker",
-      ],
-      results: [
-        "One self-contained binary for four databases",
-        "Reactive TUI with syntax highlighting and CSV/JSON export",
-        "Connection profiles encrypted locally with libsodium",
-      ],
-      challenge:
-        "Developers often need a different client for each database — many of them heavy and with runtime dependencies — which slows down terminal workflows.",
-      solution:
-        "DB-Term unifies PostgreSQL, MySQL, SQL Server, and MongoDB in a C++20 TUI client powered by FTXUI: schema browsing, syntax-highlighted queries, CSV/JSON export, and encrypted connection profiles via libsodium.",
-      architecture:
-        "C++20 with CMake and vcpkg. TUI with FTXUI; connectors via libpq, libmysqlclient, nanodbc, and mongo-cxx-driver; encryption with libsodium and JSON with nlohmann-json. Shipped as a fully self-contained executable, buildable via Docker with a single command.",
-    },
     {
       id: "pulse",
       title: "Pulse",
       shortDescription:
         "Occupational health monitoring SaaS: anonymous surveys, sector alerts, and LGPD-aligned compliance for risk management programs.",
-      image: "/images/projects/pulse.jpg",
-      videoUrl: "/images/projects/pulse.mp4",
-      demoUrl: "https://pulseips.com.br/",
+      image: pulseImage,
+      demoUrl: pulseUrl,
       technologies: [
         "Next.js",
         "React",
@@ -173,71 +97,46 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       architecture:
         "Next.js 16 (App Router), React 19, and TypeScript strict. PostgreSQL 15+ with Prisma v7, Tailwind CSS v4, and shadcn/ui. Queues with BullMQ + Redis; payments with Stripe; email with Resend; files on AWS S3.",
     },
+    {
+      id: "xcheck",
+      title: "XCheck",
+      shortDescription:
+        "Hair toxicology testing with privacy by design: at-home collection, anonymous report, and up to 90-day detection window.",
+      image: xcheckImage,
+      demoUrl: xcheckUrl,
+      isClientProject: true,
+      technologies: [
+        "PHP",
+        "MySQL",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Apache",
+        "Docker",
+        "Azure",
+        "JWT",
+      ],
+      results: [
+        "End-to-end kit, activation, and online report flow",
+        "Report without personal data — seal number only",
+        "Privacy by design with automatic data destruction",
+      ],
+      challenge:
+        "Traditional toxicology tests require clinics, identity exposure, and personal documents on the report — creating friction and privacy risk.",
+      solution:
+        "XCheck ships a kit home, enables online activation in minutes, and issues a PDF report identified only by the seal number: no name, CPF, or address on the document, with personal data deleted after a defined retention period.",
+      architecture:
+        "Portal built with pure PHP 8.2 (no frameworks), Apache, MySQL 5.7, and vanilla HTML/CSS/JavaScript. Native JWT auth, PDF reports via wkhtmltopdf/FPDF, webhooks (Loja Integrada and Innovatox), WhatsApp/SMTP notifications, and containerized deploy on Azure App Service.",
+    },
   ],
   es: [
-    {
-      id: "syntonia",
-      title: "Syntonia",
-      shortDescription:
-        "Motor de aprendizaje personal con IA: artículos profundos generados bajo demanda a partir de tu perfil, sin anuncios ni clickbait.",
-      image: "/images/projects/syntonia.jpg",
-      videoUrl: "/images/projects/syntonia.mp4",
-      demoUrl: "https://main.d2po6kvmcq6ut4.amplifyapp.com/",
-      technologies: [
-        "AWS",
-        "TypeScript",
-        "React",
-        "Node.js",
-        "Gemini",
-        "DynamoDB",
-      ],
-      results: [
-        "Feed vertical enfocado, un artículo a la vez",
-        "Contenido personalizado bajo demanda con Gemini",
-        "Arquitectura serverless en AWS (sa-east-1)",
-      ],
-      challenge:
-        "Internet tiene contenido de sobra, pero encontrar material en el nivel adecuado sobre exactamente lo que quieres aprender consume demasiado tiempo — y suele venir con anuncios, clickbait y contenido genérico.",
-      solution:
-        "El usuario describe quién es y qué le interesa; Syntonia genera artículos profundos bajo demanda con Google Gemini, entregados en un feed fluido de scroll vertical, sin distracciones.",
-      architecture:
-        "Backend serverless (Node.js 20, TypeScript, Serverless Framework v3) con AWS Lambda, API Gateway, DynamoDB, SQS y Cognito. IA con Gemini 2.5 Flash (primary) y Gemini 2.5 Pro (fallback). Frontend con React 18, Vite 6, Tailwind CSS, Zustand y AWS Amplify. Región sa-east-1 (São Paulo).",
-    },
-    {
-      id: "db-term",
-      title: "DB-Term",
-      shortDescription:
-        "Cliente de base de datos multiplataforma en terminal: PostgreSQL, MySQL, SQL Server y MongoDB en un único binario ligero.",
-      image: "",
-      technologies: [
-        "C++20",
-        "CMake",
-        "FTXUI",
-        "PostgreSQL",
-        "MySQL",
-        "MongoDB",
-        "Docker",
-      ],
-      results: [
-        "Un binario autocontenido para cuatro bases de datos",
-        "TUI reactiva con resaltado de sintaxis y exportación CSV/JSON",
-        "Perfiles de conexión cifrados localmente con libsodium",
-      ],
-      challenge:
-        "Los desarrolladores suelen necesitar un cliente distinto para cada base de datos — a menudo pesados y con dependencias de runtime — lo que ralentiza el flujo de trabajo en terminal.",
-      solution:
-        "DB-Term unifica PostgreSQL, MySQL, SQL Server y MongoDB en un cliente TUI en C++20 con FTXUI: navegación de esquemas, queries con resaltado de sintaxis, exportación CSV/JSON y perfiles cifrados vía libsodium.",
-      architecture:
-        "C++20 con CMake y vcpkg. TUI con FTXUI; conectores vía libpq, libmysqlclient, nanodbc y mongo-cxx-driver; cifrado con libsodium y JSON con nlohmann-json. Distribuido como ejecutable autocontenido, compilable vía Docker con un único comando.",
-    },
     {
       id: "pulse",
       title: "Pulse",
       shortDescription:
         "SaaS de monitoreo de salud ocupacional: encuestas anónimas, alertas por sector y conformidad con la LGPD para el PGR.",
-      image: "/images/projects/pulse.jpg",
-      videoUrl: "/images/projects/pulse.mp4",
-      demoUrl: "https://pulseips.com.br/",
+      image: pulseImage,
+      demoUrl: pulseUrl,
       technologies: [
         "Next.js",
         "React",
@@ -258,6 +157,37 @@ export const projectsByLocale: Record<Locale, Project[]> = {
         "Pulse envía encuestas anónimas, agrupa resultados por sector, emite alertas automáticos, ofrece un canal permanente de relato anónimo y genera informes PDF de evidencia — con consentimiento inmutable y anonimato doble alineados a la LGPD.",
       architecture:
         "Next.js 16 (App Router), React 19 y TypeScript strict. PostgreSQL 15+ con Prisma v7, Tailwind CSS v4 y shadcn/ui. Colas con BullMQ + Redis; pagos con Stripe; email con Resend; archivos en AWS S3.",
+    },
+    {
+      id: "xcheck",
+      title: "XCheck",
+      shortDescription:
+        "Examen toxicológico en cabello con privacidad por diseño: recolección en casa, informe anónimo y ventana de detección de hasta 90 días.",
+      image: xcheckImage,
+      demoUrl: xcheckUrl,
+      isClientProject: true,
+      technologies: [
+        "PHP",
+        "MySQL",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Apache",
+        "Docker",
+        "Azure",
+        "JWT",
+      ],
+      results: [
+        "Flujo completo de kit, activación e informe online",
+        "Informe sin datos personales — solo número de precinto",
+        "Privacidad por diseño con destrucción automática de datos",
+      ],
+      challenge:
+        "Los exámenes toxicológicos tradicionales exigen clínica, exposición de identidad y documentos personales en el informe — lo que genera fricción y riesgo a la privacidad.",
+      solution:
+        "XCheck envía el kit a domicilio, permite activación online en minutos y emite un PDF identificado solo por el precinto: sin nombre, CPF ni dirección en el documento, con datos personales eliminados tras el plazo definido.",
+      architecture:
+        "Portal en PHP 8.2 puro (sin frameworks) con Apache, MySQL 5.7 y frontend HTML/CSS/JavaScript vanilla. Autenticación JWT nativa, generación de informes con wkhtmltopdf/FPDF, webhooks (Loja Integrada e Innovatox), notificaciones WhatsApp/SMTP y deploy containerizado en Azure App Service.",
     },
   ],
 };

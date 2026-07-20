@@ -5,7 +5,7 @@ import {
   useReducedMotion,
   type PanInfo,
 } from "framer-motion";
-import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageOff, Search } from "lucide-react";
 import type { Project } from "@/types/project";
 import { useTranslations } from "@/hooks/useTranslations";
 import { formatTemplate } from "@/lib/formatTemplate";
@@ -39,12 +39,49 @@ const slideVariants = {
 function ProjectMedia({
   image,
   videoUrl,
+  embedUrl,
+  demoUrl,
+  title,
 }: {
   image: string;
   videoUrl?: string;
+  embedUrl?: string;
+  demoUrl?: string;
+  title: string;
 }) {
   const { copy } = useTranslations();
   const [hasError, setHasError] = useState(false);
+  const openUrl = demoUrl ?? embedUrl;
+
+  if (embedUrl) {
+    return (
+      <>
+        <iframe
+          src={embedUrl}
+          title={title}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+          className="pointer-events-none absolute inset-0 h-full w-full border-0 bg-hover"
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+        {openUrl && (
+          <a
+            href={openUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 z-10 flex items-end justify-center bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-inset"
+            aria-label={`${copy.projects.openSite}: ${title}`}
+          >
+            <span className="mb-4 rounded-[var(--radius-badge)] border border-border bg-card/90 px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-card)] backdrop-blur-md opacity-80 transition-opacity duration-350 group-hover:opacity-100 focus-visible:opacity-100">
+              {copy.projects.openSite}
+            </span>
+          </a>
+        )}
+      </>
+    );
+  }
 
   if (videoUrl && !hasError) {
     return (
@@ -77,14 +114,28 @@ function ProjectMedia({
   }
 
   return (
-    <img
-      src={image}
-      alt=""
-      className="absolute inset-0 h-full w-full object-cover"
-      loading="lazy"
-      decoding="async"
-      onError={() => setHasError(true)}
-    />
+    <>
+      <img
+        src={image}
+        alt={title}
+        className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+        loading="lazy"
+        decoding="async"
+        onError={() => setHasError(true)}
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-background/95 via-background/35 to-transparent"
+        aria-hidden="true"
+      />
+      {openUrl && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/80 opacity-0 transition-opacity duration-350 group-hover:opacity-100 focus-within:opacity-100">
+          <Button href={openUrl} variant="secondary" className="gap-2 leading-none">
+            <Search className="size-4 shrink-0 translate-y-px" aria-hidden="true" />
+            <span className="leading-none">{copy.projects.access}</span>
+          </Button>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -93,12 +144,21 @@ function ProjectSlide({ project }: { project: Project }) {
   const hasLinks = Boolean(project.githubUrl || project.demoUrl);
 
   return (
-    <SpotlightCard className="flex min-h-[420px] w-full min-w-0 flex-col overflow-hidden p-0 lg:grid lg:grid-cols-2">
+    <SpotlightCard className="group flex min-h-[420px] w-full min-w-0 flex-col overflow-hidden p-0 lg:grid lg:grid-cols-2">
       <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-hover lg:aspect-auto lg:h-full lg:min-h-[420px]">
-        <ProjectMedia image={project.image} videoUrl={project.videoUrl} />
+        <ProjectMedia
+          image={project.image}
+          videoUrl={project.videoUrl}
+          embedUrl={project.embedUrl}
+          demoUrl={project.demoUrl}
+          title={project.title}
+        />
       </div>
 
       <div className="flex w-full min-w-0 flex-1 flex-col justify-center p-7 lg:p-10">
+        {project.isClientProject && (
+          <Badge className="mb-3 w-fit">{copy.projects.clientProject}</Badge>
+        )}
         <h3 className="text-safe w-full text-2xl font-bold lg:text-3xl">
           {project.title}
         </h3>

@@ -12,4 +12,6 @@ export interface Project {
   videoUrl?: string;
   githubUrl?: string;
   demoUrl?: string;
+  embedUrl?: string;
+  isClientProject?: boolean;
 }
