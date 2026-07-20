@@ -14,8 +14,8 @@
 </p>
 
 <p align="center">
-  <a href="https://main.d341b9vn24mb6l.amplifyapp.com/">
-    <img src="https://img.shields.io/badge/Acessar_site-2567A8?style=for-the-badge&logo=amazonaws&logoColor=white" alt="Acessar site" />
+  <a href="https://gabrielflores.kybers.com.br">
+    <img src="https://img.shields.io/badge/Acessar_site-2567A8?style=for-the-badge" alt="Acessar site" />
   </a>
 </p>
 
