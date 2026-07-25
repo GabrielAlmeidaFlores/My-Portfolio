@@ -9,9 +9,11 @@ import { ProjectsSection } from "@/components/sections/projects/ProjectsSection"
 import { PublicationsSection } from "@/components/sections/publications/PublicationsSection";
 import { SoftwareEngineeringSection } from "@/components/sections/software-engineering/SoftwareEngineeringSection";
 import { TechnologiesSection } from "@/components/sections/technologies/TechnologiesSection";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
 export function HomePage() {
   const location = useLocation();
+  const { scrollTo } = useSmoothScroll();
 
   useEffect(() => {
     if (!location.hash) {
@@ -29,11 +31,10 @@ export function HomePage() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    element.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start",
+    scrollTo(element, {
+      immediate: prefersReducedMotion,
     });
-  }, [location.hash]);
+  }, [location.hash, scrollTo]);
 
   return (
     <main className="w-full overflow-x-hidden">

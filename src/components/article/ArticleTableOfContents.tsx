@@ -1,6 +1,7 @@
 import { useEffect, useId, useState, type MouseEvent } from "react";
 import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/cn";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 import type { ArticleHeading } from "@/hooks/useArticleHeadings";
 
 interface ArticleTableOfContentsProps {
@@ -9,31 +10,6 @@ interface ArticleTableOfContentsProps {
   title: string;
   ariaLabel: string;
   className?: string;
-}
-
-function getNavbarOffset() {
-  const raw = getComputedStyle(document.documentElement)
-    .getPropertyValue("--navbar-total-offset")
-    .trim();
-  const parsed = Number.parseFloat(raw);
-  return Number.isFinite(parsed) ? parsed : 80;
-}
-
-function scrollToHeading(id: string, smooth: boolean) {
-  const element = document.getElementById(id);
-  if (!element) {
-    return;
-  }
-
-  const top =
-    element.getBoundingClientRect().top + window.scrollY - getNavbarOffset();
-
-  window.scrollTo({
-    top: Math.max(top, 0),
-    behavior: smooth ? "smooth" : "auto",
-  });
-
-  window.history.replaceState(null, "", `#${id}`);
 }
 
 export function ArticleTableOfContents({
@@ -45,6 +21,7 @@ export function ArticleTableOfContents({
 }: ArticleTableOfContentsProps) {
   const panelId = useId();
   const prefersReducedMotion = useReducedMotion();
+  const { scrollTo } = useSmoothScroll();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -89,7 +66,17 @@ export function ArticleTableOfContents({
 
   function handleHeadingClick(event: MouseEvent<HTMLAnchorElement>, id: string) {
     event.preventDefault();
-    scrollToHeading(id, !prefersReducedMotion);
+
+    const element = document.getElementById(id);
+    if (!element) {
+      return;
+    }
+
+    scrollTo(element, {
+      immediate: Boolean(prefersReducedMotion),
+    });
+
+    window.history.replaceState(null, "", `#${id}`);
   }
 
   return (
@@ -149,9 +136,9 @@ export function ArticleTableOfContents({
 
                     <span
                       className={cn(
-                        "overflow-hidden text-[12px] leading-snug whitespace-nowrap transition-[max-width,opacity,color] duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] motion-reduce:transition-none",
+                        "truncate text-[12px] leading-snug transition-[max-width,opacity,color] duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] motion-reduce:transition-none",
                         isExpanded
-                          ? "max-w-[20rem] opacity-100"
+                          ? "max-w-[14rem] opacity-100"
                           : "max-w-0 opacity-0",
                         isActive
                           ? "font-semibold text-foreground"

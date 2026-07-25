@@ -95,6 +95,16 @@ export function useArticleHeadings(
     function updateActive() {
       frame = 0;
       const offset = getScrollOffset();
+      const scrollBottom = window.scrollY + window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const isNearBottom = scrollBottom >= docHeight - 4;
+
+      if (isNearBottom) {
+        const lastId = headings[headings.length - 1]?.id ?? "";
+        setActiveId((prev) => (prev === lastId ? prev : lastId));
+        return;
+      }
+
       let current = headings[0]?.id ?? "";
 
       for (const heading of headings) {

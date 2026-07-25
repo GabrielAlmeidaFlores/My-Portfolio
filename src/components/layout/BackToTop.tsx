@@ -1,11 +1,13 @@
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
+import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 import { useTranslations } from "@/hooks/useTranslations";
 
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
   const { copy } = useTranslations();
+  const { scrollTo } = useSmoothScroll();
 
   useEffect(() => {
     function handleScroll() {
@@ -19,7 +21,7 @@ export function BackToTop() {
   }, []);
 
   function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollTo(0, { immediate: false });
   }
 
   return (
