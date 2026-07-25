@@ -93,22 +93,17 @@ Este projeto usa **somente Yarn** (`yarn.lock`). Não use `npm` nem gere `packag
 
 ## Seções da landing
 
-| #  | Seção                      |
-|----|----------------------------|
-| 1  | Hero                       |
-| 2  | Sobre Mim                  |
-| 3  | Estatísticas               |
-| 4  | Experiência Profissional   |
-| 5  | Projetos em Destaque       |
-| 6  | Tecnologias                |
-| 7  | Certificações              |
-| 8  | Resultados                 |
-| 9  | Formação                   |
-| 10 | Depoimentos                |
-| 11 | Especializações            |
-| 12 | Processo de Trabalho       |
-| 13 | CTA                        |
-| 14 | Contato                    |
+| #  | Seção                    |
+|----|--------------------------|
+| 1  | Hero                     |
+| 2  | Experiência Profissional |
+| 3  | Projetos em Destaque     |
+| 4  | Tecnologias              |
+| 5  | Engenharia de Software   |
+| 6  | Certificações            |
+| 7  | Formação                 |
+| 8  | Publicações              |
+| 9  | Contato                  |
 
 Convenções e detalhes de implementação: [`AGENTS.md`](./AGENTS.md).
 

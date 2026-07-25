@@ -13,23 +13,6 @@ export interface SiteCopy {
     scrollLabel: string;
     ariaLabel: string;
   };
-  about: {
-    title: string;
-    values: {
-      title: string;
-      subtitle: string;
-    };
-    specialties: {
-      title: string;
-      subtitle: string;
-    };
-    stats: {
-      title: string;
-      subtitle: string;
-    };
-    scrollHint: string;
-    photoAlt: string;
-  };
   experience: {
     title: string;
     subtitle: string;
@@ -88,13 +71,6 @@ export interface SiteCopy {
     notFoundDescription: string;
     publishedOn: string;
   };
-  testimonials: {
-    title: string;
-    subtitle: string;
-    photoAlt: string;
-    placeholder: string;
-    ariaLabel: string;
-  };
   contact: {
     eyebrow: string;
     titleBefore: string;
@@ -145,23 +121,6 @@ const ptBR: SiteCopy = {
     photoAlt: "Foto profissional",
     scrollLabel: "Rolar para a seção de experiência",
     ariaLabel: "Apresentação",
-  },
-  about: {
-    title: "Sobre Mim",
-    values: {
-      title: "Valores",
-      subtitle: "Princípios que orientam cada decisão técnica e de liderança.",
-    },
-    specialties: {
-      title: "Especialidades",
-      subtitle: "Áreas em que atuo com maior profundidade e entrega de valor.",
-    },
-    stats: {
-      title: "Em números",
-      subtitle: "Resultados que refletem experiência, dedicação e impacto.",
-    },
-    scrollHint: "role ↓",
-    photoAlt: "Foto profissional",
   },
   experience: {
     title: "Experiência Profissional",
@@ -228,14 +187,6 @@ const ptBR: SiteCopy = {
       "O conteúdo que você procura não existe ou foi movido.",
     publishedOn: "Publicado em",
   },
-  testimonials: {
-    title: "Recomendações",
-    subtitle: "Depoimentos de colegas, gestores e parceiros de projeto.",
-    photoAlt: "Foto",
-    placeholder:
-      "Novas recomendações do LinkedIn podem ser adicionadas em breve.",
-    ariaLabel: "Depoimentos",
-  },
   contact: {
     eyebrow: "// vamos construir",
     titleBefore: "Vamos construir algo",
@@ -287,23 +238,6 @@ const en: SiteCopy = {
     photoAlt: "Professional photo",
     scrollLabel: "Scroll to experience section",
     ariaLabel: "Introduction",
-  },
-  about: {
-    title: "About Me",
-    values: {
-      title: "Values",
-      subtitle: "Principles that guide every technical and leadership decision.",
-    },
-    specialties: {
-      title: "Specialties",
-      subtitle: "Areas where I deliver the deepest expertise and business value.",
-    },
-    stats: {
-      title: "By the numbers",
-      subtitle: "Results that reflect experience, dedication, and impact.",
-    },
-    scrollHint: "scroll ↓",
-    photoAlt: "Professional photo",
   },
   experience: {
     title: "Professional Experience",
@@ -370,13 +304,6 @@ const en: SiteCopy = {
       "The content you are looking for does not exist or has been moved.",
     publishedOn: "Published on",
   },
-  testimonials: {
-    title: "Recommendations",
-    subtitle: "Testimonials from colleagues, managers, and project partners.",
-    photoAlt: "Photo",
-    placeholder: "New LinkedIn recommendations may be added soon.",
-    ariaLabel: "Testimonials",
-  },
   contact: {
     eyebrow: "// let's build",
     titleBefore: "Shall we build something",
@@ -428,23 +355,6 @@ const es: SiteCopy = {
     photoAlt: "Foto profesional",
     scrollLabel: "Ir a la sección de experiencia",
     ariaLabel: "Presentación",
-  },
-  about: {
-    title: "Sobre mí",
-    values: {
-      title: "Valores",
-      subtitle: "Principios que guían cada decisión técnica y de liderazgo.",
-    },
-    specialties: {
-      title: "Especialidades",
-      subtitle: "Áreas en las que aporto mayor profundidad y valor de negocio.",
-    },
-    stats: {
-      title: "En números",
-      subtitle: "Resultados que reflejan experiencia, dedicación e impacto.",
-    },
-    scrollHint: "desplázate ↓",
-    photoAlt: "Foto profesional",
   },
   experience: {
     title: "Experiencia Profesional",
@@ -510,14 +420,6 @@ const es: SiteCopy = {
     notFoundDescription:
       "El contenido que buscas no existe o ha sido movido.",
     publishedOn: "Publicado el",
-  },
-  testimonials: {
-    title: "Recomendaciones",
-    subtitle: "Testimonios de colegas, gestores y socios de proyecto.",
-    photoAlt: "Foto",
-    placeholder:
-      "Nuevas recomendaciones de LinkedIn pueden añadirse pronto.",
-    ariaLabel: "Testimonios",
   },
   contact: {
     eyebrow: "// construyamos",

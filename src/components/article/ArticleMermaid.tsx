@@ -1,5 +1,5 @@
 import { useEffect, useId, useState } from "react";
-import mermaid from "mermaid";
+import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/cn";
 
 interface ArticleMermaidProps {
@@ -8,31 +8,14 @@ interface ArticleMermaidProps {
   ariaLabel: string;
 }
 
-function useIsDarkTheme() {
-  const [isDark, setIsDark] = useState(() =>
-    document.documentElement.classList.contains("dark"),
-  );
-
-  useEffect(() => {
-    const root = document.documentElement;
-    const observer = new MutationObserver(() => {
-      setIsDark(root.classList.contains("dark"));
-    });
-
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
-
-  return isDark;
-}
-
 export function ArticleMermaid({
   chart,
   className,
   ariaLabel,
 }: ArticleMermaidProps) {
   const reactId = useId().replace(/:/g, "");
-  const isDark = useIsDarkTheme();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [svg, setSvg] = useState("");
   const [hasError, setHasError] = useState(false);
 
@@ -42,6 +25,8 @@ export function ArticleMermaid({
 
     async function renderDiagram() {
       try {
+        const { default: mermaid } = await import("mermaid");
+
         mermaid.initialize({
           startOnLoad: false,
           theme: isDark ? "dark" : "default",

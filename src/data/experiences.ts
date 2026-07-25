@@ -334,4 +334,3 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   ],
 };
 
-export const experiences = experiencesByLocale["pt-BR"];

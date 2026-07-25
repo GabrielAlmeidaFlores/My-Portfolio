@@ -23,6 +23,11 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Arquivo de regras | Sempre `AGENTS.md` (uppercase) |
 | Package manager | **Somente Yarn** — nunca `npm`; lockfile único: `yarn.lock` |
 | Sem Vercel | Não usar `vercel.json` nem assumir deploy na Vercel |
+| Sem código morto | Seção/data/type só existe se montada em `HomePage` ou rotas de `App` |
+| Docs = código | Mudou ordem/seções → atualizar `AGENTS.md` e `README` na mesma tarefa |
+| Tema compartilhado | Só via `ThemeProvider` — proibido estado de tema local no toggle |
+| Deps pesadas | Mermaid e libs grandes com `import()` dinâmico; rotas com `React.lazy` |
+| Sem exports legados | Proibido `export const x = xByLocale["pt-BR"]` |
 | Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
 | Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
 | `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
@@ -38,10 +43,11 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Build | Vite |
 | Linguagem | TypeScript |
 | Estilos | Tailwind CSS |
-| Animações | Framer Motion |
+| Animações | Framer Motion (UI) + GSAP/ScrollTrigger (scroll) |
 | Roteamento | React Router |
-| Diagramas | Mermaid |
+| Diagramas | Mermaid (lazy / dynamic import) |
 | Package manager | Yarn (`yarn.lock` apenas) |
+| Tema | `ThemeProvider` compartilhado |
 | Lint | Oxlint |
 | Ícones | Lucide React (tree-shakeable) |
 
@@ -75,56 +81,46 @@ Gabriel-Flores-Portfolio/
 │   ├── content/
 │   │   └── publications/    # Corpo das publicações em TSX/JSX
 │   ├── pages/               # HomePage, PublicationPage
-│   ├── hooks/               # useTheme, useScrollSpy, useInView, useCounter
+│   ├── theme/               # ThemeProvider + themeContext
+│   ├── i18n/                # LocaleProvider + localeContext
+│   ├── hooks/               # useTheme, useModal, useTypingAnimation...
 │   ├── lib/                 # Utilitários, validações, constantes
 │   ├── styles/              # globals.css, tokens, tema claro/escuro
 │   ├── types/               # Um arquivo por entidade de dados
-│   ├── data/                # Conteúdo estático da landing page
+│   ├── data/                # Conteúdo estático (fatiar se > ~300 linhas)
+│   │   └── software-pipelines/
 │   ├── App.tsx              # Rotas + shell (Header/Footer)
 │   └── main.tsx
 ├── AGENTS.md
 └── README.md
 ```
 
-### Mapeamento `sections/`
-
-Cada seção da landing page tem sua própria pasta em `components/sections/`:
+### Mapeamento `sections/` (apenas seções montadas)
 
 ```
 sections/
 ├── hero/
 │   └── HeroSection.tsx
-├── about/
-│   └── AboutSection.tsx
-├── stats/
-│   └── StatsSection.tsx
 ├── experience/
 │   └── ExperienceSection.tsx
 ├── projects/
 │   ├── ProjectsSection.tsx
 │   ├── ProjectCard.tsx
+│   ├── ProjectCarousel.tsx
 │   └── ProjectModal.tsx
 ├── technologies/
 │   └── TechnologiesSection.tsx
+├── software-engineering/
+│   ├── SoftwareEngineeringSection.tsx
+│   └── SoftwareEngineeringCarousel.tsx
 ├── certifications/
 │   ├── CertificationsSection.tsx
 │   └── CertificationBadge.tsx
-├── results/
-│   └── ResultsSection.tsx
 ├── education/
 │   └── EducationSection.tsx
 ├── publications/
 │   ├── PublicationsSection.tsx
 │   └── PublicationCard.tsx
-├── testimonials/
-│   ├── TestimonialsSection.tsx
-│   └── TestimonialCard.tsx
-├── specializations/
-│   └── SpecializationsSection.tsx
-├── work-process/
-│   └── WorkProcessSection.tsx
-├── cta/
-│   └── CtaSection.tsx
 └── contact/
     └── ContactSection.tsx
 ```
@@ -135,16 +131,19 @@ sections/
 |---|---|
 | `components/ui/` | Componente genérico usado em 2+ seções |
 | `components/article/` | Componentes tipográficos reutilizáveis em publicações |
-| `components/sections/` | Bloco visual de uma seção específica |
+| `components/sections/` | Bloco visual de uma seção **montada** na HomePage |
 | `components/layout/` | Header, Footer, navegação, wrapper global |
 | `content/publications/` | Corpo JSX de cada publicação |
 | `pages/` | Páginas com rota própria (home, publicação) |
+| `theme/` | Provider e contexto de tema claro/escuro |
 | `hooks/` | Lógica reutilizável com estado ou efeitos |
 | `lib/` | Funções puras, formatadores, validações |
 | `data/` | Arrays/objetos de conteúdo estático |
 | `types/` | Interfaces e tipos compartilhados |
 
 **Não criar** pastas genéricas como `utils/`, `helpers/` e `misc/` — usar apenas `lib/`.
+
+**Não manter** seção, data ou type no repositório se não estiver em uso na `HomePage` ou em rotas de `App`. Ao desativar uma seção, deletar código e dados na mesma alteração.
 
 ---
 
@@ -174,190 +173,71 @@ Rotas adicionais:
 
 ---
 
-### 4.1 Hero (primeira dobra)
+### 4.1 Hero
 
-**Objetivo:** excelente primeira impressão.
+**Objetivo:** primeira impressão.
 
-**Conteúdo:**
-- Foto profissional
-- Nome completo
-- Cargo principal
-- Especializações (ex: `Software Engineer | Cloud Architect | DevOps Specialist`)
-- Frase de impacto
-- Botões: Ver Projetos, Baixar Currículo, Entrar em Contato
-- Ícones das certificações principais (AWS, Azure, GCP)
-- Estatísticas rápidas (anos de experiência, projetos, certificações, clientes)
+**Conteúdo:** nome, cargo, tagline, CTAs (trajetória, projetos, CV, contato), foto, bloco de código animado.
 
-**Componentes:** `HeroSection`, `StatItem` (ui)
+**Componentes:** `HeroSection`
 
 ---
 
-### 4.2 Sobre Mim
+### 4.2 Experiência Profissional
 
-**Objetivo:** seção mais humana, diferente da hero.
+**Objetivo:** timeline / cards de carreira.
 
-**Conteúdo:**
-- Foto diferente da hero
-- **Minha História** — como começou
-- **Minha Missão** — como ajuda empresas
-- Cards rápidos: Liderança, Arquitetura Cloud, Desenvolvimento, DevOps, IA, Gestão de Projetos
+**Cada item:** empresa, cargo, período, responsabilidades, stack.
 
-**Componentes:** `AboutSection`, `SkillCard` (ui)
+**Componentes:** `ExperienceSection`
 
 ---
 
-### 4.3 Estatísticas
+### 4.3 Projetos em Destaque
 
-**Objetivo:** métricas com animação ao entrar na viewport.
+**Objetivo:** carrossel de projetos com detalhe.
 
-**Exemplos:** +50 Projetos, +15 Certificações, +8 Anos, 99% Clientes satisfeitos, +20 Tecnologias
-
-**Componentes:** `StatsSection`, `Counter` (ui), hook `useCounter`
+**Componentes:** `ProjectsSection`, `ProjectCarousel`, `ProjectCard`, `ProjectModal`
 
 ---
 
-### 4.4 Experiência Profissional (Timeline)
+### 4.4 Tecnologias
 
-**Objetivo:** histórico profissional em formato timeline interativo.
+**Objetivo:** stack filtrável com modal de relações (projetos, certificações, experiências).
 
-**Cada item:**
-- Empresa, cargo, período
-- Descrição das responsabilidades
-- Tecnologias utilizadas
-- Resultados alcançados
-
-**Componentes:** `ExperienceSection`, `TimelineItem` (ui)
+**Componentes:** `TechnologiesSection`
 
 ---
 
-### 4.5 Projetos em Destaque
+### 4.5 Engenharia de Software
 
-**Objetivo:** seção mais importante — grid de cards com modal detalhado.
+**Objetivo:** pipelines / fluxos (cloud, arquitetura, devops, security).
 
-**Card:**
-- Imagem, nome, descrição curta
-- Tags de tecnologias (React, AWS, Docker, Node, Terraform...)
-- Botões: Ver detalhes, GitHub, Demo
-- Hover revelando tecnologias e resultados
+**Dados:** `src/data/softwarePipelines.ts` (barrel) + `src/data/software-pipelines/`
 
-**Modal (ao clicar em Ver detalhes):**
-- Desafio, solução, arquitetura
-- Resultados, imagens, vídeo (opcional)
-
-**Componentes:** `ProjectsSection`, `ProjectCard`, `ProjectModal`
+**Componentes:** `SoftwareEngineeringSection`, `SoftwareEngineeringCarousel`
 
 ---
 
-### 4.6 Tecnologias
+### 4.6 Certificações
 
-**Objetivo:** grid visual com ícones agrupados por categoria.
+**Objetivo:** badges de credenciais.
 
-**Categorias:**
-- **Cloud:** AWS, Azure, GCP
-- **Desenvolvimento:** React, Node, Flutter, Java, Python
-- **Banco:** MongoDB, PostgreSQL, MySQL
-- **DevOps:** Docker, Kubernetes, Terraform, GitHub Actions, CI/CD
+**i18n:** nomes oficiais da emissora podem permanecer em inglês; labels de UI (`copy.certifications.*`) sempre nos 3 idiomas.
 
-**Componentes:** `TechnologiesSection`, `TechIcon` (ui)
+**Componentes:** `CertificationsSection`, `CertificationBadge`
 
 ---
 
-### 4.7 Certificações
+### 4.7 Formação
 
-**Objetivo:** badges visuais, estilo credencial.
+**Objetivo:** trajetória acadêmica.
 
-**Exemplos:** AWS Solutions Architect, AWS Developer, Cloud Practitioner, Azure Fundamentals, GCP Digital Leader, Terraform Associate, Scrum Master
-
-**Ao clicar no badge:**
-- Data, instituição, competências
-- Link para certificado PDF
-
-**Componentes:** `CertificationsSection`, `CertificationBadge`, `CertificationModal` (ui)
+**Componentes:** `EducationSection`
 
 ---
 
-### 4.8 Resultados Alcançados
-
-**Objetivo:** mostrar impacto de negócio, não só tecnologias.
-
-**Cards:** Redução de custos Cloud, Migração de sistemas, Automação, Performance, Disponibilidade
-
-**Exemplos:**
-- ⬆️ 45% aumento de performance
-- ⬇️ 30% redução de custos AWS
-- 99.9% disponibilidade
-- 20 pipelines CI/CD
-
-**Componentes:** `ResultsSection`, `ResultCard` (ui)
-
----
-
-### 4.9 Formação
-
-**Objetivo:** trajetória acadêmica em cards.
-
-**Conteúdo:** Graduação, pós, MBA, cursos relevantes
-
-**Componentes:** `EducationSection`, `EducationCard` (ui)
-
----
-
-### 4.10 Depoimentos / Recomendações
-
-**Objetivo:** credibilidade social estilo LinkedIn.
-
-**Cada card:** foto, nome, cargo, empresa, comentário, avaliação (★★★★★)
-
-**Comportamento:** carrossel/slider automático com animação suave
-
-**Componentes:** `TestimonialsSection`, `TestimonialCard`, `Slider` (ui)
-
----
-
-### 4.11 Áreas de Especialização
-
-**Objetivo:** cards grandes destacando áreas de atuação.
-
-**Exemplos:** Cloud Architecture, Software Engineering, DevOps, IA, UX, Arquitetura de Sistemas, Consultoria, Mentoria
-
-**Componentes:** `SpecializationsSection`, `SpecializationCard` (ui)
-
----
-
-### 4.12 Processo de Trabalho
-
-**Objetivo:** timeline horizontal do fluxo de trabalho.
-
-**Etapas:** 01 Entendimento → 02 Planejamento → 03 Arquitetura → 04 Desenvolvimento → 05 Entrega → 06 Suporte
-
-**Componentes:** `WorkProcessSection`, `ProcessStep` (ui)
-
----
-
-### 4.13 CTA
-
-**Objetivo:** chamada forte para ação.
-
-**Conteúdo:** "Vamos construir algo incrível?"
-**Botões:** Agendar conversa, LinkedIn, GitHub, E-mail
-
-**Componentes:** `CtaSection`
-
----
-
-### 4.14 Contato
-
-**Objetivo:** formulário simples + links diretos.
-
-**Formulário:** Nome, Empresa, Email, Telefone, Mensagem
-
-**Ao lado:** WhatsApp, LinkedIn, GitHub, Localização
-
-**Componentes:** `ContactSection`, validação em `lib/validateContact.ts`
-
----
-
-### 4.15 Publicações
+### 4.8 Publicações
 
 **Objetivo:** artigos e notas técnicas estilo documentação, com página dedicada.
 
@@ -366,58 +246,46 @@ Rotas adicionais:
 **Página de leitura (`PublicationPage` / rota `/publicacoes/:slug`):**
 - Botão voltar para `/#publicacoes`
 - Metadados + capa + corpo do artigo
-- Corpo escrito em **JSX** (HTML + componentes React) — não strings HTML cruas nem Markdown
-- Usar apenas o kit `components/article/` (`Article`, `ArticleH2`, `ArticleH3`, `ArticleP`, listas, `ArticleImg`, `ArticleCode`, `ArticleCallout`, `ArticleMermaid`)
-- Imagens locais em `public/images/publications/<slug>/`
-- Diagramas via `ArticleMermaid` (prop `chart` + `ariaLabel` obrigatório, traduzido)
-- `ArticleCallout` exige `title` explícito (traduzido) — sem labels hardcoded em um único idioma
+- Corpo em **JSX** com kit `components/article/`
+- Imagens em `public/images/publications/<slug>/`
+- Diagramas via `ArticleMermaid` (`import()` dinâmico; `ariaLabel` obrigatório)
+- `ArticleCallout` exige `title` traduzido
 
-**Layout / margens da página de publicação:**
-- Botão voltar, título, capa e corpo devem compartilhar a **mesma margem lateral** (mesma coluna)
-- Não usar larguras diferentes entre capa e texto (ex.: capa full-width e texto `max-w-3xl`)
-- Mobile: padding lateral compacto (`px-4`)
-- Desktop: margens laterais maiores, preferencialmente em `vw` (ex.: `lg:px-[12vw] xl:px-[16vw] 2xl:px-[18vw]`), para o espaço até as bordas da tela crescer com o viewport
+**Layout:** botão, título, capa e corpo com a **mesma margem lateral**; mobile `px-4`; desktop paddings em `vw`
 
-**Roteamento:**
-- `react-router-dom`: `/` = landing, `/publicacoes/:slug` = leitura
-- **Não** manter `vercel.json` — o site não é publicado na Vercel
-- No host escolhido, configurar fallback SPA (`index.html`) se deep links de `/publicacoes/:slug` forem necessários
-- Fora da home, links do Header apontam para `/#secao`; logo aponta para `/`
+**Roteamento:** sem `vercel.json`; lazy load de `PublicationPage`; fora da home, Header usa `/#secao`
 
-**i18n obrigatório (pt-BR, en, es):**
-- `title`, `summary`, `tags` e `Content` nos **três** idiomas em `src/data/publications.ts`
-- Tipo `Publication.Content` é `Record<Locale, ComponentType>` — sem fallback parcial
-- Corpo do artigo: um componente por locale (ex.: `ArquiteturaCloudContentPt` / `En` / `Es`)
-- Textos, `alt`, captions, títulos de callout e labels do Mermaid traduzidos
-
-**Como adicionar uma publicação:**
-1. Criar o conteúdo em `src/content/publications/<slug>.tsx` com versões **pt-BR**, **en** e **es**
-2. Registrar metadados (`title`, `summary`, `tags`, `Content`) nos três idiomas em `src/data/publications.ts`
-3. Colocar imagens em `public/images/publications/<slug>/`
+**i18n:** `title`, `summary`, `tags`, `Content` nos três locales — sem fallback parcial
 
 **Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationPage`, kit `article/`
 
 ---
 
-### 4.16 Footer
+### 4.9 Contato
 
-**Conteúdo:** Logo, menu de navegação, redes sociais, copyright
+**Objetivo:** CTA de contato + links sociais / oportunidades.
+
+**Componentes:** `ContactSection`
+
+---
+
+### 4.10 Footer
+
+**Conteúdo:** nome, descrição, copyright, redes.
 
 **Componentes:** `Footer` (em `layout/`)
 
 ---
 
-## 5. Diferenciais visuais
+## 5. Diferenciais visuais e animações
 
-- Timeline interativa com destaque no item ativo
-- Hover nos cards de projetos revelando tecnologias e resultados
-- Contadores animados com `useInView` + `useCounter`
-- Carrossel automático de depoimentos (pausar no hover)
-- Modais acessíveis para projetos e certificações (foco preso, ESC para fechar)
-- Animações de entrada com Framer Motion (`fadeIn`, `slideUp`) — respeitar `prefers-reduced-motion`
-- Modo escuro/claro via `useTheme` + `ThemeToggle`
-- Publicações com páginas dedicadas e diagramas Mermaid
-- Logos de empresas atendidas (opcional, dentro de Experience ou seção dedicada)
+- Timeline / carrosséis de projetos e engenharia
+- Animações de entrada com Framer Motion — respeitar `prefers-reduced-motion`
+- Scroll-driven com GSAP + ScrollTrigger + Lenis (`SmoothScrollProvider`)
+- **Framer Motion** = UI/entrada; **GSAP** = scroll — não adicionar terceira lib de animação
+- Tema claro/escuro via `ThemeProvider` + `ThemeToggle` + `useTheme`
+- Publicações com Mermaid lazy-loaded
+- Modais acessíveis onde existirem
 
 ---
 
@@ -426,7 +294,7 @@ Rotas adicionais:
 ### Arquivos e pastas
 
 - **Componentes React:** `PascalCase.tsx` — ex: `ProjectCard.tsx`
-- **Pastas de seção:** `kebab-case` — ex: `work-process/`
+- **Pastas de seção:** `kebab-case` — ex: `software-engineering/`
 - **Hooks:** `camelCase.ts` com prefixo `use` — ex: `useScrollSpy.ts`
 - **Utilitários e tipos:** `camelCase.ts` — ex: `formatDate.ts`, `project.ts`
 - **Dados:** `camelCase.ts` plural — ex: `projects.ts`, `certifications.ts`
@@ -447,10 +315,24 @@ Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção vis�
 - **Código** (variáveis, funções, tipos, nomes de arquivo): inglês
 - **Conteúdo da UI** (títulos, subtítulos, labels, aria, botões): nos três locales via `src/data/copy.ts` + `useTranslations()`
 - **Dados de domínio** (projetos, experiências, publicações, etc.): tipados por locale (`*ByLocale` / `Record<Locale, …>`)
+- **Certificações:** nomes oficiais da emissora podem permanecer em inglês; labels de UI sempre localizados
 - **Não** hardcodar texto de UI em um único idioma dentro de componentes
 - **Não** deixar fallback silencioso para `pt-BR` em conteúdo novo — implementar os três idiomas
+- **Não** criar `export const x = xByLocale["pt-BR"]` — consumidores usam `useTranslations` / locale explícito
 - Troca de idioma via `LocaleToggle` deve atualizar landing **e** páginas de rota (ex.: publicação)
 - Commits e PRs: português ou inglês — manter consistência
+
+### Arquivos de data e performance
+
+- Preferir arquivos de data com menos de **~300 linhas**; fatiar por entidade, locale ou grupo (ex.: `software-pipelines/`)
+- Dependências pesadas (Mermaid, etc.): sempre `import()` dinâmico
+- Páginas de rota com conteúdo pesado: `React.lazy` + `Suspense`
+- Não instalar `@types/*` que conflitam com pacotes que já exportam tipos (ex.: React Router v7)
+
+### Tema
+
+- Estado de tema **somente** via `ThemeProvider` (`src/theme/`) + `useTheme()`
+- Proibido `useState` de tema dentro de `ThemeToggle` ou outros controles isolados
 
 ### Comentários no código
 
@@ -469,88 +351,9 @@ Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção vis�
 
 ## 7. Tipos de dados (`src/types/`)
 
-Cada entidade da landing page deve ter seu tipo:
+Cada entidade viva deve ter tipo próprio. Exemplos atuais: `profile.ts`, `experience.ts`, `project.ts`, `certification.ts`, `education.ts`, `publication.ts`, `technology.ts`, `techCategory.ts`, `processPipeline.ts`, `navigation.ts`.
 
-```ts
-// profile.ts
-export interface Profile {
-  fullName: string;
-  role: string;
-  specializations: string[];
-  tagline: string;
-  photo: string;
-  aboutPhoto: string;
-  story: string;
-  mission: string;
-  cvUrl: string;
-}
-
-// stat.ts
-export interface Stat {
-  value: number;
-  suffix?: string;
-  label: string;
-}
-
-// experience.ts
-export interface Experience {
-  id: string;
-  company: string;
-  role: string;
-  period: string;
-  description: string;
-  technologies: string[];
-  results: string[];
-}
-
-// project.ts
-export interface Project {
-  id: string;
-  title: string;
-  shortDescription: string;
-  image: string;
-  technologies: string[];
-  results: string[];
-  challenge: string;
-  solution: string;
-  architecture: string;
-  images?: string[];
-  videoUrl?: string;
-  githubUrl?: string;
-  demoUrl?: string;
-}
-
-// certification.ts
-export interface Certification {
-  id: string;
-  name: string;
-  issuer: string;
-  date: string;
-  skills: string[];
-  badgeImage: string;
-  certificateUrl?: string;
-}
-
-// testimonial.ts
-export interface Testimonial {
-  id: string;
-  name: string;
-  role: string;
-  company: string;
-  photo: string;
-  comment: string;
-  rating: number;
-}
-
-// education.ts, result.ts, specialization.ts, tech-category.ts, process-step.ts, publication.ts
-// — seguir o mesmo padrão
-```
-
-Conteúdo estático correspondente em `src/data/` — um arquivo por entidade.
-
-Corpo das publicações em `src/content/publications/` (TSX), registradas em `src/data/publications.ts`.
-
-Exemplo de tipo de publicação (sempre com os três locales):
+Publicações (sempre com os três locales):
 
 ```ts
 export interface Publication {
@@ -564,6 +367,9 @@ export interface Publication {
   Content: Record<Locale, ComponentType>;
 }
 ```
+
+Conteúdo estático em `src/data/` — um arquivo (ou pasta fatiada) por entidade.
+Corpo das publicações em `src/content/publications/`.
 
 ---
 
@@ -658,7 +464,7 @@ Containers de leitura/publicação: preferir padding lateral explícito (e `vw` 
 
 - Usar `motion` apenas em elementos que se beneficiam de animação
 - Padrão de entrada: `opacity: 0 → 1`, `y: 20 → 0`
-- Contadores: animar só quando visível (`useInView` com `once: true`)
+- Contadores/animações de entrada: só quando visível (`once: true` / intersection observer)
 - Carrossel: transição suave, pausar no hover
 - **Sempre** respeitar `prefers-reduced-motion`:
 
@@ -738,9 +544,11 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 3. **i18n completo** — pt-BR, en e es para todo texto novo visível
 4. **Reutilizar** componentes de `ui/` / `article/` antes de criar novos
 5. **Sem comentários** no código-fonte
-6. **Não over-engineer** — sem abstrações prematuras
-7. **Não commitar** a menos que o usuário peça explicitamente
-8. **Registrar regras novas** neste `AGENTS.md` assim que o usuário as descrever
+6. **Sem código morto** — não deixar seções/data órfãs
+7. **Não over-engineer** — sem abstrações prematuras
+8. **Não commitar** a menos que o usuário peça explicitamente
+9. **Registrar regras novas** neste `AGENTS.md` assim que o usuário as descrever
+10. Usar Yarn; ThemeProvider; lazy/dynamic import para deps pesadas
 
 ### Checklist antes de finalizar
 
@@ -748,28 +556,35 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] `id` de âncora definido na seção (quando aplicável)
 - [ ] Dados tipados em `types/` e separados em `data/` / `content/`
 - [ ] Conteúdo e UI nos três locales (pt-BR, en, es)
+- [ ] Sem seções/data/types órfãos (tudo montado ou deletado)
+- [ ] `AGENTS.md` / `README` atualizados se a estrutura mudou
 - [ ] Animações respeitam `prefers-reduced-motion`
 - [ ] Componentes acessíveis (semântica, alt, foco, labels)
-- [ ] Responsivo (mobile first); páginas de publicação com mesma margem lateral em todos os blocos
+- [ ] Responsivo (mobile first); publicações com mesma margem lateral
 - [ ] Sem comentários no código alterado
+- [ ] Sem exports `x = xByLocale["pt-BR"]`
 - [ ] Sem `any` desnecessário
 - [ ] Mudança mínima e focada no pedido
 - [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
-- [ ] Dependências/scripts via Yarn; sem `package-lock.json` gerado
+- [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
 
 ### O que não fazer
 
 - Reorganizar todas as seções sem solicitação
-- Adicionar bibliotecas sem justificativa (ex.: outra lib de animação além do Framer Motion)
-- Hardcodar textos, projetos ou métricas nos componentes (e em um único idioma)
+- Adicionar bibliotecas sem justificativa (ex.: terceira lib de animação)
+- Hardcodar textos em um único idioma
 - Criar publicação só em pt-BR com fallback implícito
-- Usar `max-w-3xl` (etc.) sem garantir `--max-width-3xl` no tema
+- Usar `max-w-3xl` sem `--max-width-3xl` no tema
 - Deixar capa/botão/texto da publicação com larguras laterais diferentes
 - Adicionar comentários no código
 - Renomear este arquivo para `agents.md` (lowercase)
 - Usar `npm` / gerar `package-lock.json`
-- Criar ou manter `vercel.json` (deploy não é na Vercel)
+- Criar ou manter `vercel.json`
+- Manter seção/data/type não montados na HomePage/rotas
+- Estado de tema local fora do `ThemeProvider`
+- Import estático de Mermaid (ou deps equivalentes pesadas)
+- Instalar `@types/react-router-dom` junto com React Router v7
 - Ignorar este `AGENTS.md` ou deixar de atualizá-lo quando o usuário criar uma regra nova
 - Criar componentes monolíticos com toda a landing page
 - Alterar formatação de arquivos não relacionados à tarefa

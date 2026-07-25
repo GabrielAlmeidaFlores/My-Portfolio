@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useCursorGlow } from "@/hooks/useCursorGlow";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -7,7 +8,12 @@ import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { HomePage } from "@/pages/HomePage";
-import { PublicationPage } from "@/pages/PublicationPage";
+
+const PublicationPage = lazy(() =>
+  import("@/pages/PublicationPage").then((module) => ({
+    default: module.PublicationPage,
+  })),
+);
 
 export function App() {
   useCursorGlow();
@@ -17,10 +23,12 @@ export function App() {
       <ScrollToTop />
       <ScrollProgress />
       <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/publicacoes/:slug" element={<PublicationPage />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/publicacoes/:slug" element={<PublicationPage />} />
+        </Routes>
+      </Suspense>
       <Footer />
       <BackToTop />
     </SmoothScrollProvider>

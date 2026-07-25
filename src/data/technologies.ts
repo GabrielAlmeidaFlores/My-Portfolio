@@ -466,6 +466,4 @@ export function getTechnologies(locale: Locale): Technology[] {
   }));
 }
 
-export const techFilters = getTechFilters("pt-BR");
 
-export const technologies = getTechnologies("pt-BR");

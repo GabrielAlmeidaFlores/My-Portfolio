@@ -7,10 +7,7 @@ import { getNavLinks, getSocialLinks } from "@/data/navigation";
 import { experiencesByLocale } from "@/data/experiences";
 import { projectsByLocale } from "@/data/projects";
 import { educationByLocale } from "@/data/education";
-import { testimonialsByLocale } from "@/data/testimonials";
 import { contactOpportunitiesByLocale } from "@/data/contact";
-import { statsByLocale } from "@/data/stats";
-import { aboutValuesByLocale } from "@/data/heroCode";
 import {
   getTechFilters,
   getTechnologies,
@@ -34,10 +31,7 @@ export function useTranslations() {
       experiences: experiencesByLocale[locale],
       projects: projectsByLocale[locale],
       education: educationByLocale[locale],
-      testimonials: testimonialsByLocale[locale],
       contactOpportunities: contactOpportunitiesByLocale[locale],
-      stats: statsByLocale[locale],
-      aboutValues: aboutValuesByLocale[locale],
       techFilters: getTechFilters(locale),
       technologies: getTechnologies(locale),
       softwarePipelines: getSoftwarePipelines(locale),

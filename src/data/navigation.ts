@@ -72,6 +72,4 @@ export function getSocialLinks(locale: Locale): SocialLink[] {
   ];
 }
 
-export const navLinks = getNavLinks("pt-BR");
 
-export const socialLinks = getSocialLinks("pt-BR");

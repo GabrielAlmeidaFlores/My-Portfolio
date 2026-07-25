@@ -255,4 +255,3 @@ export const projectsByLocale: Record<Locale, Project[]> = {
   ],
 };
 
-export const projects = projectsByLocale["pt-BR"];
