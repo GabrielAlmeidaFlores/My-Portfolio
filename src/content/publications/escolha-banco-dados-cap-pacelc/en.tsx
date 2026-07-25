@@ -3,6 +3,7 @@ import {
   ArticleCode,
   ArticleH2,
   ArticleH3,
+  ArticleImg,
   ArticleLi,
   ArticleMermaid,
   ArticleOl,
@@ -130,13 +131,13 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
       <ArticleH2>1. The shallow answer problem</ArticleH2>
 
       <ArticleP>
-        In interviews (and real projects), the question "which database do you
-        pick?" still gets an automatic answer:
+        I have already answered this question wrong. In an interview (and later
+        in service design), I went with the automatic reply:
       </ArticleP>
 
       <ArticleUl>
         <ArticleLi>
-          relational, structured data:{" "}
+          related, structured data:{" "}
           <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> /{" "}
           <TermLink href={MYSQL_URL}>MySQL</TermLink>
         </ArticleLi>
@@ -148,8 +149,16 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
       </ArticleUl>
 
       <ArticleP>
-        That answer is shallow. It ignores scale, network failure, and the
-        attribute the application cannot give up.
+        The interviewer did not want a logo. They wanted what I prioritize under{" "}
+        <TermLink href={PARTITION_URL}>partition</TermLink> and what I accept to
+        pay in latency. I did not have the map. I only had the meme.
+      </ArticleP>
+
+      <ArticleP>
+        On a real project the wound repeated: a team put feed and billing on the
+        same database profile "because we already knew Postgres". Feed could
+        tolerate delay. Billing could not. The right database for one became pain
+        for the other.
       </ArticleP>
 
       <ArticleP>
@@ -172,6 +181,27 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
           </a>
           . I reorganized the material in my own voice, with links and examples
           for reference.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleCallout variant="tip" title="Want a decision now?">
+        <ArticleP>
+          Jump to{" "}
+          <a href="#6-how-i-choose-in-practice" className={linkClass}>
+            section 6
+          </a>
+          : checklist + a worked example (three services, three databases). The{" "}
+          <a href="#4-cap-and-pacelc" className={linkClass}>
+            CAP / PACELC
+          </a>{" "}
+          map and{" "}
+          <a
+            href="#5-how-databases-fit-and-what-changes-in-cassandra"
+            className={linkClass}
+          >
+            section 5
+          </a>{" "}
+          explain the why.
         </ArticleP>
       </ArticleCallout>
 
@@ -483,6 +513,46 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
         A; async keeps A and gives up immediate C.
       </ArticleP>
 
+      <ArticleImg
+        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem.svg"
+        alt="CAP theorem diagram with Consistency, Availability, and Partition tolerance"
+        caption={
+          <>
+            Classic{" "}
+            <TermLink href={CAP_URL}>CAP</TermLink> diagram. Source:{" "}
+            <a
+              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem.svg"
+              className={linkClass}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Wikimedia Commons
+            </a>
+            .
+          </>
+        }
+      />
+
+      <ArticleImg
+        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem-euler.png"
+        alt="Euler diagram of the CAP theorem showing CA, CP, and AP pairs"
+        caption={
+          <>
+            Set view (CA / CP / AP) of{" "}
+            <TermLink href={CAP_URL}>CAP</TermLink>. Source:{" "}
+            <a
+              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem_Euler_Diagram.png"
+              className={linkClass}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Wikimedia Commons
+            </a>
+            .
+          </>
+        }
+      />
+
       <ArticleH3>
         <TermLink href={PACELC_URL}>PACELC</TermLink>
       </ArticleH3>
@@ -512,6 +582,25 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
       <ArticleP>
         That is the map I use in interviews and service design.
       </ArticleP>
+
+      <ArticleImg
+        src="/images/publications/escolha-banco-dados-cap-pacelc/pacelc-theorem.png"
+        alt="PACELC theorem diagram: under partition A or C; otherwise latency or C"
+        caption={
+          <>
+            <TermLink href={PACELC_URL}>PACELC</TermLink> in one figure. Source:{" "}
+            <a
+              href="https://commons.wikimedia.org/wiki/File:PACELC_theorem.png"
+              className={linkClass}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Wikimedia Commons
+            </a>
+            .
+          </>
+        }
+      />
 
       <ArticleMermaid
         ariaLabel="PACELC decision: with partition A or C; without partition latency or C"
@@ -816,103 +905,116 @@ session.execute(readStatement);`}
       </ArticleCallout>
 
       <ArticleH3>
-        <TermLink href={MONGODB_URL}>MongoDB</TermLink>
+        <TermLink href={MONGODB_URL}>MongoDB</TermLink>: the "it is NoSQL, so
+        it scales alone" story
       </ArticleH3>
 
       <ArticleP>
-        Document (JSON/BSON). In a replica set, there is a leader for writes.
-        If the leader falls, the consensus protocol (
-        <TermLink href={RAFT_URL}>Raft</TermLink> family) elects another.
+        Typical scene: product catalog with flexible JSON. Someone says "let us
+        go with <TermLink href={MONGODB_URL}>MongoDB</TermLink> because it is
+        NoSQL and fast". The document model fits. The mistake is assuming the
+        replica set was born to give up C.
       </ArticleP>
 
       <ArticleP>
-        Many people assume "Mongo = max availability at any cost". The
-        historical default prioritizes consistency in the set. There is{" "}
-        <TermLink href={ACID_URL}>ACID</TermLink> in supported transactions. You
-        can loosen reads; do not pretend it was born as{" "}
-        <TermLink href={CASSANDRA_URL}>Cassandra</TermLink>.
+        In the set there is a leader for writes. If the leader falls, consensus
+        (<TermLink href={RAFT_URL}>Raft</TermLink> family) elects another. Meanwhile
+        the historical default prioritizes consistency in the set. There is{" "}
+        <TermLink href={ACID_URL}>ACID</TermLink> in supported transactions.
+      </ArticleP>
+
+      <ArticleP>
+        I would use Mongo when the domain is document + C matters in the set. Not
+        when the brief is "stay up at any cost like Cassandra".
       </ArticleP>
 
       <ArticleH3>
-        <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink>
+        <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink>: one service, two
+        dials
       </ArticleH3>
 
       <ArticleP>
-        Managed key-value / document model. The dial shows up on read:{" "}
-        <TermLink href={DYNAMODB_CONSISTENT_URL}>ConsistentRead</TermLink> true
-        or false.
+        Scene: account microservice. The user bio can lag. The internal wallet
+        balance cannot. Instead of two databases on day 1, the team uses{" "}
+        <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> and dials the read:
       </ArticleP>
 
       <ArticleUl>
         <ArticleLi>
-          <ArticleCode>false</ArticleCode>: eventually consistent read (cheaper /
-          faster in the usual profile)
+          bio:{" "}
+          <TermLink href={DYNAMODB_CONSISTENT_URL}>ConsistentRead</TermLink>{" "}
+          <ArticleCode>false</ArticleCode> (eventual, cheaper / faster in the
+          usual profile)
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>true</ArticleCode>: strongly consistent read (you pay the
-          C profile on that call)
+          balance: <ArticleCode>true</ArticleCode> (strong on that call)
         </ArticleLi>
       </ArticleUl>
 
       <ArticleP>
-        Useful when the same service mixes "balance" and "user bio": the dial
-        goes on the operation, not just the vendor.
+        The story is not "Dynamo fixes everything". It is: the dial goes on the
+        operation. That moves the conversation from vendor to requirement.
       </ArticleP>
 
       <ArticleH3>
         <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> and{" "}
-        <TermLink href={SPANNER_URL}>Spanner</TermLink>
+        <TermLink href={SPANNER_URL}>Spanner</TermLink>: when SQL must cross
+        regions
       </ArticleH3>
 
       <ArticleP>
-        Here the target is distributed SQL with strong C.
+        Interview (and global product) scene: inventory or ledger with SQL,
+        multi-region, no "eventual is fine". Spinning up another{" "}
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> with async replica
+        does not close it.
       </ArticleP>
 
       <ArticleUl>
         <ArticleLi>
-          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink>: distributed
-          SQL; global inventory, finance, multi-region games;{" "}
-          <TermLink href={RAFT_URL}>Raft</TermLink> underneath.
+          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink>: distributed SQL
+          with a C focus; <TermLink href={RAFT_URL}>Raft</TermLink> underneath;
+          inventory, finance, multi-region games.
         </ArticleLi>
         <ArticleLi>
-          <TermLink href={SPANNER_URL}>Spanner</TermLink>: strong global
-          consistency with{" "}
+          <TermLink href={SPANNER_URL}>Spanner</TermLink>: strong global C with{" "}
           <TermLink href={TRUETIME_URL}>TrueTime</TermLink> and{" "}
-          <TermLink href={PAXOS_URL}>Paxos</TermLink> family. Expensive.
-          Monetizes the hard problem.
+          <TermLink href={PAXOS_URL}>Paxos</TermLink> family. Expensive. You are
+          buying the hard problem solved.
         </ArticleLi>
       </ArticleUl>
 
       <ArticleP>
-        If the interview asks for "global ledger with SQL", these names weigh
-        more than "spin up another Postgres".
+        I only bring these names to the table when global + SQL + C is explicit.
+        Otherwise cost (money and ops) eats the gain.
       </ArticleP>
 
       <ArticleH3>
         <TermLink href={REDIS_URL}>Redis</TermLink> and{" "}
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> in the right role
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: roles I have mixed
+        up wrong
       </ArticleH3>
 
       <ArticleP>
-        <TermLink href={REDIS_URL}>Redis</TermLink>: absurdly low latency;
-        in-memory structures;{" "}
-        <TermLink href={SENTINEL_URL}>Sentinel</TermLink> for failover. Great
-        as cache, light queue, session. Bad as the only database for a banking
+        Scene: "let us store the balance in{" "}
+        <TermLink href={REDIS_URL}>Redis</TermLink> because it is fast". Great
+        latency. Durability and ledger model, no. Redis (+{" "}
+        <TermLink href={SENTINEL_URL}>Sentinel</TermLink>) shines as cache,
+        session, light queue, ranking. Bad as the only database for a banking
         domain.
       </ArticleP>
 
       <ArticleP>
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: excellent
-        single-region relational (or with read replicas). Transactions, joins,
-        mature ecosystem. The mistake is faking global multi-primary with async
-        replica and expensive RDS.
+        Another scene: Postgres excellent in a single-region monolith. The
+        mistake came later: faking global multi-primary with only async replica
+        and expensive RDS. Transactions and joins stay great. The{" "}
+        <TermLink href={PACELC_URL}>PACELC</TermLink> map does not.
       </ArticleP>
 
       <ArticleP>
         Doing manual <TermLink href={SHARDING_URL}>sharding</TermLink> on
-        Postgres means: partitioning algorithm, id routing, rebalancing, slice
-        failover. It works. It is almost never worth the ownership if the
-        requirement already calls for a truly distributed store.
+        Postgres means becoming a database platform team: id routing, rebalance,
+        slice failover. It works. Almost never worth it if the requirement already
+        asks for a truly distributed store.
       </ArticleP>
 
       <ArticleH2>6. How I choose in practice</ArticleH2>
@@ -946,8 +1048,59 @@ session.execute(readStatement);`}
         </ArticleLi>
       </ArticleOl>
 
+      <ArticleH3>Worked example: three services, three choices</ArticleH3>
+
       <ArticleP>
-        Honest shortcuts:
+        Same product. Three microservices. I do not force one database.
+      </ArticleP>
+
+      <ArticleTable caption="How I would apply the checklist on a real product">
+        <ArticleThead>
+          <ArticleTr>
+            <ArticleTh>Service</ArticleTh>
+            <ArticleTh>Under partition</ArticleTh>
+            <ArticleTh>Without partition</ArticleTh>
+            <ArticleTh>Choice</ArticleTh>
+          </ArticleTr>
+        </ArticleThead>
+        <ArticleTbody>
+          <ArticleTr>
+            <ArticleTd>Feed / like</ArticleTd>
+            <ArticleTd>Prioritize A</ArticleTd>
+            <ArticleTd>Prioritize L</ArticleTd>
+            <ArticleTd>
+              <TermLink href={CASSANDRA_URL}>Cassandra</TermLink> (ONE/QUORUM
+              depending on the data)
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Billing / balance</ArticleTd>
+            <ArticleTd>Prioritize C</ArticleTd>
+            <ArticleTd>Accept higher L</ArticleTd>
+            <ArticleTd>
+              <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> (region) or{" "}
+              <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> (global)
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Session / page cache</ArticleTd>
+            <ArticleTd>A matters</ArticleTd>
+            <ArticleTd>L leads</ArticleTd>
+            <ArticleTd>
+              <TermLink href={REDIS_URL}>Redis</TermLink> (+ durable store behind)
+            </ArticleTd>
+          </ArticleTr>
+        </ArticleTbody>
+      </ArticleTable>
+
+      <ArticleP>
+        That is what I meant by "wound": the mistake was unifying feed and
+        billing. The fix is letting{" "}
+        <TermLink href={PACELC_URL}>PACELC</TermLink> decide per service.
+      </ArticleP>
+
+      <ArticleP>
+        Honest shortcuts (after the checklist, not before):
       </ArticleP>
 
       <ArticleUl>
