@@ -826,19 +826,75 @@ export function BuscaWebLocalMcpSearxngContentEs() {
       </ArticleP>
 
       <ArticleP>
-        En el SearXNG (opción B), el MCP casi no raspa la web. El MCP solo habla
-        HTTP con JSON en{" "}
+        En la opción B el rol de cada pieza cambia. El paquete{" "}
         <a
-          href="https://en.wikipedia.org/wiki/Localhost"
+          href="https://modelcontextprotocol.io/"
           className={linkClass}
           target="_blank"
           rel="noopener noreferrer"
         >
-          127.0.0.1
+          MCP
+        </a>{" "}
+        deja de ir a la web pública. El MCP pasa a ser solo un puente local
+        hasta{" "}
+        <a
+          href="https://docs.searxng.org/"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SearXNG
         </a>
-        . Quien consulta internet es el metasearch local. El SearXNG reparte la
-        misma query por varias engines, con conectores mantenidos por el
-        proyecto, y devuelve un resultado agregado.
+        .
+      </ArticleP>
+
+      <ArticleP>
+        El proceso, del pedido del agente hasta la respuesta, es este:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          el agente pide la tool <ArticleCode>search_web</ArticleCode> con una
+          query
+        </ArticleLi>
+        <ArticleLi>
+          el servidor MCP arma un HTTP local al SearXNG en{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Localhost"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            127.0.0.1
+          </a>{" "}
+          (solo esta máquina), pidiendo JSON, no HTML
+        </ArticleLi>
+        <ArticleLi>
+          el SearXNG, como{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Metasearch_engine"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            metasearch
+          </a>
+          , reenvía la misma query a varias engines (Google, Bing, DuckDuckGo y
+          otras que habilitaste)
+        </ArticleLi>
+        <ArticleLi>
+          cada engine devuelve hits; el SearXNG junta, quita duplicados y arma
+          un JSON único
+        </ArticleLi>
+        <ArticleLi>
+          el MCP entrega ese JSON al modelo como resultado de{" "}
+          <ArticleCode>search_web</ArticleCode>
+        </ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        En una frase: el MCP no “raspa Google”. El MCP solo habla con el SearXNG
+        en tu máquina. Quien habla con internet es el SearXNG.
       </ArticleP>
 
       <ArticleP>

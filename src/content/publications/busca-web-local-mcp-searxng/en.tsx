@@ -822,19 +822,75 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleP>
 
       <ArticleP>
-        On the SearXNG path (option B), the MCP barely scrapes the web. The MCP
-        only speaks HTTP with JSON on{" "}
+        On option B each piece changes role. The{" "}
         <a
-          href="https://en.wikipedia.org/wiki/Localhost"
+          href="https://modelcontextprotocol.io/"
           className={linkClass}
           target="_blank"
           rel="noopener noreferrer"
         >
-          127.0.0.1
+          MCP
+        </a>{" "}
+        package stops going to the public web. The MCP becomes only a local
+        bridge to{" "}
+        <a
+          href="https://docs.searxng.org/"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SearXNG
         </a>
-        . The local metasearch queries the internet. SearXNG fans the same query
-        out across several engines, using connectors maintained by the project,
-        and returns an aggregated result.
+        .
+      </ArticleP>
+
+      <ArticleP>
+        The process, from the agent request to the answer, is this:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          the agent calls the <ArticleCode>search_web</ArticleCode> tool with a
+          query
+        </ArticleLi>
+        <ArticleLi>
+          the MCP server builds a local HTTP request to SearXNG on{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Localhost"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            127.0.0.1
+          </a>{" "}
+          (this machine only), asking for JSON, not HTML
+        </ArticleLi>
+        <ArticleLi>
+          SearXNG, as a{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Metasearch_engine"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            metasearch
+          </a>
+          , forwards the same query to several engines (Google, Bing, DuckDuckGo,
+          and others you enabled)
+        </ArticleLi>
+        <ArticleLi>
+          each engine returns hits; SearXNG merges them, drops duplicates, and
+          builds one JSON payload
+        </ArticleLi>
+        <ArticleLi>
+          the MCP hands that JSON to the model as the{" "}
+          <ArticleCode>search_web</ArticleCode> result
+        </ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        In one sentence: the MCP does not “scrape Google”. The MCP only talks to
+        SearXNG on your machine. SearXNG is what talks to the internet.
       </ArticleP>
 
       <ArticleP>
