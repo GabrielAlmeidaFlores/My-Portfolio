@@ -16,6 +16,7 @@ import {
   ArticleTr,
   ArticleUl,
 } from "@/components/article";
+import type { ReactNode } from "react";
 
 const ARCHITECTURE_CHART = `flowchart TB
   Client["1. Cliente MCP / Agente"]
@@ -91,6 +92,22 @@ const OPTION_B_CHART = `flowchart LR
   Sx --> Mcp
   Mcp --> Ag`;
 
+const SCRAPER_VS_SEARXNG_CHART = `flowchart TB
+  subgraph Scraper["Scraper MCP"]
+    direction TB
+    S1["Agente"] --> S2["MCP"]
+    S2 --> S3["1 engine HTML"]
+    S3 --> S4["CAPTCHA / 429"]
+  end
+
+  subgraph Meta["SearXNG local"]
+    direction TB
+    M1["Agente"] --> M2["MCP"]
+    M2 --> M3["JSON 127.0.0.1"]
+    M3 --> M4["Varias engines"]
+    M4 --> M5["Agrega resultado"]
+  end`;
+
 const OPTION_C_CHART = `flowchart LR
   Ag["Agente"] -->|"stdio"| Custom["Seu MCP SDK"]
   Custom --> Code["Seu codigo"]
@@ -109,6 +126,30 @@ const SETUP_CHART = `flowchart LR
 
 const linkClass =
   "font-semibold text-primary-600 underline-offset-2 hover:underline dark:text-primary-300";
+
+const SIMPLEQA_URL = "https://openai.com/index/introducing-simpleqa/";
+const FRAMES_URL =
+  "https://parallel.ai/articles/how-to-reduce-llm-hallucinations-by-connecting-your-app-to-real-time-web-search";
+const GROUNDING_URL = "https://brave.com/blog/ai-grounding/";
+
+function TermLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={linkClass}
+    >
+      {children}
+    </a>
+  );
+}
 
 export function BuscaWebLocalMcpSearxngContentPt() {
   return (
@@ -249,14 +290,49 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       </ArticleP>
 
       <ArticleP>
-        Na prática o fluxo é este:
+        Aqui “tool” não é ferramenta genérica. No{" "}
+        <a
+          href="https://modelcontextprotocol.io/docs/concepts/tools"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          MCP
+        </a>
+        , tool é uma ação nomeada que o agente pode pedir ao host: nome, inputs e
+        um resultado estruturado. O modelo não abre o navegador sozinho. O
+        agente pede a tool, o host executa o servidor MCP e devolve o texto para
+        o modelo continuar.
+      </ArticleP>
+
+      <ArticleP>
+        Neste pacote de busca, as tools que importam são estas:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          <ArticleCode>search_web</ArticleCode>: busca na web e devolve títulos,
+          links e snippets
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>fetch_url</ArticleCode> (quando existe no pacote): abre
+          uma URL específica e devolve o conteúdo para leitura
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Na prática o fluxo do scraper é este:
       </ArticleP>
 
       <ArticleOl>
-        <ArticleLi>o agente chama uma tool de busca</ArticleLi>
+        <ArticleLi>
+          o agente pede a tool <ArticleCode>search_web</ArticleCode>
+        </ArticleLi>
         <ArticleLi>o servidor MCP baixa a página por HTTP</ArticleLi>
-        <ArticleLi>tenta parsear HTML</ArticleLi>
-        <ArticleLi>devolve links e snippets</ArticleLi>
+        <ArticleLi>o servidor MCP tenta parsear HTML</ArticleLi>
+        <ArticleLi>
+          o servidor MCP devolve links e snippets ao modelo
+        </ArticleLi>
       </ArticleOl>
 
       <ArticleP>
@@ -453,18 +529,25 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       </ArticleP>
 
       <ArticleOl>
-        <ArticleLi>o agente chama a tool</ArticleLi>
+        <ArticleLi>
+          o agente pede a tool <ArticleCode>search_web</ArticleCode>
+        </ArticleLi>
         <ArticleLi>
           o servidor MCP monta um GET/POST para{" "}
           <ArticleCode>http://127.0.0.1:…/search?format=json</ArticleCode>
         </ArticleLi>
         <ArticleLi>o SearXNG espalha a consulta por várias engines</ArticleLi>
-        <ArticleLi>agrega, deduplica e devolve JSON unificado</ArticleLi>
-        <ArticleLi>o MCP entrega isso de volta ao modelo</ArticleLi>
+        <ArticleLi>o SearXNG agrega, deduplica e devolve JSON unificado</ArticleLi>
+        <ArticleLi>
+          o MCP entrega o resultado de <ArticleCode>search_web</ArticleCode> de
+          volta ao modelo
+        </ArticleLi>
       </ArticleOl>
 
       <ArticleP>
-        O agente nunca “abre o Chrome”; o agente só consome o resultado da tool.
+        O agente nunca “abre o Chrome”. O agente só consome o resultado da tool{" "}
+        <ArticleCode>search_web</ArticleCode> (e, se precisar ler uma página,
+        pode pedir <ArticleCode>fetch_url</ArticleCode> em seguida).
       </ArticleP>
 
       <ArticleP>
@@ -508,7 +591,13 @@ export function BuscaWebLocalMcpSearxngContentPt() {
         O preço é operacional, não financeiro de SaaS: manter o container no
         ar, habilitar formato JSON, aceitar que engines externas ainda podem
         degradar. Mesmo assim, uma engine ruim raramente derruba o metasearch
-        inteiro.         Para uso diário de agente, essa foi a linha que sobreviveu.
+        inteiro. Para uso diário de agente, essa foi a linha que sobreviveu.
+      </ArticleP>
+
+      <ArticleP>
+        Se a dúvida for “isso não é só outro scraper?” ou “por que rate-limit e
+        IP não matam igual?”, a resposta curta está na seção seguinte, no
+        bloco SearXNG vs scraper.
       </ArticleP>
 
       <ArticleMermaid
@@ -676,6 +765,110 @@ export function BuscaWebLocalMcpSearxngContentPt() {
         subir em minutos e operar no dia a dia sem transformar isso num side
         project eterno.
       </ArticleP>
+
+      <ArticleH3>SearXNG vs scraper: o que muda no bloqueio</ArticleH3>
+
+      <ArticleP>
+        A dúvida que mais ouço: o{" "}
+        <a
+          href="https://docs.searxng.org/"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SearXNG
+        </a>{" "}
+        não é só outro scraper? Por que{" "}
+        <a
+          href="https://en.wikipedia.org/wiki/Rate_limiting"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          rate-limit
+        </a>{" "}
+        e IP não matam a tool igual?
+      </ArticleP>
+
+      <ArticleP>
+        Resposta curta: o desenho é outro. E o SearXNG também não é imune a
+        bloqueio. O que muda é quem falha e como a falha aparece na sessão.
+      </ArticleP>
+
+      <ArticleP>
+        No scraper MCP (opção A), o servidor MCP vai direto a um motor público,
+        baixa HTML (ou um endpoint “público”) e tenta parsear. Uma engine. Um
+        parser. Um ponto único. Em rajada de agente, isso parece bot:{" "}
+        <a
+          href="https://pt.wikipedia.org/wiki/CAPTCHA"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CAPTCHA
+        </a>
+        , 429 e IP marcado. Se aquele motor fecha a porta, a tool inteira morre.
+      </ArticleP>
+
+      <ArticleP>
+        No SearXNG (opção B), o MCP quase não raspa a web. O MCP só fala
+        HTTP com JSON em{" "}
+        <a
+          href="https://en.wikipedia.org/wiki/Localhost"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          127.0.0.1
+        </a>
+        . Quem consulta a internet é o metasearch local. O SearXNG espalha a
+        mesma query por várias engines, com conectores mantidos pelo projeto, e
+        devolve um resultado agregado.
+      </ArticleP>
+
+      <ArticleP>
+        Por isso o bloqueio dói menos no dia a dia:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          o MCP não depende de um HTML público único para sobreviver
+        </ArticleLi>
+        <ArticleLi>
+          se uma engine aperta (Google, por exemplo), outras engines ativas
+          ainda podem responder
+        </ArticleLi>
+        <ArticleLi>
+          o parser frágil some do pacote MCP; a agregação fica no SearXNG
+        </ArticleLi>
+        <ArticleLi>
+          falha vira degradação parcial (“menos fontes”), não roleta total da
+          tool
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleCallout variant="note" title="IP e rate-limit: o corte honesto">
+        <ArticleP>
+          O pedido às engines ainda sai do seu IP (casa, escritório, VPN). Uma
+          engine específica pode limitar, degradar ou pedir CAPTCHA. O SearXNG
+          não te torna invisível.
+        </ArticleP>
+        <ArticleP>
+          O que a stack evita é a falha total típica do scraper: martelar um
+          único endpoint HTML público até o anti-abuso fechar a porta. Com
+          várias engines e JSON local estável, a tool do agente continua útil
+          mesmo quando uma fonte fica ruim.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleP>
+        O diagrama abaixo só contrasta os dois desenhos que você acabou de ler:
+      </ArticleP>
+
+      <ArticleMermaid
+        ariaLabel="Contraste: scraper MCP com uma engine HTML versus SearXNG local com várias engines"
+        chart={SCRAPER_VS_SEARXNG_CHART}
+      />
 
       <ArticleP>
         Tem nuances importantes. Engines externas mudam e podem degradar; isso
@@ -947,156 +1140,206 @@ export function BuscaWebLocalMcpSearxngContentPt() {
 
       <ArticleP>
         Antes dos números, um corte honesto. MCP + SearXNG local não tem um
-        score proprietário num leaderboard. O que a indústria mede é o efeito
-        de{" "}
-        <a
-          href="https://brave.com/blog/ai-grounding/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={linkClass}
-        >
-          grounding
-        </a>{" "}
-        com busca web: a resposta deixa de depender só da memória de treino e
-        passa a se apoiar em trechos recuperados na hora. A stack deste post
-        entrega essa mesma classe de capacidade. O score final ainda depende da
-        qualidade da query, das engines ativas e de o agente fazer o fluxo
-        certo, em vez de encher o contexto de lixo:
+        score próprio em leaderboard.
+      </ArticleP>
+
+      <ArticleP>
+        O{" "}
+        <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> é um benchmark de
+        factualidade da OpenAI: um conjunto de perguntas curtas, com uma
+        resposta certa fácil de julgar. Serve para medir se o modelo acerta
+        fatos ou inventa. Ninguém publicou “SearXNG local = X% no{" "}
+        <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>”.
+      </ArticleP>
+
+      <ArticleP>
+        O que a indústria mede é outra coisa: o efeito de{" "}
+        <TermLink href={GROUNDING_URL}>grounding</TermLink> com busca web. A
+        stack deste post entrega a mesma classe de capacidade (o agente busca e
+        lê trechos reais). O resultado ainda depende da query, das engines e do
+        fluxo do agente.
+      </ArticleP>
+
+      <ArticleP>
+        Grounding, em linguagem simples, é amarrar a resposta a evidência
+        externa.
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Sem grounding: o modelo completa o texto com o que soa plausível
+        </ArticleLi>
+        <ArticleLi>
+          Com busca: o modelo pode citar o que acabou de ler
+        </ArticleLi>
+        <ArticleLi>
+          O que sobe: factualidade e frescor (informação atual)
+        </ArticleLi>
+        <ArticleLi>
+          O que não sobe sozinho: “seguir o prompt melhor” nem raciocínio em
+          tarefa fechada só no código do repo
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        O fluxo do agente que faz o grounding funcionar na prática:
       </ArticleP>
 
       <ArticleOl>
-        <ArticleLi>search</ArticleLi>
-        <ArticleLi>fetch</ArticleLi>
-        <ArticleLi>síntese</ArticleLi>
+        <ArticleLi>
+          <ArticleCode>search_web</ArticleCode>: achar fontes
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>fetch_url</ArticleCode>: ler a melhor página
+        </ArticleLi>
+        <ArticleLi>síntese: responder com base no que foi lido</ArticleLi>
       </ArticleOl>
 
       <ArticleImg
         src="/images/publications/busca-web-local-mcp-searxng/brave-ai-grounding.jpg"
         alt="Diagrama do Brave AI Grounding: respostas do modelo ancoradas em busca web verificável"
-        caption="Conceito de grounding com busca web. Fonte: Brave Search, post AI Grounding."
+        caption={
+          <>
+            Conceito de grounding com busca web. Fonte: Brave Search, post{" "}
+            <TermLink href={GROUNDING_URL}>AI Grounding</TermLink>.
+          </>
+        }
       />
 
       <ArticleP>
-        Grounding, em linguagem simples, é amarrar a resposta a evidência
-        externa. Sem grounding, o modelo completa o texto com o que soa plausível.
-        Com busca, o modelo pode citar o que acabou de ler. Isso sobe factualidade e
-        frescor. Não sobe magicamente “seguir o prompt melhor”, nem raciocínio
-        abstrato em tarefa fechada. Se a pergunta é só sobre o código que já
-        está no workspace, o ganho costuma ser baixo.
+        Números públicos que importam para esta conversa (muitos usam o{" "}
+        <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> como régua):
       </ArticleP>
 
+      <ArticleUl>
+        <ArticleLi>
+          Sem busca: no paper do{" "}
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>, o GPT-4o ficou
+          abaixo de ~40% de acerto
+        </ArticleLi>
+        <ArticleLi>
+          Com grounding: a Brave reportou F1 de 94,1% no{" "}
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> com{" "}
+          <TermLink href={GROUNDING_URL}>AI Grounding</TermLink>
+        </ArticleLi>
+        <ArticleLi>
+          Em análises de vendors (
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> e{" "}
+          <TermLink href={FRAMES_URL}>FRAMES</TermLink>, benchmark de
+          raciocínio multi-hop com várias fontes): ganho típico de +25 a +40
+          pontos percentuais frente ao modelo sem grounding
+        </ArticleLi>
+        <ArticleLi>
+          Em queries factuais em produção (ordem de grandeza citada nesses
+          guias): ~15-25% de respostas ruins o bastante para importar, sem
+          grounding
+        </ArticleLi>
+      </ArticleUl>
+
       <ArticleP>
-        O{" "}
-        <a
-          href="https://openai.com/index/introducing-simpleqa/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={linkClass}
-        >
-          SimpleQA
-        </a>{" "}
-        da OpenAI é um benchmark de factualidade em perguntas curtas, com
-        resposta única e fácil de julgar. No paper original, modelos frontier
-        sem busca externa ainda erravam bastante: o GPT-4o ficou abaixo de ~40%
-        de acerto. Quando o mesmo tipo de pergunta ganha grounding com busca,
-        os números saltam. A Brave reportou F1 de 94,1% no SimpleQA com o
-        serviço de{" "}
-        <a
-          href="https://brave.com/blog/ai-grounding/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={linkClass}
-        >
-          AI Grounding
-        </a>
-        . Guias de vendors que agregam SimpleQA e{" "}
-        <a
-          href="https://parallel.ai/articles/how-to-reduce-llm-hallucinations-by-connecting-your-app-to-real-time-web-search"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={linkClass}
-        >
-          FRAMES
-        </a>{" "}
-        (raciocínio multi-hop com várias fontes) falam em ganhos típicos de 25
-        a 40 pontos percentuais frente ao baseline sem grounding. Pontos
-        percentuais não são “% de melhoria relativa”: sair de 40% para 70% é
-        +30 pontos, não “+30% a mais no sentido de multiplicar por 1,3”.
+        Um detalhe de leitura: pontos percentuais não são “% relativa”. Sair de
+        40% para 70% é +30 pontos, não “multiplicar por 1,3”.
       </ArticleP>
 
       <ArticleImg
         src="/images/publications/busca-web-local-mcp-searxng/brave-simpleqa-grounding.jpg"
         alt="Gráfico SimpleQA da Brave mostrando desempenho alto com AI Grounding frente a baselines"
-        caption="SimpleQA com grounding: referência visual do salto de factualidade. Fonte: Brave Search."
+        caption={
+          <>
+            <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> com grounding:
+            referência visual do salto de factualidade. Fonte: Brave Search.
+          </>
+        }
       />
 
-      <ArticleTable caption="Ordem de grandeza em benchmarks públicos (não é score do SearXNG)">
+      <ArticleTable caption="Resumo dos números (não é score do SearXNG)">
         <ArticleThead>
           <ArticleTr>
-            <ArticleTh>Cenário</ArticleTh>
-            <ArticleTh>Sem busca / só modelo</ArticleTh>
-            <ArticleTh>Com grounding web</ArticleTh>
-            <ArticleTh>Leitura útil</ArticleTh>
+            <ArticleTh>Métrica</ArticleTh>
+            <ArticleTh>Sem busca</ArticleTh>
+            <ArticleTh>Com grounding</ArticleTh>
           </ArticleTr>
         </ArticleThead>
         <ArticleTbody>
           <ArticleTr>
-            <ArticleTd>SimpleQA (fatos curtos)</ArticleTd>
-            <ArticleTd>GPT-4o &lt; ~40% no paper OpenAI</ArticleTd>
-            <ArticleTd>Brave: F1 94,1% com AI Grounding</ArticleTd>
             <ArticleTd>
-              Busca muda o jogo quando a verdade está na web, não no treino
+              <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> (OpenAI / Brave)
+            </ArticleTd>
+            <ArticleTd>GPT-4o &lt; ~40%</ArticleTd>
+            <ArticleTd>
+              F1 94,1% (Brave{" "}
+              <TermLink href={GROUNDING_URL}>AI Grounding</TermLink>)
             </ArticleTd>
           </ArticleTr>
           <ArticleTr>
-            <ArticleTd>SimpleQA / FRAMES (agregado de vendors)</ArticleTd>
+            <ArticleTd>
+              <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> /{" "}
+              <TermLink href={FRAMES_URL}>FRAMES</TermLink> (vendors)
+            </ArticleTd>
             <ArticleTd>Baseline sem grounding</ArticleTd>
             <ArticleTd>+25 a +40 pontos percentuais</ArticleTd>
-            <ArticleTd>
-              Faixa citada em análises de grounding com busca em tempo real
-            </ArticleTd>
           </ArticleTr>
           <ArticleTr>
-            <ArticleTd>Queries factuais em produção (ordem de grandeza)</ArticleTd>
-            <ArticleTd>~15-25% de respostas ruins o bastante para importar</ArticleTd>
-            <ArticleTd>Cai quando a recuperação é boa e o modelo usa o contexto</ArticleTd>
-            <ArticleTd>
-              Não é “prompt mais preciso”; é factualidade e frescor
-            </ArticleTd>
+            <ArticleTd>Queries factuais ruins (ordem de grandeza)</ArticleTd>
+            <ArticleTd>~15-25%</ArticleTd>
+            <ArticleTd>Cai com boa recuperação + uso do contexto</ArticleTd>
           </ArticleTr>
         </ArticleTbody>
       </ArticleTable>
 
       <ArticleCallout variant="note" title="O que eu não estou prometendo">
         <ArticleP>
-          Esses números medem grounding com busca web em setups de avaliação.
-          Eles não são um certificado de que o seu SearXNG local vai bater 94%
-          no SimpleQA. Meta-search local herda a qualidade das engines, bloqueios
-          e ruído. O ganho prático que eu vejo no dia a dia é outro: menos
-          endpoint inventado, menos versão velha de lib, menos “certeza” sobre
-          issue que abriu ontem. Isso é o mesmo tipo de benefício dos
-          benchmarks, medido em atrito de sessão, não em leaderboard.
+          Esses números medem grounding com busca web em avaliações públicas.
+          Não certificam que o seu SearXNG local vai bater 94% no{" "}
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>.
+        </ArticleP>
+        <ArticleP>
+          O ganho que eu vejo no dia a dia é outro:
+        </ArticleP>
+        <ArticleUl>
+          <ArticleLi>menos endpoint inventado</ArticleLi>
+          <ArticleLi>menos versão velha de lib</ArticleLi>
+          <ArticleLi>menos “certeza” sobre issue que abriu ontem</ArticleLi>
+        </ArticleUl>
+        <ArticleP>
+          Mesmo tipo de benefício dos benchmarks, medido em atrito de sessão,
+          não em leaderboard.
         </ArticleP>
       </ArticleCallout>
 
       <ArticleH3>Para quem isso é útil (e para quem não)</ArticleH3>
 
       <ArticleP>
-        A stack paga o almoço quando o agente precisa de mundo externo atual.
-        Docs que mudaram na semana, changelog de SDK, issue aberta ontem, CVE
-        recente, comparação de APIs. Aí a memória de treino é exatamente o
-        lugar errado para apostar. Quem vive em sessão longa de agente, quem
-        quer citar fonte e quem não quer pagar por query de search SaaS está no
-        público-alvo.
+        A stack ajuda quando o agente precisa de informação atual fora do
+        repositório.
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>docs que mudaram na semana</ArticleLi>
+        <ArticleLi>changelog de SDK</ArticleLi>
+        <ArticleLi>issue aberta ontem</ArticleLi>
+        <ArticleLi>CVE recente</ArticleLi>
+        <ArticleLi>comparação de APIs</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Aí a memória de treino é o lugar errado para apostar.
       </ArticleP>
 
       <ArticleP>
         O retorno é fraco quando a tarefa já está resolvida pelo workspace:
-        refatorar um módulo, seguir um padrão do repo, escrever teste em cima
-        do código aberto. Busca web ali vira ruído e loop. Também não “melhora
-        a precisão do prompt” no sentido de instrução: um prompt ruim continua
-        ruim. O que melhora é a base factual sobre a qual o modelo responde,
-        quando a verdade está fora do contexto local.
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>refatorar um módulo</ArticleLi>
+        <ArticleLi>seguir um padrão do repo</ArticleLi>
+        <ArticleLi>escrever teste em cima do código aberto</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Busca web nesses casos vira ruído. Um prompt ruim também continua ruim:
+        grounding não “melhora a precisão do prompt”. Grounding melhora a base
+        factual quando a verdade está fora do contexto local.
       </ArticleP>
 
       <ArticleTable caption="Quem ganha e quem quase não sente">
@@ -1448,6 +1691,11 @@ Cite links e separe causa de configuração de bloqueio de engine.`}
         <ArticleLi>
           Scraper MCP público serve para smoke test. Em sessão longa, CAPTCHA,
           rate-limit e HTML instável viram roleta.
+        </ArticleLi>
+        <ArticleLi>
+          SearXNG não é scraper MCP: o MCP fala JSON local; o metasearch espalha
+          a query. Bloqueio de uma engine vira degradação, não falha total. O
+          SearXNG não é imune a rate-limit/IP.
         </ArticleLi>
         <ArticleLi>
           MCP custom com SDK só vale quando a tool é específica demais; para

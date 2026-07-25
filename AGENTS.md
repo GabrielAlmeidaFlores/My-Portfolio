@@ -30,7 +30,7 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Sem exports legados | Proibido `export const x = xByLocale["pt-BR"]` |
 | Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
 | Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
-| Prosa de publicações | Leitura leve e completa; storytelling; diagrama após o texto e com blocos compactos; termos com link |
+| Prosa de publicações | Leitura leve e completa; storytelling; diagrama após o texto e com blocos compactos; termos explicados na 1ª menção e linkados em toda ocorrência legível |
 | `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
 | Sem travessão (`—`) | Proibido em **todo** o site: UI, `data/`, meta SEO, README e publicações. Preferir ponto, vírgula, dois pontos, `|` ou hífen simples em ranges/títulos oficiais |
 | Sem se apresentar como Tech Lead | Não usar "Tech Lead" / "Líder Técnico" fora da experiência na **Ousion** |
@@ -302,11 +302,12 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
    - Não encher o post de visual por obrigação: um reforço por ideia densa basta. Evitar duplicar a mesma informação em imagem e Mermaid na mesma subseção.
 7. **Tabelas** seguem a mesma lógica: comparar depois de explicar; não abrir a seção com tabela crua.
 8. **Termos e tecnologias: explicar + linkar (obrigatório).**
-   - Na primeira menção relevante de um termo, tecnologia, protocolo ou ferramenta que o leitor possa não dominar, fazer **duas coisas**: (a) explicar em linguagem simples o que é e para que serve neste contexto; (b) linkar a documentação oficial ou página confiável.
-   - Exemplos: MCP, SearXNG, metasearch, rate-limit, loopback, Docker, SaaS, CAPTCHA, JSON-RPC, stdio, npx, Node.js, tools do agente, timeout HTTP, etc.
-   - Proibido soltar jargão (“payload”, “stdio”, “bind”, “engine”, “borda”, “edge”) como se fosse óbvio sem uma frase de apoio.
+   - Na primeira menção relevante de um termo, tecnologia, protocolo, ferramenta ou benchmark que o leitor possa não dominar, fazer **duas coisas**: (a) explicar em linguagem simples o que é e para que serve neste contexto; (b) linkar a documentação oficial ou página confiável.
+   - **Toda ocorrência legível** desse termo no corpo do post também leva o mesmo link (parágrafos, listas, tabelas, callouts, legendas/`caption`). Exceção: atributo `alt` de imagem (texto plano, sem HTML).
+   - Exemplos: MCP, SearXNG, SimpleQA, FRAMES, grounding, metasearch, rate-limit, loopback, Docker, SaaS, CAPTCHA, JSON-RPC, stdio, npx, Node.js, tools do agente, timeout HTTP, etc.
+   - Proibido soltar jargão (“payload”, “stdio”, “bind”, “engine”, “borda”, “edge”, “SimpleQA”) como se fosse óbvio sem uma frase de apoio na primeira menção.
    - Proibido metáfora técnica sem âncora (“borda local”, “beco”, “gira em falso”) no lugar de uma frase concreta. Se a ideia é “rodar o serviço de busca na minha máquina”, escrever isso. O leitor não precisa adivinhar o que a metáfora quis dizer.
-   - Links com `target="_blank"` e `rel="noopener noreferrer"`. Uma boa referência por termo basta; não linkar toda repetição.
+   - Links com `target="_blank"` e `rel="noopener noreferrer"`. Uma URL de referência boa por termo; o link se repete em cada ocorrência do nome.
 9. **Proibido seção rasa.** Se um H2/H3 apresenta uma peça da arquitetura (cliente, servidor, serviço, tool) **ou uma alternativa de decisão** (opção A/B/C, caminho X vs Y), o texto precisa dizer o que é, o que faz, **como funciona na prática** (fluxo: quem chama quem, o que volta), por que existe na stack e como se conecta ao restante. Um parágrafo genérico de três frases com só veredito (“bom para demo, ruim no dia a dia”) não basta.
 10. **Teste do leitor (obrigatório em toda seção nova ou reescrita).** Ao criar ou revisar um H2/H3, perguntar sempre: “Será que o usuário vai entender o que estou falando, ou preciso detalhar mais?” Em concreto: alguém sem o contexto da conversa consegue explicar de volta o mecanismo, não só o slogan? Se a resposta for dudosa, expandir com passo a passo, exemplo do dia a dia e o que quebra. Preferir uma seção um pouco mais longa e clara a uma seção curta que pressupõe que o leitor “já sabe”.
 11. **Explicitar o óbvio técnico quando ele for a chave da compreensão.** Ex.: “local ≠ offline”, “JSON precisa estar habilitado”, “o agente usa tools, não abre o navegador”.
@@ -333,7 +334,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 - [ ] Nenhum diagrama/imagem antes do texto que explica o que ele mostra
 - [ ] Teste visual por seção: imagem da web (baixada em `public/…`) ou Mermaid se fizer falta; sem visual inútil
 - [ ] Diagrama complementar, completo, legível e com blocos compactos (sem nós exagerados)
-- [ ] Toda tecnologia/termo novo: explicação simples + link na primeira menção relevante
+- [ ] Toda tecnologia/termo novo: explicação simples na primeira menção + link em **todas** as ocorrências legíveis
 - [ ] Nenhuma subseção rasa (o quê / como funciona / para quê / como se conecta)
 - [ ] Teste do leitor: alguém de fora consegue explicar o mecanismo de volta
 - [ ] Nenhum travessão (`—`) em lugar nenhum do site (UI, data, meta, artigos)
@@ -664,7 +665,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
-- [ ] Publicações: intro conectada; prosa simples; referente explícito (sem “ele” solto); sem seta `→` em fluxo; key takeaways antes da conclusão; teste visual; diagrama após texto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
+- [ ] Publicações: intro conectada; prosa simples; referente explícito (sem “ele” solto); sem seta `→` em fluxo; key takeaways antes da conclusão; teste visual; diagrama após texto; termos explicados na 1ª menção + link em toda ocorrência legível; teste do leitor; sem seção rasa / Executive summary
 - [ ] Sem travessão (`—`) em nenhum conteúdo do site (UI, data, meta, README, artigos)
 
 ### O que não fazer
@@ -677,7 +678,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - Escrever publicação com clichês de IA ou prosa telegráfica/staccato
 - Colocar diagrama/tabela antes de explicar no texto o que eles mostram
 - Encher nó de Mermaid com parágrafo longo (blocos exageradamente grandes)
-- Citar tecnologia/jargão sem explicar em linguagem simples e sem link de referência
+- Citar tecnologia/jargão sem explicar em linguagem simples na primeira menção, ou sem link em cada ocorrência legível do termo
 - Deixar subseção de arquitetura rasa (só nomes, sem o quê / para quê / como se conecta)
 - Usar tom de “medo de código” / “falta de capacidade” para justificar decisão técnica
 - Usar vocabulário pejorativo/moralizante (“tentação”, etc.) para escolhas técnicas

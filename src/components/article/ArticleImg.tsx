@@ -1,10 +1,10 @@
-import type { ImgHTMLAttributes } from "react";
+import type { ImgHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 interface ArticleImgProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
-  caption?: string;
+  caption?: ReactNode;
 }
 
 export function ArticleImg({
