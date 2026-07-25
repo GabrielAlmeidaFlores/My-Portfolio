@@ -13,8 +13,41 @@ import {
   EscolhaBancoDadosCapPacelcContentEs,
   EscolhaBancoDadosCapPacelcContentPt,
 } from "@/content/publications/escolha-banco-dados-cap-pacelc";
+import {
+  HardeningLinuxVpsBaselineContentEn,
+  HardeningLinuxVpsBaselineContentEs,
+  HardeningLinuxVpsBaselineContentPt,
+} from "@/content/publications/hardening-linux-vps-baseline";
 
 export const publications: Publication[] = [
+  {
+    id: "hardening-linux-vps-baseline",
+    slug: "hardening-linux-vps-baseline",
+    publishedAt: "2026-07-25",
+    tags: {
+      "pt-BR": ["Linux", "Hardening", "SSH", "Segurança"],
+      en: ["Linux", "Hardening", "SSH", "Security"],
+      es: ["Linux", "Hardening", "SSH", "Seguridad"],
+    },
+    coverImage:
+      "/images/publications/hardening-linux-vps-baseline/cover.svg",
+    title: {
+      "pt-BR": "Hardening baseline em Linux (VPS sem drama)",
+      en: "Linux hardening baseline (VPS without the drama)",
+      es: "Hardening baseline en Linux (VPS sin drama)",
+    },
+    summary: {
+      "pt-BR":
+        "Hardening completo para o dia 1–2 da VPS: SSH/sudo, firewall, sysctl, tempo, MAC, auditd, updates, fail2ban e verificação com Lynis — sem se trancar fora.",
+      en: "Complete day 1–2 VPS hardening: SSH/sudo, firewall, sysctl, time, MAC, auditd, updates, fail2ban, and Lynis verification — without locking yourself out.",
+      es: "Hardening completo para el día 1–2 del VPS: SSH/sudo, firewall, sysctl, tiempo, MAC, auditd, updates, fail2ban y verificación con Lynis — sin quedarte fuera.",
+    },
+    Content: {
+      "pt-BR": HardeningLinuxVpsBaselineContentPt,
+      en: HardeningLinuxVpsBaselineContentEn,
+      es: HardeningLinuxVpsBaselineContentEs,
+    },
+  },
   {
     id: "escolha-banco-dados-cap-pacelc",
     slug: "escolha-banco-dados-cap-pacelc",

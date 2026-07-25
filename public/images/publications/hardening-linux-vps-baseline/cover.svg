@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Linux VPS hardening baseline">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="50%" stop-color="#0b1224"/>
+      <stop offset="100%" stop-color="#04101f"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="180" cy="140" r="140" fill="#34d399" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="1040" cy="500" r="160" fill="#38bdf8" opacity="0.1" filter="url(#glow)"/>
+
+  <!-- Shield -->
+  <g transform="translate(200 150)" filter="url(#glow)">
+    <path d="M180 20 L320 80 L320 200 C320 280 250 340 180 370 C110 340 40 280 40 200 L40 80 Z"
+          fill="#0f172a" stroke="#34d399" stroke-width="3"/>
+    <text x="180" y="200" text-anchor="middle" font-family="ui-monospace, Menlo, monospace"
+          font-size="48" font-weight="700" fill="#6ee7b7">SSH</text>
+    <text x="180" y="245" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif"
+          font-size="16" letter-spacing="0.25em" fill="#94a3b8">LOCKED</text>
+  </g>
+
+  <g filter="url(#glow)">
+    <path d="M540 315 H680" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <polygon points="680,315 652,301 652,329" fill="#67e8f9"/>
+
+  <!-- Baseline stack -->
+  <g transform="translate(720 175)">
+    <rect x="0" y="0" width="320" height="280" rx="24" fill="#0f172a" stroke="#38bdf8" stroke-width="3" filter="url(#glow)"/>
+    <text x="160" y="55" text-anchor="middle" font-family="ui-monospace, Menlo, monospace"
+          font-size="28" font-weight="700" fill="#67e8f9">BASELINE</text>
+    <text x="40" y="110" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#94a3b8">1. Keys / no root login</text>
+    <text x="40" y="150" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#94a3b8">2. Firewall default-deny</text>
+    <text x="40" y="190" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#94a3b8">3. Updates + fail2ban</text>
+    <text x="40" y="230" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#94a3b8">4. Cut unused services</text>
+    <text x="160" y="265" text-anchor="middle" font-family="ui-monospace, Menlo, monospace"
+          font-size="13" letter-spacing="0.2em" fill="#34d399">VPS DAY-1</text>
+  </g>
+</svg>
