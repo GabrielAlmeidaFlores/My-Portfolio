@@ -116,19 +116,45 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       <ArticleH2>1. The problem that showed up in real use</ArticleH2>
 
       <ArticleP>
-        If you live inside an AI agent for real work, web search stops being a
-        nice extra and becomes part of the loop. Docs change overnight, APIs
-        break without warning, and the annoying bug only exists in an issue
-        opened yesterday. When the model is stuck with training knowledge and
-        whatever is already in the repo, the session starts spinning its
-        wheels.
+        This post is how I set up stable web search for an AI agent on my
+        machine, without a paid search API and without a fragile scraper. The
+        stack is ready-made{" "}
+        <a
+          href="https://modelcontextprotocol.io/"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          MCP
+        </a>{" "}
+        + local{" "}
+        <a
+          href="https://docs.searxng.org/"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SearXNG
+        </a>{" "}
+        on Docker. Before the setup, the problem that got me here.
       </ArticleP>
 
       <ArticleP>
-        I felt this hard in long agent sessions. The flow needs to search,
-        read a solid chunk, apply a change, and validate. When search fails, it
-        retries, invents, or just interrupts you. The cost is no longer only
-        money. It becomes friction, lost context, and time you do not get back.
+        Day to day, the agent needs information that is not in the repo and not
+        in the model’s training memory: docs that changed yesterday, an SDK
+        changelog, an issue opened overnight, an endpoint the API deprecated.
+        Without reliable web access, it guesses the wrong version, invents a
+        detail, or keeps asking for confirmation. The session stalls.
+      </ArticleP>
+
+      <ArticleP>
+        The loop I want is straightforward: search → read a solid chunk → apply
+        in code → validate. When search fails in the middle, the rest falls
+        apart. It retries, hallucinates, or interrupts you. In long sessions
+        that becomes real friction: lost context and time you do not get back. I
+        compared three paths (paid API, scraper MCP, local metasearch) and kept
+        the third. Next: what hurts with commercial APIs, why a “free” scraper
+        fools you in a smoke test, and what “local” means in this text.
       </ArticleP>
 
       <ArticleH3>Where paid search APIs start to hurt</ArticleH3>

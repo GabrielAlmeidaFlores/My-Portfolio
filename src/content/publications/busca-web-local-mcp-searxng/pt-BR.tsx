@@ -116,19 +116,44 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       <ArticleH2>1. O problema que apareceu na prática</ArticleH2>
 
       <ArticleP>
-        Se você usa agente de IA no dia a dia, em algum momento a busca web deixa
-        de ser “um plus legal” e vira peça do fluxo. Documentação muda de um dia
-        para o outro, APIs quebram sem aviso e aquele bug chato só aparece numa
-        issue aberta ontem. Quando o modelo fica preso no conhecimento de treino
-        e no que já está no repositório, a sessão começa a girar em falso.
+        Este post conta como eu montei busca web estável para o agente de IA na
+        minha máquina, sem API paga de search e sem scraper frágil. A stack é{" "}
+        <a
+          href="https://modelcontextprotocol.io/"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          MCP
+        </a>{" "}
+        pronto +{" "}
+        <a
+          href="https://docs.searxng.org/"
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SearXNG
+        </a>{" "}
+        local em Docker. Antes do setup, o problema que me trouxe até aqui.
       </ArticleP>
 
       <ArticleP>
-        Eu senti isso com força em sessões longas com agente. O fluxo precisa
-        pesquisar, ler um trecho bom, aplicar e validar. Quando a busca falha,
-        ele retenta, inventa ou simplesmente te interrompe. O custo deixa de ser
-        só financeiro. Vira atrito, contexto perdido e tempo que você não
-        recupera.
+        No dia a dia o agente precisa de informação que não está no repositório
+        nem na memória de treino do modelo: documentação que mudou ontem,
+        changelog de SDK, issue aberta na madrugada, endpoint que a API
+        deprecateou. Sem acesso confiável à web, ele chuta versão errada,
+        inventa detalhe ou fica pedindo confirmação. A sessão trava.
+      </ArticleP>
+
+      <ArticleP>
+        O fluxo que eu quero é direto: pesquisar → ler um trecho bom → aplicar
+        no código → validar. Quando a busca falha no meio, o resto desanda.
+        Retenta, alucina ou te interrompe. Em sessões longas isso vira atrito
+        real: contexto perdido e tempo que não volta. Eu comparei três caminhos
+        (API paga, scraper MCP, metasearch local) e fiquei com o terceiro. A
+        seguir: o que dói nas APIs comerciais, por que scraper “grátis” engana
+        no smoke test, e o que “local” significa neste texto.
       </ArticleP>
 
       <ArticleH3>O que quebra nas APIs de busca pagas</ArticleH3>

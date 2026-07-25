@@ -264,7 +264,7 @@ Proporcionar uma **leitura leve**, mas **completa**. O leitor deve ir entendendo
 
 **Storytelling (ordem da compreensão):**
 
-1. Começar pelo **problema vivido** (o que doeu, em que contexto).
+1. Começar pelo **problema vivido** (o que doeu, em que contexto), com **introdução que conecta**.
 2. Explicar **conceitos e termos** na hora em que aparecem, em linguagem clara.
 3. Mostrar **alternativas** e o raciocínio de escolha.
 4. Só então usar **diagrama, tabela ou código** como reforço visual/prático.
@@ -272,6 +272,15 @@ Proporcionar uma **leitura leve**, mas **completa**. O leitor deve ir entendendo
 6. Fechar com **Conclusão** em prosa (nunca “Executive summary”).
 
 O post guia o leitor. Cada seção prepara a seguinte. Nada assume que o leitor “já sabe”.
+
+**Introdução (obrigatória, clara e conectada):**
+
+A abertura do post (primeiro H2 e os parágrafos iniciais, antes das subseções) precisa passar conexão, não só atmosfera. Em poucas linhas o leitor deve conseguir responder:
+1. **Sobre o que é este post?** (tese / o que foi montado ou decidido)
+2. **Por que isso importa agora?** (situação concreta do dia a dia)
+3. **Qual o fio até o resto do texto?** (o que vem a seguir: alternativas, setup, etc.)
+
+Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em falso”, “plus legal”) ou dois parágrafos que listam sintomas sem dizer o que o artigo resolve. Preferir: contexto → dor concreta → o que você fez / o que o post cobre → ponte para a próxima seção. Se a introdução não sobreviver ao teste “um colega lê só isso e sabe para onde o texto vai”, reescrever.
 
 **Regras de ouro:**
 
@@ -311,6 +320,7 @@ O post guia o leitor. Cada seção prepara a seguinte. Nada assume que o leitor 
 **Checklist rápido de prosa:**
 
 - [ ] Leitura leve e completa: o leitor entende o objetivo sem quebrar a cabeça
+- [ ] Introdução conectada: tese + dor concreta + para onde o post vai (sem metáfora solta)
 - [ ] Storytelling: problema → conceitos → alternativas → reforço visual/código → key takeaways → conclusão
 - [ ] Key takeaways (H3) imediatamente antes da Conclusão; lista curta e acionável
 - [ ] Nenhum diagrama/imagem antes do texto que explica o que ele mostra
@@ -647,7 +657,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
-- [ ] Publicações: storytelling; key takeaways antes da conclusão; teste visual (imagem web → Mermaid); diagrama após texto e compacto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
+- [ ] Publicações: intro conectada; storytelling; key takeaways antes da conclusão; teste visual (imagem web → Mermaid); diagrama após texto e compacto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
 - [ ] Sem travessão (`—`) em nenhum conteúdo do site (UI, data, meta, README, artigos)
 
 ### O que não fazer
