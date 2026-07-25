@@ -7,7 +7,7 @@ export const educationByLocale: Record<Locale, Education[]> = {
       id: "pucpr-postgrad",
       title: "Arquitetura de Software, Cybersecurity e Ciência de Dados",
       institution: "PUCPR",
-      period: "2025 – 2026",
+      period: "2025 a 2026",
       description: "Pós-graduação",
       focusAreas: [
         "Arquitetura de Software",
@@ -19,7 +19,7 @@ export const educationByLocale: Record<Locale, Education[]> = {
       id: "uniso-graduation",
       title: "Análise e Desenvolvimento de Sistemas",
       institution: "Universidade de Sorocaba",
-      period: "2022 – 2025",
+      period: "2022 a 2025",
       description: "Graduação",
       focusAreas: [
         "Desenvolvimento de Software",
@@ -34,7 +34,7 @@ export const educationByLocale: Record<Locale, Education[]> = {
       id: "pucpr-postgrad",
       title: "Software Architecture, Cybersecurity, and Data Science",
       institution: "PUCPR",
-      period: "2025 – 2026",
+      period: "2025 to 2026",
       description: "Postgraduate",
       focusAreas: [
         "Software Architecture",
@@ -46,7 +46,7 @@ export const educationByLocale: Record<Locale, Education[]> = {
       id: "uniso-graduation",
       title: "Systems Analysis and Development",
       institution: "Universidade de Sorocaba",
-      period: "2022 – 2025",
+      period: "2022 to 2025",
       description: "Bachelor's degree",
       focusAreas: [
         "Software Development",
@@ -61,7 +61,7 @@ export const educationByLocale: Record<Locale, Education[]> = {
       id: "pucpr-postgrad",
       title: "Arquitectura de Software, Cybersecurity y Ciencia de Datos",
       institution: "PUCPR",
-      period: "2025 – 2026",
+      period: "2025 a 2026",
       description: "Posgrado",
       focusAreas: [
         "Arquitectura de Software",
@@ -73,7 +73,7 @@ export const educationByLocale: Record<Locale, Education[]> = {
       id: "uniso-graduation",
       title: "Análisis y Desarrollo de Sistemas",
       institution: "Universidade de Sorocaba",
-      period: "2022 – 2025",
+      period: "2022 a 2025",
       description: "Grado",
       focusAreas: [
         "Desarrollo de Software",

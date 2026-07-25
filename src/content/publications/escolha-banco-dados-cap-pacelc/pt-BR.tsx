@@ -422,7 +422,7 @@ export function EscolhaBancoDadosCapPacelcContentPt() {
       </ArticleP>
 
       <ArticleP>
-        Mesmo sem partição, sync para 15–20 réplicas gera latência absurda: a
+        Mesmo sem partição, sync para 15-20 réplicas gera latência absurda: a
         confirmação espera a fila de cópias. Async volta ao atraso.
       </ArticleP>
 

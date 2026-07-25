@@ -14,10 +14,8 @@ import { Badge } from "@/components/ui/Badge";
 import { BodyText } from "@/components/ui/BodyText";
 import { Button } from "@/components/ui/Button";
 import { CarouselNavButton } from "@/components/ui/CarouselNavButton";
-import {
-  hasCustomProjectCover,
-  ProjectCover,
-} from "@/components/sections/projects/covers/ProjectCover";
+import { hasCustomProjectCover } from "@/components/sections/projects/covers/hasCustomProjectCover";
+import { ProjectCover } from "@/components/sections/projects/covers/ProjectCover";
 import { cn } from "@/lib/cn";
 
 interface ProjectCarouselProps {

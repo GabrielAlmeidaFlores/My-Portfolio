@@ -450,7 +450,7 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
       </ArticleP>
 
       <ArticleP>
-        Even without partition, sync to 15–20 replicas creates absurd latency: the
+        Even without partition, sync to 15-20 replicas creates absurd latency: the
         confirmation waits for the copy queue. Async brings lag back.
       </ArticleP>
 

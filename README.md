@@ -102,8 +102,7 @@ Este projeto usa **somente Yarn** (`yarn.lock`). Não use `npm` nem gere `packag
 | 5  | Certificações            |
 | 6  | Formação                 |
 | 7  | Publicações              |
-| 8  | Engenharia de Software   |
-| 9  | Contato                  |
+| 8  | Contato                  |
 
 Convenções e detalhes de implementação: [`AGENTS.md`](./AGENTS.md).
 

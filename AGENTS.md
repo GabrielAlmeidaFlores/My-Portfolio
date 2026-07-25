@@ -91,7 +91,6 @@ Gabriel-Flores-Portfolio/
 │   ├── styles/              # globals.css, tokens, tema claro/escuro
 │   ├── types/               # Um arquivo por entidade de dados
 │   ├── data/                # Conteúdo estático (fatiar se > ~300 linhas)
-│   │   └── software-pipelines/
 │   ├── App.tsx              # Rotas + shell (Header/Footer)
 │   └── main.tsx
 ├── AGENTS.md
@@ -108,14 +107,13 @@ sections/
 │   └── ExperienceSection.tsx
 ├── projects/
 │   ├── ProjectsSection.tsx
-│   ├── ProjectCard.tsx
 │   ├── ProjectCarousel.tsx
-│   └── ProjectModal.tsx
+│   └── covers/              # Capas custom por projeto (ex.: HTTP-CLI)
+│       ├── ProjectCover.tsx
+│       ├── HttpCliCover.tsx
+│       └── hasCustomProjectCover.ts
 ├── technologies/
 │   └── TechnologiesSection.tsx
-├── software-engineering/
-│   ├── SoftwareEngineeringSection.tsx
-│   └── SoftwareEngineeringCarousel.tsx
 ├── certifications/
 │   ├── CertificationsSection.tsx
 │   └── CertificationBadge.tsx
@@ -123,7 +121,8 @@ sections/
 │   └── EducationSection.tsx
 ├── publications/
 │   ├── PublicationsSection.tsx
-│   └── PublicationCard.tsx
+│   ├── PublicationCard.tsx
+│   └── PublicationCarousel.tsx
 └── contact/
     └── ContactSection.tsx
 ```
@@ -164,7 +163,6 @@ sections/
   <CertificationsSection />
   <EducationSection />
   <PublicationsSection />
-  <SoftwareEngineeringSection />
   <ContactSection />
 </main>
 <Footer />
@@ -200,7 +198,7 @@ Rotas adicionais:
 
 **Objetivo:** carrossel de projetos com detalhe.
 
-**Componentes:** `ProjectsSection`, `ProjectCarousel`, `ProjectCard`, `ProjectModal`
+**Componentes:** `ProjectsSection`, `ProjectCarousel`, capas em `projects/covers/` (`ProjectCover`, `HttpCliCover`)
 
 ---
 
@@ -234,7 +232,7 @@ Rotas adicionais:
 
 **Objetivo:** artigos e notas técnicas estilo documentação, com página dedicada.
 
-**Listagem (landing):** cards com capa, título, resumo, data e tags → link para `/publicacoes/:slug`
+**Listagem (landing):** no mobile, carrossel (`PublicationCarousel`) no mesmo padrão dos projetos (setas laterais + indicadores); em `md+`, grid de cards. Cada card: capa, título, resumo, data e tags, com link para `/publicacoes/:slug`
 
 **Página de leitura (`PublicationPage` / rota `/publicacoes/:slug`):**
 - Botão voltar para `/#publicacoes`
@@ -253,11 +251,13 @@ Rotas adicionais:
 
 **i18n:** `title`, `summary`, `tags`, `Content` nos três locales: sem fallback parcial; labels do TOC em `copy.publications.tableOfContents` / `tableOfContentsAria`
 
-**Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationPage`, kit `article/` (inclui `ArticleTableOfContents`)
+**Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationCarousel`, `PublicationPage`, kit `article/` (inclui `ArticleTableOfContents`)
 
 #### Tom e prosa das publicações (obrigatório)
 
 Escrever como desenvolvedor sênior em blog pessoal ou post técnico no LinkedIn: experiência real, voz humana, ritmo agradável. O leitor precisa sentir que alguém viveu o problema e está contando a decisão.
+
+**Formato handbook (exceção):** posts operacionais de hardening ou runbook podem usar estrutura objetiva por controle (`o que é`, `para que serve`, `se não configurar`, `como configurar`) em vez de narrativa longa, desde que mantenham introdução clara, Pontos-chave e Conclusão.
 
 **Objetivo da leitura (norte):**
 
@@ -353,17 +353,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 
 ---
 
-### 4.8 Engenharia de Software
-
-**Objetivo:** pipelines / fluxos (cloud, arquitetura, devops, security). Seção “Como eu construo software”: última da home antes do contato.
-
-**Dados:** `src/data/softwarePipelines.ts` (barrel) + `src/data/software-pipelines/`
-
-**Componentes:** `SoftwareEngineeringSection`, `SoftwareEngineeringCarousel`
-
----
-
-### 4.9 Contato
+### 4.8 Contato
 
 **Objetivo:** CTA de contato + links sociais / oportunidades.
 
@@ -371,7 +361,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 
 ---
 
-### 4.10 Footer
+### 4.9 Footer
 
 **Conteúdo:** nome, descrição, copyright, redes.
 
@@ -381,13 +371,14 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 
 ## 5. Diferenciais visuais e animações
 
-- Timeline / carrosséis de projetos e engenharia
+- Timeline / carrosséis de projetos e publicações (mobile)
 - Animações de entrada com Framer Motion: respeitar `prefers-reduced-motion`
 - Scroll-driven com GSAP + ScrollTrigger + Lenis (`SmoothScrollProvider`)
 - **Framer Motion** = UI/entrada; **GSAP** = scroll: não adicionar terceira lib de animação
 - Tema claro/escuro via `ThemeProvider` + `ThemeToggle` + `useTheme`
 - Publicações com Mermaid lazy-loaded
 - Modais acessíveis onde existirem
+- Capas de projeto customizáveis por `id` via `projects/covers/`
 
 ---
 
@@ -395,8 +386,8 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 
 ### Arquivos e pastas
 
-- **Componentes React:** `PascalCase.tsx`: ex: `ProjectCard.tsx`
-- **Pastas de seção:** `kebab-case`: ex: `software-engineering/`
+- **Componentes React:** `PascalCase.tsx`: ex: `ProjectCarousel.tsx`
+- **Pastas de seção:** `kebab-case`: ex: `work-process/`
 - **Hooks:** `camelCase.ts` com prefixo `use`: ex: `useScrollSpy.ts`
 - **Utilitários e tipos:** `camelCase.ts`: ex: `formatDate.ts`, `project.ts`
 - **Dados:** `camelCase.ts` plural: ex: `projects.ts`, `certifications.ts`
@@ -426,7 +417,7 @@ Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção vis�
 
 ### Arquivos de data e performance
 
-- Preferir arquivos de data com menos de **~300 linhas**; fatiar por entidade, locale ou grupo (ex.: `software-pipelines/`)
+- Preferir arquivos de data com menos de **~300 linhas**; fatiar por entidade, locale ou grupo (ex.: `publications/` por slug, `projects.ts` por locale)
 - Dependências pesadas (Mermaid, etc.): sempre `import()` dinâmico
 - Páginas de rota com conteúdo pesado: `React.lazy` + `Suspense`
 - Não instalar `@types/*` que conflitam com pacotes que já exportam tipos (ex.: React Router v7)
@@ -455,7 +446,7 @@ Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção vis�
 
 ## 7. Tipos de dados (`src/types/`)
 
-Cada entidade viva deve ter tipo próprio. Exemplos atuais: `profile.ts`, `experience.ts`, `project.ts`, `certification.ts`, `education.ts`, `publication.ts`, `technology.ts`, `techCategory.ts`, `processPipeline.ts`, `navigation.ts`.
+Cada entidade viva deve ter tipo próprio. Exemplos atuais: `profile.ts`, `experience.ts`, `project.ts`, `certification.ts`, `education.ts`, `publication.ts`, `technology.ts`, `techCategory.ts`, `navigation.ts`.
 
 Publicações (sempre com os três locales):
 

@@ -1,5 +1,6 @@
 import type { Project } from "@/types/project";
 import { HttpCliCover } from "@/components/sections/projects/covers/HttpCliCover";
+import { hasCustomProjectCover } from "@/components/sections/projects/covers/hasCustomProjectCover";
 
 interface ProjectCoverProps {
   project: Project;
@@ -12,6 +13,10 @@ export function ProjectCover({
   openUrl,
   accessLabel,
 }: ProjectCoverProps) {
+  if (!hasCustomProjectCover(project.id)) {
+    return null;
+  }
+
   switch (project.id) {
     case "http-cli":
       return (
@@ -24,8 +29,4 @@ export function ProjectCover({
     default:
       return null;
   }
-}
-
-export function hasCustomProjectCover(projectId: string): boolean {
-  return projectId === "http-cli";
 }
