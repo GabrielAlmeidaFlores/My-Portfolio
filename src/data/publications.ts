@@ -8,8 +8,40 @@ import {
   BuscaWebLocalMcpSearxngContentEs,
   BuscaWebLocalMcpSearxngContentPt,
 } from "@/content/publications/busca-web-local-mcp-searxng";
+import {
+  EscolhaBancoDadosCapPacelcContentEn,
+  EscolhaBancoDadosCapPacelcContentEs,
+  EscolhaBancoDadosCapPacelcContentPt,
+} from "@/content/publications/escolha-banco-dados-cap-pacelc";
 
 export const publications: Publication[] = [
+  {
+    id: "escolha-banco-dados-cap-pacelc",
+    slug: "escolha-banco-dados-cap-pacelc",
+    publishedAt: "2026-07-25",
+    tags: {
+      "pt-BR": ["System Design", "CAP", "PACELC", "Cassandra"],
+      en: ["System Design", "CAP", "PACELC", "Cassandra"],
+      es: ["System Design", "CAP", "PACELC", "Cassandra"],
+    },
+    coverImage: "/images/publications/escolha-banco-dados-cap-pacelc/cover.svg",
+    title: {
+      "pt-BR": "Como escolher o banco de dados certo (CAP e PACELC)",
+      en: "How to choose the right database (CAP and PACELC)",
+      es: "Cómo elegir la base de datos correcta (CAP y PACELC)",
+    },
+    summary: {
+      "pt-BR":
+        "Por que SQL vs NoSQL é resposta rasa, e como CAP, PACELC e tradeoffs reais guiam a escolha do banco em sistemas distribuídos.",
+      en: "Why SQL vs NoSQL is a shallow answer, and how CAP, PACELC, and real tradeoffs guide database choice in distributed systems.",
+      es: "Por qué SQL vs NoSQL es una respuesta superficial, y cómo CAP, PACELC y tradeoffs reales guían la elección de base de datos en sistemas distribuidos.",
+    },
+    Content: {
+      "pt-BR": EscolhaBancoDadosCapPacelcContentPt,
+      en: EscolhaBancoDadosCapPacelcContentEn,
+      es: EscolhaBancoDadosCapPacelcContentEs,
+    },
+  },
   {
     id: "busca-web-local-mcp-searxng",
     slug: "busca-web-local-mcp-searxng",

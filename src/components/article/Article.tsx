@@ -11,10 +11,7 @@ export const Article = forwardRef<HTMLElement, ArticleProps>(
     return (
       <article
         ref={ref}
-        className={cn(
-          "article-prose w-full min-w-0 pb-[min(70vh,36rem)]",
-          className,
-        )}
+        className={cn("article-prose w-full min-w-0", className)}
       >
         {children}
       </article>

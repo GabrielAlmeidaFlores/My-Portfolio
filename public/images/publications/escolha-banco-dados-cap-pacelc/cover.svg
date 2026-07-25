@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="CAP e PACELC">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="50%" stop-color="#0b1224"/>
+      <stop offset="100%" stop-color="#04101f"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="200" cy="160" r="140" fill="#38bdf8" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="1000" cy="480" r="160" fill="#818cf8" opacity="0.1" filter="url(#glow)"/>
+
+  <g transform="translate(160 180)">
+    <polygon points="180,20 320,100 320,260 180,340 40,260 40,100" fill="#0f172a" stroke="#38bdf8" stroke-width="3" filter="url(#glow)"/>
+    <text x="180" y="150" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="42" font-weight="700" fill="#67e8f9">C</text>
+    <text x="110" y="230" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="42" font-weight="700" fill="#a5b4fc">A</text>
+    <text x="250" y="230" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="42" font-weight="700" fill="#c4b5fd">P</text>
+    <text x="180" y="390" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" letter-spacing="0.2em" fill="#94a3b8">CAP</text>
+  </g>
+
+  <g filter="url(#glow)">
+    <path d="M520 315 H680" stroke="url(#accent)" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <polygon points="680,315 652,301 652,329" fill="#a5b4fc"/>
+
+  <g transform="translate(720 200)">
+    <rect x="0" y="0" width="320" height="230" rx="24" fill="#0f172a" stroke="#818cf8" stroke-width="3" filter="url(#glow)"/>
+    <text x="160" y="70" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="36" font-weight="700" fill="#c4b5fd">PACELC</text>
+    <text x="160" y="120" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#94a3b8">if Partition: A or C</text>
+    <text x="160" y="155" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#94a3b8">else: Latency or C</text>
+    <text x="160" y="200" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="0.15em" fill="#67e8f9">TRADEOFF MAP</text>
+  </g>
+</svg>
