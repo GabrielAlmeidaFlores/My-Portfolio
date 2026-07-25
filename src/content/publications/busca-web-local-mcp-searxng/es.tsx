@@ -72,7 +72,7 @@ const PROBLEM_CHART = `flowchart TB
   Need --> Scrape["MCP scraper directo"]
   Paid --> PainPaid["Cuota / costo / privacidad"]
   Scrape --> PainScrape["CAPTCHA / bloqueo / HTML"]
-  PainPaid --> Gap["Falta borde local estable"]
+  PainPaid --> Gap["Falta busqueda local estable"]
   PainScrape --> Gap`;
 
 const OPTION_A_CHART = `flowchart LR
@@ -117,7 +117,11 @@ export function BuscaWebLocalMcpSearxngContentEs() {
 
       <ArticleP>
         Este post cuenta cómo armé búsqueda web estable para el agente de IA en
-        mi máquina, sin API de search de pago y sin scraper frágil. El stack es{" "}
+        mi máquina. Sin API de search de pago. Sin scraper frágil.
+      </ArticleP>
+
+      <ArticleP>
+        El stack es{" "}
         <a
           href="https://modelcontextprotocol.io/"
           className={linkClass}
@@ -140,20 +144,41 @@ export function BuscaWebLocalMcpSearxngContentEs() {
 
       <ArticleP>
         En el día a día el agente necesita información que no está en el
-        repositorio ni en la memoria de entrenamiento del modelo: documentación
-        que cambió ayer, changelog de SDK, issue abierto de madrugada, endpoint
-        que la API deprecó. Sin acceso confiable a la web, adivina la versión
-        equivocada, inventa un detalle o se queda pidiendo confirmación. La
-        sesión se traba.
+        repositorio ni en la memoria de entrenamiento del modelo:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>documentación que cambió ayer</ArticleLi>
+        <ArticleLi>changelog de SDK</ArticleLi>
+        <ArticleLi>issue abierto de madrugada</ArticleLi>
+        <ArticleLi>endpoint que la API deprecó</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Sin acceso confiable a la web, adivina la versión equivocada, inventa un
+        detalle o se queda pidiendo confirmación. La sesión se traba.
       </ArticleP>
 
       <ArticleP>
-        El flujo que quiero es directo: buscar → leer un buen tramo → aplicar en
-        el código → validar. Cuando la búsqueda falla a mitad de camino, el
-        resto se viene abajo. Reintenta, alucina o te interrumpe. En sesiones
-        largas eso se vuelve fricción real: contexto perdido y tiempo que no
-        vuelve. Comparé tres caminos (API de pago, scraper MCP, metasearch
-        local) y me quedé con el tercero. A continuación: qué duele en las APIs
+        El flujo que quiero es directo:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>buscar</ArticleLi>
+        <ArticleLi>leer un buen tramo</ArticleLi>
+        <ArticleLi>aplicar en el código</ArticleLi>
+        <ArticleLi>validar</ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        Cuando la búsqueda falla a mitad de camino, el resto se viene abajo.
+        Reintenta, alucina o te interrumpe. En sesiones largas eso se vuelve
+        fricción real.
+      </ArticleP>
+
+      <ArticleP>
+        Comparé tres caminos y me quedé con el tercero: API de pago, scraper
+        MCP, metasearch local. A continuación: qué duele en las APIs
         comerciales, por qué un scraper “gratis” engaña en el smoke test, y qué
         significa “local” en este texto.
       </ArticleP>
@@ -162,41 +187,57 @@ export function BuscaWebLocalMcpSearxngContentEs() {
 
       <ArticleP>
         Las APIs comerciales funcionan bien cuando el volumen es bajo y la
-        previsibilidad importa más que la factura. El desarrollo con agente no
-        son “dos queries al día”. Es exploración. Abres varios frentes,
-        comparas docs, cazas issues y retrocedes cuando la hipótesis no se
-        sostiene.
+        previsibilidad importa más que la factura a fin de mes.
       </ArticleP>
 
       <ArticleP>
-        A ese ritmo, el precio sube rápido, la cuota aprieta y el{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Rate_limiting"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          rate-limit
-        </a>{" "}
-        aparece justo cuando quieres velocidad. También está la privacidad:
-        términos de búsqueda con nombres de cliente, stack interna o
-        incidentes salen de tu máquina hacia un{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Software_as_a_service"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          SaaS
-        </a>{" "}
-        de terceros. Y si el proveedor cambia precio, política o disponibilidad,
-        tu flujo local se rompe junto.
+        El desarrollo con agente no son “dos queries al día”. Es exploración:
+        abrir varios frentes, comparar docs, cazar issues y retroceder cuando
+        la hipótesis no se sostiene.
+      </ArticleP>
+
+      <ArticleP>
+        A ese ritmo, tres cosas aprietan:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>el precio sube rápido</ArticleLi>
+        <ArticleLi>
+          la cuota y el{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Rate_limiting"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            rate-limit
+          </a>{" "}
+          llegan cuando quieres velocidad
+        </ArticleLi>
+        <ArticleLi>
+          términos sensibles (cliente, stack, incidente) salen de tu máquina
+          hacia un{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Software_as_a_service"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            SaaS
+          </a>{" "}
+          de terceros
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Si el proveedor cambia precio, política o disponibilidad, tu flujo local
+        se rompe junto.
       </ArticleP>
 
       <ArticleH3>Scrapers “gratis” y la falsa sensación de victoria</ArticleH3>
 
       <ArticleP>
-        Otro camino común es tomar un{" "}
+        Otro camino común es un paquete{" "}
         <a
           href="https://modelcontextprotocol.io/"
           className={linkClass}
@@ -205,45 +246,82 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         >
           MCP
         </a>{" "}
-        listo que raspa un motor público directo (DuckDuckGo y compañía). En la
-        práctica el agente llama una tool de búsqueda, el servidor MCP baja la
-        página (o un endpoint semi-público) por HTTP, intenta parsear HTML y
-        devuelve links y snippets. En un smoke test parece magia: cero cuenta,
-        cero Docker, respuesta al momento.
+        listo que raspa un motor público directo (DuckDuckGo y compañía).
       </ArticleP>
 
       <ArticleP>
-        En uso continuo, la historia cambia. El IP se bloquea, aparece{" "}
-        <a
-          href="https://es.wikipedia.org/wiki/CAPTCHA"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CAPTCHA
-        </a>
-        , el layout de la página cambia y el parser se rompe, la latencia se
-        vuelve ruleta. La tasa de falla sube exactamente en el patrón de un
-        agente autónomo: muchas consultas en ráfaga, durante horas. Es el mismo
-        mecanismo de la opción A en la sección siguiente; aquí solo registro el
-        síntoma que me empujó a comparar alternativas de verdad.
+        En la práctica el flujo es este:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>el agente llama una tool de búsqueda</ArticleLi>
+        <ArticleLi>el servidor MCP baja la página por HTTP</ArticleLi>
+        <ArticleLi>intenta parsear HTML</ArticleLi>
+        <ArticleLi>devuelve links y snippets</ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        En un smoke test parece magia: cero cuenta, cero Docker, respuesta al
+        momento.
       </ArticleP>
 
       <ArticleP>
-        El diagrama abajo resume el callejón: la web es necesaria, pero los dos
-        atajos obvios duelen. La salida que busqué después es estabilizar el
-        borde local.
+        En uso continuo, la historia cambia:
       </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>el IP se bloquea</ArticleLi>
+        <ArticleLi>
+          aparece{" "}
+          <a
+            href="https://es.wikipedia.org/wiki/CAPTCHA"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CAPTCHA
+          </a>
+        </ArticleLi>
+        <ArticleLi>el layout de la página cambia y el parser se rompe</ArticleLi>
+        <ArticleLi>la latencia se vuelve ruleta</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        La tasa de falla sube en el patrón de un agente autónomo: muchas
+        consultas en ráfaga, durante horas. Es el mismo mecanismo de la opción
+        A en la sección siguiente.
+      </ArticleP>
+
+      <ArticleP>
+        El diagrama abajo resume lo que acabas de leer:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>el agente necesita consultar la web</ArticleLi>
+        <ArticleLi>
+          la API de pago falla en uso continuo por cuota y privacidad
+        </ArticleLi>
+        <ArticleLi>
+          el scraper MCP público falla por bloqueo y CAPTCHA
+        </ArticleLi>
+        <ArticleLi>
+          la salida que busqué: SearXNG + MCP en mi máquina, y el agente habla
+          con ese servicio local
+        </ArticleLi>
+      </ArticleUl>
 
       <ArticleMermaid
-        ariaLabel="Problema: API de pago y scraper MCP empujan a la falta de borde local estable"
+        ariaLabel="Problema: API de pago y scraper MCP fallan; falta un servicio de búsqueda local estable"
         chart={PROBLEM_CHART}
       />
 
       <ArticleCallout variant="note" title="Qué llamo “local” aquí">
         <ArticleP>
-          Local no significa offline. Significa control en el borde. Quitas el
-          intermediario SaaS de búsqueda y hospedas la orquestación (
+          Local no significa offline. Significa que SearXNG y el MCP corren en
+          tu máquina.
+        </ArticleP>
+        <ArticleP>
+          Quitas el intermediario SaaS de búsqueda y hospedas la orquestación (
           <a
             href="https://docs.searxng.org/"
             className={linkClass}
@@ -252,9 +330,10 @@ export function BuscaWebLocalMcpSearxngContentEs() {
           >
             SearXNG
           </a>{" "}
-          + MCP) en tu máquina. Internet sigue existiendo, los engines externos
-          siguen siendo consultados, pero la capa que el agente ve queda bajo tu
-          dominio: puerto, secret, ciclo de vida y superficie de exposición.
+          + MCP) ahí. Internet sigue existiendo. Los engines externos siguen
+          siendo consultados. La diferencia: la capa que el agente ve queda bajo
+          tu dominio (puerto, secret, ciclo de vida y lo que queda expuesto en
+          la red).
         </ArticleP>
       </ArticleCallout>
 
@@ -372,11 +451,24 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         >
           SearXNG
         </a>
-        . En la práctica: el agente llama la tool → el servidor MCP arma un
-        GET/POST a <ArticleCode>http://127.0.0.1:…/search?format=json</ArticleCode>{" "}
-        → SearXNG reparte la consulta por varias engines → agrega, deduplica y
-        devuelve JSON unificado → el MCP entrega eso de vuelta al modelo. El
-        agente nunca “abre Chrome”; solo consume el resultado de la tool.
+        . En la práctica el flujo es este:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>el agente llama la tool</ArticleLi>
+        <ArticleLi>
+          el servidor MCP arma un GET/POST a{" "}
+          <ArticleCode>http://127.0.0.1:…/search?format=json</ArticleCode>
+        </ArticleLi>
+        <ArticleLi>
+          SearXNG reparte la consulta por varias engines
+        </ArticleLi>
+        <ArticleLi>agrega, deduplica y devuelve JSON unificado</ArticleLi>
+        <ArticleLi>el MCP entrega eso de vuelta al modelo</ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        El agente nunca “abre Chrome”; solo consume el resultado de la tool.
       </ArticleP>
 
       <ArticleP>
@@ -412,8 +504,9 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         (<ArticleCode>127.0.0.1</ArticleCode>) significa: el proceso queda
         aislado en un contenedor, sube con compose, y la API JSON solo escucha
         en tu máquina. Ganas pragmatismo (MCP maduro, sin reinventar el
-        protocolo), costo cero de API de search, mejor privacidad en el borde y
-        control de puerto, secret y ciclo de vida.
+        protocolo), costo cero de API de search, mejor privacidad porque la
+        query pasa primero por tu máquina, y control de puerto, secret y ciclo
+        de vida.
       </ArticleP>
 
       <ArticleP>
@@ -515,7 +608,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
           <ArticleTr>
             <ArticleTd>Privacidad</ArticleTd>
             <ArticleTd>Baja a media</ArticleTd>
-            <ArticleTd>Alta en el borde</ArticleTd>
+            <ArticleTd>Alta (servicio en tu máquina)</ArticleTd>
             <ArticleTd>Alta, si está bien hecho</ArticleTd>
           </ArticleTr>
           <ArticleTr>
@@ -594,12 +687,13 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         habilitado en <ArticleCode>settings.yml</ArticleCode>, si no la API
         responde 403 y el MCP parece roto. Y “local” sigue dependiendo de
         internet pública para hablar con los engines. Lo que ganas no es offline
-        total. Es control del borde, costo cero de API de búsqueda y una capa
+        total. Es el servicio de búsqueda corriendo en tu máquina, costo cero de
+        API de búsqueda y una capa
         estable entre el agente y la web.
       </ArticleP>
 
       <ArticleP>
-        Si ya acompañaste el problema (scraper frágil vs API paga vs borde
+        Si ya acompañaste el problema (scraper frágil vs API paga vs SearXNG
         local), el diagrama abajo solo cierra el razonamiento visualmente. No
         introduce ideas nuevas: organiza lo que acabas de leer.
       </ArticleP>
@@ -873,9 +967,15 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         entrenamiento y pasa a apoyarse en fragmentos recuperados en el momento.
         El stack de este post entrega esa misma clase de capacidad. El score
         final aún depende de la calidad de la query, de los engines activos y de
-        que el agente haga search → fetch → síntesis, en lugar de llenar el
-        contexto de basura.
+        que el agente haga el flujo correcto, en lugar de llenar el contexto de
+        basura:
       </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>search</ArticleLi>
+        <ArticleLi>fetch</ArticleLi>
+        <ArticleLi>síntesis</ArticleLi>
+      </ArticleOl>
 
       <ArticleImg
         src="/images/publications/busca-web-local-mcp-searxng/brave-ai-grounding.jpg"
@@ -1035,7 +1135,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
             <ArticleTd>Quien evita API paga de search</ArticleTd>
             <ArticleTd>
               Misma clase de ganancia de grounding, con costo de API cero y
-              query en el borde
+              query en tu máquina
             </ArticleTd>
           </ArticleTr>
           <ArticleTr>
@@ -1328,11 +1428,26 @@ Cita links y separa causa de configuración de bloqueo de engine.`}
       </ArticleTable>
 
       <ArticleP>
-        Algunas prácticas que pagan el almuerzo: mantener SearXNG en 127.0.0.1,
-        generar secrets de verdad con openssl, enseñar al agente a buscar poco
-        y leer bien (search → fetch → síntesis) y tratar la degradación de
-        engine como operación normal. Los engines cambian. Eso no es incidente
-        raro. Es el juego.
+        Algunas prácticas que pagan el almuerzo:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>mantener SearXNG en 127.0.0.1</ArticleLi>
+        <ArticleLi>generar secrets de verdad con openssl</ArticleLi>
+        <ArticleLi>
+          enseñar al agente a buscar poco y leer bien, en este flujo:
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleOl>
+        <ArticleLi>search</ArticleLi>
+        <ArticleLi>fetch</ArticleLi>
+        <ArticleLi>síntesis</ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        Trata la degradación de engine como operación normal. Los engines
+        cambian. Eso no es incidente raro. Es el juego.
       </ArticleP>
 
       <ArticleH3>Puntos clave</ArticleH3>
@@ -1357,15 +1472,16 @@ Cita links y separa causa de configuración de bloqueo de engine.`}
           degradan como operación normal.
         </ArticleLi>
         <ArticleLi>
-          Enseña al agente a buscar poco y leer bien: search → fetch → síntesis,
-          no llenar el contexto de ruido.
+          Enseña al agente a buscar poco y leer bien en este flujo: search,
+          después fetch, después síntesis. No llenar el contexto de ruido.
         </ArticleLi>
         <ArticleLi>
           El grounding con búsqueda sube factualidad y frescura. No “mejora el
           prompt” en una tarea que el workspace ya resuelve.
         </ArticleLi>
         <ArticleLi>
-          Local ≠ offline: controlas el borde; internet pública sigue
+          Local ≠ offline: controlas el servicio de búsqueda en tu máquina;
+          internet pública sigue
           alimentando los engines.
         </ArticleLi>
       </ArticleUl>
@@ -1375,7 +1491,8 @@ Cita links y separa causa de configuración de bloqueo de engine.`}
       <ArticleP>
         No elegí construir más software. Elegí la menor arquitectura que aguanta
         uso real. MCP listo + SearXNG local entrega costo cero de API,
-        privacidad en el borde y mejor estabilidad que un scraper frágil, con un
+        privacidad con el servicio en tu máquina y mejor estabilidad que un
+        scraper frágil, con un
         overhead operativo aceptable para quien ya vive en Docker día a día. En
         el eje de calidad, la ganancia que importa es la misma de la literatura
         de grounding: factualidad y frescura cuando la verdad está en la web, no

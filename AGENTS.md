@@ -280,19 +280,21 @@ A abertura do post (primeiro H2 e os parágrafos iniciais, antes das subseções
 2. **Por que isso importa agora?** (situação concreta do dia a dia)
 3. **Qual o fio até o resto do texto?** (o que vem a seguir: alternativas, setup, etc.)
 
-Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em falso”, “plus legal”) ou dois parágrafos que listam sintomas sem dizer o que o artigo resolve. Preferir: contexto → dor concreta → o que você fez / o que o post cobre → ponte para a próxima seção. Se a introdução não sobreviver ao teste “um colega lê só isso e sabe para onde o texto vai”, reescrever.
+Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em falso”, “plus legal”, “borda local”) ou dois parágrafos que listam sintomas sem dizer o que o artigo resolve. Preferir: contexto → dor concreta → o que você fez / o que o post cobre → ponte para a próxima seção. Se a introdução não sobreviver ao teste “um colega lê só isso e sabe para onde o texto vai”, reescrever. A mesma clareza vale para ponteiros antes de diagrama: o parágrafo deve dizer em português/inglês/espanhol plain o que o desenho resume, sem jargão novo.
 
 **Regras de ouro:**
 
 1. **Proibido travessão (`—`) em qualquer lugar do site.** Vale para publicações, copy de UI, dados (`data/`), meta SEO (`index.html`, `siteMeta`), README e textos de componentes. Preferir ponto, vírgula, dois pontos, `|` em títulos, ou “a”/“to”/“-” em períodos (ex.: `Abril 2024 a Atual`). Hífen em compostos técnicos (`cloud-native`, `rate-limit`) permanece ok. Nomes oficiais com travessão (ex. certificações AWS) devem usar hífen simples (`Developer - Associate`).
-2. **Parágrafos arejados, não telegráficos.** Evitar sequência de frases isoladas de uma linha. Cada parágrafo deve carregar contexto: 2 a 5 frases, com ar entre blocos. Nem muralha densa, nem staccato de tweets.
-3. **Ritmo:** variar tamanho de frase. Misturar frases curtas e diretas com períodos um pouco mais longos que descrevem o porquê.
-4. **Prosa > lista.** Listas só quando a comparação ou o checklist realmente ajuda (troubleshooting, passos de comando). Preferir narrativa para benefícios, trade-offs e justificativas.
+2. **Parágrafos simples, uma ideia por bloco.** Preferir parágrafos curtos (em geral 1 a 3 frases) com **uma ideia principal**. Proibido amontoar tese + dor + três caminhos + ponte para a próxima seção no mesmo parágrafo. Se o bloco mistura 3+ assuntos distintos, quebrar em parágrafos menores ou em lista.
+3. **Ritmo:** variar tamanho de frase. Misturar frases curtas e diretas com períodos um pouco mais longos que descrevem o porquê. Evitar período único com várias cláusulas separadas por ponto e vírgula encadeando ideias diferentes.
+4. **Lista quando houver várias ideias paralelas ou um fluxo em passos.** Se o trecho compara opções, enumera falhas, resume um diagrama, lista sintomas/caminhos **ou descreve um fluxo** (pesquisar, ler, aplicar, validar), **use lista** (`ArticleUl` / `ArticleOl`). Fica mais legível que um parágrafo complexo. Narrativa contínua fica para explicar um mecanismo único em prosa curta. Troubleshooting, takeaways, comparativos e pontes antes de diagrama são candidatos naturais a lista.
+   - **Proibido cadeia com seta (`→`) no corpo do post.** Não escrever `pesquisar → ler → aplicar → validar` nem `search → fetch → síntese`. Preferir `ArticleOl` / `ArticleUl`. A seta `→` em Mermaid (`A --> B`), em tabelas de docs internas do `AGENTS.md`, ou em código/config, não conta. Vale para o texto legível pelo leitor nas publicações (`pt-BR` / `en` / `es`).
 5. **Diagramas são complementares, nunca a primeira explicação.**
    - Antes de qualquer Mermaid (ou figura), o texto já deve ter apresentado os assuntos, termos e relações que o diagrama mostra.
    - O diagrama reforça, resume e torna o fluxo **chamativo e completo**, mas não substitui a prosa.
    - Se o leitor pular o diagrama, ainda precisa conseguir entender o ponto só com o texto.
    - Se o leitor olhar só o diagrama depois de ler o trecho, ele deve reconhecer o que acabou de ler (não descobrir conceito novo pela primeira vez).
+   - O parágrafo (ou lista) imediatamente antes do diagrama deve ser **simples e escaneável**, não um resumo denso de tudo.
    - **Blocos compactos:** nós do Mermaid não podem ficar exageradamente grandes. Preferir rótulos curtos (1 linha de título + no máximo 1 linha de apoio). Detalhe longo fica no texto ao redor, não dentro do retângulo. Evitar parágrafos inteiros dentro do nó; se precisar de explicação, usar um nó “dica/leitura” separado e curto, ou só a prosa.
 6. **Teste visual por seção (obrigatório ao escrever ou revisar cada H2/H3).** Enquanto redige, a IA deve se perguntar: “Um reforço visual ajudaria o leitor a entender o que esta seção acabou de explicar?” Se sim, adicionar. Se o trecho já é óbvio com prosa curta (ex.: um callout de troubleshooting), pode ficar só texto.
    - **Prioridade 1: imagem pronta da web.** Buscar diagrama, screenshot oficial, figura de documentação ou ilustração já existente que esclareça o conceito. Baixar para `public/images/publications/<slug>/` (não hotlink frágil) e usar `ArticleImg` com `alt` descritivo e `caption` quando fizer sentido. Preferir fontes oficiais/docs; respeitar licença e atribuição quando exigida.
@@ -302,7 +304,8 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 8. **Termos e tecnologias: explicar + linkar (obrigatório).**
    - Na primeira menção relevante de um termo, tecnologia, protocolo ou ferramenta que o leitor possa não dominar, fazer **duas coisas**: (a) explicar em linguagem simples o que é e para que serve neste contexto; (b) linkar a documentação oficial ou página confiável.
    - Exemplos: MCP, SearXNG, metasearch, rate-limit, loopback, Docker, SaaS, CAPTCHA, JSON-RPC, stdio, npx, Node.js, tools do agente, timeout HTTP, etc.
-   - Proibido soltar jargão (“payload”, “stdio”, “bind”, “engine”) como se fosse óbvio sem uma frase de apoio.
+   - Proibido soltar jargão (“payload”, “stdio”, “bind”, “engine”, “borda”, “edge”) como se fosse óbvio sem uma frase de apoio.
+   - Proibido metáfora técnica sem âncora (“borda local”, “beco”, “gira em falso”) no lugar de uma frase concreta. Se a ideia é “rodar o serviço de busca na minha máquina”, escrever isso. O leitor não precisa adivinhar o que a metáfora quis dizer.
    - Links com `target="_blank"` e `rel="noopener noreferrer"`. Uma boa referência por termo basta; não linkar toda repetição.
 9. **Proibido seção rasa.** Se um H2/H3 apresenta uma peça da arquitetura (cliente, servidor, serviço, tool) **ou uma alternativa de decisão** (opção A/B/C, caminho X vs Y), o texto precisa dizer o que é, o que faz, **como funciona na prática** (fluxo: quem chama quem, o que volta), por que existe na stack e como se conecta ao restante. Um parágrafo genérico de três frases com só veredito (“bom para demo, ruim no dia a dia”) não basta.
 10. **Teste do leitor (obrigatório em toda seção nova ou reescrita).** Ao criar ou revisar um H2/H3, perguntar sempre: “Será que o usuário vai entender o que estou falando, ou preciso detalhar mais?” Em concreto: alguém sem o contexto da conversa consegue explicar de volta o mecanismo, não só o slogan? Se a resposta for dudosa, expandir com passo a passo, exemplo do dia a dia e o que quebra. Preferir uma seção um pouco mais longa e clara a uma seção curta que pressupõe que o leitor “já sabe”.
@@ -320,6 +323,8 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 **Checklist rápido de prosa:**
 
 - [ ] Leitura leve e completa: o leitor entende o objetivo sem quebrar a cabeça
+- [ ] Parágrafos simples (uma ideia por bloco); lista quando houver várias ideias paralelas ou fluxo em passos
+- [ ] Sem cadeia com seta (`→`) no corpo do post; fluxo vira lista
 - [ ] Introdução conectada: tese + dor concreta + para onde o post vai (sem metáfora solta)
 - [ ] Storytelling: problema → conceitos → alternativas → reforço visual/código → key takeaways → conclusão
 - [ ] Key takeaways (H3) imediatamente antes da Conclusão; lista curta e acionável
@@ -331,7 +336,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 - [ ] Teste do leitor: alguém de fora consegue explicar o mecanismo de volta
 - [ ] Nenhum travessão (`—`) em lugar nenhum do site (UI, data, meta, artigos)
 - [ ] Parágrafos com contexto suficiente (não só frases soltas)
-- [ ] Poucas listas; onde houver lista, ela agrega
+- [ ] Poucas muralhas densas; onde houver várias ideias paralelas, preferir lista
 - [ ] Zero clichês da lista acima
 - [ ] Sem “Executive summary” / “Resumo executivo”; fechamento como Conclusão (depois dos Key takeaways)
 - [ ] Soa como alguém contando uma decisão técnica real
@@ -657,7 +662,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
-- [ ] Publicações: intro conectada; storytelling; key takeaways antes da conclusão; teste visual (imagem web → Mermaid); diagrama após texto e compacto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
+- [ ] Publicações: intro conectada; prosa simples (lista se várias ideias); sem seta `→` em fluxo; key takeaways antes da conclusão; teste visual (imagem web → Mermaid); diagrama após texto e compacto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
 - [ ] Sem travessão (`—`) em nenhum conteúdo do site (UI, data, meta, README, artigos)
 
 ### O que não fazer
