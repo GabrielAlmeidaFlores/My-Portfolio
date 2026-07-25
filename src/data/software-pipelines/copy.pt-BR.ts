@@ -4,7 +4,7 @@ export const pipelineCopyPtBR: PipelineCopy = {
     cloud: {
       title: "Cloud",
       description:
-        "Infraestrutura em camadas — da rede à aplicação, com segurança e escala em cada nível.",
+        "Infraestrutura em camadas - da rede à aplicação, com segurança e escala em cada nível.",
       layers: {
         application: {
           title: "Application",
@@ -47,7 +47,7 @@ export const pipelineCopyPtBR: PipelineCopy = {
     architecture: {
       title: "Arquitetura",
       description:
-        "Blueprint de sistema — transformando requisitos em componentes conectados e escaláveis.",
+        "Blueprint de sistema - transformando requisitos em componentes conectados e escaláveis.",
       nodes: {
         client: {
           label: "Client",
@@ -99,7 +99,7 @@ export const pipelineCopyPtBR: PipelineCopy = {
     devops: {
       title: "DevOps",
       description:
-        "Ciclo contínuo da ideia à produção — commit, build, teste, deploy e feedback em loop.",
+        "Ciclo contínuo da ideia à produção - commit, build, teste, deploy e feedback em loop.",
       cycle: {
         code: {
           label: "Code",
@@ -160,7 +160,7 @@ export const pipelineCopyPtBR: PipelineCopy = {
     security: {
       title: "Segurança",
       description:
-        "Proteção em camadas — cada barreira valida, filtra e protege antes de chegar ao núcleo.",
+        "Proteção em camadas - cada barreira valida, filtra e protege antes de chegar ao núcleo.",
       layers: {
         firewall: {
           title: "Firewall",

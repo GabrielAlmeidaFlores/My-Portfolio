@@ -15,11 +15,11 @@ export const publications: Publication[] = [
     slug: "busca-web-local-mcp-searxng",
     publishedAt: "2026-07-25",
     tags: {
-      "pt-BR": ["MCP", "SearXNG", "Docker", "Cursor"],
-      en: ["MCP", "SearXNG", "Docker", "Cursor"],
-      es: ["MCP", "SearXNG", "Docker", "Cursor"],
+      "pt-BR": ["MCP", "SearXNG", "Docker", "Copilot"],
+      en: ["MCP", "SearXNG", "Docker", "Copilot"],
+      es: ["MCP", "SearXNG", "Docker", "Copilot"],
     },
-    coverImage: "/images/publications/busca-web-local-mcp-searxng/cover.jpg",
+    coverImage: "/images/publications/busca-web-local-mcp-searxng/cover.svg",
     title: {
       "pt-BR": "Busca web local para IA com MCP e SearXNG",
       en: "Local web search for AI with MCP and SearXNG",
@@ -27,9 +27,9 @@ export const publications: Publication[] = [
     },
     summary: {
       "pt-BR":
-        "Como montar busca web estável no Cursor com MCP e SearXNG em Docker, sem API paga e com controle na borda.",
-      en: "How to run stable web search in Cursor with MCP and SearXNG on Docker, with no paid API and edge control.",
-      es: "Cómo montar búsqueda web estable en Cursor con MCP y SearXNG en Docker, sin API de pago y con control en el borde.",
+        "Como montar busca web estável no agente de IA com MCP e SearXNG em Docker, sem API paga e com controle na borda.",
+      en: "How to run stable web search in an AI agent with MCP and SearXNG on Docker, with no paid API and edge control.",
+      es: "Cómo montar búsqueda web estable en el agente de IA con MCP y SearXNG en Docker, sin API de pago y con control en el borde.",
     },
     Content: {
       "pt-BR": BuscaWebLocalMcpSearxngContentPt,

@@ -44,10 +44,10 @@ const navIds = [
   "experiencia",
   "projetos",
   "tecnologias",
-  "engenharia",
   "certificacoes",
   "formacao",
   "publicacoes",
+  "engenharia",
   "contato",
 ] as const;
 

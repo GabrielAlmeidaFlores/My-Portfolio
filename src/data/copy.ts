@@ -127,7 +127,7 @@ const ptBR: SiteCopy = {
     subtitle:
       "Trajetória em empresas de tecnologia, com foco em arquitetura, cloud e engenharia de software.",
     ariaLabel: "Experiência profissional",
-    others: "Others",
+    others: "Outras",
     showLess: "Ver menos",
   },
   projects: {
@@ -361,7 +361,7 @@ const es: SiteCopy = {
     subtitle:
       "Trayectoria en empresas de tecnología, con foco en arquitectura, cloud e ingeniería de software.",
     ariaLabel: "Experiencia profesional",
-    others: "Others",
+    others: "Otras",
     showLess: "Ver menos",
   },
   projects: {

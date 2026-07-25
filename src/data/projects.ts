@@ -35,7 +35,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       challenge:
         "Empresas precisam acompanhar o bem-estar dos colaboradores e cumprir obrigações legais trabalhistas, sem expor identidades e com evidências auditáveis para o PGR.",
       solution:
-        "O Pulse envia pesquisas anônimas, agrupa resultados por setor, emite alertas automáticos, oferece canal permanente de relato anônimo e gera relatórios PDF de evidência — com consentimento imutável e anonimato duplo alinhados à LGPD.",
+        "O Pulse envia pesquisas anônimas, agrupa resultados por setor, emite alertas automáticos, oferece canal permanente de relato anônimo e gera relatórios PDF de evidência - com consentimento imutável e anonimato duplo alinhados à LGPD.",
       architecture:
         "Next.js 16 (App Router), React 19 e TypeScript strict. PostgreSQL 15+ com Prisma v7, Tailwind CSS v4 e shadcn/ui. Filas com BullMQ + Redis; pagamentos com Stripe; e-mail com Resend; arquivos em AWS S3.",
     },
@@ -60,11 +60,11 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       ],
       results: [
         "Fluxo completo de kit, ativação e laudo online",
-        "Laudo sem dados pessoais — apenas número de lacre",
+        "Laudo sem dados pessoais - apenas número de lacre",
         "Privacidade por design com destruição automática de dados",
       ],
       challenge:
-        "Exames toxicológicos tradicionais exigem clínica, exposição de identidade e documentos pessoais no laudo — o que gera fricção e risco à privacidade.",
+        "Exames toxicológicos tradicionais exigem clínica, exposição de identidade e documentos pessoais no laudo - o que gera fricção e risco à privacidade.",
       solution:
         "A XCheck entrega kit em casa, ativação online em minutos e laudo PDF identificado só pelo lacre: sem nome, CPF ou endereço no documento, com dados pessoais apagados após o prazo definido.",
       architecture:
@@ -74,7 +74,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "http-cli",
       title: "HTTP-CLI",
       shortDescription:
-        "Teste APIs sem sair do terminal. Um cliente HTTP interativo em TUI — estilo Postman — com navegação vim, autenticação, importação de cURL/Postman e histórico persistente para um fluxo 100% teclado.",
+        "Teste APIs sem sair do terminal. Um cliente HTTP interativo em TUI - estilo Postman - com navegação vim, autenticação, importação de cURL/Postman e histórico persistente para um fluxo 100% teclado.",
       image: httpCliImage,
       githubUrl: httpCliGithub,
       technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
@@ -114,9 +114,9 @@ export const projectsByLocale: Record<Locale, Project[]> = {
         "PDF evidence reports for risk programs",
       ],
       challenge:
-        "Companies need to track employee well-being and meet labor compliance obligations without exposing identities — and with auditable evidence for risk management programs.",
+        "Companies need to track employee well-being and meet labor compliance obligations without exposing identities - and with auditable evidence for risk management programs.",
       solution:
-        "Pulse sends anonymous surveys, groups results by sector, triggers automatic alerts, offers a permanent anonymous reporting channel, and generates PDF evidence reports — with immutable consent records and double anonymity aligned to LGPD.",
+        "Pulse sends anonymous surveys, groups results by sector, triggers automatic alerts, offers a permanent anonymous reporting channel, and generates PDF evidence reports - with immutable consent records and double anonymity aligned to LGPD.",
       architecture:
         "Next.js 16 (App Router), React 19, and TypeScript strict. PostgreSQL 15+ with Prisma v7, Tailwind CSS v4, and shadcn/ui. Queues with BullMQ + Redis; payments with Stripe; email with Resend; files on AWS S3.",
     },
@@ -141,11 +141,11 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       ],
       results: [
         "End-to-end kit, activation, and online report flow",
-        "Report without personal data — seal number only",
+        "Report without personal data - seal number only",
         "Privacy by design with automatic data destruction",
       ],
       challenge:
-        "Traditional toxicology tests require clinics, identity exposure, and personal documents on the report — creating friction and privacy risk.",
+        "Traditional toxicology tests require clinics, identity exposure, and personal documents on the report - creating friction and privacy risk.",
       solution:
         "XCheck ships a kit home, enables online activation in minutes, and issues a PDF report identified only by the seal number: no name, CPF, or address on the document, with personal data deleted after a defined retention period.",
       architecture:
@@ -155,7 +155,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "http-cli",
       title: "HTTP-CLI",
       shortDescription:
-        "Test APIs without leaving the terminal. An interactive Postman-style HTTP client in a TUI — with vim navigation, auth, cURL/Postman import, and persistent history for a fully keyboard-driven workflow.",
+        "Test APIs without leaving the terminal. An interactive Postman-style HTTP client in a TUI - with vim navigation, auth, cURL/Postman import, and persistent history for a fully keyboard-driven workflow.",
       image: httpCliImage,
       githubUrl: httpCliGithub,
       technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
@@ -197,7 +197,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       challenge:
         "Las empresas necesitan seguir el bienestar de los colaboradores y cumplir obligaciones laborales sin exponer identidades, con evidencias auditables para el PGR.",
       solution:
-        "Pulse envía encuestas anónimas, agrupa resultados por sector, emite alertas automáticos, ofrece un canal permanente de relato anónimo y genera informes PDF de evidencia — con consentimiento inmutable y anonimato doble alineados a la LGPD.",
+        "Pulse envía encuestas anónimas, agrupa resultados por sector, emite alertas automáticos, ofrece un canal permanente de relato anónimo y genera informes PDF de evidencia - con consentimiento inmutable y anonimato doble alineados a la LGPD.",
       architecture:
         "Next.js 16 (App Router), React 19 y TypeScript strict. PostgreSQL 15+ con Prisma v7, Tailwind CSS v4 y shadcn/ui. Colas con BullMQ + Redis; pagos con Stripe; email con Resend; archivos en AWS S3.",
     },
@@ -222,11 +222,11 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       ],
       results: [
         "Flujo completo de kit, activación e informe online",
-        "Informe sin datos personales — solo número de precinto",
+        "Informe sin datos personales - solo número de precinto",
         "Privacidad por diseño con destrucción automática de datos",
       ],
       challenge:
-        "Los exámenes toxicológicos tradicionales exigen clínica, exposición de identidad y documentos personales en el informe — lo que genera fricción y riesgo a la privacidad.",
+        "Los exámenes toxicológicos tradicionales exigen clínica, exposición de identidad y documentos personales en el informe - lo que genera fricción y riesgo a la privacidad.",
       solution:
         "XCheck envía el kit a domicilio, permite activación online en minutos y emite un PDF identificado solo por el precinto: sin nombre, CPF ni dirección en el documento, con datos personales eliminados tras el plazo definido.",
       architecture:
@@ -236,7 +236,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "http-cli",
       title: "HTTP-CLI",
       shortDescription:
-        "Prueba APIs sin salir del terminal. Un cliente HTTP interactivo estilo Postman en TUI — con navegación vim, autenticación, importación cURL/Postman e historial persistente para un flujo 100% teclado.",
+        "Prueba APIs sin salir del terminal. Un cliente HTTP interactivo estilo Postman en TUI - con navegación vim, autenticación, importación cURL/Postman e historial persistente para un flujo 100% teclado.",
       image: httpCliImage,
       githubUrl: httpCliGithub,
       technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],

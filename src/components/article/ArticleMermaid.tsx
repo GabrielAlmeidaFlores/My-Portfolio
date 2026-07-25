@@ -32,6 +32,18 @@ export function ArticleMermaid({
           theme: isDark ? "dark" : "default",
           securityLevel: "strict",
           fontFamily: "var(--font-sans)",
+          flowchart: {
+            htmlLabels: true,
+            curve: "basis",
+            padding: 16,
+            nodeSpacing: 40,
+            rankSpacing: 48,
+            wrappingWidth: 160,
+          },
+          themeVariables: {
+            fontSize: "14px",
+            lineColor: isDark ? "#94a3b8" : "#64748b",
+          },
         });
 
         const { svg: rendered } = await mermaid.render(
@@ -62,7 +74,7 @@ export function ArticleMermaid({
     return (
       <pre
         className={cn(
-          "my-6 w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border bg-surface p-4 font-mono text-sm text-muted",
+          "my-8 w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border bg-surface p-4 font-mono text-sm text-muted",
           className,
         )}
       >
@@ -75,7 +87,7 @@ export function ArticleMermaid({
     return (
       <div
         className={cn(
-          "my-6 h-40 w-full min-w-0 animate-pulse rounded-[var(--radius-card)] border border-border bg-surface",
+          "my-8 h-56 w-full min-w-0 animate-pulse rounded-[var(--radius-card)] border border-border bg-surface",
           className,
         )}
         aria-hidden="true"
@@ -86,7 +98,8 @@ export function ArticleMermaid({
   return (
     <div
       className={cn(
-        "my-6 w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border bg-surface p-3 sm:p-4 [&_svg]:mx-auto [&_svg]:h-auto [&_svg]:max-w-full",
+        "my-8 w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border bg-surface p-4 sm:p-6",
+        "[&_svg]:mx-auto [&_svg]:block [&_svg]:h-auto [&_svg]:max-w-full",
         className,
       )}
       role="img"

@@ -41,10 +41,10 @@ export function HomePage() {
       <ExperienceSection />
       <ProjectsSection />
       <TechnologiesSection />
-      <SoftwareEngineeringSection />
       <CertificationsSection />
       <EducationSection />
       <PublicationsSection />
+      <SoftwareEngineeringSection />
       <ContactSection />
     </main>
   );

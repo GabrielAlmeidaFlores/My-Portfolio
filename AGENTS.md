@@ -1,4 +1,4 @@
-# Agents — Guia de Boas Práticas
+# Agents | Guia de Boas Práticas
 
 Este documento define as convenções do projeto **Gabriel-Flores-Portfolio**. Agentes de IA e desenvolvedores devem seguir estas diretrizes para manter a estrutura organizada, o código consistente e a qualidade alta.
 
@@ -8,11 +8,11 @@ Este documento define as convenções do projeto **Gabriel-Flores-Portfolio**. A
 
 Landing page profissional em **React** (com rotas para publicações) para Gabriel. Prioridades:
 
-1. **Clareza** — código legível e fácil de manter
-2. **Performance** — carregamento rápido e experiência fluida
-3. **Acessibilidade** — utilizável por todos
-4. **Escopo mínimo** — resolver o problema sem over-engineering
-5. **Impacto visual** — animações discretas, sem prejudicar performance
+1. **Clareza**: código legível e fácil de manter
+2. **Performance**: carregamento rápido e experiência fluida
+3. **Acessibilidade**: utilizável por todos
+4. **Escopo mínimo**: resolver o problema sem over-engineering
+5. **Impacto visual**: animações discretas, sem prejudicar performance
 
 ### Regras críticas (sempre)
 
@@ -21,17 +21,18 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Sem comentários no código | Proibido `//`, `/* */`, `/** */`, `{/* */}` |
 | i18n completo | Todo conteúdo/UI novo em **pt-BR**, **en** e **es** |
 | Arquivo de regras | Sempre `AGENTS.md` (uppercase) |
-| Package manager | **Somente Yarn** — nunca `npm`; lockfile único: `yarn.lock` |
+| Package manager | **Somente Yarn**: nunca `npm`; lockfile único: `yarn.lock` |
 | Sem Vercel | Não usar `vercel.json` nem assumir deploy na Vercel |
 | Sem código morto | Seção/data/type só existe se montada em `HomePage` ou rotas de `App` |
 | Docs = código | Mudou ordem/seções → atualizar `AGENTS.md` e `README` na mesma tarefa |
-| Tema compartilhado | Só via `ThemeProvider` — proibido estado de tema local no toggle |
+| Tema compartilhado | Só via `ThemeProvider`: proibido estado de tema local no toggle |
 | Deps pesadas | Mermaid e libs grandes com `import()` dinâmico; rotas com `React.lazy` |
 | Sem exports legados | Proibido `export const x = xByLocale["pt-BR"]` |
 | Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
 | Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
-| Prosa de publicações | Tom humano de blog/LinkedIn; sem travessão (`—`); sem clichês de IA; parágrafos com contexto |
+| Prosa de publicações | Leitura leve e completa; storytelling; diagrama após o texto e com blocos compactos; termos com link |
 | `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
+| Sem travessão (`—`) | Proibido em **todo** o site: UI, `data/`, meta SEO, README e publicações. Preferir ponto, vírgula, dois pontos, `|` ou hífen simples em ranges/títulos oficiais |
 | Sem se apresentar como Tech Lead | Não usar "Tech Lead" / "Líder Técnico" fora da experiência na **Ousion** |
 | Atualizar `AGENTS.md` | Toda regra nova descrita pelo usuário deve ser registrada aqui |
 
@@ -57,7 +58,7 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 
 - Usar **apenas Yarn** para instalar, adicionar, remover e rodar scripts
 - Comandos permitidos: `yarn`, `yarn add`, `yarn remove`, `yarn install`, `yarn dev`, `yarn build`, `yarn lint`, `yarn preview`, etc.
-- **Proibido** `npm`, `npm install`, `npm run`, `npx` (exceto quando não houver equivalente Yarn e for inevitável — preferir `yarn dlx`)
+- **Proibido** `npm`, `npm install`, `npm run`, `npx` (exceto quando não houver equivalente Yarn e for inevitável: preferir `yarn dlx`)
 - Lockfile versionado: **somente** `yarn.lock`
 - **Não** criar nem commitar `package-lock.json` ou `pnpm-lock.yaml`
 - `package-lock.json` está no `.gitignore`
@@ -143,7 +144,7 @@ sections/
 | `data/` | Arrays/objetos de conteúdo estático |
 | `types/` | Interfaces e tipos compartilhados |
 
-**Não criar** pastas genéricas como `utils/`, `helpers/` e `misc/` — usar apenas `lib/`.
+**Não criar** pastas genéricas como `utils/`, `helpers/` e `misc/`: usar apenas `lib/`.
 
 **Não manter** seção, data ou type no repositório se não estiver em uso na `HomePage` ou em rotas de `App`. Ao desativar uma seção, deletar código e dados na mesma alteração.
 
@@ -160,10 +161,10 @@ sections/
   <ExperienceSection />
   <ProjectsSection />
   <TechnologiesSection />
-  <SoftwareEngineeringSection />
   <CertificationsSection />
   <EducationSection />
   <PublicationsSection />
+  <SoftwareEngineeringSection />
   <ContactSection />
 </main>
 <Footer />
@@ -211,17 +212,7 @@ Rotas adicionais:
 
 ---
 
-### 4.5 Engenharia de Software
-
-**Objetivo:** pipelines / fluxos (cloud, arquitetura, devops, security).
-
-**Dados:** `src/data/softwarePipelines.ts` (barrel) + `src/data/software-pipelines/`
-
-**Componentes:** `SoftwareEngineeringSection`, `SoftwareEngineeringCarousel`
-
----
-
-### 4.6 Certificações
+### 4.5 Certificações
 
 **Objetivo:** badges de credenciais.
 
@@ -231,7 +222,7 @@ Rotas adicionais:
 
 ---
 
-### 4.7 Formação
+### 4.6 Formação
 
 **Objetivo:** trajetória acadêmica.
 
@@ -239,7 +230,7 @@ Rotas adicionais:
 
 ---
 
-### 4.8 Publicações
+### 4.7 Publicações
 
 **Objetivo:** artigos e notas técnicas estilo documentação, com página dedicada.
 
@@ -249,15 +240,17 @@ Rotas adicionais:
 - Botão voltar para `/#publicacoes`
 - Metadados + capa + corpo do artigo
 - Corpo em **JSX** com kit `components/article/`
-- Imagens em `public/images/publications/<slug>/`
-- Diagramas via `ArticleMermaid` (`import()` dinâmico; `ariaLabel` obrigatório)
+- Imagens em `public/images/publications/<slug>/` via `ArticleImg` (`alt` obrigatório; preferir baixar da web/docs oficiais a hotlink)
+- Diagramas via `ArticleMermaid` (`import()` dinâmico; `ariaLabel` obrigatório); usar quando não houver imagem pronta adequada
+- Em cada H2/H3: aplicar o **teste visual** (imagem da web primeiro; Mermaid como fallback)
+- Antes da Conclusão: seção **Key takeaways** / Pontos-chave / Puntos clave (lista curta)
 - `ArticleCallout` exige `title` traduzido
 
 **Layout:** botão, título, capa e corpo com a **mesma margem lateral**; mobile `px-4`; desktop paddings em `vw`
 
 **Roteamento:** sem `vercel.json`; lazy load de `PublicationPage`; fora da home, Header usa `/#secao`
 
-**i18n:** `title`, `summary`, `tags`, `Content` nos três locales — sem fallback parcial
+**i18n:** `title`, `summary`, `tags`, `Content` nos três locales: sem fallback parcial
 
 **Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationPage`, kit `article/`
 
@@ -265,28 +258,83 @@ Rotas adicionais:
 
 Escrever como desenvolvedor sênior em blog pessoal ou post técnico no LinkedIn: experiência real, voz humana, ritmo agradável. O leitor precisa sentir que alguém viveu o problema e está contando a decisão.
 
+**Objetivo da leitura (norte):**
+
+Proporcionar uma **leitura leve**, mas **completa**. O leitor deve ir entendendo o objetivo do post conforme avança, sem quebrar a cabeça. Tudo que importa fica explícito e explicado. A sensação final é: “entendi de verdade o que foi decidido e por quê”, não “li um monte de jargão e um diagrama bonito”.
+
+**Storytelling (ordem da compreensão):**
+
+1. Começar pelo **problema vivido** (o que doeu, em que contexto).
+2. Explicar **conceitos e termos** na hora em que aparecem, em linguagem clara.
+3. Mostrar **alternativas** e o raciocínio de escolha.
+4. Só então usar **diagrama, tabela ou código** como reforço visual/prático.
+5. Antes da conclusão, uma seção **Key takeaways** (obrigatória em todo post).
+6. Fechar com **Conclusão** em prosa (nunca “Executive summary”).
+
+O post guia o leitor. Cada seção prepara a seguinte. Nada assume que o leitor “já sabe”.
+
 **Regras de ouro:**
 
-1. **Proibido travessão (`—`)** para separar frases, introduzir explicações ou criar digressões. Preferir ponto, vírgula, dois pontos ou frase nova. Hífen em compostos técnicos (`cloud-native`, `rate-limit`) e em código permanece ok.
+1. **Proibido travessão (`—`) em qualquer lugar do site.** Vale para publicações, copy de UI, dados (`data/`), meta SEO (`index.html`, `siteMeta`), README e textos de componentes. Preferir ponto, vírgula, dois pontos, `|` em títulos, ou “a”/“to”/“-” em períodos (ex.: `Abril 2024 a Atual`). Hífen em compostos técnicos (`cloud-native`, `rate-limit`) permanece ok. Nomes oficiais com travessão (ex. certificações AWS) devem usar hífen simples (`Developer - Associate`).
 2. **Parágrafos arejados, não telegráficos.** Evitar sequência de frases isoladas de uma linha. Cada parágrafo deve carregar contexto: 2 a 5 frases, com ar entre blocos. Nem muralha densa, nem staccato de tweets.
 3. **Ritmo:** variar tamanho de frase. Misturar frases curtas e diretas com períodos um pouco mais longos que descrevem o porquê.
 4. **Prosa > lista.** Listas só quando a comparação ou o checklist realmente ajuda (troubleshooting, passos de comando). Preferir narrativa para benefícios, trade-offs e justificativas.
-5. **Tabelas e Mermaid** continuam bem-vindos para comparativos e fluxos. O texto ao redor deve explicar a decisão, não só apontar o diagrama.
-6. **Tom:** coloquial profissional, técnico e direto. Contar o que falhou, o que foi descartado e por quê. Sem marketing, sem autoajuda.
-7. **Proibido clichês de IA / copy genérica**, inclusive (lista não exaustiva): "no cenário atual", "além disso", "além do mais", "crucial", "em suma", "vale ressaltar", "cabe destacar", "portanto", "neste contexto", "é importante destacar", "sem mais delongas", "journey", "unlock", "game-changer", "robust solution", "seamless", "leverage".
-8. **Proibido** apresentar o autor como Tech Lead / Líder Técnico (ver regra de identidade).
-9. **i18n:** as mesmas regras de prosa valem para `pt-BR`, `en` e `es`. Adaptar idioma; não traduzir palavra a palavra de forma engessada.
-10. **Código e configs:** blocos reais, copiáveis, com o mínimo necessário. Explicar o “porquê” no parágrafo anterior ou seguinte, não com comentários dentro do snippet (código do repo também não leva comentários).
-11. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo.
+5. **Diagramas são complementares, nunca a primeira explicação.**
+   - Antes de qualquer Mermaid (ou figura), o texto já deve ter apresentado os assuntos, termos e relações que o diagrama mostra.
+   - O diagrama reforça, resume e torna o fluxo **chamativo e completo**, mas não substitui a prosa.
+   - Se o leitor pular o diagrama, ainda precisa conseguir entender o ponto só com o texto.
+   - Se o leitor olhar só o diagrama depois de ler o trecho, ele deve reconhecer o que acabou de ler (não descobrir conceito novo pela primeira vez).
+   - **Blocos compactos:** nós do Mermaid não podem ficar exageradamente grandes. Preferir rótulos curtos (1 linha de título + no máximo 1 linha de apoio). Detalhe longo fica no texto ao redor, não dentro do retângulo. Evitar parágrafos inteiros dentro do nó; se precisar de explicação, usar um nó “dica/leitura” separado e curto, ou só a prosa.
+6. **Teste visual por seção (obrigatório ao escrever ou revisar cada H2/H3).** Enquanto redige, a IA deve se perguntar: “Um reforço visual ajudaria o leitor a entender o que esta seção acabou de explicar?” Se sim, adicionar. Se o trecho já é óbvio com prosa curta (ex.: um callout de troubleshooting), pode ficar só texto.
+   - **Prioridade 1: imagem pronta da web.** Buscar diagrama, screenshot oficial, figura de documentação ou ilustração já existente que esclareça o conceito. Baixar para `public/images/publications/<slug>/` (não hotlink frágil) e usar `ArticleImg` com `alt` descritivo e `caption` quando fizer sentido. Preferir fontes oficiais/docs; respeitar licença e atribuição quando exigida.
+   - **Prioridade 2: Mermaid (`ArticleMermaid`).** Só se não houver imagem boa e estável na web, ou se o fluxo for específico demais deste post (decisão A/B/C, arquitetura desta stack). Continua valendo a regra 5 (texto antes; blocos compactos; `ariaLabel` obrigatório).
+   - Não encher o post de visual por obrigação: um reforço por ideia densa basta. Evitar duplicar a mesma informação em imagem e Mermaid na mesma subseção.
+7. **Tabelas** seguem a mesma lógica: comparar depois de explicar; não abrir a seção com tabela crua.
+8. **Termos e tecnologias: explicar + linkar (obrigatório).**
+   - Na primeira menção relevante de um termo, tecnologia, protocolo ou ferramenta que o leitor possa não dominar, fazer **duas coisas**: (a) explicar em linguagem simples o que é e para que serve neste contexto; (b) linkar a documentação oficial ou página confiável.
+   - Exemplos: MCP, SearXNG, metasearch, rate-limit, loopback, Docker, SaaS, CAPTCHA, JSON-RPC, stdio, npx, Node.js, tools do agente, timeout HTTP, etc.
+   - Proibido soltar jargão (“payload”, “stdio”, “bind”, “engine”) como se fosse óbvio sem uma frase de apoio.
+   - Links com `target="_blank"` e `rel="noopener noreferrer"`. Uma boa referência por termo basta; não linkar toda repetição.
+9. **Proibido seção rasa.** Se um H2/H3 apresenta uma peça da arquitetura (cliente, servidor, serviço, tool) **ou uma alternativa de decisão** (opção A/B/C, caminho X vs Y), o texto precisa dizer o que é, o que faz, **como funciona na prática** (fluxo: quem chama quem, o que volta), por que existe na stack e como se conecta ao restante. Um parágrafo genérico de três frases com só veredito (“bom para demo, ruim no dia a dia”) não basta.
+10. **Teste do leitor (obrigatório em toda seção nova ou reescrita).** Ao criar ou revisar um H2/H3, perguntar sempre: “Será que o usuário vai entender o que estou falando, ou preciso detalhar mais?” Em concreto: alguém sem o contexto da conversa consegue explicar de volta o mecanismo, não só o slogan? Se a resposta for dudosa, expandir com passo a passo, exemplo do dia a dia e o que quebra. Preferir uma seção um pouco mais longa e clara a uma seção curta que pressupõe que o leitor “já sabe”.
+11. **Explicitar o óbvio técnico quando ele for a chave da compreensão.** Ex.: “local ≠ offline”, “JSON precisa estar habilitado”, “o agente usa tools, não abre o navegador”.
+12. **Tom:** coloquial profissional, técnico e direto. Contar o que falhou, o que foi descartado e por quê. Sem marketing, sem autoajuda.
+13. **Proibido tom de “medo/incapacidade”.** Não escrever frases que soem como defesa pessoal (“não por medo de código”, “não é falta de capacidade técnica”, “não tenho medo de implementar”). Justificar decisões por foco, ownership, custo de manutenção, prazo ou encaixe no objetivo.
+14. **Proibido vocabulário pejorativo ou moralizante.** Evitar palavras como “tentação”, “pecado”, “preguiça”, “atalho sujo” e similares para descrever escolhas técnicas. Preferir neutro: “caminho comum”, “alternativa”, “opção rápida”, “atalho operacional”.
+15. **Proibido clichês de IA / copy genérica**, inclusive (lista não exaustiva): "no cenário atual", "além disso", "além do mais", "crucial", "em suma", "vale ressaltar", "cabe destacar", "portanto", "neste contexto", "é importante destacar", "sem mais delongas", "journey", "unlock", "game-changer", "robust solution", "seamless", "leverage".
+16. **Proibido** apresentar o autor como Tech Lead / Líder Técnico (ver regra de identidade).
+17. **i18n:** as mesmas regras de prosa valem para `pt-BR`, `en` e `es`. Adaptar idioma; não traduzir palavra a palavra de forma engessada.
+18. **Código e configs:** blocos reais, copiáveis, com o mínimo necessário. Explicar o “porquê” no parágrafo anterior ou seguinte, não com comentários dentro do snippet (código do repo também não leva comentários).
+19. **Key takeaways antes da Conclusão (obrigatório em todo post).** Todo artigo termina com uma seção H3 de takeaways imediatamente **antes** da Conclusão. Títulos: **Pontos-chave** (`pt-BR`), **Key takeaways** (`en`), **Puntos clave** (`es`). Conteúdo: lista curta (tipicamente 4 a 7 itens) com o que o leitor deve lembrar ou fazer; cada item em uma frase acionável, sem repetir a conclusão em prosa. Aqui a lista é bem-vinda (é checklist de retenção, não narrativa). Não inventar ponto novo que o post não defendeu.
+20. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
 
 **Checklist rápido de prosa:**
 
-- [ ] Nenhum travessão (`—`) no texto do artigo
+- [ ] Leitura leve e completa: o leitor entende o objetivo sem quebrar a cabeça
+- [ ] Storytelling: problema → conceitos → alternativas → reforço visual/código → key takeaways → conclusão
+- [ ] Key takeaways (H3) imediatamente antes da Conclusão; lista curta e acionável
+- [ ] Nenhum diagrama/imagem antes do texto que explica o que ele mostra
+- [ ] Teste visual por seção: imagem da web (baixada em `public/…`) ou Mermaid se fizer falta; sem visual inútil
+- [ ] Diagrama complementar, completo, legível e com blocos compactos (sem nós exagerados)
+- [ ] Toda tecnologia/termo novo: explicação simples + link na primeira menção relevante
+- [ ] Nenhuma subseção rasa (o quê / como funciona / para quê / como se conecta)
+- [ ] Teste do leitor: alguém de fora consegue explicar o mecanismo de volta
+- [ ] Nenhum travessão (`—`) em lugar nenhum do site (UI, data, meta, artigos)
 - [ ] Parágrafos com contexto suficiente (não só frases soltas)
 - [ ] Poucas listas; onde houver lista, ela agrega
 - [ ] Zero clichês da lista acima
-- [ ] Sem “Executive summary” / “Resumo executivo”; fechamento como Conclusão
+- [ ] Sem “Executive summary” / “Resumo executivo”; fechamento como Conclusão (depois dos Key takeaways)
 - [ ] Soa como alguém contando uma decisão técnica real
+
+---
+
+### 4.8 Engenharia de Software
+
+**Objetivo:** pipelines / fluxos (cloud, arquitetura, devops, security). Seção “Como eu construo software”: última da home antes do contato.
+
+**Dados:** `src/data/softwarePipelines.ts` (barrel) + `src/data/software-pipelines/`
+
+**Componentes:** `SoftwareEngineeringSection`, `SoftwareEngineeringCarousel`
 
 ---
 
@@ -309,9 +357,9 @@ Escrever como desenvolvedor sênior em blog pessoal ou post técnico no LinkedIn
 ## 5. Diferenciais visuais e animações
 
 - Timeline / carrosséis de projetos e engenharia
-- Animações de entrada com Framer Motion — respeitar `prefers-reduced-motion`
+- Animações de entrada com Framer Motion: respeitar `prefers-reduced-motion`
 - Scroll-driven com GSAP + ScrollTrigger + Lenis (`SmoothScrollProvider`)
-- **Framer Motion** = UI/entrada; **GSAP** = scroll — não adicionar terceira lib de animação
+- **Framer Motion** = UI/entrada; **GSAP** = scroll: não adicionar terceira lib de animação
 - Tema claro/escuro via `ThemeProvider` + `ThemeToggle` + `useTheme`
 - Publicações com Mermaid lazy-loaded
 - Modais acessíveis onde existirem
@@ -322,20 +370,20 @@ Escrever como desenvolvedor sênior em blog pessoal ou post técnico no LinkedIn
 
 ### Arquivos e pastas
 
-- **Componentes React:** `PascalCase.tsx` — ex: `ProjectCard.tsx`
-- **Pastas de seção:** `kebab-case` — ex: `software-engineering/`
-- **Hooks:** `camelCase.ts` com prefixo `use` — ex: `useScrollSpy.ts`
-- **Utilitários e tipos:** `camelCase.ts` — ex: `formatDate.ts`, `project.ts`
-- **Dados:** `camelCase.ts` plural — ex: `projects.ts`, `certifications.ts`
+- **Componentes React:** `PascalCase.tsx`: ex: `ProjectCard.tsx`
+- **Pastas de seção:** `kebab-case`: ex: `software-engineering/`
+- **Hooks:** `camelCase.ts` com prefixo `use`: ex: `useScrollSpy.ts`
+- **Utilitários e tipos:** `camelCase.ts`: ex: `formatDate.ts`, `project.ts`
+- **Dados:** `camelCase.ts` plural: ex: `projects.ts`, `certifications.ts`
 
 ### Código
 
-- **Componentes:** `PascalCase` — `function HeroSection()`
+- **Componentes:** `PascalCase`: `function HeroSection()`
 - **Funções e variáveis:** `camelCase`
 - **Tipos e interfaces:** `PascalCase`
 - **Booleanos:** prefixo `is`, `has`, `can`
 - **Event handlers:** prefixo `handle`
-- **IDs de seção:** kebab-case para âncoras — `id="sobre-mim"`, `id="projetos"`
+- **IDs de seção:** kebab-case para âncoras: `id="sobre-mim"`, `id="projetos"`
 
 ### Idioma e i18n
 
@@ -346,10 +394,10 @@ Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção vis�
 - **Dados de domínio** (projetos, experiências, publicações, etc.): tipados por locale (`*ByLocale` / `Record<Locale, …>`)
 - **Certificações:** nomes oficiais da emissora podem permanecer em inglês; labels de UI sempre localizados
 - **Não** hardcodar texto de UI em um único idioma dentro de componentes
-- **Não** deixar fallback silencioso para `pt-BR` em conteúdo novo — implementar os três idiomas
-- **Não** criar `export const x = xByLocale["pt-BR"]` — consumidores usam `useTranslations` / locale explícito
+- **Não** deixar fallback silencioso para `pt-BR` em conteúdo novo: implementar os três idiomas
+- **Não** criar `export const x = xByLocale["pt-BR"]`: consumidores usam `useTranslations` / locale explícito
 - Troca de idioma via `LocaleToggle` deve atualizar landing **e** páginas de rota (ex.: publicação)
-- Commits e PRs: português ou inglês — manter consistência
+- Commits e PRs: português ou inglês: manter consistência
 
 ### Arquivos de data e performance
 
@@ -367,7 +415,7 @@ Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção vis�
 
 - **Proibido** comentários no código-fonte: `//`, `/* */`, `/** */`, `{/* */}`
 - Isso inclui JSDoc (`@deprecated`, etc.) e comentários em CSS
-- Exceção: strings de conteúdo que apenas **parecem** comentário (ex.: eyebrow `"// engenheiro cloud-native"`) — são copy, não comentário de código
+- Exceção: strings de conteúdo que apenas **parecem** comentário (ex.: eyebrow `"// engenheiro cloud-native"`): são copy, não comentário de código
 - Preferir nomes claros e estrutura legível em vez de explicar com comentários
 
 ### Apresentação profissional (cargo / identidade)
@@ -399,7 +447,7 @@ export interface Publication {
 }
 ```
 
-Conteúdo estático em `src/data/` — um arquivo (ou pasta fatiada) por entidade.
+Conteúdo estático em `src/data/`: um arquivo (ou pasta fatiada) por entidade.
 Corpo das publicações em `src/content/publications/`.
 
 ---
@@ -408,11 +456,11 @@ Corpo das publicações em `src/content/publications/`.
 
 ### Princípios
 
-1. **Um componente, uma responsabilidade** — dividir se passar de ~150 linhas
-2. **Composição sobre props complexas** — preferir `children` a dezenas de props
-3. **Dados vêm de `data/`** — componentes não hardcodam conteúdo
-4. **Lógica em hooks** — animações, tema, scroll, contadores
-5. **Seções são containers** — recebem dados e delegam renderização a subcomponentes
+1. **Um componente, uma responsabilidade**: dividir se passar de ~150 linhas
+2. **Composição sobre props complexas**: preferir `children` a dezenas de props
+3. **Dados vêm de `data/`**: componentes não hardcodam conteúdo
+4. **Lógica em hooks**: animações, tema, scroll, contadores
+5. **Seções são containers**: recebem dados e delegam renderização a subcomponentes
 
 ### Estrutura interna
 
@@ -439,16 +487,16 @@ export function HeroSection({ data = profile }: HeroSectionProps) {
 
 - Conteúdo hardcoded dentro de componentes de seção
 - Props com `any`
-- Animações pesadas em todos os elementos — animar só o necessário
+- Animações pesadas em todos os elementos: animar só o necessário
 - `useEffect` para derivar estado que pode ser calculado diretamente
 
 ---
 
 ## 9. Estilos e design
 
-- **Tokens centralizados** em `styles/` — cores, espaçamentos, tipografia
+- **Tokens centralizados** em `styles/`: cores, espaçamentos, tipografia
 - **Tema claro/escuro** via CSS variables + classe `dark` no `<html>`
-- **Mobile first** — base mobile, breakpoints para telas maiores
+- **Mobile first**: base mobile, breakpoints para telas maiores
 - **Seções** com padding consistente via `SectionWrapper` (layout)
 - **Contraste** mínimo WCAG AA
 
@@ -466,7 +514,7 @@ padding: 80px 0;
 color: #333;
 ```
 
-### Tailwind v4 — `max-w-*` vs `--spacing-*`
+### Tailwind v4 | `max-w-*` vs `--spacing-*`
 
 Neste projeto, tokens `--spacing-md`, `--spacing-xl`, `--spacing-3xl`, etc. estão definidos em `@theme`.
 
@@ -558,7 +606,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 
 1. **Sempre** ler e seguir este `AGENTS.md` antes de implementar
 2. Em conflito entre memória/treino e este arquivo, **prevalece o `AGENTS.md`**
-3. Quando o usuário definir uma regra, preferência ou convenção nova (mesmo em conversa informal), **atualizar imediatamente este `AGENTS.md`** na mesma tarefa — não esperar pedido explícito de documentação
+3. Quando o usuário definir uma regra, preferência ou convenção nova (mesmo em conversa informal), **atualizar imediatamente este `AGENTS.md`** na mesma tarefa: não esperar pedido explícito de documentação
 4. Manter a tabela de **Regras críticas** e as seções relevantes alinhadas à prática real do repo
 
 ### Antes de codar
@@ -570,13 +618,13 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 
 ### Durante a implementação
 
-1. **Escopo mínimo** — implementar só a seção ou feature pedida
-2. **Dados em `data/`** — nunca hardcodar conteúdo nos componentes
-3. **i18n completo** — pt-BR, en e es para todo texto novo visível
+1. **Escopo mínimo**: implementar só a seção ou feature pedida
+2. **Dados em `data/`**: nunca hardcodar conteúdo nos componentes
+3. **i18n completo**: pt-BR, en e es para todo texto novo visível
 4. **Reutilizar** componentes de `ui/` / `article/` antes de criar novos
 5. **Sem comentários** no código-fonte
-6. **Sem código morto** — não deixar seções/data órfãs
-7. **Não over-engineer** — sem abstrações prematuras
+6. **Sem código morto**: não deixar seções/data órfãs
+7. **Não over-engineer**: sem abstrações prematuras
 8. **Não commitar** a menos que o usuário peça explicitamente
 9. **Registrar regras novas** neste `AGENTS.md` assim que o usuário as descrever
 10. Usar Yarn; ThemeProvider; lazy/dynamic import para deps pesadas
@@ -599,7 +647,8 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
-- [ ] Publicações: prosa humana (sem `—`, sem clichês de IA, parágrafos com contexto)
+- [ ] Publicações: storytelling; key takeaways antes da conclusão; teste visual (imagem web → Mermaid); diagrama após texto e compacto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
+- [ ] Sem travessão (`—`) em nenhum conteúdo do site (UI, data, meta, README, artigos)
 
 ### O que não fazer
 
@@ -607,7 +656,14 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - Adicionar bibliotecas sem justificativa (ex.: terceira lib de animação)
 - Hardcodar textos em um único idioma
 - Criar publicação só em pt-BR com fallback implícito
-- Escrever publicação com travessão (`—`), clichês de IA ou prosa telegráfica/staccato
+- Usar travessão (`—`) em qualquer conteúdo do site (UI, data, meta, README, publicações)
+- Escrever publicação com clichês de IA ou prosa telegráfica/staccato
+- Colocar diagrama/tabela antes de explicar no texto o que eles mostram
+- Encher nó de Mermaid com parágrafo longo (blocos exageradamente grandes)
+- Citar tecnologia/jargão sem explicar em linguagem simples e sem link de referência
+- Deixar subseção de arquitetura rasa (só nomes, sem o quê / para quê / como se conecta)
+- Usar tom de “medo de código” / “falta de capacidade” para justificar decisão técnica
+- Usar vocabulário pejorativo/moralizante (“tentação”, etc.) para escolhas técnicas
 - Fechar publicação com “Executive summary” / “Resumo executivo” (usar Conclusão)
 - Usar `max-w-3xl` sem `--max-width-3xl` no tema
 - Deixar capa/botão/texto da publicação com larguras laterais diferentes

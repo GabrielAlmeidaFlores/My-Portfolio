@@ -112,7 +112,7 @@ export function ArchitectureBlueprintFlow({
             >
               <p className="font-mono text-xs font-semibold text-primary-400">
                 {active.label}
-                {active.sublabel ? ` — ${active.sublabel}` : ""}
+                {active.sublabel ? ` · ${active.sublabel}` : ""}
               </p>
               <ul className="mt-2 space-y-1">
                 {active.details.map((detail) => (
