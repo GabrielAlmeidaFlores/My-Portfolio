@@ -5,11 +5,16 @@ import {
   useReducedMotion,
   type PanInfo,
 } from "framer-motion";
+import { Link } from "react-router-dom";
 import type { LocalizedPublication } from "@/types/publication";
 import { useTranslations } from "@/hooks/useTranslations";
 import { formatTemplate } from "@/lib/formatTemplate";
 import { CarouselNavButton } from "@/components/ui/CarouselNavButton";
-import { PublicationCard } from "@/components/sections/publications/PublicationCard";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import {
+  PublicationBody,
+  PublicationCover,
+} from "@/components/sections/publications/PublicationCard";
 import { cn } from "@/lib/cn";
 
 interface PublicationCarouselProps {
@@ -84,21 +89,21 @@ export function PublicationCarousel({
       aria-roledescription="carrossel"
       aria-label={sectionCopy.title}
     >
-      <div className="relative">
-        <CarouselNavButton
-          direction="prev"
-          label={carousel.previousPublication}
-          onClick={() => paginate(-1)}
-          className="absolute top-1/2 left-0 z-20 -translate-x-1/2 -translate-y-1/2"
-        />
-        <CarouselNavButton
-          direction="next"
-          label={carousel.nextPublication}
-          onClick={() => paginate(1)}
-          className="absolute top-1/2 right-0 z-20 translate-x-1/2 -translate-y-1/2"
-        />
+      <SpotlightCard className="group overflow-hidden p-0">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-hover">
+          <CarouselNavButton
+            direction="prev"
+            label={carousel.previousPublication}
+            onClick={() => paginate(-1)}
+            className="absolute top-1/2 left-0 z-20 -translate-x-1/2 -translate-y-1/2"
+          />
+          <CarouselNavButton
+            direction="next"
+            label={carousel.nextPublication}
+            onClick={() => paginate(1)}
+            className="absolute top-1/2 right-0 z-20 translate-x-1/2 -translate-y-1/2"
+          />
 
-        <div className="relative overflow-hidden">
           <AnimatePresence mode="wait" custom={direction} initial={false}>
             <motion.div
               key={currentPublication.id}
@@ -112,59 +117,87 @@ export function PublicationCarousel({
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.12}
               onDragEnd={handleDragEnd}
-              className="w-full touch-pan-y"
+              className="absolute inset-0 touch-pan-y"
             >
-              <PublicationCard
+              <Link
+                to={`/publicacoes/${currentPublication.slug}`}
+                className="absolute inset-0 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-inset"
+                aria-label={currentPublication.title}
+              >
+                <PublicationCover
+                  coverImage={currentPublication.coverImage}
+                  className="absolute inset-0 aspect-auto h-full border-b-0"
+                />
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="flex h-14 shrink-0 items-center justify-center gap-4 border-b border-border px-4">
+          <CarouselNavButton
+            direction="prev"
+            label={carousel.previousPublication}
+            onClick={() => paginate(-1)}
+          />
+
+          <div
+            className="flex items-center gap-2"
+            role="tablist"
+            aria-label={carousel.publications}
+          >
+            {publications.map((publication, publicationIndex) => (
+              <button
+                key={publication.id}
+                type="button"
+                role="tab"
+                aria-selected={publicationIndex === index}
+                aria-label={formatTemplate(carousel.publicationAria, {
+                  title: publication.title,
+                  current: publicationIndex + 1,
+                  total: publications.length,
+                })}
+                onClick={() => goTo(publicationIndex)}
+                className={cn(
+                  "h-2 rounded-full transition-all duration-350",
+                  publicationIndex === index
+                    ? "w-8 bg-primary"
+                    : "w-2 bg-border hover:bg-primary/40",
+                )}
+              />
+            ))}
+          </div>
+
+          <CarouselNavButton
+            direction="next"
+            label={carousel.nextPublication}
+            onClick={() => paginate(1)}
+          />
+        </div>
+
+        <AnimatePresence mode="wait" custom={direction} initial={false}>
+          <motion.div
+            key={currentPublication.id}
+            custom={direction}
+            variants={prefersReducedMotion ? undefined : slideVariants}
+            initial={prefersReducedMotion ? false : "enter"}
+            animate="center"
+            exit={prefersReducedMotion ? undefined : "exit"}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Link
+              to={`/publicacoes/${currentPublication.slug}`}
+              className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-inset"
+            >
+              <PublicationBody
                 publication={currentPublication}
                 readMoreLabel={readMoreLabel}
                 publishedOnLabel={publishedOnLabel}
                 locale={locale}
               />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-
-      <div className="mt-8 flex items-center justify-center gap-4">
-        <CarouselNavButton
-          direction="prev"
-          label={carousel.previousPublication}
-          onClick={() => paginate(-1)}
-        />
-
-        <div
-          className="flex items-center gap-2"
-          role="tablist"
-          aria-label={carousel.publications}
-        >
-          {publications.map((publication, publicationIndex) => (
-            <button
-              key={publication.id}
-              type="button"
-              role="tab"
-              aria-selected={publicationIndex === index}
-              aria-label={formatTemplate(carousel.publicationAria, {
-                title: publication.title,
-                current: publicationIndex + 1,
-                total: publications.length,
-              })}
-              onClick={() => goTo(publicationIndex)}
-              className={cn(
-                "h-2 rounded-full transition-all duration-350",
-                publicationIndex === index
-                  ? "w-8 bg-primary"
-                  : "w-2 bg-border hover:bg-primary/40",
-              )}
-            />
-          ))}
-        </div>
-
-        <CarouselNavButton
-          direction="next"
-          label={carousel.nextPublication}
-          onClick={() => paginate(1)}
-        />
-      </div>
+            </Link>
+          </motion.div>
+        </AnimatePresence>
+      </SpotlightCard>
 
       <p className="mt-3 text-center text-sm text-muted" aria-live="polite">
         {index + 1} / {publications.length}

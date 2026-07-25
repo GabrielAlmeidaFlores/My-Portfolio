@@ -39,11 +39,7 @@ const slideVariants = {
   }),
 };
 
-function ProjectMedia({
-  project,
-}: {
-  project: Project;
-}) {
+function ProjectMedia({ project }: { project: Project }) {
   const { copy } = useTranslations();
   const [hasError, setHasError] = useState(false);
   const openUrl = project.demoUrl ?? project.embedUrl ?? project.githubUrl;
@@ -144,47 +140,39 @@ function ProjectMedia({
   );
 }
 
-function ProjectSlide({ project }: { project: Project }) {
+function ProjectSlideBody({ project }: { project: Project }) {
   const { copy } = useTranslations();
   const hasLinks = Boolean(project.githubUrl || project.demoUrl);
 
   return (
-    <SpotlightCard className="group flex h-full w-full min-w-0 flex-col overflow-hidden p-0 lg:grid lg:grid-cols-2">
-      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-hover lg:aspect-auto lg:h-full lg:min-h-0">
-        <ProjectMedia project={project} />
+    <div className="flex w-full min-w-0 flex-col justify-center p-7 lg:p-10">
+      {project.isClientProject && (
+        <Badge className="mb-3 w-fit">{copy.projects.clientProject}</Badge>
+      )}
+      <h3 className="text-safe w-full text-2xl font-bold lg:text-3xl">
+        {project.title}
+      </h3>
+      <BodyText className="mt-3 text-base">{project.shortDescription}</BodyText>
+      <div className="mt-6 flex flex-wrap gap-2">
+        {project.technologies.map((tech) => (
+          <Badge key={tech}>{tech}</Badge>
+        ))}
       </div>
-
-      <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col justify-center overflow-hidden p-7 lg:p-10">
-        {project.isClientProject && (
-          <Badge className="mb-3 w-fit shrink-0">{copy.projects.clientProject}</Badge>
-        )}
-        <h3 className="text-safe w-full shrink-0 text-2xl font-bold lg:text-3xl">
-          {project.title}
-        </h3>
-        <BodyText className="mt-3 min-h-0 flex-1 overflow-y-auto text-base">
-          {project.shortDescription}
-        </BodyText>
-        <div className="mt-6 flex shrink-0 flex-wrap gap-2">
-          {project.technologies.map((tech) => (
-            <Badge key={tech}>{tech}</Badge>
-          ))}
+      {hasLinks && (
+        <div className="mt-6 flex flex-wrap justify-start gap-2">
+          {project.githubUrl && (
+            <Button href={project.githubUrl} variant="ghost">
+              {copy.projects.github}
+            </Button>
+          )}
+          {project.demoUrl && (
+            <Button href={project.demoUrl} variant="ghost">
+              {copy.projects.demo}
+            </Button>
+          )}
         </div>
-        {hasLinks && (
-          <div className="mt-6 flex shrink-0 flex-wrap justify-start gap-2">
-            {project.githubUrl && (
-              <Button href={project.githubUrl} variant="ghost">
-                {copy.projects.github}
-              </Button>
-            )}
-            {project.demoUrl && (
-              <Button href={project.demoUrl} variant="ghost">
-                {copy.projects.demo}
-              </Button>
-            )}
-          </div>
-        )}
-      </div>
-    </SpotlightCard>
+      )}
+    </div>
   );
 }
 
@@ -224,6 +212,35 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
 
   const currentProject = projects[index]!;
 
+  const dots = (
+    <div
+      className="flex items-center gap-2"
+      role="tablist"
+      aria-label={carousel.projects}
+    >
+      {projects.map((project, projectIndex) => (
+        <button
+          key={project.id}
+          type="button"
+          role="tab"
+          aria-selected={projectIndex === index}
+          aria-label={formatTemplate(carousel.projectAria, {
+            title: project.title,
+            current: projectIndex + 1,
+            total: projects.length,
+          })}
+          onClick={() => goTo(projectIndex)}
+          className={cn(
+            "h-2 rounded-full transition-all duration-350",
+            projectIndex === index
+              ? "w-8 bg-primary"
+              : "w-2 bg-border hover:bg-primary/40",
+          )}
+        />
+      ))}
+    </div>
+  );
+
   return (
     <div
       className="relative mt-12 w-full"
@@ -231,21 +248,21 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       aria-roledescription="carrossel"
       aria-label={sectionCopy.title}
     >
-      <div className="relative">
-        <CarouselNavButton
-          direction="prev"
-          label={carousel.previousProject}
-          onClick={() => paginate(-1)}
-          className="absolute top-1/2 left-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
-        />
-        <CarouselNavButton
-          direction="next"
-          label={carousel.nextProject}
-          onClick={() => paginate(1)}
-          className="absolute top-1/2 right-0 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
-        />
+      <SpotlightCard className="group grid w-full min-w-0 overflow-hidden p-0 lg:grid-cols-2">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-hover lg:row-span-2 lg:aspect-auto lg:min-h-[28rem]">
+          <CarouselNavButton
+            direction="prev"
+            label={carousel.previousProject}
+            onClick={() => paginate(-1)}
+            className="absolute top-1/2 left-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
+          />
+          <CarouselNavButton
+            direction="next"
+            label={carousel.nextProject}
+            onClick={() => paginate(1)}
+            className="absolute top-1/2 right-0 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
+          />
 
-        <div className="relative h-[34rem] overflow-hidden px-0 md:h-[26rem] md:px-6 lg:h-[28rem]">
           <AnimatePresence mode="wait" custom={direction} initial={false}>
             <motion.div
               key={currentProject.id}
@@ -259,56 +276,45 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.12}
               onDragEnd={handleDragEnd}
-              className="absolute inset-0 w-full touch-pan-y"
+              className="absolute inset-0 touch-pan-y"
             >
-              <ProjectSlide project={currentProject} />
+              <ProjectMedia project={currentProject} />
             </motion.div>
           </AnimatePresence>
         </div>
-      </div>
 
-      <div className="mt-8 flex items-center justify-center gap-4">
-        <CarouselNavButton
-          direction="prev"
-          label={carousel.previousProject}
-          onClick={() => paginate(-1)}
-          className="md:hidden"
-        />
-
-        <div
-          className="flex items-center gap-2"
-          role="tablist"
-          aria-label={carousel.projects}
-        >
-          {projects.map((project, projectIndex) => (
-            <button
-              key={project.id}
-              type="button"
-              role="tab"
-              aria-selected={projectIndex === index}
-              aria-label={formatTemplate(carousel.projectAria, {
-                title: project.title,
-                current: projectIndex + 1,
-                total: projects.length,
-              })}
-              onClick={() => goTo(projectIndex)}
-              className={cn(
-                "h-2 rounded-full transition-all duration-350",
-                projectIndex === index
-                  ? "w-8 bg-primary"
-                  : "w-2 bg-border hover:bg-primary/40",
-              )}
-            />
-          ))}
+        <div className="flex h-14 shrink-0 items-center justify-center gap-4 border-b border-border px-4 lg:border-b-0 lg:border-l lg:border-border">
+          <CarouselNavButton
+            direction="prev"
+            label={carousel.previousProject}
+            onClick={() => paginate(-1)}
+            className="md:hidden"
+          />
+          {dots}
+          <CarouselNavButton
+            direction="next"
+            label={carousel.nextProject}
+            onClick={() => paginate(1)}
+            className="md:hidden"
+          />
         </div>
 
-        <CarouselNavButton
-          direction="next"
-          label={carousel.nextProject}
-          onClick={() => paginate(1)}
-          className="md:hidden"
-        />
-      </div>
+        <div className="min-w-0 lg:border-l lg:border-border">
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={currentProject.id}
+              custom={direction}
+              variants={prefersReducedMotion ? undefined : slideVariants}
+              initial={prefersReducedMotion ? false : "enter"}
+              animate="center"
+              exit={prefersReducedMotion ? undefined : "exit"}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <ProjectSlideBody project={currentProject} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </SpotlightCard>
 
       <p className="mt-3 text-center text-sm text-muted" aria-live="polite">
         {index + 1} / {projects.length}

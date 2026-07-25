@@ -42,7 +42,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "xcheck",
       title: "XCheck",
       shortDescription:
-        "Exame toxicológico em cabelo com privacidade por design: coleta em casa, laudo anônimo e janela de detecção de até 90 dias.",
+        "Exame toxicológico secreto em cabelo: coleta em casa, laudo 100% anônimo identificado só pelo lacre, laboratório credenciado e janela de detecção de até 90 dias. Sem clínica e sem exposição.",
       image: xcheckImage,
       demoUrl: xcheckUrl,
       isClientProject: true,
@@ -123,7 +123,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "xcheck",
       title: "XCheck",
       shortDescription:
-        "Hair toxicology testing with privacy by design: at-home collection, anonymous report, and up to 90-day detection window.",
+        "Secret hair toxicology testing: at-home collection, a fully anonymous report identified only by the seal number, accredited lab, and up to a 90-day detection window. No clinic visit and no exposure.",
       image: xcheckImage,
       demoUrl: xcheckUrl,
       isClientProject: true,
@@ -204,7 +204,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "xcheck",
       title: "XCheck",
       shortDescription:
-        "Examen toxicológico en cabello con privacidad por diseño: recolección en casa, informe anónimo y ventana de detección de hasta 90 días.",
+        "Examen toxicológico secreto en cabello: recolección en casa, informe 100% anónimo identificado solo por el precinto, laboratorio acreditado y ventana de detección de hasta 90 días. Sin clínica y sin exposición.",
       image: xcheckImage,
       demoUrl: xcheckUrl,
       isClientProject: true,
