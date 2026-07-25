@@ -28,5 +28,4 @@ export const statsByLocale: Record<Locale, Stat[]> = {
   ],
 };
 
-/** @deprecated Prefer statsByLocale[locale] */
 export const stats = statsByLocale["pt-BR"];

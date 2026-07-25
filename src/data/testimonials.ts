@@ -91,5 +91,4 @@ export const testimonialsByLocale: Record<Locale, Testimonial[]> = {
   ],
 };
 
-/** @deprecated Prefer testimonialsByLocale[locale] */
 export const testimonials = testimonialsByLocale["pt-BR"];

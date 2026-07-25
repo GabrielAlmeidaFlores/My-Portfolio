@@ -37,5 +37,4 @@ export const aboutValuesByLocale: Record<Locale, readonly string[]> = {
   ],
 };
 
-/** @deprecated Prefer aboutValuesByLocale[locale] */
 export const aboutValues = aboutValuesByLocale["pt-BR"];

@@ -32,7 +32,6 @@
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" />
   <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
-  <img src="https://img.shields.io/badge/Vercel-ready-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" />
 </p>
 
 ---
@@ -64,7 +63,7 @@ Landing page single-page em React, pensada para primeira impressão forte, credi
 | Linguagem     | TypeScript     |
 | Estilos       | Tailwind CSS   |
 | Animações     | Framer Motion  |
-| Deploy        | Vercel         |
+| Package mgr   | Yarn           |
 | Lint          | Oxlint         |
 
 ---
@@ -74,18 +73,21 @@ Landing page single-page em React, pensada para primeira impressão forte, credi
 ```bash
 git clone <url-do-repositorio>
 cd Gabriel-Flores-Portfolio
-npm install
-npm run dev
+yarn
+yarn dev
 ```
 
 Abra [http://localhost:5173](http://localhost:5173).
 
-| Comando           | Descrição                       |
-|-------------------|---------------------------------|
-| `npm run dev`     | Servidor de desenvolvimento     |
-| `npm run build`   | Build de produção               |
-| `npm run preview` | Preview do build                |
-| `npm run lint`    | Lint com Oxlint                 |
+| Comando        | Descrição                   |
+|----------------|-----------------------------|
+| `yarn`         | Instala dependências        |
+| `yarn dev`     | Servidor de desenvolvimento |
+| `yarn build`   | Build de produção           |
+| `yarn preview` | Preview do build            |
+| `yarn lint`    | Lint com Oxlint             |
+
+Este projeto usa **somente Yarn** (`yarn.lock`). Não use `npm` nem gere `package-lock.json`.
 
 ---
 
@@ -108,7 +110,7 @@ Abra [http://localhost:5173](http://localhost:5173).
 | 13 | CTA                        |
 | 14 | Contato                    |
 
-Convenções e detalhes de implementação: [`agents.md`](./agents.md).
+Convenções e detalhes de implementação: [`AGENTS.md`](./AGENTS.md).
 
 ---
 
@@ -124,7 +126,7 @@ Gabriel-Flores-Portfolio/
 │   ├── lib/
 │   ├── styles/
 │   └── types/
-├── agents.md
+├── AGENTS.md
 └── README.md
 ```
 
@@ -137,12 +139,6 @@ Gabriel-Flores-Portfolio/
 - Tema claro/escuro
 - Animações leves (Framer Motion + GSAP)
 - i18n (pt-BR / en / es)
-
----
-
-## Deploy
-
-Recomendado na [Vercel](https://vercel.com/) com deploy automático a cada push em `main`.
 
 ---
 

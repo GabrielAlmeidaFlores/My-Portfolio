@@ -85,5 +85,4 @@ export const educationByLocale: Record<Locale, Education[]> = {
   ],
 };
 
-/** @deprecated Prefer educationByLocale[locale] */
 export const education = educationByLocale["pt-BR"];

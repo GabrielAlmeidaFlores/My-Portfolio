@@ -6,13 +6,27 @@ Este documento define as convenções do projeto **Gabriel-Flores-Portfolio**. A
 
 ## 1. Visão geral do projeto
 
-Landing page profissional em **React** (single page) para Gabriel. Prioridades:
+Landing page profissional em **React** (com rotas para publicações) para Gabriel. Prioridades:
 
 1. **Clareza** — código legível e fácil de manter
 2. **Performance** — carregamento rápido e experiência fluida
 3. **Acessibilidade** — utilizável por todos
 4. **Escopo mínimo** — resolver o problema sem over-engineering
 5. **Impacto visual** — animações discretas, sem prejudicar performance
+
+### Regras críticas (sempre)
+
+| Regra | Detalhe |
+|---|---|
+| Sem comentários no código | Proibido `//`, `/* */`, `/** */`, `{/* */}` |
+| i18n completo | Todo conteúdo/UI novo em **pt-BR**, **en** e **es** |
+| Arquivo de regras | Sempre `AGENTS.md` (uppercase) |
+| Package manager | **Somente Yarn** — nunca `npm`; lockfile único: `yarn.lock` |
+| Sem Vercel | Não usar `vercel.json` nem assumir deploy na Vercel |
+| Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
+| Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
+| `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
+| Atualizar `AGENTS.md` | Toda regra nova descrita pelo usuário deve ser registrada aqui |
 
 ---
 
@@ -25,9 +39,21 @@ Landing page profissional em **React** (single page) para Gabriel. Prioridades:
 | Linguagem | TypeScript |
 | Estilos | Tailwind CSS |
 | Animações | Framer Motion |
-| Deploy | Vercel |
-| Lint | ESLint + Prettier |
+| Roteamento | React Router |
+| Diagramas | Mermaid |
+| Package manager | Yarn (`yarn.lock` apenas) |
+| Lint | Oxlint |
 | Ícones | Lucide React (tree-shakeable) |
+
+### Package manager (Yarn only)
+
+- Usar **apenas Yarn** para instalar, adicionar, remover e rodar scripts
+- Comandos permitidos: `yarn`, `yarn add`, `yarn remove`, `yarn install`, `yarn dev`, `yarn build`, `yarn lint`, `yarn preview`, etc.
+- **Proibido** `npm`, `npm install`, `npm run`, `npx` (exceto quando não houver equivalente Yarn e for inevitável — preferir `yarn dlx`)
+- Lockfile versionado: **somente** `yarn.lock`
+- **Não** criar nem commitar `package-lock.json` ou `pnpm-lock.yaml`
+- `package-lock.json` está no `.gitignore`
+- Se `package-lock.json` aparecer, apagar e reinstalar com `yarn`
 
 ---
 
@@ -37,21 +63,26 @@ Landing page profissional em **React** (single page) para Gabriel. Prioridades:
 Gabriel-Flores-Portfolio/
 ├── public/
 │   ├── images/              # Fotos, projetos, logos, badges
+│   │   └── publications/    # Imagens das publicações (por slug)
 │   ├── fonts/
 │   └── cv/                  # Currículo em PDF
 ├── src/
 │   ├── components/
+│   │   ├── article/         # Kit tipográfico para publicações (Article, Img, Mermaid...)
 │   │   ├── ui/              # Button, Card, Modal, Badge, Counter, Slider...
 │   │   ├── layout/          # Header, Footer, ThemeToggle, SectionWrapper
 │   │   └── sections/        # Uma subpasta por seção (ver seção 4)
+│   ├── content/
+│   │   └── publications/    # Corpo das publicações em TSX/JSX
+│   ├── pages/               # HomePage, PublicationPage
 │   ├── hooks/               # useTheme, useScrollSpy, useInView, useCounter
 │   ├── lib/                 # Utilitários, validações, constantes
 │   ├── styles/              # globals.css, tokens, tema claro/escuro
 │   ├── types/               # Um arquivo por entidade de dados
 │   ├── data/                # Conteúdo estático da landing page
-│   ├── App.tsx              # Composição das seções na ordem correta
+│   ├── App.tsx              # Rotas + shell (Header/Footer)
 │   └── main.tsx
-├── agents.md
+├── AGENTS.md
 └── README.md
 ```
 
@@ -82,6 +113,9 @@ sections/
 │   └── ResultsSection.tsx
 ├── education/
 │   └── EducationSection.tsx
+├── publications/
+│   ├── PublicationsSection.tsx
+│   └── PublicationCard.tsx
 ├── testimonials/
 │   ├── TestimonialsSection.tsx
 │   └── TestimonialCard.tsx
@@ -100,8 +134,11 @@ sections/
 | Onde colocar | Critério |
 |---|---|
 | `components/ui/` | Componente genérico usado em 2+ seções |
+| `components/article/` | Componentes tipográficos reutilizáveis em publicações |
 | `components/sections/` | Bloco visual de uma seção específica |
 | `components/layout/` | Header, Footer, navegação, wrapper global |
+| `content/publications/` | Corpo JSX de cada publicação |
+| `pages/` | Páginas com rota própria (home, publicação) |
 | `hooks/` | Lógica reutilizável com estado ou efeitos |
 | `lib/` | Funções puras, formatadores, validações |
 | `data/` | Arrays/objetos de conteúdo estático |
@@ -113,28 +150,27 @@ sections/
 
 ## 4. Seções da Landing Page
 
-### Ordem na página (`App.tsx`)
+### Ordem na página (`HomePage` / rota `/`)
 
 ```tsx
 <Header />
 <main>
   <HeroSection />
-  <AboutSection />
-  <StatsSection />
   <ExperienceSection />
   <ProjectsSection />
   <TechnologiesSection />
+  <SoftwareEngineeringSection />
   <CertificationsSection />
-  <ResultsSection />
   <EducationSection />
-  <TestimonialsSection />
-  <SpecializationsSection />
-  <WorkProcessSection />
-  <CtaSection />
+  <PublicationsSection />
   <ContactSection />
 </main>
 <Footer />
 ```
+
+Rotas adicionais:
+
+- `/publicacoes/:slug` → `PublicationPage` (leitura completa do artigo)
 
 ---
 
@@ -321,7 +357,49 @@ sections/
 
 ---
 
-### 4.15 Footer
+### 4.15 Publicações
+
+**Objetivo:** artigos e notas técnicas estilo documentação, com página dedicada.
+
+**Listagem (landing):** cards com capa, título, resumo, data e tags → link para `/publicacoes/:slug`
+
+**Página de leitura (`PublicationPage` / rota `/publicacoes/:slug`):**
+- Botão voltar para `/#publicacoes`
+- Metadados + capa + corpo do artigo
+- Corpo escrito em **JSX** (HTML + componentes React) — não strings HTML cruas nem Markdown
+- Usar apenas o kit `components/article/` (`Article`, `ArticleH2`, `ArticleH3`, `ArticleP`, listas, `ArticleImg`, `ArticleCode`, `ArticleCallout`, `ArticleMermaid`)
+- Imagens locais em `public/images/publications/<slug>/`
+- Diagramas via `ArticleMermaid` (prop `chart` + `ariaLabel` obrigatório, traduzido)
+- `ArticleCallout` exige `title` explícito (traduzido) — sem labels hardcoded em um único idioma
+
+**Layout / margens da página de publicação:**
+- Botão voltar, título, capa e corpo devem compartilhar a **mesma margem lateral** (mesma coluna)
+- Não usar larguras diferentes entre capa e texto (ex.: capa full-width e texto `max-w-3xl`)
+- Mobile: padding lateral compacto (`px-4`)
+- Desktop: margens laterais maiores, preferencialmente em `vw` (ex.: `lg:px-[12vw] xl:px-[16vw] 2xl:px-[18vw]`), para o espaço até as bordas da tela crescer com o viewport
+
+**Roteamento:**
+- `react-router-dom`: `/` = landing, `/publicacoes/:slug` = leitura
+- **Não** manter `vercel.json` — o site não é publicado na Vercel
+- No host escolhido, configurar fallback SPA (`index.html`) se deep links de `/publicacoes/:slug` forem necessários
+- Fora da home, links do Header apontam para `/#secao`; logo aponta para `/`
+
+**i18n obrigatório (pt-BR, en, es):**
+- `title`, `summary`, `tags` e `Content` nos **três** idiomas em `src/data/publications.ts`
+- Tipo `Publication.Content` é `Record<Locale, ComponentType>` — sem fallback parcial
+- Corpo do artigo: um componente por locale (ex.: `ArquiteturaCloudContentPt` / `En` / `Es`)
+- Textos, `alt`, captions, títulos de callout e labels do Mermaid traduzidos
+
+**Como adicionar uma publicação:**
+1. Criar o conteúdo em `src/content/publications/<slug>.tsx` com versões **pt-BR**, **en** e **es**
+2. Registrar metadados (`title`, `summary`, `tags`, `Content`) nos três idiomas em `src/data/publications.ts`
+3. Colocar imagens em `public/images/publications/<slug>/`
+
+**Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationPage`, kit `article/`
+
+---
+
+### 4.16 Footer
 
 **Conteúdo:** Logo, menu de navegação, redes sociais, copyright
 
@@ -338,6 +416,7 @@ sections/
 - Modais acessíveis para projetos e certificações (foco preso, ESC para fechar)
 - Animações de entrada com Framer Motion (`fadeIn`, `slideUp`) — respeitar `prefers-reduced-motion`
 - Modo escuro/claro via `useTheme` + `ThemeToggle`
+- Publicações com páginas dedicadas e diagramas Mermaid
 - Logos de empresas atendidas (opcional, dentro de Experience ou seção dedicada)
 
 ---
@@ -361,11 +440,30 @@ sections/
 - **Event handlers:** prefixo `handle`
 - **IDs de seção:** kebab-case para âncoras — `id="sobre-mim"`, `id="projetos"`
 
-### Idioma
+### Idioma e i18n
 
-- **Código** (variáveis, funções, tipos): inglês
-- **Conteúdo visível ao usuário** (textos da UI): português
-- **Commits e PRs:** português ou inglês — manter consistência
+Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção visível ao usuário deve funcionar nos três.
+
+- **Código** (variáveis, funções, tipos, nomes de arquivo): inglês
+- **Conteúdo da UI** (títulos, subtítulos, labels, aria, botões): nos três locales via `src/data/copy.ts` + `useTranslations()`
+- **Dados de domínio** (projetos, experiências, publicações, etc.): tipados por locale (`*ByLocale` / `Record<Locale, …>`)
+- **Não** hardcodar texto de UI em um único idioma dentro de componentes
+- **Não** deixar fallback silencioso para `pt-BR` em conteúdo novo — implementar os três idiomas
+- Troca de idioma via `LocaleToggle` deve atualizar landing **e** páginas de rota (ex.: publicação)
+- Commits e PRs: português ou inglês — manter consistência
+
+### Comentários no código
+
+- **Proibido** comentários no código-fonte: `//`, `/* */`, `/** */`, `{/* */}`
+- Isso inclui JSDoc (`@deprecated`, etc.) e comentários em CSS
+- Exceção: strings de conteúdo que apenas **parecem** comentário (ex.: eyebrow `"// engenheiro cloud-native"`) — são copy, não comentário de código
+- Preferir nomes claros e estrutura legível em vez de explicar com comentários
+
+### Nome deste documento
+
+- O arquivo de convenções chama-se **`AGENTS.md`** (sempre uppercase)
+- Em macOS (FS case-insensitive), renomear no Git com dois passos: `git mv agents.md temp.md && git mv temp.md AGENTS.md`
+- Referências em README e docs devem usar `AGENTS.md`
 
 ---
 
@@ -444,11 +542,28 @@ export interface Testimonial {
   rating: number;
 }
 
-// education.ts, result.ts, specialization.ts, tech-category.ts, process-step.ts
+// education.ts, result.ts, specialization.ts, tech-category.ts, process-step.ts, publication.ts
 // — seguir o mesmo padrão
 ```
 
 Conteúdo estático correspondente em `src/data/` — um arquivo por entidade.
+
+Corpo das publicações em `src/content/publications/` (TSX), registradas em `src/data/publications.ts`.
+
+Exemplo de tipo de publicação (sempre com os três locales):
+
+```ts
+export interface Publication {
+  id: string;
+  slug: string;
+  publishedAt: string;
+  tags: Record<Locale, string[]>;
+  coverImage: string;
+  title: PublicationLocalizedText;
+  summary: PublicationLocalizedText;
+  Content: Record<Locale, ComponentType>;
+}
+```
 
 ---
 
@@ -500,15 +615,42 @@ export function HeroSection({ data = profile }: HeroSectionProps) {
 - **Seções** com padding consistente via `SectionWrapper` (layout)
 - **Contraste** mínimo WCAG AA
 
+Usar tokens:
+
 ```css
-/* ✅ Usar tokens */
 padding: var(--spacing-section);
 color: var(--color-text-primary);
+```
 
-/* ❌ Evitar valores soltos repetidos */
+Evitar valores soltos repetidos:
+
+```css
 padding: 80px 0;
 color: #333;
 ```
+
+### Tailwind v4 — `max-w-*` vs `--spacing-*`
+
+Neste projeto, tokens `--spacing-md`, `--spacing-xl`, `--spacing-3xl`, etc. estão definidos em `@theme`.
+
+Sem tokens `--max-width-*` explícitos, utilitários como `max-w-3xl` **caem no spacing** (ex.: `max-w-3xl` → `64px`) e esmagam o layout.
+
+**Regra:** manter em `globals.css` / `@theme` a escala:
+
+```css
+--max-width-md: 28rem;
+--max-width-lg: 32rem;
+--max-width-xl: 36rem;
+--max-width-2xl: 42rem;
+--max-width-3xl: 48rem;
+--max-width-4xl: 56rem;
+--max-width-5xl: 64rem;
+--max-width-prose: 65ch;
+```
+
+Antes de usar `max-w-*` novo, confirmar que o token `--max-width-*` correspondente existe.
+
+Containers de leitura/publicação: preferir padding lateral explícito (e `vw` no desktop) em vez de depender só de `max-w-*` para “margem até a borda da tela”.
 
 ---
 
@@ -533,7 +675,7 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 - Imagens com `alt` descritivo
 - Modais: foco preso, `role="dialog"`, `aria-modal="true"`, fechar com ESC
 - Formulário: labels associados, mensagens de erro acessíveis
-- `lang="pt-BR"` no `<html>`
+- `lang` do `<html>` alinhado ao locale ativo (`pt-BR` / `en` / `es`)
 - Navegação por teclado em todos os interativos
 
 ---
@@ -563,7 +705,7 @@ style(ui): ajusta tema escuro
 
 Tipos: `feat`, `fix`, `style`, `refactor`, `docs`, `chore`, `test`
 
-Escopos sugeridos: `hero`, `about`, `projects`, `contact`, `ui`, `theme`, `data`
+Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`, `theme`, `data`, `i18n`
 
 ### O que não commitar
 
@@ -575,36 +717,60 @@ Escopos sugeridos: `hero`, `about`, `projects`, `contact`, `ui`, `theme`, `data`
 
 ## 14. Instruções para agentes de IA
 
+### Fonte de verdade
+
+1. **Sempre** ler e seguir este `AGENTS.md` antes de implementar
+2. Em conflito entre memória/treino e este arquivo, **prevalece o `AGENTS.md`**
+3. Quando o usuário definir uma regra, preferência ou convenção nova (mesmo em conversa informal), **atualizar imediatamente este `AGENTS.md`** na mesma tarefa — não esperar pedido explícito de documentação
+4. Manter a tabela de **Regras críticas** e as seções relevantes alinhadas à prática real do repo
+
 ### Antes de codar
 
-1. Ler este `agents.md` e o `README.md`
+1. Ler este `AGENTS.md` e o `README.md`
 2. Identificar qual seção está sendo implementada (seção 4)
 3. Seguir convenções e estrutura de pastas existentes
+4. Usar Yarn (nunca npm) para qualquer operação de pacotes ou scripts
 
 ### Durante a implementação
 
 1. **Escopo mínimo** — implementar só a seção ou feature pedida
 2. **Dados em `data/`** — nunca hardcodar conteúdo nos componentes
-3. **Reutilizar** componentes de `ui/` antes de criar novos
-4. **Não over-engineer** — sem abstrações prematuras
-5. **Não commitar** a menos que o usuário peça explicitamente
+3. **i18n completo** — pt-BR, en e es para todo texto novo visível
+4. **Reutilizar** componentes de `ui/` / `article/` antes de criar novos
+5. **Sem comentários** no código-fonte
+6. **Não over-engineer** — sem abstrações prematuras
+7. **Não commitar** a menos que o usuário peça explicitamente
+8. **Registrar regras novas** neste `AGENTS.md` assim que o usuário as descrever
 
 ### Checklist antes de finalizar
 
-- [ ] Seção na ordem correta em `App.tsx`
-- [ ] `id` de âncora definido na seção
-- [ ] Dados tipados em `types/` e separados em `data/`
+- [ ] Seção na ordem correta em `HomePage` / rotas em `App.tsx`
+- [ ] `id` de âncora definido na seção (quando aplicável)
+- [ ] Dados tipados em `types/` e separados em `data/` / `content/`
+- [ ] Conteúdo e UI nos três locales (pt-BR, en, es)
 - [ ] Animações respeitam `prefers-reduced-motion`
 - [ ] Componentes acessíveis (semântica, alt, foco, labels)
-- [ ] Responsivo (mobile first)
+- [ ] Responsivo (mobile first); páginas de publicação com mesma margem lateral em todos os blocos
+- [ ] Sem comentários no código alterado
 - [ ] Sem `any` desnecessário
 - [ ] Mudança mínima e focada no pedido
+- [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
+- [ ] Dependências/scripts via Yarn; sem `package-lock.json` gerado
+- [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
 
 ### O que não fazer
 
 - Reorganizar todas as seções sem solicitação
-- Adicionar bibliotecas sem justificativa (ex: outra lib de animação além do Framer Motion)
-- Hardcodar textos, projetos ou métricas nos componentes
+- Adicionar bibliotecas sem justificativa (ex.: outra lib de animação além do Framer Motion)
+- Hardcodar textos, projetos ou métricas nos componentes (e em um único idioma)
+- Criar publicação só em pt-BR com fallback implícito
+- Usar `max-w-3xl` (etc.) sem garantir `--max-width-3xl` no tema
+- Deixar capa/botão/texto da publicação com larguras laterais diferentes
+- Adicionar comentários no código
+- Renomear este arquivo para `agents.md` (lowercase)
+- Usar `npm` / gerar `package-lock.json`
+- Criar ou manter `vercel.json` (deploy não é na Vercel)
+- Ignorar este `AGENTS.md` ou deixar de atualizá-lo quando o usuário criar uma regra nova
 - Criar componentes monolíticos com toda a landing page
 - Alterar formatação de arquivos não relacionados à tarefa
 
@@ -613,5 +779,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `contact`, `ui`, `theme`, `data`
 ## 15. Evolução deste documento
 
 - Atualizar quando novas seções ou convenções forem adotadas
-- Regras muito específicas podem ir para `.cursor/rules/*.mdc`
+- **Sempre que o usuário descrever uma regra** (preferência de ferramenta, estilo, i18n, git, UI, etc.), incorporá-la neste arquivo na mesma alteração
+- Regras muito específicas podem ir para `.cursor/rules/*.mdc`, mas **este `AGENTS.md` permanece a fonte principal**
+- Manter o nome do arquivo sempre como `AGENTS.md` (uppercase)
 - Manter este arquivo como fonte única de verdade para organização e qualidade

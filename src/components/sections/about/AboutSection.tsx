@@ -158,7 +158,6 @@ export function AboutSection() {
     >
       <GridBackground />
 
-      {/* Mobile e tablet: scroll normal, largura total */}
       <div className="container-app w-full lg:hidden">
         <SectionTitle title={sectionCopy.title} subtitle={profile.aboutTitle} />
         <div className="mt-8 space-y-4">
@@ -176,7 +175,6 @@ export function AboutSection() {
         </div>
       </div>
 
-      {/* Desktop: storytelling sticky */}
       <div className="relative hidden w-full lg:block">
         <div className="relative h-screen w-full overflow-hidden">
           <div ref={panelsRef} className="h-full w-full">

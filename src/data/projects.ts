@@ -255,5 +255,4 @@ export const projectsByLocale: Record<Locale, Project[]> = {
   ],
 };
 
-/** @deprecated Prefer projectsByLocale[locale] */
 export const projects = projectsByLocale["pt-BR"];

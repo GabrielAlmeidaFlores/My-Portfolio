@@ -729,5 +729,4 @@ export function getSoftwarePipelines(locale: Locale): ProcessPipeline[] {
   ];
 }
 
-/** @deprecated Prefer getSoftwarePipelines(locale) */
 export const softwarePipelines = getSoftwarePipelines("pt-BR");

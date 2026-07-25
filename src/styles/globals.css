@@ -6,7 +6,6 @@
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Primary scale */
   --color-primary-100: #eaf4fc;
   --color-primary-200: #d3e8f9;
   --color-primary-300: #a8d1f2;
@@ -19,14 +18,12 @@
   --color-primary: #3d8fdb;
   --color-primary-foreground: #ffffff;
 
-  /* Secondary scale (ciano) */
   --color-secondary-400: #67e8f9;
   --color-secondary-500: #22d3ee;
   --color-secondary-600: #06b6d4;
   --color-secondary-700: #0891b2;
   --color-secondary: #22d3ee;
 
-  /* Accent scale (violeta) */
   --color-accent-400: #a78bfa;
   --color-accent-500: #8b5cf6;
   --color-accent-600: #7c3aed;
@@ -36,7 +33,6 @@
   --color-warning: #f59e0b;
   --color-error: #ef4444;
 
-  /* Light neutrals */
   --color-background: #fafbfd;
   --color-surface: #ffffff;
   --color-card: #ffffff;
@@ -69,6 +65,16 @@
   --spacing-section-sm: 72px;
 
   --container-max: 1280px;
+
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+  --max-width-2xl: 42rem;
+  --max-width-3xl: 48rem;
+  --max-width-4xl: 56rem;
+  --max-width-5xl: 64rem;
+  --max-width-prose: 65ch;
+
   --navbar-height: 52px;
   --navbar-float-top: 16px;
   --navbar-total-offset: calc(var(--navbar-height) + var(--navbar-float-top) + 12px);
@@ -190,7 +196,6 @@
     max-width: 100%;
   }
 
-  /* Evita que flex-col + items-center estreite textos palavra por palavra */
   .flex-col.items-center > :where(h1, h2, h3, h4, h5, h6, p, .text-safe, .content-block) {
     width: 100%;
   }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -9,10 +10,24 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { LocaleToggle } from "@/components/layout/LocaleToggle";
 import { cn } from "@/lib/cn";
 
+function resolveNavHref(href: string, isHome: boolean) {
+  if (isHome) {
+    return href;
+  }
+
+  if (href.startsWith("#")) {
+    return `/${href}`;
+  }
+
+  return href;
+}
+
 export function Header() {
   const isScrolled = useScrollNavbar(32);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { copy, navLinks } = useTranslations();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   function closeMobileMenu() {
     setIsMobileOpen(false);
@@ -27,15 +42,24 @@ export function Header() {
           transition={{ duration: 0.55, ease: MOTION_EASE }}
           className={cn("nav-pill w-full", isScrolled && "nav-pill-scrolled")}
         >
-          <a href="#hero" className="nav-pill-logo" onClick={closeMobileMenu}>
-            {SITE_CONFIG.name}
-          </a>
+          {isHome ? (
+            <a href="#hero" className="nav-pill-logo" onClick={closeMobileMenu}>
+              {SITE_CONFIG.name}
+            </a>
+          ) : (
+            <Link to="/" className="nav-pill-logo" onClick={closeMobileMenu}>
+              {SITE_CONFIG.name}
+            </Link>
+          )}
 
           <nav aria-label={copy.header.navAriaLabel} className="nav-pill-links">
             <ul className="flex items-center gap-0.5">
               {navLinks.map((link) => (
                 <li key={link.id}>
-                  <a href={link.href} className="nav-pill-link">
+                  <a
+                    href={resolveNavHref(link.href, isHome)}
+                    className="nav-pill-link"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -85,7 +109,7 @@ export function Header() {
                     }}
                   >
                     <a
-                      href={link.href}
+                      href={resolveNavHref(link.href, isHome)}
                       className="nav-pill-mobile-link"
                       onClick={closeMobileMenu}
                     >

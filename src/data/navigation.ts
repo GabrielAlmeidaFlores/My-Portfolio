@@ -12,7 +12,7 @@ const navLabels: Record<Locale, Record<string, string>> = {
     engenharia: "Engenharia",
     certificacoes: "Certificações",
     formacao: "Formação",
-    // depoimentos: "Depoimentos",
+    publicacoes: "Publicações",
     contato: "Contato",
   },
   en: {
@@ -23,7 +23,7 @@ const navLabels: Record<Locale, Record<string, string>> = {
     engenharia: "Engineering",
     certificacoes: "Certifications",
     formacao: "Education",
-    // depoimentos: "Testimonials",
+    publicacoes: "Publications",
     contato: "Contact",
   },
   es: {
@@ -34,7 +34,7 @@ const navLabels: Record<Locale, Record<string, string>> = {
     engenharia: "Ingeniería",
     certificacoes: "Certificaciones",
     formacao: "Formación",
-    // depoimentos: "Testimonios",
+    publicacoes: "Publicaciones",
     contato: "Contacto",
   },
 };
@@ -47,7 +47,7 @@ const navIds = [
   "engenharia",
   "certificacoes",
   "formacao",
-  // "depoimentos",
+  "publicacoes",
   "contato",
 ] as const;
 
@@ -72,8 +72,6 @@ export function getSocialLinks(locale: Locale): SocialLink[] {
   ];
 }
 
-/** @deprecated Prefer getNavLinks(locale) */
 export const navLinks = getNavLinks("pt-BR");
 
-/** @deprecated Prefer getSocialLinks(locale) */
 export const socialLinks = getSocialLinks("pt-BR");

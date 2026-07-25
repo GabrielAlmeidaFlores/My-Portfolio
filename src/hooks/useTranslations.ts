@@ -17,6 +17,7 @@ import {
 } from "@/data/technologies";
 import { getSoftwarePipelines } from "@/data/softwarePipelines";
 import { certifications } from "@/data/certifications";
+import { getPublications } from "@/data/publications";
 
 export function useTranslations() {
   const { locale, setLocale } = useLocale();
@@ -41,6 +42,7 @@ export function useTranslations() {
       technologies: getTechnologies(locale),
       softwarePipelines: getSoftwarePipelines(locale),
       certifications,
+      publications: getPublications(locale),
     }),
     [locale, setLocale],
   );

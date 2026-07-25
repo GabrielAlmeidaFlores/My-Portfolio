@@ -334,5 +334,4 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   ],
 };
 
-/** @deprecated Prefer experiencesByLocale[locale] */
 export const experiences = experiencesByLocale["pt-BR"];

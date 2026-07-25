@@ -71,5 +71,4 @@ export const profiles: Record<Locale, Profile> = {
   },
 };
 
-/** @deprecated Prefer profiles[locale] */
 export const profile = profiles["pt-BR"];

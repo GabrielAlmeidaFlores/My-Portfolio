@@ -78,6 +78,16 @@ export interface SiteCopy {
     subtitle: string;
     ariaLabel: string;
   };
+  publications: {
+    title: string;
+    subtitle: string;
+    ariaLabel: string;
+    readMore: string;
+    backToList: string;
+    notFoundTitle: string;
+    notFoundDescription: string;
+    publishedOn: string;
+  };
   testimonials: {
     title: string;
     subtitle: string;
@@ -205,6 +215,18 @@ const ptBR: SiteCopy = {
     title: "Formação Acadêmica",
     subtitle: "Trajetória acadêmica e especialização contínua.",
     ariaLabel: "Formação acadêmica",
+  },
+  publications: {
+    title: "Publicações",
+    subtitle:
+      "Artigos e notas técnicas sobre arquitetura, cloud, engenharia e processo de trabalho.",
+    ariaLabel: "Publicações",
+    readMore: "Ler publicação",
+    backToList: "Voltar às publicações",
+    notFoundTitle: "Publicação não encontrada",
+    notFoundDescription:
+      "O conteúdo que você procura não existe ou foi movido.",
+    publishedOn: "Publicado em",
   },
   testimonials: {
     title: "Recomendações",
@@ -336,6 +358,18 @@ const en: SiteCopy = {
     subtitle: "Academic background and continuous specialization.",
     ariaLabel: "Education",
   },
+  publications: {
+    title: "Publications",
+    subtitle:
+      "Articles and technical notes on architecture, cloud, engineering, and working process.",
+    ariaLabel: "Publications",
+    readMore: "Read publication",
+    backToList: "Back to publications",
+    notFoundTitle: "Publication not found",
+    notFoundDescription:
+      "The content you are looking for does not exist or has been moved.",
+    publishedOn: "Published on",
+  },
   testimonials: {
     title: "Recommendations",
     subtitle: "Testimonials from colleagues, managers, and project partners.",
@@ -464,6 +498,18 @@ const es: SiteCopy = {
     title: "Formación Académica",
     subtitle: "Trayectoria académica y especialización continua.",
     ariaLabel: "Formación académica",
+  },
+  publications: {
+    title: "Publicaciones",
+    subtitle:
+      "Artículos y notas técnicas sobre arquitectura, cloud, ingeniería y proceso de trabajo.",
+    ariaLabel: "Publicaciones",
+    readMore: "Leer publicación",
+    backToList: "Volver a publicaciones",
+    notFoundTitle: "Publicación no encontrada",
+    notFoundDescription:
+      "El contenido que buscas no existe o ha sido movido.",
+    publishedOn: "Publicado el",
   },
   testimonials: {
     title: "Recomendaciones",

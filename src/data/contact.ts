@@ -27,5 +27,4 @@ export const contactOpportunitiesByLocale: Record<Locale, readonly string[]> = {
   ],
 };
 
-/** @deprecated Prefer contactOpportunitiesByLocale[locale] */
 export const contactOpportunities = contactOpportunitiesByLocale["pt-BR"];
