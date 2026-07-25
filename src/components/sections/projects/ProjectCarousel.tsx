@@ -14,6 +14,10 @@ import { Badge } from "@/components/ui/Badge";
 import { BodyText } from "@/components/ui/BodyText";
 import { Button } from "@/components/ui/Button";
 import { CarouselNavButton } from "@/components/ui/CarouselNavButton";
+import {
+  hasCustomProjectCover,
+  ProjectCover,
+} from "@/components/sections/projects/covers/ProjectCover";
 import { cn } from "@/lib/cn";
 
 interface ProjectCarouselProps {
@@ -38,30 +42,30 @@ const slideVariants = {
 };
 
 function ProjectMedia({
-  image,
-  videoUrl,
-  embedUrl,
-  demoUrl,
-  githubUrl,
-  title,
+  project,
 }: {
-  image: string;
-  videoUrl?: string;
-  embedUrl?: string;
-  demoUrl?: string;
-  githubUrl?: string;
-  title: string;
+  project: Project;
 }) {
   const { copy } = useTranslations();
   const [hasError, setHasError] = useState(false);
-  const openUrl = demoUrl ?? embedUrl ?? githubUrl;
+  const openUrl = project.demoUrl ?? project.embedUrl ?? project.githubUrl;
 
-  if (embedUrl) {
+  if (hasCustomProjectCover(project.id)) {
+    return (
+      <ProjectCover
+        project={project}
+        openUrl={openUrl}
+        accessLabel={copy.projects.access}
+      />
+    );
+  }
+
+  if (project.embedUrl) {
     return (
       <>
         <iframe
-          src={embedUrl}
-          title={title}
+          src={project.embedUrl}
+          title={project.title}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
@@ -75,7 +79,7 @@ function ProjectMedia({
             target="_blank"
             rel="noopener noreferrer"
             className="absolute inset-0 z-10 flex items-end justify-center bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-inset"
-            aria-label={`${copy.projects.openSite}: ${title}`}
+            aria-label={`${copy.projects.openSite}: ${project.title}`}
           >
             <span className="mb-4 rounded-[var(--radius-badge)] border border-border bg-card/90 px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-card)] backdrop-blur-md opacity-80 transition-opacity duration-350 group-hover:opacity-100 focus-visible:opacity-100">
               {copy.projects.openSite}
@@ -86,10 +90,10 @@ function ProjectMedia({
     );
   }
 
-  if (videoUrl && !hasError) {
+  if (project.videoUrl && !hasError) {
     return (
       <video
-        src={videoUrl}
+        src={project.videoUrl}
         className="absolute inset-0 h-full w-full object-contain"
         autoPlay
         muted
@@ -102,7 +106,7 @@ function ProjectMedia({
     );
   }
 
-  if (!image || hasError) {
+  if (!project.image || hasError) {
     return (
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
         <ImageOff
@@ -119,8 +123,8 @@ function ProjectMedia({
   return (
     <>
       <img
-        src={image}
-        alt={title}
+        src={project.image}
+        alt={project.title}
         className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
         loading="lazy"
         decoding="async"
@@ -149,14 +153,7 @@ function ProjectSlide({ project }: { project: Project }) {
   return (
     <SpotlightCard className="group flex h-full w-full min-w-0 flex-col overflow-hidden p-0 lg:grid lg:grid-cols-2">
       <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-hover lg:aspect-auto lg:h-full lg:min-h-0">
-        <ProjectMedia
-          image={project.image}
-          videoUrl={project.videoUrl}
-          embedUrl={project.embedUrl}
-          demoUrl={project.demoUrl}
-          githubUrl={project.githubUrl}
-          title={project.title}
-        />
+        <ProjectMedia project={project} />
       </div>
 
       <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col justify-center overflow-hidden p-7 lg:p-10">

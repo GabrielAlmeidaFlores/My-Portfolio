@@ -5,8 +5,7 @@ const pulseImage = "/images/projects/pulse.png";
 const pulseUrl = "https://pulseips.com.br/";
 const xcheckImage = "/images/projects/xcheck.png";
 const xcheckUrl = "https://xcheck.com.br/";
-const httpCliImage =
-  "https://raw.githubusercontent.com/GabrielAlmeidaFlores/GabrielAlmeidaFlores/main/assets/HTTP-CLI/http-cli.gif";
+const httpCliImage = "/images/projects/http-cli/logo.png";
 const httpCliGithub = "https://github.com/GabrielAlmeidaFlores/HTTP-CLI";
 
 export const projectsByLocale: Record<Locale, Project[]> = {
