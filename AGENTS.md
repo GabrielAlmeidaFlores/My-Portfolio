@@ -310,19 +310,21 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 9. **Proibido seção rasa.** Se um H2/H3 apresenta uma peça da arquitetura (cliente, servidor, serviço, tool) **ou uma alternativa de decisão** (opção A/B/C, caminho X vs Y), o texto precisa dizer o que é, o que faz, **como funciona na prática** (fluxo: quem chama quem, o que volta), por que existe na stack e como se conecta ao restante. Um parágrafo genérico de três frases com só veredito (“bom para demo, ruim no dia a dia”) não basta.
 10. **Teste do leitor (obrigatório em toda seção nova ou reescrita).** Ao criar ou revisar um H2/H3, perguntar sempre: “Será que o usuário vai entender o que estou falando, ou preciso detalhar mais?” Em concreto: alguém sem o contexto da conversa consegue explicar de volta o mecanismo, não só o slogan? Se a resposta for dudosa, expandir com passo a passo, exemplo do dia a dia e o que quebra. Preferir uma seção um pouco mais longa e clara a uma seção curta que pressupõe que o leitor “já sabe”.
 11. **Explicitar o óbvio técnico quando ele for a chave da compreensão.** Ex.: “local ≠ offline”, “JSON precisa estar habilitado”, “o agente usa tools, não abre o navegador”.
-12. **Tom:** coloquial profissional, técnico e direto. Contar o que falhou, o que foi descartado e por quê. Sem marketing, sem autoajuda.
-13. **Proibido tom de “medo/incapacidade”.** Não escrever frases que soem como defesa pessoal (“não por medo de código”, “não é falta de capacidade técnica”, “não tenho medo de implementar”). Justificar decisões por foco, ownership, custo de manutenção, prazo ou encaixe no objetivo.
-14. **Proibido vocabulário pejorativo ou moralizante.** Evitar palavras como “tentação”, “pecado”, “preguiça”, “atalho sujo” e similares para descrever escolhas técnicas. Preferir neutro: “caminho comum”, “alternativa”, “opção rápida”, “atalho operacional”.
-15. **Proibido clichês de IA / copy genérica**, inclusive (lista não exaustiva): "no cenário atual", "além disso", "além do mais", "crucial", "em suma", "vale ressaltar", "cabe destacar", "portanto", "neste contexto", "é importante destacar", "sem mais delongas", "journey", "unlock", "game-changer", "robust solution", "seamless", "leverage".
-16. **Proibido** apresentar o autor como Tech Lead / Líder Técnico (ver regra de identidade).
-17. **i18n:** as mesmas regras de prosa valem para `pt-BR`, `en` e `es`. Adaptar idioma; não traduzir palavra a palavra de forma engessada.
-18. **Código e configs:** blocos reais, copiáveis, com o mínimo necessário. Explicar o “porquê” no parágrafo anterior ou seguinte, não com comentários dentro do snippet (código do repo também não leva comentários).
-19. **Key takeaways antes da Conclusão (obrigatório em todo post).** Todo artigo termina com uma seção H3 de takeaways imediatamente **antes** da Conclusão. Títulos: **Pontos-chave** (`pt-BR`), **Key takeaways** (`en`), **Puntos clave** (`es`). Conteúdo: lista curta (tipicamente 4 a 7 itens) com o que o leitor deve lembrar ou fazer; cada item em uma frase acionável, sem repetir a conclusão em prosa. Aqui a lista é bem-vinda (é checklist de retenção, não narrativa). Não inventar ponto novo que o post não defendeu.
-20. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
+12. **Pronome com referente explícito (obrigatório).** Proibido “ele / ela / isso / it” como atalho quando o leitor puder perguntar “quem?” ou “o quê?”. Preferir repetir o sujeito pelo nome: “o agente”, “o SearXNG”, “o pacote MCP”, “o modelo”. Vale sobretudo depois de lista, parágrafo com vários substantivos, ou início de frase nova. Ex.: errado: “Sem acesso à web, ele chuta versão errada.” Certo: “Sem acesso à web, o agente chuta versão errada.”
+13. **Tom:** coloquial profissional, técnico e direto. Contar o que falhou, o que foi descartado e por quê. Sem marketing, sem autoajuda.
+14. **Proibido tom de “medo/incapacidade”.** Não escrever frases que soem como defesa pessoal (“não por medo de código”, “não é falta de capacidade técnica”, “não tenho medo de implementar”). Justificar decisões por foco, ownership, custo de manutenção, prazo ou encaixe no objetivo.
+15. **Proibido vocabulário pejorativo ou moralizante.** Evitar palavras como “tentação”, “pecado”, “preguiça”, “atalho sujo” e similares para descrever escolhas técnicas. Preferir neutro: “caminho comum”, “alternativa”, “opção rápida”, “atalho operacional”.
+16. **Proibido clichês de IA / copy genérica**, inclusive (lista não exaustiva): "no cenário atual", "além disso", "além do mais", "crucial", "em suma", "vale ressaltar", "cabe destacar", "portanto", "neste contexto", "é importante destacar", "sem mais delongas", "journey", "unlock", "game-changer", "robust solution", "seamless", "leverage".
+17. **Proibido** apresentar o autor como Tech Lead / Líder Técnico (ver regra de identidade).
+18. **i18n:** as mesmas regras de prosa valem para `pt-BR`, `en` e `es`. Adaptar idioma; não traduzir palavra a palavra de forma engessada.
+19. **Código e configs:** blocos reais, copiáveis, com o mínimo necessário. Explicar o “porquê” no parágrafo anterior ou seguinte, não com comentários dentro do snippet (código do repo também não leva comentários).
+20. **Key takeaways antes da Conclusão (obrigatório em todo post).** Todo artigo termina com uma seção H3 de takeaways imediatamente **antes** da Conclusão. Títulos: **Pontos-chave** (`pt-BR`), **Key takeaways** (`en`), **Puntos clave** (`es`). Conteúdo: lista curta (tipicamente 4 a 7 itens) com o que o leitor deve lembrar ou fazer; cada item em uma frase acionável, sem repetir a conclusão em prosa. Aqui a lista é bem-vinda (é checklist de retenção, não narrativa). Não inventar ponto novo que o post não defendeu.
+21. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
 
 **Checklist rápido de prosa:**
 
 - [ ] Leitura leve e completa: o leitor entende o objetivo sem quebrar a cabeça
+- [ ] Pronomes com referente explícito (agente, SearXNG, pacote…, não “ele” solto)
 - [ ] Parágrafos simples (uma ideia por bloco); lista quando houver várias ideias paralelas ou fluxo em passos
 - [ ] Sem cadeia com seta (`→`) no corpo do post; fluxo vira lista
 - [ ] Introdução conectada: tese + dor concreta + para onde o post vai (sem metáfora solta)
@@ -662,7 +664,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
-- [ ] Publicações: intro conectada; prosa simples (lista se várias ideias); sem seta `→` em fluxo; key takeaways antes da conclusão; teste visual (imagem web → Mermaid); diagrama após texto e compacto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
+- [ ] Publicações: intro conectada; prosa simples; referente explícito (sem “ele” solto); sem seta `→` em fluxo; key takeaways antes da conclusão; teste visual; diagrama após texto; termos explicados + linkados; teste do leitor; sem seção rasa / Executive summary
 - [ ] Sem travessão (`—`) em nenhum conteúdo do site (UI, data, meta, README, artigos)
 
 ### O que não fazer

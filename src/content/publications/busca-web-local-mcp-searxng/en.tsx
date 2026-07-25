@@ -155,7 +155,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleUl>
 
       <ArticleP>
-        Without reliable web access, it guesses the wrong version, invents a
+        Without reliable web access, the agent guesses the wrong version, invents a
         detail, or keeps asking for confirmation. The session stalls.
       </ArticleP>
 
@@ -171,7 +171,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleOl>
 
       <ArticleP>
-        When search fails in the middle, the rest falls apart. It retries,
+        When search fails in the middle, the rest falls apart. The agent retries,
         hallucinates, or interrupts you. In long sessions that becomes real
         friction.
       </ArticleP>
@@ -259,7 +259,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleOl>
 
       <ArticleP>
-        In a smoke test it feels like magic: no account, no Docker, an answer
+        In a smoke test the flow feels like magic: no account, no Docker, an answer
         right away.
       </ArticleP>
 
@@ -286,7 +286,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
 
       <ArticleP>
         The failure rate rises in the exact pattern of an autonomous agent: many
-        bursty queries, for hours. It is the same mechanism as option A in the
+        bursty queries, for hours. That is the same mechanism as option A in the
         next section.
       </ArticleP>
 
@@ -377,16 +377,16 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         >
           npx
         </a>{" "}
-        / Node) and point the agent client at it. No Docker, no metasearch
+        / Node) and point the agent client at the MCP package. No Docker, no metasearch
         config, no server to write. In a few minutes the agent gets a tool like{" "}
-        <ArticleCode>search_web</ArticleCode>: it asks for a query, the MCP
-        server runs the search, and it returns titles, links, and snippets for
+        <ArticleCode>search_web</ArticleCode>: the agent asks for a query, the MCP
+        server runs the search, and the MCP server returns titles, links, and snippets for
         the model to use on the next step.
       </ArticleP>
 
       <ArticleP>
         The detail that matters is <em>how</em> that package searches. Usually
-        it acts as a scraper: it opens (over HTTP) the “public” page or endpoint
+        the package acts as a scraper: the package opens (over HTTP) the “public” page or endpoint
         of an engine (DuckDuckGo and friends), reads HTML or a semi-structured
         response, and tries to extract results. There is no stable official API
         in the middle. MCP is only the adapter that turns “agent tool” into
@@ -417,7 +417,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         (caps on requests per IP/time). HTML changes without notice and the
         parser goes quiet. In a long session the agent fires many queries in
         bursts: exactly the pattern anti-abuse punishes first. The tool becomes
-        a roulette wheel. I used this as a quick experiment and dropped it as
+        a roulette wheel. I used this as a quick experiment and dropped that approach as
         the main line.
       </ArticleP>
 
@@ -438,7 +438,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         >
           MCP
         </a>{" "}
-        package stops scraping the web on its own. It becomes an HTTP client of
+        package stops scraping the web on its own. The MCP package becomes an HTTP client of
         a service <em>you</em> host:{" "}
         <a
           href="https://docs.searxng.org/"
@@ -467,7 +467,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleOl>
 
       <ArticleP>
-        The agent never “opens Chrome”; it only consumes the tool result.
+        The agent never “opens Chrome”; the agent only consumes the tool result.
       </ArticleP>
 
       <ArticleP>
@@ -480,7 +480,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         >
           metasearch
         </a>
-        : instead of being another Google, it orchestrates search engines and
+        : instead of being another Google, SearXNG orchestrates search engines and
         sources (Google, Bing, DuckDuckGo, and others depending on config) and
         cleans a good chunk of noise into one response. Running that in{" "}
         <a
@@ -541,7 +541,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleP>
 
       <ArticleP>
-        It is totally doable. The question is focus and ownership. For the goal
+        A custom MCP is totally doable. The question is focus and ownership. For the goal
         “stable web search in the agent”, you become the owner of timeouts,
         parsing, engine fallbacks, 403/429 handling, payload size, bug reports,
         and your server’s changelog. Any improvement a mature MCP package already
@@ -585,7 +585,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         <ArticleTbody>
           <ArticleTr>
             <ArticleTd>Financial cost</ArticleTd>
-            <ArticleTd>Low until it fails</ArticleTd>
+            <ArticleTd>Low until the scraper fails</ArticleTd>
             <ArticleTd>Zero API spend</ArticleTd>
             <ArticleTd>High engineering time</ArticleTd>
           </ArticleTr>
@@ -618,14 +618,14 @@ export function BuscaWebLocalMcpSearxngContentEn() {
 
       <ArticleCallout variant="tip" title="The call">
         <ArticleP>
-          I stayed with B. It solves stability and privacy without turning the
-          solution into an eternal internal maintenance product. It is the
+          I stayed with B. Option B solves stability and privacy without turning the
+          solution into an eternal internal maintenance product. Option B is the
           smallest architecture that survives a week of real use, not only a
           Friday demo.
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH2>3. What SearXNG is (and why it belongs here)</ArticleH2>
+      <ArticleH2>3. What SearXNG is (and why SearXNG belongs here)</ArticleH2>
 
       <ArticleP>
         <a
@@ -645,10 +645,10 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         >
           metasearch
         </a>{" "}
-        engine. It is not “another Google”. It aggregates results from multiple
+        engine. SearXNG is not “another Google”. SearXNG aggregates results from multiple
         services and databases (Google, Bing, DuckDuckGo, and dozens of others
         depending on your config) and returns a unified view. You search once;
-        underneath it fans out the query and merges the response.
+        underneath SearXNG fans out the query and merges the response.
       </ArticleP>
 
       <ArticleP>
@@ -660,7 +660,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleP>
 
       <ArticleP>
-        I picked SearXNG for three practical reasons. First, it already handles
+        I picked SearXNG for three practical reasons. First, SearXNG already handles
         aggregation and result normalization, so the MCP does not have to become
         a fragile HTML scraper. Second, the{" "}
         <a
@@ -682,15 +682,14 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         that is part of the model. JSON format must be enabled in{" "}
         <ArticleCode>settings.yml</ArticleCode>, otherwise the API returns 403
         and the MCP looks broken. And “local” still depends on the public
-        internet to talk to engines. What you gain is not full offline mode. It
-        is search running on your machine, zero search-API cost, and a stable
+        internet to talk to engines. What you gain is not full offline mode. What you gain is search running on your machine, zero search-API cost, and a stable
         layer between the agent and the web.
       </ArticleP>
 
       <ArticleP>
         If you already followed the problem (fragile scraper vs paid API vs
-        local SearXNG), the diagram below only closes the reasoning visually. It
-        does not introduce new ideas: it organizes what you just read.
+        local SearXNG), the diagram below only closes the reasoning visually. The diagram
+        does not introduce new ideas: the diagram organizes what you just read.
       </ArticleP>
 
       <ArticleMermaid
@@ -743,7 +742,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         over stdio, and turns the request into local HTTP. SearXNG, on loopback,
         aggregates engines and returns JSON. External engines (Google, Bing,
         DuckDuckGo…) still live on the public internet. The agent does not
-        scrape HTML: it uses tools.
+        scrape HTML: the agent uses tools.
       </ArticleP>
 
       <ArticleP>
@@ -759,7 +758,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       <ArticleH3>MCP client / agent</ArticleH3>
 
       <ArticleP>
-        The “MCP client” is the app where you chat with the agent. It can be{" "}
+        The “MCP client” is the app where you chat with the agent. The MCP client can be{" "}
         <a
           href="https://cursor.com/"
           className={linkClass}
@@ -808,10 +807,10 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       </ArticleP>
 
       <ArticleP>
-        The practical point: the agent does not “open Chrome” on its own. It
-        asks for a tool, the host runs it, and the result comes back in an
+        The practical point: the agent does not “open Chrome” on its own. The agent
+        asks for a tool, the host runs the tool, and the result comes back in an
         auditable, repeatable way. Swapping Cursor for Copilot does not change
-        the idea; it only changes where the MCP server config is saved.
+        the idea; swapping hosts only changes where the MCP server config is saved.
       </ArticleP>
 
       <ArticleMermaid
@@ -832,7 +831,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         >
           @zhafron/mcp-web-search
         </a>{" "}
-        package. It runs on{" "}
+        package. The package runs on{" "}
         <a
           href="https://nodejs.org/"
           className={linkClass}
@@ -850,12 +849,12 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         >
           npx
         </a>
-        : npm downloads/runs the package without you installing it globally by
+        : npm downloads/runs the package without you installing the package globally by
         hand.
       </ArticleP>
 
       <ArticleP>
-        It talks to the client with{" "}
+        The MCP server talks to the client with{" "}
         <a
           href="https://www.jsonrpc.org/"
           className={linkClass}
@@ -899,7 +898,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       <ArticleH3>SearXNG as the local metasearch</ArticleH3>
 
       <ArticleP>
-        Here SearXNG is the metasearch you host. It receives the query, hits
+        Here SearXNG is the metasearch you host. SearXNG receives the query, hits
         several engines (Google, Bing, DuckDuckGo, and others you enable), and
         returns one JSON. “Engine”, in this text, just means the external search
         provider the results come from.
@@ -981,9 +980,9 @@ export function BuscaWebLocalMcpSearxngContentEn() {
 
       <ArticleP>
         Grounding, in plain language, means tying the answer to external
-        evidence. Without it, the model completes text with whatever sounds
-        plausible. With search, it can cite what it just read. That raises
-        factuality and freshness. It does not magically raise “follow the prompt
+        evidence. Without grounding, the model completes text with whatever sounds
+        plausible. With search, the model can cite text the model just retrieved. That raises
+        factuality and freshness. Search grounding does not magically raise “follow the prompt
         better”, or abstract reasoning on a closed task. If the question is only
         about code already in the workspace, the gain is usually low.
       </ArticleP>
@@ -1098,7 +1097,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
       <ArticleP>
         The return is weak when the workspace already solves the task: refactor
         a module, follow a repo pattern, write a test on open code. Web search
-        there becomes noise and loops. It also does not “improve prompt
+        there becomes noise and loops. Web search also does not “improve prompt
         precision” in the instruction sense: a bad prompt stays bad. What
         improves is the factual base the model answers from, when the truth sits
         outside local context.
@@ -1201,7 +1200,7 @@ export function BuscaWebLocalMcpSearxngContentEn() {
         I created a local directory (in my case,{" "}
         <ArticleCode>~/searxng</ArticleCode>) and prepared{" "}
         <ArticleCode>settings.yml</ArticleCode>. The detail most people miss is
-        the JSON format. Without it, the API returns 403 and the MCP looks
+        the JSON format. Without the JSON format, the API returns 403 and the MCP looks
         “broken” for no obvious reason.
       </ArticleP>
 
@@ -1456,7 +1455,7 @@ Cite links and separate configuration causes from engine blocks.`}
         </ArticleLi>
         <ArticleLi>
           A public scraper MCP is fine for a smoke test. In long sessions,
-          CAPTCHAs, rate limits, and unstable HTML turn it into a roulette
+          CAPTCHAs, rate limits, and unstable HTML turn the scraper into a roulette
           wheel.
         </ArticleLi>
         <ArticleLi>
@@ -1473,7 +1472,7 @@ Cite links and separate configuration causes from engine blocks.`}
           then fetch, then synthesis. Do not stuff the context with noise.
         </ArticleLi>
         <ArticleLi>
-          Search grounding raises factuality and freshness. It does not “improve
+          Search grounding raises factuality and freshness. Search grounding does not “improve
           the prompt” on a task the workspace already solves.
         </ArticleLi>
         <ArticleLi>
@@ -1497,7 +1496,7 @@ Cite links and separate configuration causes from engine blocks.`}
 
       <ArticleP>
         If the goal is an agent with reliable search Monday through Friday,
-        option B is not a shortcut. It is the line I would leave running on my
+        option B is not a shortcut. Option B is the line I would leave running on my
         machine and recommend to someone on the team without hesitation.
       </ArticleP>
     </>

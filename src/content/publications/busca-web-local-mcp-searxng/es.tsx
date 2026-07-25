@@ -155,7 +155,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
       </ArticleUl>
 
       <ArticleP>
-        Sin acceso confiable a la web, adivina la versión equivocada, inventa un
+        Sin acceso confiable a la web, el agente adivina la versión equivocada, inventa un
         detalle o se queda pidiendo confirmación. La sesión se traba.
       </ArticleP>
 
@@ -172,7 +172,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
 
       <ArticleP>
         Cuando la búsqueda falla a mitad de camino, el resto se viene abajo.
-        Reintenta, alucina o te interrumpe. En sesiones largas eso se vuelve
+        El agente reintenta, alucina o te interrumpe. En sesiones largas eso se vuelve
         fricción real.
       </ArticleP>
 
@@ -380,16 +380,16 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         >
           npx
         </a>{" "}
-        / Node) y apuntas el cliente del agente hacia él. No levantas Docker, no
+        / Node) y apuntas el cliente del agente hacia el pacote MCP. No levantas Docker, no
         configuras metasearch, no escribes servidor. En pocos minutos el agente
-        gana una tool del tipo <ArticleCode>search_web</ArticleCode>: pide una
+        gana una tool del tipo <ArticleCode>search_web</ArticleCode>: el agente pide una
         query, el servidor MCP hace la búsqueda y devuelve títulos, links y
         snippets para que el modelo los use en el siguiente paso.
       </ArticleP>
 
       <ArticleP>
-        El detalle que importa es <em>cómo</em> ese paquete busca. En general
-        actúa como scraper: abre (por HTTP) la página o endpoint “público” de
+        El detalle que importa es <em>cómo</em> ese paquete busca. En general el
+        paquete actúa como scraper: abre (por HTTP) la página o endpoint “público” de
         un motor (DuckDuckGo y similares), lee HTML o una respuesta
         semi-estructurada, e intenta extraer resultados. No hay una API oficial
         estable en el medio. El MCP es solo el adaptador que traduce “tool del
@@ -441,7 +441,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         >
           MCP
         </a>{" "}
-        deja de “raspar la web solo”. Se vuelve cliente HTTP de un servicio que{" "}
+        deja de “raspar la web solo”. El pacote MCP se vuelve cliente HTTP de un servicio que{" "}
         <em>tú</em> hospedas: el{" "}
         <a
           href="https://docs.searxng.org/"
@@ -468,7 +468,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
       </ArticleOl>
 
       <ArticleP>
-        El agente nunca “abre Chrome”; solo consume el resultado de la tool.
+        El agente nunca “abre Chrome”; el agente solo consume el resultado de la tool.
       </ArticleP>
 
       <ArticleP>
@@ -481,7 +481,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         >
           metasearch
         </a>
-        : en lugar de ser otro Google, orquesta buscadores y fuentes (Google,
+        : en lugar de ser otro Google, el SearXNG orquesta buscadores y fuentes (Google,
         Bing, DuckDuckGo y otros, según la config) y limpia buena parte del
         ruido en una sola respuesta. Correr eso en{" "}
         <a
@@ -622,14 +622,14 @@ export function BuscaWebLocalMcpSearxngContentEs() {
 
       <ArticleCallout variant="tip" title="La decisión">
         <ArticleP>
-          Me quedé con la B. Resuelve estabilidad y privacidad sin transformar
-          la solución en un producto interno eterno de mantenimiento. Es la
+          Me quedé con la B. La opción B resuelve estabilidad y privacidad sin transformar
+          la solución en un producto interno eterno de mantenimiento. La opción B es la
           menor arquitectura que sobrevive a una semana de uso real, no solo a
           un demo de viernes.
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH2>3. Qué es SearXNG (y por qué entra en juego)</ArticleH2>
+      <ArticleH2>3. Qué es SearXNG (y por qué el SearXNG entra en juego)</ArticleH2>
 
       <ArticleP>
         <a
@@ -652,7 +652,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         engine open source y autoalojable. No es “otro Google”. Agrega
         resultados de varios servicios y bases (Google, Bing, DuckDuckGo y
         decenas de otros, según la config) y devuelve una vista unificada.
-        Buscas una vez; por debajo reparte la consulta y junta la respuesta.
+        Buscas una vez; por debajo el SearXNG reparte la consulta y junta la respuesta.
       </ArticleP>
 
       <ArticleP>
@@ -664,7 +664,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
       </ArticleP>
 
       <ArticleP>
-        Elegí SearXNG por tres motivos prácticos. Primero, ya resuelve
+        Elegí SearXNG por tres motivos prácticos. Primero, el SearXNG ya resuelve
         agregación y normalización de resultados, así que el MCP no tiene que
         volverse un scraper frágil de HTML. Segundo, la API{" "}
         <a
@@ -746,7 +746,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         </a>{" "}
         en stdio y traduce el pedido a HTTP local. SearXNG, en loopback, agrega
         engines y devuelve JSON. Los engines externos (Google, Bing,
-        DuckDuckGo…) siguen en internet pública. El agente no raspa HTML: usa
+        DuckDuckGo…) siguen en internet pública. El agente no raspa HTML: el agente usa
         tools.
       </ArticleP>
 
@@ -808,11 +808,11 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         etc. El cliente descubre qué tools existen, decide cuándo usarlas y
         recibe la respuesta estructurada (el “payload”: el paquete de datos que
         vuelve). Esa respuesta entra en la ventana de contexto del modelo, o
-        sea, en el texto que usa para seguir razonando.
+        sea, en el texto que el modelo usa para seguir razonando.
       </ArticleP>
 
       <ArticleP>
-        El punto práctico: el agente no “abre Chrome” por su cuenta. Pide una
+        El punto práctico: el agente no “abre Chrome” por su cuenta. El agente pide una
         tool, el host la ejecuta y el resultado vuelve de forma auditable y
         repetible. Cambiar Cursor por Copilot no cambia la idea; solo cambia
         dónde se guarda la config del servidor MCP.
@@ -836,7 +836,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         >
           @zhafron/mcp-web-search
         </a>
-        . Corre en{" "}
+        . El paquete corre en{" "}
         <a
           href="https://nodejs.org/"
           className={linkClass}
@@ -858,7 +858,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
       </ArticleP>
 
       <ArticleP>
-        Habla con el cliente usando{" "}
+        El servidor MCP habla con el cliente usando{" "}
         <a
           href="https://www.jsonrpc.org/"
           className={linkClass}
@@ -902,7 +902,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
       <ArticleH3>SearXNG como metasearch local</ArticleH3>
 
       <ArticleP>
-        Aquí SearXNG es el metasearch que hospedas. Recibe la query, consulta
+        Aquí SearXNG es el metasearch que hospedas. El SearXNG recibe la query, consulta
         varias engines (Google, Bing, DuckDuckGo y otras que habilites) y
         devuelve un JSON único. “Engine”, en este texto, es solo el buscador
         externo de donde salen los resultados.
@@ -985,8 +985,8 @@ export function BuscaWebLocalMcpSearxngContentEs() {
 
       <ArticleP>
         Grounding, en lenguaje simple, es amarrar la respuesta a evidencia
-        externa. Sin eso, el modelo completa el texto con lo que suena
-        plausible. Con búsqueda, puede citar lo que acaba de leer. Eso sube
+        externa. Sin grounding, el modelo completa el texto con lo que suena
+        plausible. Con búsqueda, el modelo puede citar lo que acaba de leer. Eso sube
         factualidad y frescura. No sube mágicamente “seguir mejor el prompt”,
         ni el razonamiento abstracto en una tarea cerrada. Si la pregunta es
         solo sobre el código que ya está en el workspace, la ganancia suele ser
@@ -1207,7 +1207,7 @@ export function BuscaWebLocalMcpSearxngContentEs() {
         Creé un directorio local (en mi caso,{" "}
         <ArticleCode>~/searxng</ArticleCode>) y preparé el{" "}
         <ArticleCode>settings.yml</ArticleCode>. El detalle que más gente
-        olvida es el formato JSON. Sin él, la API responde 403 y el MCP parece
+        olvida es el formato JSON. Sin el formato JSON, la API responde 403 y el MCP parece
         “roto” sin motivo aparente.
       </ArticleP>
 
