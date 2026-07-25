@@ -31,6 +31,7 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
 | Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
 | `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
+| Sem se apresentar como Tech Lead | Não usar "Tech Lead" / "Líder Técnico" fora da experiência na **Ousion** |
 | Atualizar `AGENTS.md` | Toda regra nova descrita pelo usuário deve ser registrada aqui |
 
 ---
@@ -341,11 +342,13 @@ Locales suportados: **`pt-BR`**, **`en`**, **`es`**. Toda página e seção vis�
 - Exceção: strings de conteúdo que apenas **parecem** comentário (ex.: eyebrow `"// engenheiro cloud-native"`) — são copy, não comentário de código
 - Preferir nomes claros e estrutura legível em vez de explicar com comentários
 
-### Nome deste documento
+### Apresentação profissional (cargo / identidade)
 
-- O arquivo de convenções chama-se **`AGENTS.md`** (sempre uppercase)
-- Em macOS (FS case-insensitive), renomear no Git com dois passos: `git mv agents.md temp.md && git mv temp.md AGENTS.md`
-- Referências em README e docs devem usar `AGENTS.md`
+- **Proibido** apresentar Gabriel como Tech Lead / Líder Técnico em hero, role, highlights, meta SEO, footer, contato, README, schema.org ou copy genérica
+- Títulos permitidos na apresentação: Software Developer, Cloud Architect, SysAdmin, DevOps, Arquiteto de Software, etc.
+- **Exceção:** o cargo "Líder Técnico" / "Tech Lead" pode aparecer **somente** no item de experiência da empresa **Ousion Soluções em Tecnologia** (`experiences.ts`)
+- Não oferecer "Tech Lead" / "Líder Técnico" como oportunidade de contato / interesse profissional
+- Evitar frases genéricas de "liderança técnica" / "technical leadership" fora do contexto factual da experiência Ousion
 
 ---
 
@@ -579,6 +582,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - Deixar capa/botão/texto da publicação com larguras laterais diferentes
 - Adicionar comentários no código
 - Renomear este arquivo para `agents.md` (lowercase)
+- Apresentar como Tech Lead / Líder Técnico fora da experiência Ousion
 - Usar `npm` / gerar `package-lock.json`
 - Criar ou manter `vercel.json`
 - Manter seção/data/type não montados na HomePage/rotas

@@ -125,7 +125,7 @@ const ptBR: SiteCopy = {
   experience: {
     title: "Experiência Profissional",
     subtitle:
-      "Trajetória em empresas de tecnologia, com foco em arquitetura, cloud e liderança de equipes.",
+      "Trajetória em empresas de tecnologia, com foco em arquitetura, cloud e engenharia de software.",
     ariaLabel: "Experiência profissional",
     others: "Others",
     showLess: "Ver menos",
@@ -192,7 +192,7 @@ const ptBR: SiteCopy = {
     titleBefore: "Vamos construir algo",
     titleHighlight: "juntos?",
     subtitle:
-      "Disponível para oportunidades em liderança técnica, arquitetura de software, engenharia cloud e consultoria.",
+      "Disponível para oportunidades em arquitetura de software, engenharia cloud, DevOps, SysAdmin e consultoria.",
     email: "Enviar e-mail",
     ariaLabel: "Contato",
   },
@@ -242,7 +242,7 @@ const en: SiteCopy = {
   experience: {
     title: "Professional Experience",
     subtitle:
-      "Career path in technology companies, focused on architecture, cloud, and team leadership.",
+      "Career path in technology companies, focused on architecture, cloud, and software engineering.",
     ariaLabel: "Professional experience",
     others: "Others",
     showLess: "Show less",
@@ -309,7 +309,7 @@ const en: SiteCopy = {
     titleBefore: "Shall we build something",
     titleHighlight: "together?",
     subtitle:
-      "Open to opportunities in technical leadership, software architecture, cloud engineering, and consulting.",
+      "Open to opportunities in software architecture, cloud engineering, DevOps, SysAdmin, and consulting.",
     email: "Send email",
     ariaLabel: "Contact",
   },
@@ -359,7 +359,7 @@ const es: SiteCopy = {
   experience: {
     title: "Experiencia Profesional",
     subtitle:
-      "Trayectoria en empresas de tecnología, con foco en arquitectura, cloud y liderazgo de equipos.",
+      "Trayectoria en empresas de tecnología, con foco en arquitectura, cloud e ingeniería de software.",
     ariaLabel: "Experiencia profesional",
     others: "Others",
     showLess: "Ver menos",
@@ -426,7 +426,7 @@ const es: SiteCopy = {
     titleBefore: "¿Construimos algo",
     titleHighlight: "juntos?",
     subtitle:
-      "Disponible para oportunidades en liderazgo técnico, arquitectura de software, ingeniería cloud y consultoría.",
+      "Disponible para oportunidades en arquitectura de software, ingeniería cloud, DevOps, SysAdmin y consultoría.",
     email: "Enviar correo",
     ariaLabel: "Contacto",
   },

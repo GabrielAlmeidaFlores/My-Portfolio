@@ -5,12 +5,12 @@
 <h1 align="center">João Gabriel Almeida Flores</h1>
 
 <p align="center">
-  <strong>Líder Técnico · Arquiteto de Software · Cloud & DevOps Engineer</strong>
+  <strong>Desenvolvedor de Software · Arquiteto Cloud · SysAdmin · DevOps</strong>
 </p>
 
 <p align="center">
   Transformo desafios complexos em plataformas escaláveis, seguras e cloud-native —
-  da arquitetura à produção, com liderança técnica e entrega contínua de valor.
+  da arquitetura à produção, com foco em infraestrutura e entrega contínua de valor.
 </p>
 
 <p align="center">
@@ -38,17 +38,17 @@
 
 ## Por que este portfólio?
 
-Este não é um site genérico de “mais um desenvolvedor”. É a vitrine profissional de quem lidera decisões de arquitetura, cloud e times de engenharia — com projetos reais, stack atualizada e foco em impacto de negócio.
+Este não é um site genérico de “mais um desenvolvedor”. É a vitrine profissional de quem atua em arquitetura, cloud e engenharia — com projetos reais, stack atualizada e foco em impacto de negócio.
 
 **O que você encontra aqui**
 
-- Experiência como **Líder Técnico** em cloud-native (AWS & Azure), CI/CD e plataformas multi-tenant
+- Experiência em cloud-native (AWS & Azure), CI/CD e plataformas multi-tenant — incluindo atuação como Líder Técnico na Ousion
 - Projetos de produto e open source: **Pulse**, **XCheck**, **HTTP-CLI**
 - Stack completa: backend, frontend, DevOps, bancos e observabilidade
 - Certificações AWS, GCP e Linux
 - Contato direto para conversas sobre arquitetura, cloud e oportunidades
 
-Se você busca alguém que une **código, infraestrutura e liderança** — este é o lugar certo.
+Se você busca alguém que une **código, infraestrutura e arquitetura** — este é o lugar certo.
 
 ---
 

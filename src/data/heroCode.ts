@@ -1,6 +1,6 @@
 export const heroCode = `const engineer = {
   name: "João Gabriel Almeida Flores",
-  role: "Tech Lead",
+  role: "Software Developer",
   specialties: [
     "AWS",
     "Software Architecture",

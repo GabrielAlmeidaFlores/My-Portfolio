@@ -13,13 +13,13 @@ export const siteMeta: Record<Locale, SiteMeta> = {
   "pt-BR": {
     title: "João Gabriel Almeida Flores — Portfólio",
     description:
-      "Líder Técnico, Arquiteto de Software e Engenheiro Cloud & DevOps. Especialista em plataformas escaláveis, seguras e cloud-native.",
+      "Desenvolvedor de Software, Arquiteto Cloud, SysAdmin e Engenheiro DevOps. Especialista em plataformas escaláveis, seguras e cloud-native.",
     footerDescription: [
-      "Líder Técnico, Arquiteto de Software e Engenheiro Cloud & DevOps.",
+      "Desenvolvedor de Software, Arquiteto Cloud, SysAdmin e Engenheiro DevOps.",
       "Especialista em plataformas escaláveis, seguras e cloud-native.",
     ],
     twitterDescription:
-      "Líder Técnico, Arquiteto de Software e Engenheiro Cloud & DevOps.",
+      "Desenvolvedor de Software, Arquiteto Cloud, SysAdmin e Engenheiro DevOps.",
     ogLocale: "pt_BR",
     whatsappMessage:
       "Olá, gostaria de saber mais sobre seu trabalho!",
@@ -27,26 +27,26 @@ export const siteMeta: Record<Locale, SiteMeta> = {
   en: {
     title: "João Gabriel Almeida Flores — Portfolio",
     description:
-      "Tech Lead, Software Architect, and Cloud & DevOps Engineer. Specialist in scalable, secure, cloud-native platforms.",
+      "Software Developer, Cloud Architect, SysAdmin, and DevOps Engineer. Specialist in scalable, secure, cloud-native platforms.",
     footerDescription: [
-      "Tech Lead, Software Architect, and Cloud & DevOps Engineer.",
+      "Software Developer, Cloud Architect, SysAdmin, and DevOps Engineer.",
       "Specialist in scalable, secure, cloud-native platforms.",
     ],
     twitterDescription:
-      "Tech Lead, Software Architect, and Cloud & DevOps Engineer.",
+      "Software Developer, Cloud Architect, SysAdmin, and DevOps Engineer.",
     ogLocale: "en_US",
     whatsappMessage: "Hi, I'd like to learn more about your work!",
   },
   es: {
     title: "João Gabriel Almeida Flores — Portafolio",
     description:
-      "Líder Técnico, Arquitecto de Software e Ingeniero Cloud & DevOps. Especialista en plataformas escalables, seguras y cloud-native.",
+      "Desarrollador de Software, Arquitecto Cloud, SysAdmin e Ingeniero DevOps. Especialista en plataformas escalables, seguras y cloud-native.",
     footerDescription: [
-      "Líder Técnico, Arquitecto de Software e Ingeniero Cloud & DevOps.",
+      "Desarrollador de Software, Arquitecto Cloud, SysAdmin e Ingeniero DevOps.",
       "Especialista en plataformas escalables, seguras y cloud-native.",
     ],
     twitterDescription:
-      "Líder Técnico, Arquitecto de Software e Ingeniero Cloud & DevOps.",
+      "Desarrollador de Software, Arquitecto Cloud, SysAdmin e Ingeniero DevOps.",
     ogLocale: "es_ES",
     whatsappMessage: "¡Hola! Me gustaría saber más sobre tu trabajo.",
   },
