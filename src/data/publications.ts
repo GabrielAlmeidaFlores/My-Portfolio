@@ -4,37 +4,37 @@ import type {
   Publication,
 } from "@/types/publication";
 import {
-  ArquiteturaCloudContentEn,
-  ArquiteturaCloudContentEs,
-  ArquiteturaCloudContentPt,
-} from "@/content/publications/arquitetura-cloud";
+  BuscaWebLocalMcpSearxngContentEn,
+  BuscaWebLocalMcpSearxngContentEs,
+  BuscaWebLocalMcpSearxngContentPt,
+} from "@/content/publications/busca-web-local-mcp-searxng";
 
 export const publications: Publication[] = [
   {
-    id: "arquitetura-cloud",
-    slug: "arquitetura-cloud",
-    publishedAt: "2026-07-20",
+    id: "busca-web-local-mcp-searxng",
+    slug: "busca-web-local-mcp-searxng",
+    publishedAt: "2026-07-25",
     tags: {
-      "pt-BR": ["Cloud", "Arquitetura", "AWS"],
-      en: ["Cloud", "Architecture", "AWS"],
-      es: ["Cloud", "Arquitectura", "AWS"],
+      "pt-BR": ["MCP", "SearXNG", "Docker", "Cursor"],
+      en: ["MCP", "SearXNG", "Docker", "Cursor"],
+      es: ["MCP", "SearXNG", "Docker", "Cursor"],
     },
-    coverImage: "/images/publications/arquitetura-cloud/cover.svg",
+    coverImage: "/images/publications/busca-web-local-mcp-searxng/cover.jpg",
     title: {
-      "pt-BR": "Arquitetura cloud na prática",
-      en: "Cloud architecture in practice",
-      es: "Arquitectura cloud en la práctica",
+      "pt-BR": "Busca web local para IA com MCP e SearXNG",
+      en: "Local web search for AI with MCP and SearXNG",
+      es: "Búsqueda web local para IA con MCP y SearXNG",
     },
     summary: {
       "pt-BR":
-        "Um guia objetivo para desenhar sistemas cloud-native com foco em domínio, custos e observabilidade.",
-      en: "A practical guide to designing cloud-native systems with focus on domain, cost, and observability.",
-      es: "Una guía práctica para diseñar sistemas cloud-native con foco en dominio, costos y observabilidad.",
+        "Como montar busca web estável no Cursor com MCP e SearXNG em Docker, sem API paga e com controle na borda.",
+      en: "How to run stable web search in Cursor with MCP and SearXNG on Docker, with no paid API and edge control.",
+      es: "Cómo montar búsqueda web estable en Cursor con MCP y SearXNG en Docker, sin API de pago y con control en el borde.",
     },
     Content: {
-      "pt-BR": ArquiteturaCloudContentPt,
-      en: ArquiteturaCloudContentEn,
-      es: ArquiteturaCloudContentEs,
+      "pt-BR": BuscaWebLocalMcpSearxngContentPt,
+      en: BuscaWebLocalMcpSearxngContentEn,
+      es: BuscaWebLocalMcpSearxngContentEs,
     },
   },
 ];

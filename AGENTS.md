@@ -30,6 +30,7 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Sem exports legados | Proibido `export const x = xByLocale["pt-BR"]` |
 | Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
 | Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
+| Prosa de publicações | Tom humano de blog/LinkedIn; sem travessão (`—`); sem clichês de IA; parágrafos com contexto |
 | `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
 | Sem se apresentar como Tech Lead | Não usar "Tech Lead" / "Líder Técnico" fora da experiência na **Ousion** |
 | Atualizar `AGENTS.md` | Toda regra nova descrita pelo usuário deve ser registrada aqui |
@@ -259,6 +260,33 @@ Rotas adicionais:
 **i18n:** `title`, `summary`, `tags`, `Content` nos três locales — sem fallback parcial
 
 **Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationPage`, kit `article/`
+
+#### Tom e prosa das publicações (obrigatório)
+
+Escrever como desenvolvedor sênior em blog pessoal ou post técnico no LinkedIn: experiência real, voz humana, ritmo agradável. O leitor precisa sentir que alguém viveu o problema e está contando a decisão.
+
+**Regras de ouro:**
+
+1. **Proibido travessão (`—`)** para separar frases, introduzir explicações ou criar digressões. Preferir ponto, vírgula, dois pontos ou frase nova. Hífen em compostos técnicos (`cloud-native`, `rate-limit`) e em código permanece ok.
+2. **Parágrafos arejados, não telegráficos.** Evitar sequência de frases isoladas de uma linha. Cada parágrafo deve carregar contexto: 2 a 5 frases, com ar entre blocos. Nem muralha densa, nem staccato de tweets.
+3. **Ritmo:** variar tamanho de frase. Misturar frases curtas e diretas com períodos um pouco mais longos que descrevem o porquê.
+4. **Prosa > lista.** Listas só quando a comparação ou o checklist realmente ajuda (troubleshooting, passos de comando). Preferir narrativa para benefícios, trade-offs e justificativas.
+5. **Tabelas e Mermaid** continuam bem-vindos para comparativos e fluxos. O texto ao redor deve explicar a decisão, não só apontar o diagrama.
+6. **Tom:** coloquial profissional, técnico e direto. Contar o que falhou, o que foi descartado e por quê. Sem marketing, sem autoajuda.
+7. **Proibido clichês de IA / copy genérica**, inclusive (lista não exaustiva): "no cenário atual", "além disso", "além do mais", "crucial", "em suma", "vale ressaltar", "cabe destacar", "portanto", "neste contexto", "é importante destacar", "sem mais delongas", "journey", "unlock", "game-changer", "robust solution", "seamless", "leverage".
+8. **Proibido** apresentar o autor como Tech Lead / Líder Técnico (ver regra de identidade).
+9. **i18n:** as mesmas regras de prosa valem para `pt-BR`, `en` e `es`. Adaptar idioma; não traduzir palavra a palavra de forma engessada.
+10. **Código e configs:** blocos reais, copiáveis, com o mínimo necessário. Explicar o “porquê” no parágrafo anterior ou seguinte, não com comentários dentro do snippet (código do repo também não leva comentários).
+11. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo.
+
+**Checklist rápido de prosa:**
+
+- [ ] Nenhum travessão (`—`) no texto do artigo
+- [ ] Parágrafos com contexto suficiente (não só frases soltas)
+- [ ] Poucas listas; onde houver lista, ela agrega
+- [ ] Zero clichês da lista acima
+- [ ] Sem “Executive summary” / “Resumo executivo”; fechamento como Conclusão
+- [ ] Soa como alguém contando uma decisão técnica real
 
 ---
 
@@ -571,6 +599,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Se usou `max-w-*`, o token `--max-width-*` correspondente existe em `@theme`
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
+- [ ] Publicações: prosa humana (sem `—`, sem clichês de IA, parágrafos com contexto)
 
 ### O que não fazer
 
@@ -578,6 +607,8 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - Adicionar bibliotecas sem justificativa (ex.: terceira lib de animação)
 - Hardcodar textos em um único idioma
 - Criar publicação só em pt-BR com fallback implícito
+- Escrever publicação com travessão (`—`), clichês de IA ou prosa telegráfica/staccato
+- Fechar publicação com “Executive summary” / “Resumo executivo” (usar Conclusão)
 - Usar `max-w-3xl` sem `--max-width-3xl` no tema
 - Deixar capa/botão/texto da publicação com larguras laterais diferentes
 - Adicionar comentários no código
