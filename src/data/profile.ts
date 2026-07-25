@@ -4,12 +4,12 @@ import type { Profile } from "@/types/profile";
 const base = {
   fullName: "João Gabriel Almeida Flores",
   photo: "/images/profile-hero.jpeg",
-  cvUrl: "/cv/Gabriel_Flores_ptBR.pdf",
 } as const;
 
 export const profiles: Record<Locale, Profile> = {
   "pt-BR": {
     ...base,
+    cvUrl: "/cv/Gabriel_Flores_ptBR.pdf",
     role: "Desenvolvedor de Software • Arquiteto Cloud • SysAdmin • DevOps",
     tagline:
       "Construindo plataformas escaláveis, seguras e resilientes com foco em arquitetura cloud-native, infraestrutura e entrega contínua de valor.",
@@ -24,6 +24,7 @@ export const profiles: Record<Locale, Profile> = {
   },
   en: {
     ...base,
+    cvUrl: "/cv/Gabriel_Flores_EN.pdf",
     role: "Software Developer • Cloud Architect • SysAdmin • DevOps Engineer",
     tagline:
       "Building scalable, secure, and resilient platforms with a focus on cloud-native architecture, infrastructure, and continuous delivery of value.",
@@ -38,6 +39,7 @@ export const profiles: Record<Locale, Profile> = {
   },
   es: {
     ...base,
+    cvUrl: "/cv/Gabriel_Flores_EN.pdf",
     role: "Desarrollador de Software • Arquitecto Cloud • SysAdmin • DevOps",
     tagline:
       "Construyendo plataformas escalables, seguras y resilientes con foco en arquitectura cloud-native, infraestructura y entrega continua de valor.",
