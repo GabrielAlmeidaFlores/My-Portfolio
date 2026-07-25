@@ -31,29 +31,6 @@ const ARCHITECTURE_CHART = `flowchart TB
   SearX -->|"JSON unificado"| MCP
   MCP -->|"contexto"| Client`;
 
-const SEARXNG_COMPARE_CHART = `flowchart TB
-  subgraph Direct["A: scraper direto"]
-    direction TB
-    A1["Agente"] --> A2["1 engine"]
-    A2 --> A3["Bloqueio / CAPTCHA"]
-  end
-
-  subgraph Paid["B: API SaaS"]
-    direction TB
-    B1["Agente"] --> B2["Provedor pago"]
-    B2 --> B3["Custo + cota"]
-  end
-
-  subgraph Meta["C: SearXNG local"]
-    direction TB
-    C1["Agente + MCP"] --> C2["SearXNG"]
-    C2 --> C3["Varias engines + JSON"]
-  end
-
-  Direct --> Escolha["Escolha: C"]
-  Paid --> Escolha
-  Meta --> Escolha`;
-
 const DECISION_CHART = `flowchart TB
   Start["Busca web no agente"]
 
@@ -76,13 +53,6 @@ const PROBLEM_CHART = `flowchart TB
   PainPaid --> Gap["Falta busca local estavel"]
   PainScrape --> Gap`;
 
-const OPTION_A_CHART = `flowchart LR
-  Ag["Agente"] --> Mcp["MCP pronto"]
-  Mcp --> Http["HTTP na engine"]
-  Http --> Html["HTML / endpoint"]
-  Html --> Parse["Parser"]
-  Parse --> Out["Snippets"]
-  Html -.-> Fail["CAPTCHA / 429"]`;
 
 const OPTION_B_CHART = `flowchart LR
   Ag["Agente"] --> Mcp["MCP pronto"]
@@ -107,18 +77,6 @@ const SCRAPER_VS_SEARXNG_CHART = `flowchart TB
     M3 --> M4["Varias engines"]
     M4 --> M5["Agrega resultado"]
   end`;
-
-const OPTION_C_CHART = `flowchart LR
-  Ag["Agente"] -->|"stdio"| Custom["Seu MCP SDK"]
-  Custom --> Code["Seu codigo"]
-  Code --> Web["HTTP / scraper / API"]`;
-
-const MCP_ROLES_CHART = `flowchart TB
-  Host["Host: Cursor / Copilot"]
-  Client["Cliente MCP"]
-  Server["Servidor MCP"]
-  Host --> Client
-  Client -->|"tools / JSON-RPC"| Server`;
 
 const SETUP_CHART = `flowchart LR
   F1["1. SearXNG Docker"] --> F2["2. MCP no cliente"]
@@ -180,7 +138,61 @@ export function BuscaWebLocalMcpSearxngContentPt() {
         >
           SearXNG
         </a>{" "}
-        local em Docker. Antes do setup, o problema que me trouxe até aqui.
+        local em Docker. Três nomes que você vai ver o tempo todo:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          <a
+            href="https://modelcontextprotocol.io/"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            MCP
+          </a>
+          : protocolo que deixa o agente chamar tools (buscar, ler URL) no
+          Cursor/Copilot, em vez de “abrir o navegador sozinho”
+        </ArticleLi>
+        <ArticleLi>
+          <a
+            href="https://docs.searxng.org/"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            SearXNG
+          </a>
+          :{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Metasearch_engine"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            metasearch
+          </a>{" "}
+          open source que você hospeda; consulta vários buscadores e devolve
+          um resultado unificado (no meu caso, em JSON)
+        </ArticleLi>
+        <ArticleLi>
+          engine: o buscador externo de onde vêm os hits (Google, Bing,
+          DuckDuckGo…). O SearXNG fala com as engines; o MCP fala com o SearXNG
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleCallout variant="tip" title="Atalho">
+        <ArticleP>
+          Quer o checklist de montagem agora? Pule para a{" "}
+          <a href="#3-como-eu-montei-na-pratica" className={linkClass}>
+            seção 3
+          </a>
+          .
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleP>
+        Se preferir o porquê antes do como, continue aqui.
       </ArticleP>
 
       <ArticleP>
@@ -217,10 +229,8 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       </ArticleP>
 
       <ArticleP>
-        Eu comparei três caminhos e fiquei com o terceiro: API paga, scraper
-        MCP, metasearch local. A seguir: o que dói nas APIs comerciais, por que
-        scraper “grátis” engana no smoke test, e o que “local” significa neste
-        texto.
+        Eu comparei API paga, scraper MCP e metasearch local. Fiquei com o
+        metasearch. A seguir, o que quebra nos outros dois.
       </ArticleP>
 
       <ArticleH3>O que quebra nas APIs de busca pagas</ArticleH3>
@@ -290,23 +300,12 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       </ArticleP>
 
       <ArticleP>
-        Aqui “tool” não é ferramenta genérica. No{" "}
-        <a
-          href="https://modelcontextprotocol.io/docs/concepts/tools"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          MCP
-        </a>
-        , tool é uma ação nomeada que o agente pode pedir ao host: nome, inputs e
-        um resultado estruturado. O modelo não abre o navegador sozinho. O
-        agente pede a tool, o host executa o servidor MCP e devolve o texto para
-        o modelo continuar.
+        No MCP, tool é uma ação nomeada (nome + inputs + resultado). O agente
+        pede; o host executa; o modelo continua.
       </ArticleP>
 
       <ArticleP>
-        Neste pacote de busca, as tools que importam são estas:
+        Neste pacote, duas tools importam:
       </ArticleP>
 
       <ArticleUl>
@@ -395,19 +394,9 @@ export function BuscaWebLocalMcpSearxngContentPt() {
           sua máquina.
         </ArticleP>
         <ArticleP>
-          Você tira o intermediário SaaS de busca e hospeda a orquestração (
-          <a
-            href="https://docs.searxng.org/"
-            className={linkClass}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            SearXNG
-          </a>{" "}
-          + MCP) aí. A internet continua existindo. Engines externas continuam
-          sendo consultadas. A diferença: a camada que o agente enxerga fica sob
-          o seu domínio (porta, secret, ciclo de vida e o que fica exposto na
-          rede).
+          Você hospeda SearXNG + MCP. A internet e as engines externas
+          continuam. O que muda: porta, secret e ciclo de vida ficam no seu
+          domínio.
         </ArticleP>
       </ArticleCallout>
 
@@ -436,16 +425,14 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       <ArticleH2>2. Três caminhos que eu coloquei na mesa</ArticleH2>
 
       <ArticleP>
-        Eu não estava caçando a arquitetura mais sofisticada. Queria a opção
-        mais estável para uso diário, com o menor custo de ownership possível.
-        Três rotas apareceram naturalmente. Antes do desenho, vale entender cada
-        uma em texto.
+        Queria a opção mais estável no dia a dia, com ownership baixo. Três
+        rotas:
       </ArticleP>
 
       <ArticleH3>Opção A: MCP pronto com scraper público direto</ArticleH3>
 
       <ArticleP>
-        Nesta opção você instala um pacote MCP de busca pronto (via{" "}
+        Instala um MCP de busca via{" "}
         <a
           href="https://docs.npmjs.com/cli/v10/commands/npm-exec"
           className={linkClass}
@@ -453,55 +440,47 @@ export function BuscaWebLocalMcpSearxngContentPt() {
           rel="noopener noreferrer"
         >
           npx
-        </a>{" "}
-        / Node) e aponta o cliente do agente para o pacote MCP. Não sobe Docker, não
-        configura metasearch, não escreve servidor. Em poucos minutos o agente
-        ganha uma tool do tipo <ArticleCode>search_web</ArticleCode>: o agente pede
-        uma query, o servidor MCP faz a busca e devolve títulos, links e
-        snippets para o modelo usar no próximo passo.
+        </a>
+        . Sem Docker. Sem metasearch. Em minutos o agente ganha{" "}
+        <ArticleCode>search_web</ArticleCode>.
       </ArticleP>
 
       <ArticleP>
-        O detalhe que importa é <em>como</em> esse pacote busca. Em geral o pacote
-        age como scraper: abre (por HTTP) a página ou endpoint “público” de um
-        motor (DuckDuckGo e afins), lê HTML ou uma resposta semi-estruturada, e
-        tenta extrair resultados. Não há uma API oficial estável no meio do
-        caminho. O MCP é só o adaptador que traduz “tool do agente” em “pedido
-        HTTP + parsing”. Setup quase zero, zero infra local, resultado
-        imediato. Ótimo para validar a ideia em quinze minutos.
+        Por baixo, o pacote costuma ser scraper: HTTP num motor público, HTML,
+        parser. Setup quase zero. Ótimo para smoke test.
       </ArticleP>
 
       <ArticleP>
-        Como base contínua, essa linha quebra rápido. Sites de busca defendem
-        a superfície com anti-bot,{" "}
-        <a
-          href="https://pt.wikipedia.org/wiki/CAPTCHA"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CAPTCHA
-        </a>{" "}
-        (desafio para provar que quem consulta é humano) e{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Rate_limiting"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          rate-limit
-        </a>{" "}
-        (teto de pedidos por IP/tempo). O HTML muda sem aviso e o parser
-        silencia. Em sessão longa o agente dispara muitas queries em rajada: é
-        exatamente o padrão que o anti-abuso pune primeiro. A ferramenta vira
-        roleta. Eu usei como experimento rápido e descartei como linha
-        principal.
+        Em uso contínuo quebra:
       </ArticleP>
 
-      <ArticleMermaid
-        ariaLabel="Fluxo da opção A: agente, MCP scraper, HTML e falha por CAPTCHA ou rate-limit"
-        chart={OPTION_A_CHART}
-      />
+      <ArticleUl>
+        <ArticleLi>
+          <a
+            href="https://pt.wikipedia.org/wiki/CAPTCHA"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CAPTCHA
+          </a>{" "}
+          e{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Rate_limiting"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            rate-limit
+          </a>
+        </ArticleLi>
+        <ArticleLi>HTML muda e o parser silencia</ArticleLi>
+        <ArticleLi>rajada de agente = padrão que o anti-abuso pune</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Usei como experimento. Descartei como linha principal.
+      </ArticleP>
 
       <ArticleH3>Opção B: MCP pronto + SearXNG local em Docker</ArticleH3>
 
@@ -536,7 +515,9 @@ export function BuscaWebLocalMcpSearxngContentPt() {
           o servidor MCP monta um GET/POST para{" "}
           <ArticleCode>http://127.0.0.1:…/search?format=json</ArticleCode>
         </ArticleLi>
-        <ArticleLi>o SearXNG espalha a consulta por várias engines</ArticleLi>
+        <ArticleLi>
+          o SearXNG espalha a consulta por várias engines (buscadores externos)
+        </ArticleLi>
         <ArticleLi>o SearXNG agrega, deduplica e devolve JSON unificado</ArticleLi>
         <ArticleLi>
           o MCP entrega o resultado de <ArticleCode>search_web</ArticleCode> de
@@ -551,7 +532,7 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       </ArticleP>
 
       <ArticleP>
-        SearXNG é um{" "}
+        SearXNG é{" "}
         <a
           href="https://en.wikipedia.org/wiki/Metasearch_engine"
           className={linkClass}
@@ -560,44 +541,27 @@ export function BuscaWebLocalMcpSearxngContentPt() {
         >
           metasearch
         </a>
-        : em vez de ser mais um Google, o SearXNG orquestra buscadores e fontes (Google,
-        Bing, DuckDuckGo e outros, conforme a config) e limpa boa parte do
-        ruído numa resposta só. Rodar isso em{" "}
-        <a
-          href="https://docs.docker.com/get-started/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Docker
-        </a>{" "}
-        na{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Localhost"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          loopback
-        </a>{" "}
-        (<ArticleCode>127.0.0.1</ArticleCode>) significa: o processo fica isolado
-        num container, sobe com compose, e a API JSON só escuta na sua máquina.
-        Você ganha pragmatismo (MCP maduro, sem reinventar protocolo), custo
-        zero de API de search, privacidade melhor porque a query passa primeiro
-        pela sua máquina, e controle de porta, secret e ciclo de vida.
+        : orquestra Google, Bing, DuckDuckGo e afins numa resposta só.
       </ArticleP>
 
       <ArticleP>
-        O preço é operacional, não financeiro de SaaS: manter o container no
-        ar, habilitar formato JSON, aceitar que engines externas ainda podem
-        degradar. Mesmo assim, uma engine ruim raramente derruba o metasearch
-        inteiro. Para uso diário de agente, essa foi a linha que sobreviveu.
+        Em Docker na loopback (<ArticleCode>127.0.0.1</ArticleCode>):
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>custo zero de API de search</ArticleLi>
+        <ArticleLi>query passa primeiro pela sua máquina</ArticleLi>
+        <ArticleLi>você controla porta, secret e ciclo de vida</ArticleLi>
+        <ArticleLi>preço = operação (container + JSON ligado)</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Uma engine ruim raramente derruba o metasearch inteiro. Foi a linha que
+        sobreviveu no dia a dia.
       </ArticleP>
 
       <ArticleP>
-        Se a dúvida for “isso não é só outro scraper?” ou “por que rate-limit e
-        IP não matam igual?”, a resposta curta está na seção seguinte, no
-        bloco SearXNG vs scraper.
+        “Não é só outro scraper?” Resposta curta na seção 4.
       </ArticleP>
 
       <ArticleMermaid
@@ -608,12 +572,8 @@ export function BuscaWebLocalMcpSearxngContentPt() {
       <ArticleH3>Opção C: MCP custom com o SDK</ArticleH3>
 
       <ArticleP>
-        A terceira rota é escrever o seu próprio servidor MCP. Em TypeScript
-        isso normalmente passa pelo pacote oficial{" "}
-        <ArticleCode>@modelcontextprotocol/sdk</ArticleCode>: você sobe um
-        processo Node, registra tools (nome, schema de input, handler) e fala
-        com o cliente do agente pelo transporte do protocolo (em desktop, em
-        geral{" "}
+        Escrever o próprio servidor com{" "}
+        <ArticleCode>@modelcontextprotocol/sdk</ArticleCode> (em geral via{" "}
         <a
           href="https://modelcontextprotocol.io/specification/2025-06-18/basic/transports"
           className={linkClass}
@@ -622,38 +582,21 @@ export function BuscaWebLocalMcpSearxngContentPt() {
         >
           stdio
         </a>
-        , ou seja, o app do agente inicia o processo e troca mensagens pela
-        entrada/saída padrão). Por dentro, cada “busca” vira código seu: HTTP
-        para SearXNG, para uma API paga, ou scraper caseiro.
+        ). Viável. Ownership alto.
       </ArticleP>
 
       <ArticleP>
-        É totalmente viável. A questão é foco e ownership. Para o objetivo
-        “busca web estável no agente”, você passa a ser dono de timeout,
-        parsing, fallback entre engines, tratamento de 403/429, shape de
-        payload, bug report e changelog do seu servidor. Qualquer melhoria que
-        um pacote MCP maduro já resolve vira ticket interno. Frente a “MCP
-        pronto + SearXNG”, o ganho líquido costuma ser baixo: você reconstrói a
-        mesma ponte com mais superfície para manter.
+        Você vira dono de timeout, parsing, 403/429, payload e changelog. Frente
+        a MCP pronto + SearXNG, o ganho líquido costuma ser baixo.
       </ArticleP>
 
       <ArticleP>
-        Eu descartei a C por pragmatismo. Quero ownership baixo e resultado no
-        dia a dia, não mais uma peça interna cuja única vantagem era “nós
-        escrevemos”. Se no futuro precisar de uma tool muito específica (policy
-        interna, filtro de domínio, telemetria), aí sim o SDK volta à mesa. Para
-        busca web genérica e estável, não.
+        Descartei a C. SDK só volta se a tool for bem específica (policy,
+        filtro, telemetria).
       </ArticleP>
 
-      <ArticleMermaid
-        ariaLabel="Fluxo da opção C: agente, MCP custom com SDK e código próprio até a web"
-        chart={OPTION_C_CHART}
-      />
-
       <ArticleP>
-        Com as três opções no papel, o fluxo abaixo só resume a decisão. Se você
-        leu os parágrafos anteriores, o diagrama deve parecer óbvio, não
-        misterioso.
+        Resumo visual da decisão e da tabela logo abaixo:
       </ArticleP>
 
       <ArticleMermaid
@@ -706,779 +649,16 @@ export function BuscaWebLocalMcpSearxngContentPt() {
 
       <ArticleCallout variant="tip" title="A decisão">
         <ArticleP>
-          Fiquei com a B. A opção B resolve estabilidade e privacidade sem transformar
-          a solução num produto interno eterno de manutenção. A opção B é a menor
-          arquitetura que sobrevive a uma semana de uso real, não só a um demo
-          de sexta-feira.
+          Fiquei com a B: estabilidade e privacidade sem virar produto interno
+          eterno. É a menor arquitetura que aguenta uma semana real, não só um
+          demo.
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH2>3. O que é o SearXNG (e por que o SearXNG entra na jogada)</ArticleH2>
+      <ArticleH2>3. Como eu montei na prática</ArticleH2>
 
       <ArticleP>
-        <a
-          href="https://docs.searxng.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          SearXNG
-        </a>{" "}
-        é um{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Metasearch_engine"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          metasearch
-        </a>{" "}
-        open source e auto-hospedável. Em vez de ser “mais um Google”, o SearXNG
-        agrega resultados de vários serviços e bases (Google, Bing, DuckDuckGo e
-        dezenas de outros, conforme a config) e devolve uma visão unificada.
-        Você pesquisa uma vez; por baixo o SearXNG espalha a consulta e junta o
-        retorno.
-      </ArticleP>
-
-      <ArticleP>
-        O projeto nasceu com foco em privacidade: a instância não precisa
-        rastrear nem perfilar o usuário da forma que um buscador comercial faz
-        por padrão. No uso local isso fica ainda mais claro. A orquestração
-        mora na sua máquina, o histórico sensível não precisa atravessar um SaaS
-        de search, e você decide o que fica exposto.
-      </ArticleP>
-
-      <ArticleP>
-        Eu escolhi o SearXNG por três motivos práticos. Primeiro, o SearXNG já resolve
-        agregação e normalização de resultados, então o MCP não precisa virar
-        um parser frágil de HTML. Segundo, a API{" "}
-        <a
-          href="https://www.json.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          JSON
-        </a>{" "}
-        é direta o suficiente para um agente consumir sem gambiarra. Terceiro, a
-        comunidade mantém imagem Docker e documentação boas o bastante para
-        subir em minutos e operar no dia a dia sem transformar isso num side
-        project eterno.
-      </ArticleP>
-
-      <ArticleH3>SearXNG vs scraper: o que muda no bloqueio</ArticleH3>
-
-      <ArticleP>
-        A dúvida que mais ouço: o{" "}
-        <a
-          href="https://docs.searxng.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          SearXNG
-        </a>{" "}
-        não é só outro scraper? Por que{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Rate_limiting"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          rate-limit
-        </a>{" "}
-        e IP não matam a tool igual?
-      </ArticleP>
-
-      <ArticleP>
-        Resposta curta: o desenho é outro. E o SearXNG também não é imune a
-        bloqueio. O que muda é quem falha e como a falha aparece na sessão.
-      </ArticleP>
-
-      <ArticleP>
-        No scraper MCP (opção A), o servidor MCP vai direto a um motor público,
-        baixa HTML (ou um endpoint “público”) e tenta parsear. Uma engine. Um
-        parser. Um ponto único. Em rajada de agente, isso parece bot:{" "}
-        <a
-          href="https://pt.wikipedia.org/wiki/CAPTCHA"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CAPTCHA
-        </a>
-        , 429 e IP marcado. Se aquele motor fecha a porta, a tool inteira morre.
-      </ArticleP>
-
-      <ArticleP>
-        Na opção B o papel de cada peça muda. O pacote{" "}
-        <a
-          href="https://modelcontextprotocol.io/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          MCP
-        </a>{" "}
-        deixa de ir à web pública. O MCP vira só uma ponte local até o{" "}
-        <a
-          href="https://docs.searxng.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          SearXNG
-        </a>
-        .
-      </ArticleP>
-
-      <ArticleP>
-        O processo, do pedido do agente até a resposta, é este:
-      </ArticleP>
-
-      <ArticleOl>
-        <ArticleLi>
-          o agente pede a tool <ArticleCode>search_web</ArticleCode> com uma
-          query
-        </ArticleLi>
-        <ArticleLi>
-          o servidor MCP monta um HTTP local para o SearXNG em{" "}
-          <a
-            href="https://en.wikipedia.org/wiki/Localhost"
-            className={linkClass}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            127.0.0.1
-          </a>{" "}
-          (só esta máquina), pedindo JSON, não HTML
-        </ArticleLi>
-        <ArticleLi>
-          o SearXNG, como{" "}
-          <a
-            href="https://en.wikipedia.org/wiki/Metasearch_engine"
-            className={linkClass}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            metasearch
-          </a>
-          , repassa a mesma query para várias engines (Google, Bing, DuckDuckGo
-          e outras que você habilitou)
-        </ArticleLi>
-        <ArticleLi>
-          cada engine devolve hits; o SearXNG junta, limpa duplicata e monta um
-          JSON único
-        </ArticleLi>
-        <ArticleLi>
-          o MCP entrega esse JSON ao modelo como resultado de{" "}
-          <ArticleCode>search_web</ArticleCode>
-        </ArticleLi>
-      </ArticleOl>
-
-      <ArticleP>
-        Em uma frase: o MCP não “raspa o Google”. O MCP só conversa com o
-        SearXNG na sua máquina. Quem fala com a internet é o SearXNG.
-      </ArticleP>
-
-      <ArticleP>
-        Por isso o bloqueio dói menos no dia a dia:
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          o MCP não depende de um HTML público único para sobreviver
-        </ArticleLi>
-        <ArticleLi>
-          se uma engine aperta (Google, por exemplo), outras engines ativas
-          ainda podem responder
-        </ArticleLi>
-        <ArticleLi>
-          o parser frágil some do pacote MCP; a agregação fica no SearXNG
-        </ArticleLi>
-        <ArticleLi>
-          falha vira degradação parcial (“menos fontes”), não roleta total da
-          tool
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleCallout variant="note" title="IP e rate-limit: o corte honesto">
-        <ArticleP>
-          O pedido às engines ainda sai do seu IP (casa, escritório, VPN). Uma
-          engine específica pode limitar, degradar ou pedir CAPTCHA. O SearXNG
-          não te torna invisível.
-        </ArticleP>
-        <ArticleP>
-          O que a stack evita é a falha total típica do scraper: martelar um
-          único endpoint HTML público até o anti-abuso fechar a porta. Com
-          várias engines e JSON local estável, a tool do agente continua útil
-          mesmo quando uma fonte fica ruim.
-        </ArticleP>
-      </ArticleCallout>
-
-      <ArticleP>
-        O diagrama abaixo só contrasta os dois desenhos que você acabou de ler:
-      </ArticleP>
-
-      <ArticleMermaid
-        ariaLabel="Contraste: scraper MCP com uma engine HTML versus SearXNG local com várias engines"
-        chart={SCRAPER_VS_SEARXNG_CHART}
-      />
-
-      <ArticleP>
-        Tem nuances importantes. Engines externas mudam e podem degradar; isso
-        faz parte do modelo. O formato JSON precisa estar habilitado no{" "}
-        <ArticleCode>settings.yml</ArticleCode>, senão a API responde 403 e o
-        MCP parece quebrado. E “local” continua dependendo da internet pública
-        para falar com as engines. O que você ganha não é offline total. É
-        o serviço de busca rodando na sua máquina, custo zero de API de busca e
-        uma camada estável entre o agente e a web.
-      </ArticleP>
-
-      <ArticleP>
-        Se você já acompanhou o problema (scraper frágil vs API paga vs SearXNG
-        local), o diagrama abaixo só fecha o raciocínio visualmente. Não
-        introduz ideia nova: organiza o que você acabou de ler.
-      </ArticleP>
-
-      <ArticleMermaid
-        ariaLabel="Comparativo visual: scraper direto, API SaaS e SearXNG local"
-        chart={SEARXNG_COMPARE_CHART}
-      />
-
-      <ArticleP>
-        Repositório oficial:{" "}
-        <a
-          href="https://github.com/searxng/searxng"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          github.com/searxng/searxng
-        </a>
-        . Docs:{" "}
-        <a
-          href="https://docs.searxng.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          docs.searxng.org
-        </a>
-        .
-      </ArticleP>
-
-      <ArticleH2>4. Como a stack se encaixa</ArticleH2>
-
-      <ArticleP>
-        A arquitetura é simples de propósito. Quatro peças, quatro jobs. Quando
-        algo falha, você olha a camada certa em vez de “reiniciar tudo”.
-      </ArticleP>
-
-      <ArticleP>
-        O cliente MCP (Cursor, Copilot ou outro host) descobre tools e decide
-        quando chamar. O servidor MCP sobe com <ArticleCode>npx</ArticleCode>,
-        fala por{" "}
-        <a
-          href="https://www.jsonrpc.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          JSON-RPC
-        </a>{" "}
-        em stdio e traduz o pedido em HTTP local. O SearXNG, na loopback, agrega
-        engines e devolve JSON. As engines externas (Google, Bing, DuckDuckGo…)
-        continuam na internet pública. O agente não raspa HTML: o agente usa tools.
-      </ArticleP>
-
-      <ArticleP>
-        Com esse mapa mental, o diagrama abaixo fica só como reforço visual do
-        fluxo de ponta a ponta.
-      </ArticleP>
-
-      <ArticleMermaid
-        ariaLabel="Arquitetura ponta a ponta cliente MCP, SearXNG e engines"
-        chart={ARCHITECTURE_CHART}
-      />
-
-      <ArticleH3>Cliente MCP / agente</ArticleH3>
-
-      <ArticleP>
-        O “cliente MCP” é o app onde você conversa com o agente. Pode ser o{" "}
-        <a
-          href="https://cursor.com/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Cursor
-        </a>
-        , o{" "}
-        <a
-          href="https://docs.github.com/en/copilot"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub Copilot
-        </a>{" "}
-        no{" "}
-        <a
-          href="https://code.visualstudio.com/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          VS Code
-        </a>
-        , ou outro host que fale o protocolo. “Host” aqui só significa o
-        programa que embute o modelo e consegue chamar tools.
-      </ArticleP>
-
-      <ArticleP>
-        No MCP,{" "}
-        <a
-          href="https://modelcontextprotocol.io/docs/concepts/tools"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          tools
-        </a>{" "}
-        são ações que o modelo pode pedir: buscar na web, ler uma URL, etc. O
-        cliente descobre quais tools existem, decide quando usar e recebe o
-        retorno estruturado (o “payload”: o pacote de dados da resposta). Esse
-        retorno entra na janela de contexto do modelo, ou seja, no texto que o modelo
-        usa para continuar raciocinando.
-      </ArticleP>
-
-      <ArticleP>
-        O ponto prático: o agente não “abre o Chrome” por conta própria. O agente
-        pede uma tool, o host executa, e o resultado volta de forma auditável e
-        repetível. Trocar Cursor por Copilot não muda a ideia; muda só onde a
-        config do servidor MCP fica salva.
-      </ArticleP>
-
-      <ArticleMermaid
-        ariaLabel="Papéis no MCP: host, cliente e servidor"
-        chart={MCP_ROLES_CHART}
-      />
-
-      <ArticleH3>Servidor MCP (`@zhafron/mcp-web-search`)</ArticleH3>
-
-      <ArticleP>
-        O servidor MCP é um programinha separado que oferece as tools. Neste
-        post usamos o pacote{" "}
-        <a
-          href="https://www.npmjs.com/package/@zhafron/mcp-web-search"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          @zhafron/mcp-web-search
-        </a>
-        . O pacote roda em{" "}
-        <a
-          href="https://nodejs.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Node.js
-        </a>{" "}
-        e sobe com{" "}
-        <a
-          href="https://docs.npmjs.com/cli/v10/commands/npx"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          npx
-        </a>
-        : o npm baixa/executa o pacote sem você precisar instalar globalmente na
-        mão.
-      </ArticleP>
-
-      <ArticleP>
-        A conversa com o cliente usa{" "}
-        <a
-          href="https://www.jsonrpc.org/"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          JSON-RPC
-        </a>{" "}
-        por{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Standard_streams"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          stdio
-        </a>{" "}
-        (entrada/saída padrão do processo: o mesmo canal de um programa de
-        terminal). Na prática: o Cursor/Copilot fala com esse processo local, e
-        o processo traduz o pedido de tool em uma chamada{" "}
-        <a
-          href="https://developer.mozilla.org/en-US/docs/Web/HTTP"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          HTTP
-        </a>{" "}
-        para o SearXNG na sua máquina.
-      </ArticleP>
-
-      <ArticleP>
-        Duas tools importam no dia a dia. <ArticleCode>search_web</ArticleCode>{" "}
-        devolve resultados de busca. <ArticleCode>fetch_url</ArticleCode> abre
-        uma URL específica e traz o conteúdo para leitura. O{" "}
-        <ArticleCode>HTTP_TIMEOUT</ArticleCode> é o tempo máximo de espera da
-        chamada HTTP: se a agregação demora demais, a tool falha em vez de
-        travar a sessão para sempre.
-      </ArticleP>
-
-      <ArticleH3>SearXNG no papel de metasearch local</ArticleH3>
-
-      <ArticleP>
-        Aqui o SearXNG é o metasearch que você hospeda. O SearXNG recebe a query,
-        consulta várias engines (Google, Bing, DuckDuckGo e outras que você
-        habilitar) e devolve um JSON único. “Engine”, neste texto, é só o
-        buscador externo de onde os resultados vêm.
-      </ArticleP>
-
-      <ArticleP>
-        A API sobe em <ArticleCode>127.0.0.1:8099</ArticleCode>.{" "}
-        <a
-          href="https://en.wikipedia.org/wiki/Localhost"
-          className={linkClass}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          127.0.0.1
-        </a>{" "}
-        (localhost/loopback) significa “esta máquina”, não a internet aberta. O
-        “bind” em loopback é a escolha de escutar só nesse endereço: a API não
-        fica exposta para outros dispositivos na rede. Menos superfície, menos
-        dor de cabeça.
-      </ArticleP>
-
-      <ArticleP>
-        O contrato mental continua simples: o cliente fala MCP, o MCP fala
-        SearXNG, o SearXNG fala com a web. Quebre um elo e o sintoma muda. Por
-        isso o troubleshooting é por camada, não “reinicia tudo e reza”.
-      </ArticleP>
-
-      <ArticleH2>5. O que melhora, o que custa e onde aperta</ArticleH2>
-
-      <ArticleP>
-        O ganho mais óbvio é a fatura: zero API de busca. Logo atrás vem
-        privacidade, porque termos sensíveis não precisam atravessar um SaaS de
-        search. Tem também resiliência prática: uma engine ruim não derruba o
-        metasearch inteiro. E tem o controle operacional. Porta, formatos,
-        secrets e ciclo de vida do container ficam sob o seu comando.
-      </ArticleP>
-
-      <ArticleP>
-        O custo existe, claro. Docker na workstation não é “grátis” em
-        atenção. Agregação tem latência. Engines mudam HTML e API e de vez em
-        quando degradam. Em rajadas de busca, CPU e rede locais sentem. Nada
-        disso inviabiliza a stack, mas ignora esses pontos e a operação vira
-        surpresa ruim.
-      </ArticleP>
-
-      <ArticleH3>Benchmarks: o que a busca muda de fato</ArticleH3>
-
-      <ArticleP>
-        Antes dos números, um corte honesto. MCP + SearXNG local não tem um
-        score próprio em leaderboard.
-      </ArticleP>
-
-      <ArticleP>
-        O{" "}
-        <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> é um benchmark de
-        factualidade da OpenAI: um conjunto de perguntas curtas, com uma
-        resposta certa fácil de julgar. Serve para medir se o modelo acerta
-        fatos ou inventa. Ninguém publicou “SearXNG local = X% no{" "}
-        <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>”.
-      </ArticleP>
-
-      <ArticleP>
-        O que a indústria mede é outra coisa: o efeito de{" "}
-        <TermLink href={GROUNDING_URL}>grounding</TermLink> com busca web. A
-        stack deste post entrega a mesma classe de capacidade (o agente busca e
-        lê trechos reais). O resultado ainda depende da query, das engines e do
-        fluxo do agente.
-      </ArticleP>
-
-      <ArticleP>
-        Grounding, em linguagem simples, é amarrar a resposta a evidência
-        externa.
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          Sem grounding: o modelo completa o texto com o que soa plausível
-        </ArticleLi>
-        <ArticleLi>
-          Com busca: o modelo pode citar o que acabou de ler
-        </ArticleLi>
-        <ArticleLi>
-          O que sobe: factualidade e frescor (informação atual)
-        </ArticleLi>
-        <ArticleLi>
-          O que não sobe sozinho: “seguir o prompt melhor” nem raciocínio em
-          tarefa fechada só no código do repo
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        O fluxo do agente que faz o grounding funcionar na prática:
-      </ArticleP>
-
-      <ArticleOl>
-        <ArticleLi>
-          <ArticleCode>search_web</ArticleCode>: achar fontes
-        </ArticleLi>
-        <ArticleLi>
-          <ArticleCode>fetch_url</ArticleCode>: ler a melhor página
-        </ArticleLi>
-        <ArticleLi>síntese: responder com base no que foi lido</ArticleLi>
-      </ArticleOl>
-
-      <ArticleImg
-        src="/images/publications/busca-web-local-mcp-searxng/brave-ai-grounding.jpg"
-        alt="Diagrama do Brave AI Grounding: respostas do modelo ancoradas em busca web verificável"
-        caption={
-          <>
-            Conceito de grounding com busca web. Fonte: Brave Search, post{" "}
-            <TermLink href={GROUNDING_URL}>AI Grounding</TermLink>.
-          </>
-        }
-      />
-
-      <ArticleP>
-        Números públicos que importam para esta conversa (muitos usam o{" "}
-        <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> como régua):
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          Sem busca: no paper do{" "}
-          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>, o GPT-4o ficou
-          abaixo de ~40% de acerto
-        </ArticleLi>
-        <ArticleLi>
-          Com grounding: a Brave reportou F1 de 94,1% no{" "}
-          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> com{" "}
-          <TermLink href={GROUNDING_URL}>AI Grounding</TermLink>
-        </ArticleLi>
-        <ArticleLi>
-          Em análises de vendors (
-          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> e{" "}
-          <TermLink href={FRAMES_URL}>FRAMES</TermLink>, benchmark de
-          raciocínio multi-hop com várias fontes): ganho típico de +25 a +40
-          pontos percentuais frente ao modelo sem grounding
-        </ArticleLi>
-        <ArticleLi>
-          Em queries factuais em produção (ordem de grandeza citada nesses
-          guias): ~15-25% de respostas ruins o bastante para importar, sem
-          grounding
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        Um detalhe de leitura: pontos percentuais não são “% relativa”. Sair de
-        40% para 70% é +30 pontos, não “multiplicar por 1,3”.
-      </ArticleP>
-
-      <ArticleImg
-        src="/images/publications/busca-web-local-mcp-searxng/brave-simpleqa-grounding.jpg"
-        alt="Gráfico SimpleQA da Brave mostrando desempenho alto com AI Grounding frente a baselines"
-        caption={
-          <>
-            <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> com grounding:
-            referência visual do salto de factualidade. Fonte: Brave Search.
-          </>
-        }
-      />
-
-      <ArticleTable caption="Resumo dos números (não é score do SearXNG)">
-        <ArticleThead>
-          <ArticleTr>
-            <ArticleTh>Métrica</ArticleTh>
-            <ArticleTh>Sem busca</ArticleTh>
-            <ArticleTh>Com grounding</ArticleTh>
-          </ArticleTr>
-        </ArticleThead>
-        <ArticleTbody>
-          <ArticleTr>
-            <ArticleTd>
-              <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> (OpenAI / Brave)
-            </ArticleTd>
-            <ArticleTd>GPT-4o &lt; ~40%</ArticleTd>
-            <ArticleTd>
-              F1 94,1% (Brave{" "}
-              <TermLink href={GROUNDING_URL}>AI Grounding</TermLink>)
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>
-              <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> /{" "}
-              <TermLink href={FRAMES_URL}>FRAMES</TermLink> (vendors)
-            </ArticleTd>
-            <ArticleTd>Baseline sem grounding</ArticleTd>
-            <ArticleTd>+25 a +40 pontos percentuais</ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>Queries factuais ruins (ordem de grandeza)</ArticleTd>
-            <ArticleTd>~15-25%</ArticleTd>
-            <ArticleTd>Cai com boa recuperação + uso do contexto</ArticleTd>
-          </ArticleTr>
-        </ArticleTbody>
-      </ArticleTable>
-
-      <ArticleCallout variant="note" title="O que eu não estou prometendo">
-        <ArticleP>
-          Esses números medem grounding com busca web em avaliações públicas.
-          Não certificam que o seu SearXNG local vai bater 94% no{" "}
-          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>.
-        </ArticleP>
-        <ArticleP>
-          O ganho que eu vejo no dia a dia é outro:
-        </ArticleP>
-        <ArticleUl>
-          <ArticleLi>menos endpoint inventado</ArticleLi>
-          <ArticleLi>menos versão velha de lib</ArticleLi>
-          <ArticleLi>menos “certeza” sobre issue que abriu ontem</ArticleLi>
-        </ArticleUl>
-        <ArticleP>
-          Mesmo tipo de benefício dos benchmarks, medido em atrito de sessão,
-          não em leaderboard.
-        </ArticleP>
-      </ArticleCallout>
-
-      <ArticleH3>Para quem isso é útil (e para quem não)</ArticleH3>
-
-      <ArticleP>
-        A stack ajuda quando o agente precisa de informação atual fora do
-        repositório.
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>docs que mudaram na semana</ArticleLi>
-        <ArticleLi>changelog de SDK</ArticleLi>
-        <ArticleLi>issue aberta ontem</ArticleLi>
-        <ArticleLi>CVE recente</ArticleLi>
-        <ArticleLi>comparação de APIs</ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        Aí a memória de treino é o lugar errado para apostar.
-      </ArticleP>
-
-      <ArticleP>
-        O retorno é fraco quando a tarefa já está resolvida pelo workspace:
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>refatorar um módulo</ArticleLi>
-        <ArticleLi>seguir um padrão do repo</ArticleLi>
-        <ArticleLi>escrever teste em cima do código aberto</ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        Busca web nesses casos vira ruído. Um prompt ruim também continua ruim:
-        grounding não “melhora a precisão do prompt”. Grounding melhora a base
-        factual quando a verdade está fora do contexto local.
-      </ArticleP>
-
-      <ArticleTable caption="Quem ganha e quem quase não sente">
-        <ArticleThead>
-          <ArticleTr>
-            <ArticleTh>Perfil</ArticleTh>
-            <ArticleTh>O que muda na prática</ArticleTh>
-          </ArticleTr>
-        </ArticleThead>
-        <ArticleTbody>
-          <ArticleTr>
-            <ArticleTd>Dev com agente no fluxo diário</ArticleTd>
-            <ArticleTd>
-              Menos alucinação de API/docs; menos inventar e torcer na sessão
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>Quem caça issue, CVE, changelog</ArticleTd>
-            <ArticleTd>
-              Frescor vence cutoff de treino; dá para pedir link e trecho
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>Quem evita API paga de search</ArticleTd>
-            <ArticleTd>
-              Mesma classe de ganho de grounding, com custo de API zero e query
-              na sua máquina
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>Só edição em repo fechado</ArticleTd>
-            <ArticleTd>
-              Ganho baixo; o contexto do projeto já costuma bastar
-            </ArticleTd>
-          </ArticleTr>
-        </ArticleTbody>
-      </ArticleTable>
-
-      <ArticleTable caption="Gargalos que eu já vi e como mitiguei">
-        <ArticleThead>
-          <ArticleTr>
-            <ArticleTh>Gargalo</ArticleTh>
-            <ArticleTh>Sintoma</ArticleTh>
-            <ArticleTh>Mitigação</ArticleTh>
-          </ArticleTr>
-        </ArticleThead>
-        <ArticleTbody>
-          <ArticleTr>
-            <ArticleTd>Timeouts</ArticleTd>
-            <ArticleTd>Tool falha sob carga</ArticleTd>
-            <ArticleTd>
-              Subir <ArticleCode>HTTP_TIMEOUT</ArticleCode> e reduzir engines
-              ativas
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>Payload grande</ArticleTd>
-            <ArticleTd>Contexto do LLM estoura</ArticleTd>
-            <ArticleTd>
-              Pedir síntese e usar <ArticleCode>fetch_url</ArticleCode> seletivo
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>Cold start</ArticleTd>
-            <ArticleTd>Primeira busca lenta</ArticleTd>
-            <ArticleTd>
-              Manter o container up e healthcheck no compose
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>Loops de busca</ArticleTd>
-            <ArticleTd>Agente pesquisa demais</ArticleTd>
-            <ArticleTd>
-              Limitar no prompt e validar hipótese antes da próxima query
-            </ArticleTd>
-          </ArticleTr>
-        </ArticleTbody>
-      </ArticleTable>
-
-      <ArticleH2>6. Como eu montei na prática</ArticleH2>
-
-      <ArticleP>
-        A montagem cabe em três fases. O diagrama é o mapa; o resto desta seção
-        é o checklist executável.
+        Três fases. Diagrama = mapa. Texto = checklist.
       </ArticleP>
 
       <ArticleMermaid
@@ -1620,13 +800,22 @@ curl -s "http://127.0.0.1:8099/search?q=model+context+protocol&format=json" | he
 }`}
       </ArticleCode>
 
+      <ArticleUl>
+        <ArticleLi>
+          <ArticleCode>DEFAULT_SEARCH_PROVIDER=searxng</ArticleCode> evita o
+          scraper default
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>SEARXNG_URL</ArticleCode> aponta para a instância local
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>HTTP_TIMEOUT</ArticleCode> evita morte precoce na
+          agregação
+        </ArticleLi>
+      </ArticleUl>
+
       <ArticleP>
-        <ArticleCode>DEFAULT_SEARCH_PROVIDER=searxng</ArticleCode> evita cair no
-        scraper default. <ArticleCode>SEARXNG_URL</ArticleCode> aponta para a
-        instância local. <ArticleCode>HTTP_TIMEOUT</ArticleCode> evita morte
-        precoce quando a agregação demora um pouco mais. Depois de editar o
-        arquivo, recarregue o host (Cursor ou VS Code/Copilot) e confira se o
-        servidor aparece conectado na UI de tools.
+        Salvou? Recarregue o host e confira o servidor na UI de tools.
       </ArticleP>
 
       <ArticleH3>Fase 3: Aceite rápido</ArticleH3>
@@ -1657,14 +846,347 @@ Depois use fetch_url na melhor fonte e resuma em 5 bullets acionáveis.`}
 Cite links e separe causa de configuração de bloqueio de engine.`}
       </ArticleCode>
 
-      <ArticleH2>7. Operação do dia a dia e o que fazer quando quebra</ArticleH2>
+      <ArticleH2>4. Como a stack se encaixa (e vs scraper)</ArticleH2>
 
       <ArticleP>
-        A stack fica estável quando você trata container e MCP como
-        infraestrutura de workstation, não como plugin mágico. Reiniciou a
-        máquina? Sobe o compose e valida com curl. Container caiu? Olha{" "}
-        <ArticleCode>docker ps -a</ArticleCode>, lê o log e sobe de novo. UI do
-        SearXNG vazia? Abre a porta local, testa engines e revisa o settings.
+        Quatro peças. Quatro jobs.
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Cliente MCP (Cursor/Copilot): descobre tools e decide quando chamar
+        </ArticleLi>
+        <ArticleLi>
+          Servidor MCP (
+          <a
+            href="https://www.npmjs.com/package/@zhafron/mcp-web-search"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @zhafron/mcp-web-search
+          </a>
+          ): sobe com <ArticleCode>npx</ArticleCode>, fala JSON-RPC/stdio, vira
+          HTTP local
+        </ArticleLi>
+        <ArticleLi>
+          SearXNG em <ArticleCode>127.0.0.1</ArticleCode>: metasearch e JSON
+          unificado
+        </ArticleLi>
+        <ArticleLi>
+          Engines externas (Google, Bing, DuckDuckGo…): na internet pública
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleMermaid
+        ariaLabel="Arquitetura ponta a ponta cliente MCP, SearXNG e engines"
+        chart={ARCHITECTURE_CHART}
+      />
+
+      <ArticleH3>SearXNG vs scraper</ArticleH3>
+
+      <ArticleP>
+        Desenho diferente. SearXNG também não é imune a bloqueio. O que muda é
+        quem falha.
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Opção A: MCP raspa uma engine HTML. CAPTCHA/429 derruba a tool.
+        </ArticleLi>
+        <ArticleLi>
+          Opção B: MCP só fala com SearXNG local. SearXNG fala com várias
+          engines.
+        </ArticleLi>
+        <ArticleLi>
+          Uma engine ruim vira “menos fontes”, não roleta total.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleCallout variant="note" title="IP e rate-limit: o corte honesto">
+        <ArticleP>
+          O pedido às engines ainda sai do seu IP. SearXNG não te torna
+          invisível.
+        </ArticleP>
+        <ArticleP>
+          O que a stack evita é falha total típica do scraper: um único HTML
+          público martelado até o anti-abuso fechar a porta.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleMermaid
+        ariaLabel="Contraste: scraper MCP com uma engine HTML versus SearXNG local com várias engines"
+        chart={SCRAPER_VS_SEARXNG_CHART}
+      />
+
+      <ArticleP>
+        Nuances rápidas:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          JSON em <ArticleCode>settings.yml</ArticleCode>, senão 403
+        </ArticleLi>
+        <ArticleLi>Local ≠ offline: engines usam a internet pública</ArticleLi>
+        <ArticleLi>
+          Repo:{" "}
+          <a
+            href="https://github.com/searxng/searxng"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            searxng/searxng
+          </a>
+          . Docs:{" "}
+          <a
+            href="https://docs.searxng.org/"
+            className={linkClass}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            docs.searxng.org
+          </a>
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleH2>5. O que melhora, o que custa e onde aperta</ArticleH2>
+
+      <ArticleP>
+        O que melhora:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>zero API de busca</ArticleLi>
+        <ArticleLi>menos SaaS no caminho da query</ArticleLi>
+        <ArticleLi>uma engine ruim não derruba o metasearch</ArticleLi>
+        <ArticleLi>porta, formatos e secrets sob o seu comando</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        O que custa:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>atenção de Docker na workstation</ArticleLi>
+        <ArticleLi>latência de agregação</ArticleLi>
+        <ArticleLi>engines que degradam de vez em quando</ArticleLi>
+        <ArticleLi>CPU/rede em rajada de busca</ArticleLi>
+      </ArticleUl>
+
+      <ArticleH3>Benchmarks: o que a busca muda de fato</ArticleH3>
+
+      <ArticleP>
+        No dia a dia, o que eu sinto com busca no agente não é “score de
+        leaderboard”. É atrito de sessão:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>menos endpoint inventado</ArticleLi>
+        <ArticleLi>menos versão velha de lib</ArticleLi>
+        <ArticleLi>menos “certeza” sobre issue que abriu ontem</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Isso é{" "}
+        <TermLink href={GROUNDING_URL}>grounding</TermLink>: amarrar a resposta
+        a evidência externa.
+      </ArticleP>
+
+      <ArticleP>
+        Sem busca, o modelo completa o que soa plausível. Com busca, pode citar
+        o que acabou de ler. Sobe factualidade e frescor. Não “melhora o prompt”
+        sozinho em tarefa que o repo já resolve.
+      </ArticleP>
+
+      <ArticleP>
+        O fluxo que faz isso funcionar na prática:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          <ArticleCode>search_web</ArticleCode>: achar fontes
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>fetch_url</ArticleCode>: ler a melhor página
+        </ArticleLi>
+        <ArticleLi>síntese: responder com base no que foi lido</ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        A indústria mede isso com{" "}
+        <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> (perguntas curtas de
+        fato, OpenAI).
+      </ArticleP>
+
+      <ArticleP>
+        MCP + SearXNG local não tem score próprio nesses testes. Os números
+        abaixo são referência da classe “modelo + busca web”, não certificado
+        do seu Docker:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Sem busca: GPT-4o ficou abaixo de ~40% no paper do{" "}
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>
+        </ArticleLi>
+        <ArticleLi>
+          Com grounding: Brave reportou F1 de 94,1% no{" "}
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> com{" "}
+          <TermLink href={GROUNDING_URL}>AI Grounding</TermLink>
+        </ArticleLi>
+        <ArticleLi>
+          Em análises de vendors (
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink> e{" "}
+          <TermLink href={FRAMES_URL}>FRAMES</TermLink>
+          ): ganho típico de +25 a +40 pontos percentuais
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Pontos percentuais não são “% relativa”: sair de 40% para 70% é +30
+        pontos, não multiplicar por 1,3.
+      </ArticleP>
+
+      <ArticleImg
+        src="/images/publications/busca-web-local-mcp-searxng/brave-simpleqa-grounding.jpg"
+        alt="Gráfico SimpleQA da Brave mostrando desempenho alto com AI Grounding frente a baselines"
+        caption={
+          <>
+            Referência visual: salto de factualidade com grounding. Fonte: Brave
+            Search (
+            <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>
+            ).
+          </>
+        }
+      />
+
+      <ArticleCallout variant="note" title="O que eu não estou prometendo">
+        <ArticleP>
+          Esses números não certificam que o seu SearXNG local vai bater 94% no{" "}
+          <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>. Medem grounding com
+          busca em avaliações públicas. O ganho que eu otimizo é o atrito da
+          sessão, não o leaderboard.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleH3>Para quem isso é útil (e para quem não)</ArticleH3>
+
+      <ArticleP>
+        A stack ajuda quando o agente precisa de informação atual fora do
+        repositório.
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>docs que mudaram na semana</ArticleLi>
+        <ArticleLi>changelog de SDK</ArticleLi>
+        <ArticleLi>issue aberta ontem</ArticleLi>
+        <ArticleLi>CVE recente</ArticleLi>
+        <ArticleLi>comparação de APIs</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Aí a memória de treino é o lugar errado para apostar.
+      </ArticleP>
+
+      <ArticleP>
+        O retorno é fraco quando a tarefa já está resolvida pelo workspace:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>refatorar um módulo</ArticleLi>
+        <ArticleLi>seguir um padrão do repo</ArticleLi>
+        <ArticleLi>escrever teste em cima do código aberto</ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Busca web nesses casos vira ruído. Um prompt ruim também continua ruim:
+        grounding não “melhora a precisão do prompt”. Grounding melhora a base
+        factual quando a verdade está fora do contexto local.
+      </ArticleP>
+
+      <ArticleTable caption="Quem ganha e quem quase não sente">
+        <ArticleThead>
+          <ArticleTr>
+            <ArticleTh>Perfil</ArticleTh>
+            <ArticleTh>O que muda na prática</ArticleTh>
+          </ArticleTr>
+        </ArticleThead>
+        <ArticleTbody>
+          <ArticleTr>
+            <ArticleTd>Dev com agente no fluxo diário</ArticleTd>
+            <ArticleTd>
+              Menos alucinação de API/docs; menos inventar e torcer na sessão
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Quem caça issue, CVE, changelog</ArticleTd>
+            <ArticleTd>
+              Frescor vence cutoff de treino; dá para pedir link e trecho
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Quem evita API paga de search</ArticleTd>
+            <ArticleTd>
+              Mesma classe de ganho de grounding, com custo de API zero e query
+              na sua máquina
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Só edição em repo fechado</ArticleTd>
+            <ArticleTd>
+              Ganho baixo; o contexto do projeto já costuma bastar
+            </ArticleTd>
+          </ArticleTr>
+        </ArticleTbody>
+      </ArticleTable>
+
+      <ArticleTable caption="Gargalos que eu já vi e como mitiguei">
+        <ArticleThead>
+          <ArticleTr>
+            <ArticleTh>Gargalo</ArticleTh>
+            <ArticleTh>Sintoma</ArticleTh>
+            <ArticleTh>Mitigação</ArticleTh>
+          </ArticleTr>
+        </ArticleThead>
+        <ArticleTbody>
+          <ArticleTr>
+            <ArticleTd>Timeouts</ArticleTd>
+            <ArticleTd>Tool falha sob carga</ArticleTd>
+            <ArticleTd>
+              Subir <ArticleCode>HTTP_TIMEOUT</ArticleCode> e reduzir engines
+              ativas
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Payload grande</ArticleTd>
+            <ArticleTd>Contexto do LLM estoura</ArticleTd>
+            <ArticleTd>
+              Pedir síntese e usar <ArticleCode>fetch_url</ArticleCode> seletivo
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Cold start</ArticleTd>
+            <ArticleTd>Primeira busca lenta</ArticleTd>
+            <ArticleTd>
+              Manter o container up e healthcheck no compose
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Loops de busca</ArticleTd>
+            <ArticleTd>Agente pesquisa demais</ArticleTd>
+            <ArticleTd>
+              Limitar no prompt e validar hipótese antes da próxima query
+            </ArticleTd>
+          </ArticleTr>
+        </ArticleTbody>
+      </ArticleTable>
+
+      <ArticleH2>6. Operação do dia a dia e o que fazer quando quebra</ArticleH2>
+
+      <ArticleP>
+        Trate container e MCP como infra de workstation, não como plugin
+        mágico.
       </ArticleP>
 
       <ArticleTable caption="Troubleshooting que mais aparece">
@@ -1739,39 +1261,33 @@ Cite links e separe causa de configuração de bloqueio de engine.`}
 
       <ArticleUl>
         <ArticleLi>
-          Para busca web estável no agente no dia a dia, a linha que sobrevive é
-          MCP pronto + SearXNG local (opção B), não scraper direto nem MCP
+          Dia a dia: MCP pronto + SearXNG local (B). Não scraper direto nem MCP
           custom genérico.
         </ArticleLi>
         <ArticleLi>
-          Scraper MCP público serve para smoke test. Em sessão longa, CAPTCHA,
-          rate-limit e HTML instável viram roleta.
+          Scraper MCP: smoke test. Em sessão longa vira CAPTCHA/rate-limit.
         </ArticleLi>
         <ArticleLi>
-          SearXNG não é scraper MCP: o MCP fala JSON local; o metasearch espalha
-          a query. Bloqueio de uma engine vira degradação, não falha total. O
-          SearXNG não é imune a rate-limit/IP.
+          SearXNG ≠ scraper MCP: JSON local + várias engines. Bloqueio vira
+          degradação. Não é imune a rate-limit/IP.
         </ArticleLi>
         <ArticleLi>
-          MCP custom com SDK só vale quando a tool é específica demais; para
-          busca genérica o ownership engole o ganho.
+          SDK custom só para tool bem específica; senão o ownership engole o
+          ganho.
         </ArticleLi>
         <ArticleLi>
-          No SearXNG: habilite JSON em <ArticleCode>search.formats</ArticleCode>
-          , bind em <ArticleCode>127.0.0.1</ArticleCode> e trate engines
-          degradando como operação normal.
+          SearXNG: JSON em <ArticleCode>search.formats</ArticleCode>, bind em{" "}
+          <ArticleCode>127.0.0.1</ArticleCode>, engines degradando = normal.
         </ArticleLi>
         <ArticleLi>
-          Ensine o agente a buscar pouco e ler bem neste fluxo: search, depois
-          fetch, depois síntese. Não encher o contexto de ruído.
+          Agente: search → fetch → síntese. Pouco ruído no contexto.
         </ArticleLi>
         <ArticleLi>
-          Grounding com busca sobe factualidade e frescor. Não “melhora o
-          prompt” em tarefa que o workspace já resolve.
+          Grounding sobe factualidade/frescor. Não “melhora o prompt” sozinho.
         </ArticleLi>
         <ArticleLi>
-          Local ≠ offline: você controla o serviço de busca na sua máquina; a
-          internet pública continua alimentando as engines.
+          Local ≠ offline: você controla o serviço; a internet alimenta as
+          engines.
         </ArticleLi>
       </ArticleUl>
 
@@ -1779,13 +1295,17 @@ Cite links e separe causa de configuração de bloqueio de engine.`}
 
       <ArticleP>
         Eu não escolhi construir mais software. Escolhi a menor arquitetura que
-        aguenta uso real. MCP pronto + SearXNG local entrega custo zero de API,
-        privacidade com o serviço na sua máquina e estabilidade melhor que
-        scraper frágil, com um
-        overhead operacional aceitável para quem já vive em Docker no dia a dia.
-        No eixo de qualidade, o ganho que importa é o mesmo da literatura de
-        grounding: factualidade e frescor quando a verdade está na web, não um
-        “prompt magicamente mais preciso”.
+        aguenta uso real.
+      </ArticleP>
+
+      <ArticleP>
+        MCP pronto + SearXNG local: custo zero de API, serviço na sua máquina,
+        mais estável que scraper. Overhead ok se você já vive em Docker.
+      </ArticleP>
+
+      <ArticleP>
+        O ganho que importa é o do grounding: factualidade e frescor quando a
+        verdade está na web. Não um “prompt magicamente mais preciso”.
       </ArticleP>
 
       <ArticleP>
