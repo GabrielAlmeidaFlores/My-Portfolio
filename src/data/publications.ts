@@ -32,15 +32,15 @@ export const publications: Publication[] = [
     coverImage:
       "/images/publications/hardening-linux-vps-baseline/cover.svg",
     title: {
-      "pt-BR": "Hardening baseline em Linux (VPS sem drama)",
-      en: "Linux hardening baseline (VPS without the drama)",
-      es: "Hardening baseline en Linux (VPS sin drama)",
+      "pt-BR": "Hardening Linux em VPS: controles, riscos e comandos",
+      en: "Linux VPS hardening: controls, risks, and commands",
+      es: "Hardening Linux en VPS: controles, riesgos y comandos",
     },
     summary: {
       "pt-BR":
-        "Hardening completo para o dia 1-2 da VPS: SSH/sudo, firewall, sysctl, tempo, MAC, auditd, updates, fail2ban e verificação com Lynis, sem se trancar fora.",
-      en: "Complete day 1-2 VPS hardening: SSH/sudo, firewall, sysctl, time, MAC, auditd, updates, fail2ban, and Lynis verification, without locking yourself out.",
-      es: "Hardening completo para el día 1-2 del VPS: SSH/sudo, firewall, sysctl, tiempo, MAC, auditd, updates, fail2ban y verificación con Lynis, sin quedarte fuera.",
+        "Baseline objetivo do dia 1-2: o que é cada controle, para que serve, como é explorado se faltar, e como configurar (SSH, firewall, sysctl, MAC, updates, fail2ban, Lynis).",
+      en: "Objective day 1-2 baseline: what each control is, what it is for, how it is exploited if missing, and how to configure it (SSH, firewall, sysctl, MAC, updates, fail2ban, Lynis).",
+      es: "Baseline objetivo del día 1-2: qué es cada control, para qué sirve, cómo se explota si falta, y cómo configurarlo (SSH, firewall, sysctl, MAC, updates, fail2ban, Lynis).",
     },
     Content: {
       "pt-BR": HardeningLinuxVpsBaselineContentPt,

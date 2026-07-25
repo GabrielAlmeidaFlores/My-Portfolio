@@ -84,31 +84,45 @@ export function PublicationCarousel({
       aria-roledescription="carrossel"
       aria-label={sectionCopy.title}
     >
-      <div className="relative h-[32rem] overflow-hidden">
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
-          <motion.div
-            key={currentPublication.id}
-            custom={direction}
-            variants={prefersReducedMotion ? undefined : slideVariants}
-            initial={prefersReducedMotion ? false : "enter"}
-            animate="center"
-            exit={prefersReducedMotion ? undefined : "exit"}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            drag={prefersReducedMotion ? false : "x"}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.12}
-            onDragEnd={handleDragEnd}
-            className="absolute inset-0 w-full touch-pan-y"
-          >
-            <PublicationCard
-              publication={currentPublication}
-              readMoreLabel={readMoreLabel}
-              publishedOnLabel={publishedOnLabel}
-              locale={locale}
-              className="h-full"
-            />
-          </motion.div>
-        </AnimatePresence>
+      <div className="relative">
+        <CarouselNavButton
+          direction="prev"
+          label={carousel.previousPublication}
+          onClick={() => paginate(-1)}
+          className="absolute top-1/2 left-0 z-20 -translate-x-1/2 -translate-y-1/2"
+        />
+        <CarouselNavButton
+          direction="next"
+          label={carousel.nextPublication}
+          onClick={() => paginate(1)}
+          className="absolute top-1/2 right-0 z-20 translate-x-1/2 -translate-y-1/2"
+        />
+
+        <div className="relative overflow-hidden">
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={currentPublication.id}
+              custom={direction}
+              variants={prefersReducedMotion ? undefined : slideVariants}
+              initial={prefersReducedMotion ? false : "enter"}
+              animate="center"
+              exit={prefersReducedMotion ? undefined : "exit"}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              drag={prefersReducedMotion ? false : "x"}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.12}
+              onDragEnd={handleDragEnd}
+              className="w-full touch-pan-y"
+            >
+              <PublicationCard
+                publication={currentPublication}
+                readMoreLabel={readMoreLabel}
+                publishedOnLabel={publishedOnLabel}
+                locale={locale}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
       <div className="mt-8 flex items-center justify-center gap-4">

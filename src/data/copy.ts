@@ -44,11 +44,6 @@ export interface SiteCopy {
       close: string;
     };
   };
-  engineering: {
-    title: string;
-    subtitle: string;
-    ariaLabel: string;
-  };
   certifications: {
     title: string;
     subtitle: string;
@@ -102,15 +97,11 @@ export interface SiteCopy {
   carousel: {
     previousProject: string;
     nextProject: string;
-    previousTopic: string;
-    nextTopic: string;
     previousPublication: string;
     nextPublication: string;
     projects: string;
-    topics: string;
     publications: string;
     projectAria: string;
-    topicAria: string;
     publicationAria: string;
   };
 }
@@ -161,12 +152,6 @@ const ptBR: SiteCopy = {
       experiences: "Experiências",
       close: "Fechar",
     },
-  },
-  engineering: {
-    title: "Como eu construo software",
-    subtitle:
-      "Da concepção à produção: como penso, desenho e entrego soluções em cada camada da stack.",
-    ariaLabel: "Engenharia de software",
   },
   certifications: {
     title: "Certificações",
@@ -225,15 +210,11 @@ const ptBR: SiteCopy = {
   carousel: {
     previousProject: "Projeto anterior",
     nextProject: "Próximo projeto",
-    previousTopic: "Tópico anterior",
-    nextTopic: "Próximo tópico",
     previousPublication: "Publicação anterior",
     nextPublication: "Próxima publicação",
     projects: "Projetos",
-    topics: "Tópicos",
     publications: "Publicações",
     projectAria: "{title}, projeto {current} de {total}",
-    topicAria: "{title}, tópico {current} de {total}",
     publicationAria: "{title}, publicação {current} de {total}",
   },
 };
@@ -284,12 +265,6 @@ const en: SiteCopy = {
       experiences: "Experience",
       close: "Close",
     },
-  },
-  engineering: {
-    title: "How I build software",
-    subtitle:
-      "From concept to production: how I think, design, and deliver solutions across every layer of the stack.",
-    ariaLabel: "Software engineering",
   },
   certifications: {
     title: "Certifications",
@@ -348,15 +323,11 @@ const en: SiteCopy = {
   carousel: {
     previousProject: "Previous project",
     nextProject: "Next project",
-    previousTopic: "Previous topic",
-    nextTopic: "Next topic",
     previousPublication: "Previous publication",
     nextPublication: "Next publication",
     projects: "Projects",
-    topics: "Topics",
     publications: "Publications",
     projectAria: "{title}, project {current} of {total}",
-    topicAria: "{title}, topic {current} of {total}",
     publicationAria: "{title}, publication {current} of {total}",
   },
 };
@@ -407,12 +378,6 @@ const es: SiteCopy = {
       experiences: "Experiencias",
       close: "Cerrar",
     },
-  },
-  engineering: {
-    title: "Cómo construyo software",
-    subtitle:
-      "De la concepción a producción: cómo pienso, diseño y entrego soluciones en cada capa del stack.",
-    ariaLabel: "Ingeniería de software",
   },
   certifications: {
     title: "Certificaciones",
@@ -471,15 +436,11 @@ const es: SiteCopy = {
   carousel: {
     previousProject: "Proyecto anterior",
     nextProject: "Siguiente proyecto",
-    previousTopic: "Tema anterior",
-    nextTopic: "Siguiente tema",
     previousPublication: "Publicación anterior",
     nextPublication: "Siguiente publicación",
     projects: "Proyectos",
-    topics: "Temas",
     publications: "Publicaciones",
     projectAria: "{title}, proyecto {current} de {total}",
-    topicAria: "{title}, tema {current} de {total}",
     publicationAria: "{title}, publicación {current} de {total}",
   },
 };

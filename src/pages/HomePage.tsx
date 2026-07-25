@@ -7,7 +7,6 @@ import { ExperienceSection } from "@/components/sections/experience/ExperienceSe
 import { HeroSection } from "@/components/sections/hero/HeroSection";
 import { ProjectsSection } from "@/components/sections/projects/ProjectsSection";
 import { PublicationsSection } from "@/components/sections/publications/PublicationsSection";
-import { SoftwareEngineeringSection } from "@/components/sections/software-engineering/SoftwareEngineeringSection";
 import { TechnologiesSection } from "@/components/sections/technologies/TechnologiesSection";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 
@@ -45,7 +44,6 @@ export function HomePage() {
       <CertificationsSection />
       <EducationSection />
       <PublicationsSection />
-      <SoftwareEngineeringSection />
       <ContactSection />
     </main>
   );

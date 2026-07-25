@@ -48,27 +48,27 @@ export function PublicationCard({
           />
         </div>
 
-        <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden p-6">
-          <MonoText className="shrink-0 text-primary-500">
+        <div className="flex flex-1 flex-col gap-3 p-6">
+          <MonoText className="text-primary-500">
             {publishedOnLabel}{" "}
             {formatPublishedDate(publication.publishedAt, locale)}
           </MonoText>
 
-          <h3 className="text-safe shrink-0 text-xl font-bold text-foreground">
+          <h3 className="text-safe text-xl font-bold text-foreground">
             {publication.title}
           </h3>
 
-          <p className="text-safe min-h-0 flex-1 overflow-y-auto text-sm leading-relaxed text-muted">
+          <p className="text-safe text-sm leading-relaxed text-muted">
             {publication.summary}
           </p>
 
-          <div className="flex shrink-0 flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2">
             {publication.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
           </div>
 
-          <span className="mt-2 inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-300">
+          <span className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-300">
             {readMoreLabel}
             <ArrowRight size={16} aria-hidden="true" />
           </span>

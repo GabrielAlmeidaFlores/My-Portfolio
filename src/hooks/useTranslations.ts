@@ -12,7 +12,6 @@ import {
   getTechFilters,
   getTechnologies,
 } from "@/data/technologies";
-import { getSoftwarePipelines } from "@/data/softwarePipelines";
 import { certifications } from "@/data/certifications";
 import { getPublications } from "@/data/publications";
 
@@ -34,7 +33,6 @@ export function useTranslations() {
       contactOpportunities: contactOpportunitiesByLocale[locale],
       techFilters: getTechFilters(locale),
       technologies: getTechnologies(locale),
-      softwarePipelines: getSoftwarePipelines(locale),
       certifications,
       publications: getPublications(locale),
     }),
