@@ -211,8 +211,8 @@ const techBase: TechBase[] = [
     relatedCertifications: [],
     relatedExperiences: [
       "ousion-tech-lead",
-      "epiousion-pleno",
-      "epiousion-junior",
+      "ousion-pleno",
+      "ousion-junior",
     ],
   },
   {
@@ -221,7 +221,7 @@ const techBase: TechBase[] = [
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: ["epiousion-pleno"],
+    relatedExperiences: ["ousion-pleno"],
   },
   {
     id: "springboot",
@@ -229,7 +229,7 @@ const techBase: TechBase[] = [
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: ["epiousion-pleno"],
+    relatedExperiences: ["ousion-pleno"],
   },
   {
     id: "go",
@@ -253,7 +253,7 @@ const techBase: TechBase[] = [
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: ["epiousion-pleno", "epiousion-junior"],
+    relatedExperiences: ["ousion-pleno", "ousion-junior"],
   },
   {
     id: "php",
@@ -269,7 +269,7 @@ const techBase: TechBase[] = [
     category: "frontend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: ["epiousion-pleno", "epiousion-junior"],
+    relatedExperiences: ["ousion-pleno", "ousion-junior"],
   },
   {
     id: "postgresql",
@@ -277,7 +277,7 @@ const techBase: TechBase[] = [
     category: "database",
     relatedProjects: ["pulse", "db-term"],
     relatedCertifications: [],
-    relatedExperiences: ["epiousion-pleno", "epiousion-junior"],
+    relatedExperiences: ["ousion-pleno", "ousion-junior"],
   },
   {
     id: "mysql",
@@ -293,7 +293,7 @@ const techBase: TechBase[] = [
     category: "database",
     relatedProjects: ["db-term"],
     relatedCertifications: [],
-    relatedExperiences: ["epiousion-pleno", "epiousion-junior"],
+    relatedExperiences: ["ousion-pleno", "ousion-junior"],
   },
   {
     id: "mongodb",
@@ -466,8 +466,4 @@ export function getTechnologies(locale: Locale): Technology[] {
   }));
 }
 
-/** @deprecated Prefer getTechFilters(locale) */
-export const techFilters = getTechFilters("pt-BR");
 
-/** @deprecated Prefer getTechnologies(locale) */
-export const technologies = getTechnologies("pt-BR");

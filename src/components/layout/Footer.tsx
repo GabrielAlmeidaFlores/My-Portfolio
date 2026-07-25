@@ -15,7 +15,7 @@ export function Footer() {
           <BodyText className="mt-1 text-sm">{meta.footerDescription[0]}</BodyText>
           <BodyText className="text-sm">{meta.footerDescription[1]}</BodyText>
           <p className="mt-2 font-mono text-xs text-muted">
-            © {year} — {copy.footer.copyright}
+            © {year} {copy.footer.copyright}
           </p>
         </div>
 

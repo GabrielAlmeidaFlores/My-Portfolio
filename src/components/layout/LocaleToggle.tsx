@@ -53,7 +53,7 @@ export function LocaleToggle({ compact = false }: LocaleToggleProps) {
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        aria-label={`${current.label} — Idioma / Language / Idioma`}
+        aria-label={`${current.label} | Idioma / Language / Idioma`}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={menuId}

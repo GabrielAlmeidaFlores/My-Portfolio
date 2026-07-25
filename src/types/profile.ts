@@ -4,8 +4,5 @@ export interface Profile {
   tagline: string;
   highlights: string[];
   photo: string;
-  aboutPhoto: string;
-  aboutTitle: string;
-  aboutParagraphs: string[];
   cvUrl: string;
 }

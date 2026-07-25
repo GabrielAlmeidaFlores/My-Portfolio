@@ -4,8 +4,6 @@ export interface Experience {
   role: string;
   period: string;
   responsibilitiesLabel: string;
-  /** Full list of responsibilities / stack pills */
   responsibilities: string[];
-  /** Shown by default; remaining items appear under "Others" */
   featuredResponsibilities?: string[];
 }

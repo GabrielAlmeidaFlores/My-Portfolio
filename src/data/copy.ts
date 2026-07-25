@@ -13,23 +13,6 @@ export interface SiteCopy {
     scrollLabel: string;
     ariaLabel: string;
   };
-  about: {
-    title: string;
-    values: {
-      title: string;
-      subtitle: string;
-    };
-    specialties: {
-      title: string;
-      subtitle: string;
-    };
-    stats: {
-      title: string;
-      subtitle: string;
-    };
-    scrollHint: string;
-    photoAlt: string;
-  };
   experience: {
     title: string;
     subtitle: string;
@@ -78,12 +61,17 @@ export interface SiteCopy {
     subtitle: string;
     ariaLabel: string;
   };
-  testimonials: {
+  publications: {
     title: string;
     subtitle: string;
-    photoAlt: string;
-    placeholder: string;
     ariaLabel: string;
+    readMore: string;
+    backToList: string;
+    notFoundTitle: string;
+    notFoundDescription: string;
+    publishedOn: string;
+    tableOfContents: string;
+    tableOfContentsAria: string;
   };
   contact: {
     eyebrow: string;
@@ -136,29 +124,12 @@ const ptBR: SiteCopy = {
     scrollLabel: "Rolar para a seção de experiência",
     ariaLabel: "Apresentação",
   },
-  about: {
-    title: "Sobre Mim",
-    values: {
-      title: "Valores",
-      subtitle: "Princípios que orientam cada decisão técnica e de liderança.",
-    },
-    specialties: {
-      title: "Especialidades",
-      subtitle: "Áreas em que atuo com maior profundidade e entrega de valor.",
-    },
-    stats: {
-      title: "Em números",
-      subtitle: "Resultados que refletem experiência, dedicação e impacto.",
-    },
-    scrollHint: "role ↓",
-    photoAlt: "Foto profissional",
-  },
   experience: {
     title: "Experiência Profissional",
     subtitle:
-      "Trajetória em empresas de tecnologia, com foco em arquitetura, cloud e liderança de equipes.",
+      "Trajetória em empresas de tecnologia, com foco em arquitetura, cloud e engenharia de software.",
     ariaLabel: "Experiência profissional",
-    others: "Others",
+    others: "Outras",
     showLess: "Ver menos",
   },
   projects: {
@@ -206,20 +177,26 @@ const ptBR: SiteCopy = {
     subtitle: "Trajetória acadêmica e especialização contínua.",
     ariaLabel: "Formação acadêmica",
   },
-  testimonials: {
-    title: "Recomendações",
-    subtitle: "Depoimentos de colegas, gestores e parceiros de projeto.",
-    photoAlt: "Foto",
-    placeholder:
-      "Novas recomendações do LinkedIn podem ser adicionadas em breve.",
-    ariaLabel: "Depoimentos",
+  publications: {
+    title: "Publicações",
+    subtitle:
+      "Artigos e notas técnicas sobre arquitetura, cloud, engenharia e processo de trabalho.",
+    ariaLabel: "Publicações",
+    readMore: "Ler publicação",
+    backToList: "Voltar às publicações",
+    notFoundTitle: "Publicação não encontrada",
+    notFoundDescription:
+      "O conteúdo que você procura não existe ou foi movido.",
+    publishedOn: "Publicado em",
+    tableOfContents: "Neste artigo",
+    tableOfContentsAria: "Índice do artigo",
   },
   contact: {
     eyebrow: "// vamos construir",
     titleBefore: "Vamos construir algo",
     titleHighlight: "juntos?",
     subtitle:
-      "Disponível para oportunidades em liderança técnica, arquitetura de software, engenharia cloud e consultoria.",
+      "Disponível para oportunidades em arquitetura de software, engenharia cloud, DevOps, SysAdmin e consultoria.",
     email: "Enviar e-mail",
     ariaLabel: "Contato",
   },
@@ -266,27 +243,10 @@ const en: SiteCopy = {
     scrollLabel: "Scroll to experience section",
     ariaLabel: "Introduction",
   },
-  about: {
-    title: "About Me",
-    values: {
-      title: "Values",
-      subtitle: "Principles that guide every technical and leadership decision.",
-    },
-    specialties: {
-      title: "Specialties",
-      subtitle: "Areas where I deliver the deepest expertise and business value.",
-    },
-    stats: {
-      title: "By the numbers",
-      subtitle: "Results that reflect experience, dedication, and impact.",
-    },
-    scrollHint: "scroll ↓",
-    photoAlt: "Professional photo",
-  },
   experience: {
     title: "Professional Experience",
     subtitle:
-      "Career path in technology companies, focused on architecture, cloud, and team leadership.",
+      "Career path in technology companies, focused on architecture, cloud, and software engineering.",
     ariaLabel: "Professional experience",
     others: "Others",
     showLess: "Show less",
@@ -336,19 +296,26 @@ const en: SiteCopy = {
     subtitle: "Academic background and continuous specialization.",
     ariaLabel: "Education",
   },
-  testimonials: {
-    title: "Recommendations",
-    subtitle: "Testimonials from colleagues, managers, and project partners.",
-    photoAlt: "Photo",
-    placeholder: "New LinkedIn recommendations may be added soon.",
-    ariaLabel: "Testimonials",
+  publications: {
+    title: "Publications",
+    subtitle:
+      "Articles and technical notes on architecture, cloud, engineering, and working process.",
+    ariaLabel: "Publications",
+    readMore: "Read publication",
+    backToList: "Back to publications",
+    notFoundTitle: "Publication not found",
+    notFoundDescription:
+      "The content you are looking for does not exist or has been moved.",
+    publishedOn: "Published on",
+    tableOfContents: "In this article",
+    tableOfContentsAria: "Article table of contents",
   },
   contact: {
     eyebrow: "// let's build",
     titleBefore: "Shall we build something",
     titleHighlight: "together?",
     subtitle:
-      "Open to opportunities in technical leadership, software architecture, cloud engineering, and consulting.",
+      "Open to opportunities in software architecture, cloud engineering, DevOps, SysAdmin, and consulting.",
     email: "Send email",
     ariaLabel: "Contact",
   },
@@ -395,29 +362,12 @@ const es: SiteCopy = {
     scrollLabel: "Ir a la sección de experiencia",
     ariaLabel: "Presentación",
   },
-  about: {
-    title: "Sobre mí",
-    values: {
-      title: "Valores",
-      subtitle: "Principios que guían cada decisión técnica y de liderazgo.",
-    },
-    specialties: {
-      title: "Especialidades",
-      subtitle: "Áreas en las que aporto mayor profundidad y valor de negocio.",
-    },
-    stats: {
-      title: "En números",
-      subtitle: "Resultados que reflejan experiencia, dedicación e impacto.",
-    },
-    scrollHint: "desplázate ↓",
-    photoAlt: "Foto profesional",
-  },
   experience: {
     title: "Experiencia Profesional",
     subtitle:
-      "Trayectoria en empresas de tecnología, con foco en arquitectura, cloud y liderazgo de equipos.",
+      "Trayectoria en empresas de tecnología, con foco en arquitectura, cloud e ingeniería de software.",
     ariaLabel: "Experiencia profesional",
-    others: "Others",
+    others: "Otras",
     showLess: "Ver menos",
   },
   projects: {
@@ -465,20 +415,26 @@ const es: SiteCopy = {
     subtitle: "Trayectoria académica y especialización continua.",
     ariaLabel: "Formación académica",
   },
-  testimonials: {
-    title: "Recomendaciones",
-    subtitle: "Testimonios de colegas, gestores y socios de proyecto.",
-    photoAlt: "Foto",
-    placeholder:
-      "Nuevas recomendaciones de LinkedIn pueden añadirse pronto.",
-    ariaLabel: "Testimonios",
+  publications: {
+    title: "Publicaciones",
+    subtitle:
+      "Artículos y notas técnicas sobre arquitectura, cloud, ingeniería y proceso de trabajo.",
+    ariaLabel: "Publicaciones",
+    readMore: "Leer publicación",
+    backToList: "Volver a publicaciones",
+    notFoundTitle: "Publicación no encontrada",
+    notFoundDescription:
+      "El contenido que buscas no existe o ha sido movido.",
+    publishedOn: "Publicado el",
+    tableOfContents: "En este artículo",
+    tableOfContentsAria: "Índice del artículo",
   },
   contact: {
     eyebrow: "// construyamos",
     titleBefore: "¿Construimos algo",
     titleHighlight: "juntos?",
     subtitle:
-      "Disponible para oportunidades en liderazgo técnico, arquitectura de software, ingeniería cloud y consultoría.",
+      "Disponible para oportunidades en arquitectura de software, ingeniería cloud, DevOps, SysAdmin y consultoría.",
     email: "Enviar correo",
     ariaLabel: "Contacto",
   },

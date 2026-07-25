@@ -7,7 +7,7 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       id: "ousion-tech-lead",
       role: "Líder Técnico",
       company: "Ousion Soluções em Tecnologia",
-      period: "Abril 2024 — Atual",
+      period: "Abril 2024 a Atual",
       responsibilitiesLabel: "Principais responsabilidades",
       featuredResponsibilities: [
         "Arquitetura cloud-native",
@@ -50,10 +50,10 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       ],
     },
     {
-      id: "epiousion-pleno",
+      id: "ousion-pleno",
       role: "Desenvolvedor Full Stack Pleno",
-      company: "Epiousion",
-      period: "Janeiro 2024 — Abril 2024",
+      company: "Ousion Soluções em Tecnologia",
+      period: "Janeiro 2024 a Abril 2024",
       responsibilitiesLabel: "Responsável por",
       featuredResponsibilities: [
         "C#",
@@ -83,10 +83,10 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       ],
     },
     {
-      id: "epiousion-junior",
+      id: "ousion-junior",
       role: "Desenvolvedor Full Stack Júnior",
-      company: "Epiousion",
-      period: "Novembro 2023 — Janeiro 2024",
+      company: "Ousion Soluções em Tecnologia",
+      period: "Novembro 2023 a Janeiro 2024",
       responsibilitiesLabel: "Atuação em",
       featuredResponsibilities: [
         "Desenvolvimento full-stack",
@@ -117,7 +117,7 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       id: "ousion-tech-lead",
       role: "Tech Lead",
       company: "Ousion Soluções em Tecnologia",
-      period: "April 2024 — Present",
+      period: "April 2024 to Present",
       responsibilitiesLabel: "Key responsibilities",
       featuredResponsibilities: [
         "Cloud-native architecture",
@@ -160,10 +160,10 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       ],
     },
     {
-      id: "epiousion-pleno",
+      id: "ousion-pleno",
       role: "Mid-level Full Stack Developer",
-      company: "Epiousion",
-      period: "January 2024 — April 2024",
+      company: "Ousion Soluções em Tecnologia",
+      period: "January 2024 to April 2024",
       responsibilitiesLabel: "Responsible for",
       featuredResponsibilities: [
         "C#",
@@ -193,10 +193,10 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       ],
     },
     {
-      id: "epiousion-junior",
+      id: "ousion-junior",
       role: "Junior Full Stack Developer",
-      company: "Epiousion",
-      period: "November 2023 — January 2024",
+      company: "Ousion Soluções em Tecnologia",
+      period: "November 2023 to January 2024",
       responsibilitiesLabel: "Worked on",
       featuredResponsibilities: [
         "Full-stack development",
@@ -227,7 +227,7 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       id: "ousion-tech-lead",
       role: "Líder Técnico",
       company: "Ousion Soluções em Tecnologia",
-      period: "Abril 2024 — Actual",
+      period: "Abril 2024 a Actual",
       responsibilitiesLabel: "Principales responsabilidades",
       featuredResponsibilities: [
         "Arquitectura cloud-native",
@@ -270,10 +270,10 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       ],
     },
     {
-      id: "epiousion-pleno",
+      id: "ousion-pleno",
       role: "Desarrollador Full Stack Semi-Senior",
-      company: "Epiousion",
-      period: "Enero 2024 — Abril 2024",
+      company: "Ousion Soluções em Tecnologia",
+      period: "Enero 2024 a Abril 2024",
       responsibilitiesLabel: "Responsable de",
       featuredResponsibilities: [
         "C#",
@@ -303,10 +303,10 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
       ],
     },
     {
-      id: "epiousion-junior",
+      id: "ousion-junior",
       role: "Desarrollador Full Stack Junior",
-      company: "Epiousion",
-      period: "Noviembre 2023 — Enero 2024",
+      company: "Ousion Soluções em Tecnologia",
+      period: "Noviembre 2023 a Enero 2024",
       responsibilitiesLabel: "Actuación en",
       featuredResponsibilities: [
         "Desarrollo full-stack",
@@ -334,5 +334,3 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   ],
 };
 
-/** @deprecated Prefer experiencesByLocale[locale] */
-export const experiences = experiencesByLocale["pt-BR"];

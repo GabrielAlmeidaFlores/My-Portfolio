@@ -172,7 +172,7 @@ export function TechnologiesSection() {
                     const exp = experiences.find((e) => e.id === id);
                     return (
                       <li key={id}>
-                        • {exp ? `${exp.role} — ${exp.company}` : id}
+                        • {exp ? `${exp.role} | ${exp.company}` : id}
                       </li>
                     );
                   })}

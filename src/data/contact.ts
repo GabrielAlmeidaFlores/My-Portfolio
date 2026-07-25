@@ -2,30 +2,27 @@ import type { Locale } from "@/types/locale";
 
 export const contactOpportunitiesByLocale: Record<Locale, readonly string[]> = {
   "pt-BR": [
-    "Líder Técnico",
-    "Arquiteto de Software",
+    "Desenvolvedor de Software",
+    "Arquiteto Cloud",
+    "SysAdmin",
     "Engenheiro Backend",
-    "Engenheiro Cloud",
     "Engenheiro DevOps",
     "Consultoria em Arquitetura",
   ],
   en: [
-    "Tech Lead",
-    "Software Architect",
+    "Software Developer",
+    "Cloud Architect",
+    "SysAdmin",
     "Backend Engineer",
-    "Cloud Engineer",
     "DevOps Engineer",
     "Architecture Consulting",
   ],
   es: [
-    "Líder Técnico",
-    "Arquitecto de Software",
+    "Desarrollador de Software",
+    "Arquitecto Cloud",
+    "SysAdmin",
     "Ingeniero Backend",
-    "Ingeniero Cloud",
     "Ingeniero DevOps",
     "Consultoría en Arquitectura",
   ],
 };
-
-/** @deprecated Prefer contactOpportunitiesByLocale[locale] */
-export const contactOpportunities = contactOpportunitiesByLocale["pt-BR"];

@@ -3,13 +3,13 @@ import type { Certification } from "@/types/certification";
 export const certifications: Certification[] = [
   {
     id: "aws-developer",
-    name: "AWS Certified Developer — Associate",
+    name: "AWS Certified Developer - Associate",
     year: 2025,
     brand: "aws",
   },
   {
     id: "aws-solutions-architect",
-    name: "AWS Certified Solutions Architect — Associate",
+    name: "AWS Certified Solutions Architect - Associate",
     year: 2023,
     brand: "aws",
   },

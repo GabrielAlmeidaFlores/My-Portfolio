@@ -54,7 +54,6 @@ const categoryLabels: Record<Locale, Record<TechCategory, string>> = {
   },
 };
 
-/** Default (pt-BR) meta for non-localized consumers */
 export const techCategoryMeta: Record<TechCategory, TechCategoryMeta> = {
   cloud: { label: "Cloud", emoji: "☁️", color: categoryColors.cloud },
   backend: { label: "Backend", emoji: "⚙️", color: categoryColors.backend },
