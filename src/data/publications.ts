@@ -38,9 +38,9 @@ export const publications: Publication[] = [
     },
     summary: {
       "pt-BR":
-        "Hardening completo para o dia 1–2 da VPS: SSH/sudo, firewall, sysctl, tempo, MAC, auditd, updates, fail2ban e verificação com Lynis — sem se trancar fora.",
-      en: "Complete day 1–2 VPS hardening: SSH/sudo, firewall, sysctl, time, MAC, auditd, updates, fail2ban, and Lynis verification — without locking yourself out.",
-      es: "Hardening completo para el día 1–2 del VPS: SSH/sudo, firewall, sysctl, tiempo, MAC, auditd, updates, fail2ban y verificación con Lynis — sin quedarte fuera.",
+        "Hardening completo para o dia 1-2 da VPS: SSH/sudo, firewall, sysctl, tempo, MAC, auditd, updates, fail2ban e verificação com Lynis, sem se trancar fora.",
+      en: "Complete day 1-2 VPS hardening: SSH/sudo, firewall, sysctl, time, MAC, auditd, updates, fail2ban, and Lynis verification, without locking yourself out.",
+      es: "Hardening completo para el día 1-2 del VPS: SSH/sudo, firewall, sysctl, tiempo, MAC, auditd, updates, fail2ban y verificación con Lynis, sin quedarte fuera.",
     },
     Content: {
       "pt-BR": HardeningLinuxVpsBaselineContentPt,

@@ -104,10 +104,14 @@ export interface SiteCopy {
     nextProject: string;
     previousTopic: string;
     nextTopic: string;
+    previousPublication: string;
+    nextPublication: string;
     projects: string;
     topics: string;
+    publications: string;
     projectAria: string;
     topicAria: string;
+    publicationAria: string;
   };
 }
 
@@ -223,10 +227,14 @@ const ptBR: SiteCopy = {
     nextProject: "Próximo projeto",
     previousTopic: "Tópico anterior",
     nextTopic: "Próximo tópico",
+    previousPublication: "Publicação anterior",
+    nextPublication: "Próxima publicação",
     projects: "Projetos",
     topics: "Tópicos",
+    publications: "Publicações",
     projectAria: "{title}, projeto {current} de {total}",
     topicAria: "{title}, tópico {current} de {total}",
+    publicationAria: "{title}, publicação {current} de {total}",
   },
 };
 
@@ -342,10 +350,14 @@ const en: SiteCopy = {
     nextProject: "Next project",
     previousTopic: "Previous topic",
     nextTopic: "Next topic",
+    previousPublication: "Previous publication",
+    nextPublication: "Next publication",
     projects: "Projects",
     topics: "Topics",
+    publications: "Publications",
     projectAria: "{title}, project {current} of {total}",
     topicAria: "{title}, topic {current} of {total}",
+    publicationAria: "{title}, publication {current} of {total}",
   },
 };
 
@@ -461,10 +473,14 @@ const es: SiteCopy = {
     nextProject: "Siguiente proyecto",
     previousTopic: "Tema anterior",
     nextTopic: "Siguiente tema",
+    previousPublication: "Publicación anterior",
+    nextPublication: "Siguiente publicación",
     projects: "Proyectos",
     topics: "Temas",
+    publications: "Publicaciones",
     projectAria: "{title}, proyecto {current} de {total}",
     topicAria: "{title}, tema {current} de {total}",
+    publicationAria: "{title}, publicación {current} de {total}",
   },
 };
 

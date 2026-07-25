@@ -5,7 +5,7 @@ import {
   useReducedMotion,
   type PanInfo,
 } from "framer-motion";
-import { ChevronLeft, ChevronRight, ImageOff, Search } from "lucide-react";
+import { ImageOff, Search } from "lucide-react";
 import type { Project } from "@/types/project";
 import { useTranslations } from "@/hooks/useTranslations";
 import { formatTemplate } from "@/lib/formatTemplate";
@@ -13,6 +13,7 @@ import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Badge } from "@/components/ui/Badge";
 import { BodyText } from "@/components/ui/BodyText";
 import { Button } from "@/components/ui/Button";
+import { CarouselNavButton } from "@/components/ui/CarouselNavButton";
 import { cn } from "@/lib/cn";
 
 interface ProjectCarouselProps {
@@ -146,8 +147,8 @@ function ProjectSlide({ project }: { project: Project }) {
   const hasLinks = Boolean(project.githubUrl || project.demoUrl);
 
   return (
-    <SpotlightCard className="group flex min-h-[420px] w-full min-w-0 flex-col overflow-hidden p-0 lg:grid lg:grid-cols-2">
-      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-hover lg:aspect-auto lg:h-full lg:min-h-[420px]">
+    <SpotlightCard className="group flex h-full w-full min-w-0 flex-col overflow-hidden p-0 lg:grid lg:grid-cols-2">
+      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-hover lg:aspect-auto lg:h-full lg:min-h-0">
         <ProjectMedia
           image={project.image}
           videoUrl={project.videoUrl}
@@ -158,23 +159,23 @@ function ProjectSlide({ project }: { project: Project }) {
         />
       </div>
 
-      <div className="flex w-full min-w-0 flex-1 flex-col justify-center p-7 lg:p-10">
+      <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col justify-center overflow-hidden p-7 lg:p-10">
         {project.isClientProject && (
-          <Badge className="mb-3 w-fit">{copy.projects.clientProject}</Badge>
+          <Badge className="mb-3 w-fit shrink-0">{copy.projects.clientProject}</Badge>
         )}
-        <h3 className="text-safe w-full text-2xl font-bold lg:text-3xl">
+        <h3 className="text-safe w-full shrink-0 text-2xl font-bold lg:text-3xl">
           {project.title}
         </h3>
-        <BodyText className="mt-3 flex-1 text-base">
+        <BodyText className="mt-3 min-h-0 flex-1 overflow-y-auto text-base">
           {project.shortDescription}
         </BodyText>
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-6 flex shrink-0 flex-wrap gap-2">
           {project.technologies.map((tech) => (
             <Badge key={tech}>{tech}</Badge>
           ))}
         </div>
         {hasLinks && (
-          <div className="mt-6 flex flex-wrap justify-start gap-2">
+          <div className="mt-6 flex shrink-0 flex-wrap justify-start gap-2">
             {project.githubUrl && (
               <Button href={project.githubUrl} variant="ghost">
                 {copy.projects.github}
@@ -189,34 +190,6 @@ function ProjectSlide({ project }: { project: Project }) {
         )}
       </div>
     </SpotlightCard>
-  );
-}
-
-function CarouselNavButton({
-  direction,
-  onClick,
-  label,
-  className,
-}: {
-  direction: "prev" | "next";
-  onClick: () => void;
-  label: string;
-  className?: string;
-}) {
-  const Icon = direction === "prev" ? ChevronLeft : ChevronRight;
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      className={cn(
-        "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-card/90 text-foreground shadow-[var(--shadow-card)] backdrop-blur-md transition-all duration-350 hover:border-primary-500/40 hover:bg-hover hover:shadow-[var(--shadow-card-hover)]",
-        className,
-      )}
-    >
-      <Icon className="h-5 w-5" aria-hidden />
-    </button>
   );
 }
 
@@ -263,38 +236,40 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       aria-roledescription="carrossel"
       aria-label={sectionCopy.title}
     >
-      <CarouselNavButton
-        direction="prev"
-        label={carousel.previousProject}
-        onClick={() => paginate(-1)}
-        className="absolute top-1/2 left-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
-      />
-      <CarouselNavButton
-        direction="next"
-        label={carousel.nextProject}
-        onClick={() => paginate(1)}
-        className="absolute top-1/2 right-0 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
-      />
+      <div className="relative">
+        <CarouselNavButton
+          direction="prev"
+          label={carousel.previousProject}
+          onClick={() => paginate(-1)}
+          className="absolute top-1/2 left-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
+        />
+        <CarouselNavButton
+          direction="next"
+          label={carousel.nextProject}
+          onClick={() => paginate(1)}
+          className="absolute top-1/2 right-0 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
+        />
 
-      <div className="relative overflow-hidden px-0 md:px-6">
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
-          <motion.div
-            key={currentProject.id}
-            custom={direction}
-            variants={prefersReducedMotion ? undefined : slideVariants}
-            initial={prefersReducedMotion ? false : "enter"}
-            animate="center"
-            exit={prefersReducedMotion ? undefined : "exit"}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            drag={prefersReducedMotion ? false : "x"}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.12}
-            onDragEnd={handleDragEnd}
-            className="w-full touch-pan-y"
-          >
-            <ProjectSlide project={currentProject} />
-          </motion.div>
-        </AnimatePresence>
+        <div className="relative h-[34rem] overflow-hidden px-0 md:h-[26rem] md:px-6 lg:h-[28rem]">
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={currentProject.id}
+              custom={direction}
+              variants={prefersReducedMotion ? undefined : slideVariants}
+              initial={prefersReducedMotion ? false : "enter"}
+              animate="center"
+              exit={prefersReducedMotion ? undefined : "exit"}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              drag={prefersReducedMotion ? false : "x"}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.12}
+              onDragEnd={handleDragEnd}
+              className="absolute inset-0 w-full touch-pan-y"
+            >
+              <ProjectSlide project={currentProject} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
       <div className="mt-8 flex items-center justify-center gap-4">

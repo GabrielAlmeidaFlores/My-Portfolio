@@ -5,7 +5,6 @@ import {
   useReducedMotion,
   type PanInfo,
 } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { ProcessPipeline } from "@/types/processPipeline";
 import { useTranslations } from "@/hooks/useTranslations";
 import { formatTemplate } from "@/lib/formatTemplate";
@@ -14,6 +13,7 @@ import { CloudStackFlow } from "@/components/ui/CloudStackFlow";
 import { SecurityShieldFlow } from "@/components/ui/SecurityShieldFlow";
 import { ArchitectureBlueprintFlow } from "@/components/ui/ArchitectureBlueprintFlow";
 import { DevOpsCycleFlow } from "@/components/ui/DevOpsCycleFlow";
+import { CarouselNavButton } from "@/components/ui/CarouselNavButton";
 import { cn } from "@/lib/cn";
 
 interface SoftwareEngineeringCarouselProps {
@@ -44,7 +44,7 @@ function PipelineSlide({ pipeline }: { pipeline: ProcessPipeline }) {
         title={pipeline.title}
         description={pipeline.description}
         layers={pipeline.layers}
-        className="h-full min-h-[480px]"
+        className="h-full"
       />
     );
   }
@@ -55,7 +55,7 @@ function PipelineSlide({ pipeline }: { pipeline: ProcessPipeline }) {
         title={pipeline.title}
         description={pipeline.description}
         layers={pipeline.layers}
-        className="h-full min-h-[480px]"
+        className="h-full"
       />
     );
   }
@@ -66,7 +66,7 @@ function PipelineSlide({ pipeline }: { pipeline: ProcessPipeline }) {
         title={pipeline.title}
         description={pipeline.description}
         blueprint={pipeline.blueprint}
-        className="h-full min-h-[480px]"
+        className="h-full"
       />
     );
   }
@@ -77,7 +77,7 @@ function PipelineSlide({ pipeline }: { pipeline: ProcessPipeline }) {
         title={pipeline.title}
         description={pipeline.description}
         stages={pipeline.cycle}
-        className="h-full min-h-[480px]"
+        className="h-full"
       />
     );
   }
@@ -87,36 +87,8 @@ function PipelineSlide({ pipeline }: { pipeline: ProcessPipeline }) {
       title={pipeline.title}
       description={pipeline.description}
       steps={pipeline.steps}
-      className="h-full min-h-[480px]"
+      className="h-full"
     />
-  );
-}
-
-function CarouselNavButton({
-  direction,
-  onClick,
-  label,
-  className,
-}: {
-  direction: "prev" | "next";
-  onClick: () => void;
-  label: string;
-  className?: string;
-}) {
-  const Icon = direction === "prev" ? ChevronLeft : ChevronRight;
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      className={cn(
-        "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-card/90 text-foreground shadow-[var(--shadow-card)] backdrop-blur-md transition-all duration-350 hover:border-primary-500/40 hover:bg-hover hover:shadow-[var(--shadow-card-hover)]",
-        className,
-      )}
-    >
-      <Icon className="h-5 w-5" aria-hidden />
-    </button>
   );
 }
 
@@ -165,38 +137,40 @@ export function SoftwareEngineeringCarousel({
       aria-roledescription="carrossel"
       aria-label={sectionCopy.title}
     >
-      <CarouselNavButton
-        direction="prev"
-        label={carousel.previousTopic}
-        onClick={() => paginate(-1)}
-        className="absolute top-1/2 left-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
-      />
-      <CarouselNavButton
-        direction="next"
-        label={carousel.nextTopic}
-        onClick={() => paginate(1)}
-        className="absolute top-1/2 right-0 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
-      />
+      <div className="relative">
+        <CarouselNavButton
+          direction="prev"
+          label={carousel.previousTopic}
+          onClick={() => paginate(-1)}
+          className="absolute top-1/2 left-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
+        />
+        <CarouselNavButton
+          direction="next"
+          label={carousel.nextTopic}
+          onClick={() => paginate(1)}
+          className="absolute top-1/2 right-0 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
+        />
 
-      <div className="relative overflow-hidden px-0 md:px-6">
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
-          <motion.div
-            key={currentPipeline.id}
-            custom={direction}
-            variants={prefersReducedMotion ? undefined : slideVariants}
-            initial={prefersReducedMotion ? false : "enter"}
-            animate="center"
-            exit={prefersReducedMotion ? undefined : "exit"}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            drag={prefersReducedMotion ? false : "x"}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.12}
-            onDragEnd={handleDragEnd}
-            className="w-full touch-pan-y"
-          >
-            <PipelineSlide pipeline={currentPipeline} />
-          </motion.div>
-        </AnimatePresence>
+        <div className="relative h-[30rem] overflow-hidden px-0 md:h-[30rem] md:px-6">
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={currentPipeline.id}
+              custom={direction}
+              variants={prefersReducedMotion ? undefined : slideVariants}
+              initial={prefersReducedMotion ? false : "enter"}
+              animate="center"
+              exit={prefersReducedMotion ? undefined : "exit"}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              drag={prefersReducedMotion ? false : "x"}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.12}
+              onDragEnd={handleDragEnd}
+              className="absolute inset-0 w-full touch-pan-y"
+            >
+              <PipelineSlide pipeline={currentPipeline} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
       <div className="mt-8 flex items-center justify-center gap-4">

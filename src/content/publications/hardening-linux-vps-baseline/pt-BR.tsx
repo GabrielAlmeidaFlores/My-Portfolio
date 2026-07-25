@@ -82,22 +82,23 @@ export function HardeningLinuxVpsBaselineContentPt() {
       <ArticleH2>1. O problema da VPS “pronta”</ArticleH2>
 
       <ArticleP>
-        Eu já deixei uma VPS “pronta” demais. Painel do provedor, Ubuntu
-        fresco, SSH na 22, root com senha porque “é só pra testar”. Em menos
-        de um dia o <ArticleCode>auth.log</ArticleCode> parecia leilão:
-        tentativas de login de IPs que eu nunca tinha visto.
+        Uma VPS “pronta” do painel do provedor costuma parecer segura o
+        suficiente: Ubuntu fresco, SSH na 22, acesso root com senha “só pra
+        subir o serviço”. Em poucas horas o{" "}
+        <ArticleCode>auth.log</ArticleCode> já mostra o padrão: tentativas de
+        login de IPs aleatórios batendo na porta mais escaneada da internet.
       </ArticleP>
 
       <ArticleP>
-        Não foi um APT sofisticado. Foi o baseline que eu pulei. A caixa
-        estava na internet com a porta mais batida do planeta e a credencial
-        mais óbvia. Depois descobri o restante do buraco: sysctl no default,
-        relógio torto, AppArmor “sei lá se está enforcing”, zero verificação.
+        Não precisa de APT sofisticado. Basta o baseline incompleto: credencial
+        óbvia, sysctl no default da imagem, relógio sem NTP, MAC
+        (AppArmor/SELinux) sem conferir se está enforcing, zero verificação
+        depois do deploy.
       </ArticleP>
 
       <ArticleP>
-        Este post é o hardening que eu trato como{" "}
-        <strong>completo para o dia 1–2 de uma VPS Linux</strong>: identidade,
+        Este post é o hardening que eu aplico como{" "}
+        <strong>completo para o dia 1-2 de uma VPS Linux</strong>: identidade,
         perímetro, kernel/rede, host (tempo, MAC, filesystem), manutenção,
         detecção e verificação. Distro-agnóstico, com pares Debian/Ubuntu e
         RHEL/Rocky/Alma onde a ferramenta muda.
@@ -121,7 +122,8 @@ export function HardeningLinuxVpsBaselineContentPt() {
           <a href="#3-identidade-e-acesso" className={linkClass}>
             3
           </a>
-          –{" "}
+          {" "}
+          a{" "}
           <a href="#6-manutencao-deteccao-e-verificacao" className={linkClass}>
             6
           </a>{" "}
@@ -148,7 +150,7 @@ export function HardeningLinuxVpsBaselineContentPt() {
           MAC (AppArmor/SELinux) em permissive ou desligado sem querer
         </ArticleLi>
         <ArticleLi>
-          updates manuais “quando der” — e não dá
+          updates manuais “quando der”, e não dá
         </ArticleLi>
       </ArticleUl>
 
@@ -170,20 +172,51 @@ export function HardeningLinuxVpsBaselineContentPt() {
       </ArticleP>
 
       <ArticleOl>
-        <ArticleLi>Quem pode entrar? (identidade)</ArticleLi>
-        <ArticleLi>De onde e por quais portas? (perímetro)</ArticleLi>
-        <ArticleLi>O kernel ajuda ou atrapalha? (sysctl)</ArticleLi>
+        <ArticleLi>Quem pode entrar? (contas e SSH)</ArticleLi>
+        <ArticleLi>De onde e por quais portas? (firewall e rede)</ArticleLi>
         <ArticleLi>
-          Tempo, MAC e filesystem estão no mínimo seguro?
+          As regras de rede do sistema estão no padrão seguro?
         </ArticleLi>
         <ArticleLi>
-          O que continua rodando se eu não olhar por uma semana? (manutenção)
+          Relógio, proteção do sistema e pastas básicas estão ok?
+        </ArticleLi>
+        <ArticleLi>
+          O que continua rodando se eu não olhar por uma semana?
         </ArticleLi>
       </ArticleOl>
 
       <ArticleP>
-        Inventário rápido que eu rodo antes de “fechar”:
+        Inventário rápido que eu rodo antes de “fechar”. Cada comando
+        responde uma pergunta simples:
       </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          <ArticleCode>whoami; id</ArticleCode>: quem está logado e se essa
+          conta tem poder de administrador
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>ss -tulpn</ArticleCode>: quais portas estão abertas e
+          qual programa está usando cada uma
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>systemctl list-units …</ArticleCode>: quais serviços
+          estão rodando agora (o que a máquina mantém ligado)
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>ufw</ArticleCode> / <ArticleCode>firewall-cmd</ArticleCode>:
+          se o firewall está ativo e o que ele deixa passar
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>timedatectl</ArticleCode>: se o relógio do servidor
+          está certo (logs e HTTPS dependem disso)
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>aa-status</ArticleCode> (Debian/Ubuntu) ou{" "}
+          <ArticleCode>getenforce</ArticleCode> (RHEL): se a proteção extra
+          do sistema (AppArmor ou SELinux) está ligada de verdade
+        </ArticleLi>
+      </ArticleUl>
 
       <ArticleCode block>
         {`whoami; id
@@ -191,9 +224,7 @@ ss -tulpn
 systemctl list-units --type=service --state=running
 sudo ufw status verbose 2>/dev/null || sudo firewall-cmd --list-all 2>/dev/null
 timedatectl
-# Debian/Ubuntu
 aa-status 2>/dev/null | head
-# RHEL family
 getenforce 2>/dev/null`}
       </ArticleCode>
 
@@ -211,15 +242,16 @@ getenforce 2>/dev/null`}
       <ArticleH2>3. Identidade e acesso</ArticleH2>
 
       <ArticleP>
-        Cena: eu precisava “só subir um nginx”. Criei tudo como root porque
-        era mais rápido. Depois precisei desligar login root remoto — e quase
-        me travei fora porque a única sessão aberta era a do root.
+        Padrão clássico: “só subir um nginx” e operar tudo como root porque é
+        mais rápido. Na hora de desligar login root remoto, quem deixou uma
+        única sessão aberta (a do root) se trava fora. Por isso a ordem
+        importa antes da pressa.
       </ArticleP>
 
       <ArticleP>
-        Ordem correta: usuário com sudo → chave SSH → endurecer{" "}
+        Ordem correta: usuário com sudo, depois chave SSH, depois endurecer{" "}
         <TermLink href={OPENSSH_URL}>sshd</TermLink> e{" "}
-        <TermLink href={SUDOERS_URL}>sudo</TermLink> → só então cortar o que
+        <TermLink href={SUDOERS_URL}>sudo</TermLink>, depois só então cortar o que
         dói.
       </ArticleP>
 
@@ -268,7 +300,46 @@ ssh-copy-id deploy@SEU_IP`}
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleP>Mínimo que eu aplico:</ArticleP>
+      <ArticleP>
+        Mínimo que eu aplico. Em linguagem simples:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          <ArticleCode>PermitRootLogin no</ArticleCode>: ninguém entra como
+          root direto pelo SSH
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>PasswordAuthentication no</ArticleCode>: senha no SSH
+          desligada; só chave
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>PubkeyAuthentication yes</ArticleCode>: login por
+          chave liberado
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>KbdInteractiveAuthentication no</ArticleCode>: fecha
+          outro caminho de senha interativa
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>X11Forwarding no</ArticleCode>: não encaminha interface
+          gráfica pelo SSH (desnecessário na VPS)
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>AllowUsers deploy</ArticleCode>: só essa conta pode
+          tentar SSH (troque pelo seu usuário)
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>MaxAuthTries</ArticleCode> /{" "}
+          <ArticleCode>LoginGraceTime</ArticleCode>: menos tentativas e menos
+          tempo parado na porta de login
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>ClientAliveInterval</ArticleCode> /{" "}
+          <ArticleCode>ClientAliveCountMax</ArticleCode>: fecha sessão
+          abandonada e libera recurso
+        </ArticleLi>
+      </ArticleUl>
 
       <ArticleCode block>
         {`PermitRootLogin no
@@ -305,7 +376,7 @@ ClientAliveCountMax 2`}
         <ArticleCode>NOPASSWD:ALL</ArticleCode> “pra facilitar o CI” vira
         lateral movement fácil se a conta cair. Prefiro senha no sudo (ou
         autenticação forte) e regras estreitas no{" "}
-        <ArticleCode>/etc/sudoers.d/</ArticleCode> — nunca editar{" "}
+        <ArticleCode>/etc/sudoers.d/</ArticleCode>. Nunca editar{" "}
         <ArticleCode>sudoers</ArticleCode> sem{" "}
         <ArticleCode>visudo</ArticleCode>.
       </ArticleP>
@@ -313,27 +384,44 @@ ClientAliveCountMax 2`}
       <ArticleH3>Mudar a porta? Nuance</ArticleH3>
 
       <ArticleP>
-        Trocar 22 → 2222 reduz barulho no log. Não é controle real. Bots
-        escaneiam portas. Eu trato porta custom como higiene de sinal. A
+        Trocar a porta 22 por 2222 reduz barulho no log. Não é controle real.
+        Bots escaneiam portas. Eu trato porta custom como higiene de sinal. A
         barreira é chave + sem senha + sem root + AllowUsers.
       </ArticleP>
 
       <ArticleH2>4. Rede e perímetro</ArticleH2>
 
       <ArticleP>
-        Cena: app no ar, firewall “depois”. Depois nunca veio. Qualquer
-        serviço em <ArticleCode>0.0.0.0</ArticleCode> virou entrada. Sysctl
-        no default da imagem deixou o host mais conversador do que eu queria.
+        Outro padrão: app no ar, firewall “depois”. Depois raramente vem.
+        Qualquer serviço em <ArticleCode>0.0.0.0</ArticleCode> (escutando em
+        todas as interfaces, inclusive a pública) vira entrada. Além do
+        firewall, o kernel tem regras de rede internas. Se você deixa o
+        padrão da imagem cloud, o servidor aceita comportamentos de rede que
+        um atacante pode tentar abusar.
       </ArticleP>
 
       <ArticleP>
         Regra: default-deny na entrada. Só abre o que o produto precisa
-        (quase sempre SSH + 80/443). Em seguida, kernel net.sysctl básico.
+        (quase sempre SSH + 80/443). Em seguida, ajuste as regras de rede do
+        kernel.
       </ArticleP>
 
       <ArticleH3>
         <TermLink href={UFW_URL}>UFW</TermLink> (Debian/Ubuntu)
       </ArticleH3>
+
+      <ArticleP>
+        Firewall é a lista do que pode entrar na máquina pela internet. Sem
+        ele (ou com “libera tudo”), qualquer serviço que escutar numa porta
+        fica alcançável. Atacantes varrem portas o dia inteiro; o que estiver
+        aberto vira tentativa automática.
+      </ArticleP>
+
+      <ArticleP>
+        No Debian/Ubuntu eu uso <TermLink href={UFW_URL}>UFW</TermLink>: uma
+        frente simples sobre as regras do sistema. A lógica é negar entrada
+        por padrão, liberar só SSH e HTTP/HTTPS, e só então ativar.
+      </ArticleP>
 
       <ArticleCode block>
         {`sudo apt update && sudo apt install -y ufw
@@ -350,6 +438,14 @@ sudo ufw status verbose`}
       <ArticleH3>
         <TermLink href={FIREWALLD_URL}>firewalld</TermLink> (RHEL family)
       </ArticleH3>
+
+      <ArticleP>
+        Na família RHEL o papel é o mesmo: controlar o que entra. A
+        ferramenta padrão costuma ser{" "}
+        <TermLink href={FIREWALLD_URL}>firewalld</TermLink>. Em vez de
+        “allow OpenSSH”, você adiciona serviços (ssh, http, https) e aplica
+        com reload.
+      </ArticleP>
 
       <ArticleCode block>
         {`sudo dnf install -y firewalld
@@ -374,8 +470,65 @@ sudo firewall-cmd --list-all`}
       </ArticleH3>
 
       <ArticleP>
-        Drop-in típico em{" "}
-        <ArticleCode>/etc/sysctl.d/99-hardening.conf</ArticleCode>:
+        <TermLink href={SYSCTL_URL}>sysctl</TermLink> é a forma de ler e
+        mudar parâmetros do kernel em Linux (rede, memória, segurança
+        básica). O firewall corta tráfego nas portas. O sysctl muda como o
+        próprio sistema trata pacotes e informações sensíveis. Os dois se
+        complementam.
+      </ArticleP>
+
+      <ArticleP>
+        Em vez de editar um arquivo solto e esquecer no próximo reboot, eu
+        coloco um arquivo em{" "}
+        <ArticleCode>/etc/sysctl.d/99-hardening.conf</ArticleCode>. Tudo que
+        está nessa pasta é carregado de forma estável. O nome{" "}
+        <ArticleCode>99-</ArticleCode> só garante que rode depois de outros
+        defaults.
+      </ArticleP>
+
+      <ArticleP>
+        O que este baseline faz, em grupos:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          <ArticleCode>rp_filter</ArticleCode>: rejeita pacotes que “chegam
+          pela porta errada” (anti-spoofing básico de IP)
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>tcp_syncookies</ArticleCode>: ajuda o servidor a
+          sobreviver a enxurrada de conexões falsas (SYN flood)
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>accept_redirects</ArticleCode> /{" "}
+          <ArticleCode>send_redirects</ArticleCode> em 0: o host não segue nem
+          espalha “atalhos” de rota que um atacante na rede poderia forjar
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>accept_source_route</ArticleCode> em 0: impede que o
+          pacote diga por quais caminhos deve viajar (recurso antigo e
+          perigoso na internet pública)
+        </ArticleLi>
+        <ArticleLi>
+          IPv6 com redirects desligados: mesma ideia do IPv4, para não deixar
+          um buraco só porque a imagem veio com IPv6 ligado
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>kptr_restrict</ArticleCode> e{" "}
+          <ArticleCode>dmesg_restrict</ArticleCode>: dificultam ver endereços
+          internos do kernel e o log do boot sem privilégio (informação útil
+          para exploit)
+        </ArticleLi>
+        <ArticleLi>
+          <ArticleCode>protected_hardlinks</ArticleCode> /{" "}
+          <ArticleCode>protected_symlinks</ArticleCode>: reduzem truques com
+          links de arquivo em pastas compartilhadas (ex.:{" "}
+          <ArticleCode>/tmp</ArticleCode>)
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        Arquivo típico:
       </ArticleP>
 
       <ArticleCode block>
@@ -394,29 +547,72 @@ fs.protected_hardlinks = 1
 fs.protected_symlinks = 1`}
       </ArticleCode>
 
+      <ArticleP>
+        Para aplicar sem reiniciar:
+      </ArticleP>
+
       <ArticleCode block>{`sudo sysctl --system`}</ArticleCode>
 
       <ArticleP>
-        IPv6: se você <strong>não</strong> usa, desabilitar ou firewallar
-        com intenção explícita. Deixar IPv6 “ligado e esquecido” sem regras
-        é buraco clássico. Se usa, trate no firewall como trata IPv4.
+        Esse comando recarrega os arquivos de{" "}
+        <ArticleCode>/etc/sysctl.d/</ArticleCode>. Se algo estiver com sintaxe
+        errada, o próprio sysctl avisa.
+      </ArticleP>
+
+      <ArticleP>
+        IPv6: se você <strong>não</strong> usa, desabilite ou coloque regras
+        de firewall de propósito. Deixar IPv6 “ligado e esquecido” sem
+        filtro é buraco clássico: o IPv4 está fechado e o IPv6 continua
+        aberto. Se usa IPv6 de verdade, trate no firewall como trata IPv4.
       </ArticleP>
 
       <ArticleP>
         Banco, Redis, painel admin: se não precisam da internet pública, não
-        abrem. Bind em localhost ou rede privada.
+        abrem nela. Faça o serviço escutar só em{" "}
+        <ArticleCode>localhost</ArticleCode> (a própria máquina) ou numa rede
+        privada.
       </ArticleP>
 
       <ArticleH2>5. Host: tempo, MAC e filesystem</ArticleH2>
 
       <ArticleP>
-        Cena: incidente às 03h. Logs com timestamp torto. Certificado TLS
-        “ainda não válido”. Sem tempo sincronizado, auditoria e TLS mentem.
+        Até aqui fechamos <strong>quem entra</strong> (SSH/sudo) e{" "}
+        <strong>o que a rede deixa passar</strong> (firewall/sysctl). Ainda
+        falta o “miolo” da máquina: relógio, trava extra de processos e
+        higiene de pastas. Sem isso, o baseline parece pronto e quebra na
+        hora do incidente ou do exploit local.
+      </ArticleP>
+
+      <ArticleP>
+        Esta seção cobre quatro peças do host. Em cada uma: o problema, como
+        costuma ser explorado, e o mínimo que eu aplico no dia 1.
       </ArticleP>
 
       <ArticleH3>
         Tempo com <TermLink href={CHRONY_URL}>chrony</TermLink>
       </ArticleH3>
+
+      <ArticleP>
+        Servidor com relógio errado parece detalhe chato. Não é. Logs com
+        horário torto atrapalham investigar invasão. Certificado HTTPS pode
+        aparecer como “ainda não válido” ou “já expirou” só porque a máquina
+        está adiantada ou atrasada. Tokens e autenticação também dependem de
+        tempo certo.
+      </ArticleP>
+
+      <ArticleP>
+        Como isso é explorado na prática: o atacante não “quebra” o NTP. O
+        time sofre sozinho. Alguém olha o log, não consegue cruzar eventos, e
+        perde tempo. Em cenários piores, serviços que exigem horário alinhado
+        falham e o time desliga proteção “só pra voltar”.
+      </ArticleP>
+
+      <ArticleP>
+        <TermLink href={CHRONY_URL}>chrony</TermLink> é o programa que
+        sincroniza o relógio do Linux com servidores de tempo na internet (ou
+        internos). No dia 1 eu instalo, deixo subir no boot, e confirmo com{" "}
+        <ArticleCode>timedatectl</ArticleCode>.
+      </ArticleP>
 
       <ArticleCode block>
         {`# Debian/Ubuntu
@@ -430,54 +626,106 @@ sudo systemctl enable --now chronyd
 timedatectl status`}
       </ArticleCode>
 
+      <ArticleP>
+        No status, o que importa é ver que o relógio está sincronizado
+        (NTP/chrony ativo). Se não estiver, corrija fuso e rede antes de
+        seguir.
+      </ArticleP>
+
       <ArticleH3>
         MAC: <TermLink href={APPARMOR_URL}>AppArmor</TermLink> /{" "}
         <TermLink href={SELINUX_URL}>SELinux</TermLink>
       </ArticleH3>
 
       <ArticleP>
-        Não é deep-dive de policy. É garantir que o MAC da distro não está
-        desligado por acidente.
+        Mesmo com SSH bom e firewall bom, um serviço vulnerável (web, banco,
+        painel) ainda pode ser invadido. Sem trava extra, o processo
+        comprometido herda permissões amplas e vira ponto de partida para
+        ler arquivos, subir binário ou pivotar na máquina.
+      </ArticleP>
+
+      <ArticleP>
+        MAC (Mandatory Access Control) é essa trava. O sistema define o que
+        cada programa pode tocar, além do usuário Linux tradicional. No
+        Ubuntu costuma ser{" "}
+        <TermLink href={APPARMOR_URL}>AppArmor</TermLink>. No RHEL/Rocky/Alma
+        costuma ser <TermLink href={SELINUX_URL}>SELinux</TermLink>.
+      </ArticleP>
+
+      <ArticleP>
+        Como é explorado: muita imagem cloud vem com MAC em modo “frouxo”
+        ou alguém desliga tudo porque “o app não subiu”. Aí o atacante que
+        já entrou no processo ganha liberdade que não deveria ter.
+      </ArticleP>
+
+      <ArticleP>
+        No dia 1 eu não escrevo policy do zero. Eu confirmo que a proteção
+        está ligada de verdade e só abro exceção pontual se precisar.
       </ArticleP>
 
       <ArticleUl>
         <ArticleLi>
-          Debian/Ubuntu: <ArticleCode>aa-status</ArticleCode> — perfis em
-          enforce para serviços críticos
+          Debian/Ubuntu: <ArticleCode>aa-status</ArticleCode> mostra se o
+          AppArmor está ativo e quais programas estão restritos de fato
+          (enforce)
         </ArticleLi>
         <ArticleLi>
-          RHEL family: <ArticleCode>getenforce</ArticleCode> deve ser{" "}
-          <ArticleCode>Enforcing</ArticleCode> (não deixe{" "}
-          <ArticleCode>Permissive</ArticleCode> “só por enquanto”)
+          RHEL family: <ArticleCode>getenforce</ArticleCode> deve mostrar{" "}
+          <ArticleCode>Enforcing</ArticleCode> (ligado e bloqueando).{" "}
+          <ArticleCode>Permissive</ArticleCode> só registra e não bloqueia.
+          Não deixe assim “por enquanto”
         </ArticleLi>
       </ArticleUl>
 
       <ArticleP>
-        Se você precisa abrir exceção, abra a exceção. Não desligue o MAC
-        inteiro.
+        Se um app quebra com MAC ligado, ajuste a exceção daquele app. Não
+        desligue o MAC inteiro da máquina.
       </ArticleP>
 
       <ArticleH3>Filesystem e permissões básicas</ArticleH3>
 
+      <ArticleP>
+        Rede e login controlam a porta da frente. Pastas e permissões
+        controlam o que um processo já dentro da máquina consegue fazer.
+        Hardening de filesystem no dia 1 não é “CIS completo”. É cortar os
+        erros clássicos: pasta temporária executável,{" "}
+        <ArticleCode>chmod 777</ArticleCode>, e diretório que qualquer um
+        escreve.
+      </ArticleP>
+
+      <ArticleP>
+        Como é explorado: malware ou script baixado grava em{" "}
+        <ArticleCode>/tmp</ArticleCode>, executa dali, ou sobrescreve arquivo
+        em pasta compartilhada. Também aparece “libera permissão total pra
+        funcionar” e a conta fraca passa a escrever em lugar sensível.
+      </ArticleP>
+
+      <ArticleP>
+        O que eu olho no baseline:
+      </ArticleP>
+
       <ArticleUl>
         <ArticleLi>
           <ArticleCode>/tmp</ArticleCode> e{" "}
-          <ArticleCode>/var/tmp</ArticleCode>: sticky bit; em VPS dedicada,
-          avalie <ArticleCode>noexec,nosuid,nodev</ArticleCode> se o workload
-          permitir
+          <ArticleCode>/var/tmp</ArticleCode>: pastas compartilhadas. O sticky
+          bit faz cada um apagar só o próprio arquivo. Em VPS dedicada, se o
+          workload permitir,{" "}
+          <ArticleCode>noexec,nosuid,nodev</ArticleCode> evita executar
+          binário a partir do tmp
         </ArticleLi>
         <ArticleLi>
-          Evite world-writable fora de tmp:{" "}
+          Evite pastas “todo mundo escreve” fora do tmp:{" "}
           <ArticleCode>{`find / -xdev -type d -perm -0002 2>/dev/null`}</ArticleCode>
         </ArticleLi>
         <ArticleLi>
-          Home e chaves: umask razoável; nada de{" "}
+          Home e chaves SSH: umask razoável; nada de{" "}
           <ArticleCode>chmod 777</ArticleCode> “pra funcionar”
         </ArticleLi>
         <ArticleLi>
           Partições separadas (<ArticleCode>/var</ArticleCode>,{" "}
-          <ArticleCode>/home</ArticleCode>) ajudam contenção — nem toda VPS
-          cloud oferece; se o provedor der, use
+          <ArticleCode>/home</ArticleCode>) ajudam se um disco encher: o resto
+          do sistema ainda sobe. Nem toda VPS cloud oferece isso; se o
+          provedor der, use
         </ArticleLi>
       </ArticleUl>
 
@@ -486,9 +734,23 @@ timedatectl status`}
       </ArticleH3>
 
       <ArticleP>
-        Em VPS séria eu deixo o daemon de auditoria ativo. Regras CIS
-        completas são fase 2; o ponto do dia 1 é: ter trilha quando alguém
-        mexe em autenticação e sudoers.
+        Depois do ataque, a pergunta é sempre a mesma: o que mudou, quem
+        mudou, quando. Sem trilha, você só tem feeling.{" "}
+        <TermLink href={AUDITD_URL}>auditd</TermLink> é o serviço do Linux
+        que registra eventos de segurança (login, sudo, alteração de arquivo
+        sensível).
+      </ArticleP>
+
+      <ArticleP>
+        Como é explorado (ou, melhor, como a ausência é explorada): o
+        atacante limpa rastros básicos ou o time não tem o que correlacionar.
+        Com auditd no ar, sobra evidência mínima para começar a resposta.
+      </ArticleP>
+
+      <ArticleP>
+        No dia 1 eu só deixo o daemon ativo. Regras CIS completas são fase 2.
+        O ganho imediato é ter trilha quando alguém mexe em autenticação e
+        sudoers.
       </ArticleP>
 
       <ArticleCode block>
@@ -504,27 +766,37 @@ sudo systemctl enable --now auditd`}
       <ArticleH2>6. Manutenção, detecção e verificação</ArticleH2>
 
       <ArticleP>
-        Cena: VPS estável por meses. Zero update. Um CVE de OpenSSH vira
-        manchete. Eu não quero descobrir pelo Twitter — nem achar que
-        “endureci” sem nunca medir.
+        Baseline no dia 1 não basta se a máquina apodrece depois. Esta seção
+        é o que mantém o hardening vivo: atualizar, detectar abuso, cortar
+        serviço inútil e verificar se o que você acha que aplicou realmente
+        está lá.
       </ArticleP>
 
       <ArticleH3>Updates sem drama</ArticleH3>
 
       <ArticleP>
-        Debian/Ubuntu —{" "}
-        <TermLink href={UNATTENDED_URL}>unattended-upgrades</TermLink>:
+        Todo mês saem correções de segurança. Se a VPS fica meses sem update,
+        um buraco público (CVE) vira manchete e o seu host ainda está
+        vulnerável. O atacante não precisa ser criativo: basta um scanner e
+        uma versão atrasada.
       </ArticleP>
+
+      <ArticleP>
+        Por isso eu automatizo pelo menos o patch de segurança. No
+        Debian/Ubuntu uso{" "}
+        <TermLink href={UNATTENDED_URL}>unattended-upgrades</TermLink>. Na
+        família RHEL uso{" "}
+        <TermLink href={DNF_AUTO_URL}>dnf-automatic</TermLink>.
+      </ArticleP>
+
+      <ArticleP>Debian/Ubuntu:</ArticleP>
 
       <ArticleCode block>
         {`sudo apt install -y unattended-upgrades
 sudo dpkg-reconfigure -plow unattended-upgrades`}
       </ArticleCode>
 
-      <ArticleP>
-        RHEL family —{" "}
-        <TermLink href={DNF_AUTO_URL}>dnf-automatic</TermLink>:
-      </ArticleP>
+      <ArticleP>RHEL family:</ArticleP>
 
       <ArticleCode block>
         {`sudo dnf install -y dnf-automatic
@@ -533,14 +805,26 @@ sudo systemctl enable --now dnf-automatic.timer`}
 
       <ArticleP>
         Em VPS pessoal/staging, unattended de segurança é higiene. Em
-        produção sensível, automatize o aviso e controle a janela — mas não
-        deixe manual eterno. Kernel update sem reboot planejado = patch
-        fantasma.
+        produção sensível, automatize o aviso e controle a janela, mas não
+        deixe manual eterno. Update de kernel sem reboot planejado não
+        aplica de verdade: o processo antigo continua na memória.
       </ArticleP>
 
       <ArticleH3>
         <TermLink href={FAIL2BAN_URL}>fail2ban</TermLink> (ou equivalente)
       </ArticleH3>
+
+      <ArticleP>
+        Mesmo com senha SSH desligada, a porta continua tomando tentativa
+        automática. Em outros serviços (web panel, mail, etc.) o padrão é o
+        mesmo: força bruta até achar senha fraca.
+      </ArticleP>
+
+      <ArticleP>
+        <TermLink href={FAIL2BAN_URL}>fail2ban</TermLink> lê logs de falha e
+        bloqueia o IP por um tempo. Não substitui chave SSH. É contenção de
+        ruído e abuso.
+      </ArticleP>
 
       <ArticleCode block>
         {`# Debian/Ubuntu
@@ -552,11 +836,22 @@ sudo systemctl enable --now fail2ban`}
       </ArticleCode>
 
       <ArticleP>
-        Com senha desligada, fail2ban não é a estrela — ainda corta ruído e
-        abuso em outros serviços.
+        Com senha desligada, fail2ban não é a estrela. Ainda assim corta
+        ruído e ajuda se alguém reativar senha “temporariamente” ou se outro
+        serviço ficar exposto.
       </ArticleP>
 
       <ArticleH3>Cortar o que não pediu</ArticleH3>
+
+      <ArticleP>
+        Imagem cloud muitas vezes sobe com serviços extras (agente, demo,
+        painel). Cada serviço a mais é superfície: porta, CVE, credencial.
+        O baseline pergunta: isso é do produto ou veio de brinde?
+      </ArticleP>
+
+      <ArticleP>
+        Liste o que escuta e o que está rodando:
+      </ArticleP>
 
       <ArticleCode block>
         {`ss -tulpn
@@ -570,6 +865,11 @@ systemctl list-units --type=service --state=running`}
 
       <ArticleH3>Logs que eu olho</ArticleH3>
 
+      <ArticleP>
+        Hardening sem olhar log é fé. Eu não monto SIEM no dia 1. Eu sei
+        onde olhar quando algo cheira mal:
+      </ArticleP>
+
       <ArticleUl>
         <ArticleLi>
           SSH: <ArticleCode>journalctl -u ssh</ArticleCode> /{" "}
@@ -577,7 +877,9 @@ systemctl list-units --type=service --state=running`}
           <ArticleCode>/var/log/auth.log</ArticleCode>
         </ArticleLi>
         <ArticleLi>firewall / fail2ban: o que foi bloqueado</ArticleLi>
-        <ArticleLi>updates: última corrida do unattended / dnf-automatic</ArticleLi>
+        <ArticleLi>
+          updates: última corrida do unattended / dnf-automatic
+        </ArticleLi>
         <ArticleLi>
           audit: <ArticleCode>ausearch</ArticleCode> /{" "}
           <ArticleCode>aureport</ArticleCode> quando algo “estranho” aparece
@@ -589,8 +891,14 @@ systemctl list-units --type=service --state=running`}
       </ArticleH3>
 
       <ArticleP>
-        Depois do baseline, eu corro um scanner de higiene. Não para caçar
-        400 findings CIS — para ver o que eu esqueci no dia 1.
+        Depois de aplicar o baseline, é fácil achar que “está endurecido”
+        sem medir. <TermLink href={LYNIS_URL}>Lynis</TermLink> é um scanner
+        de higiene: ele percorre a máquina e lista o que está frouxo.
+      </ArticleP>
+
+      <ArticleP>
+        Eu não uso no dia 1 para caçar 400 findings de CIS. Uso para ver o
+        que eu esqueci (serviço ligado, permissão errada, update parado).
       </ArticleP>
 
       <ArticleCode block>
@@ -652,7 +960,7 @@ sudo lynis audit system`}
         </ArticleLi>
       </ArticleOl>
 
-      <ArticleTable caption="Anti-padrões que eu já paguei">
+      <ArticleTable caption="Anti-padrões que mais vejo em VPS">
         <ArticleThead>
           <ArticleTr>
             <ArticleTh>Anti-padrão</ArticleTh>
@@ -704,7 +1012,7 @@ sudo lynis audit system`}
       </ArticleP>
 
       <ArticleP>
-        “No dia 1–2 eu fecho identidade (chave, sem root/senha, sudo
+        “No dia 1-2 eu fecho identidade (chave, sem root/senha, sudo
         estreito), perímetro (default-deny + sysctl), host (tempo, MAC,
         filesystem, audit) e manutenção (updates, fail2ban, verificação). CIS
         completo e container ficam fase 2.”
@@ -715,11 +1023,11 @@ sudo lynis audit system`}
       <ArticleUl>
         <ArticleLi>
           Baseline completo remove o 80% burro e cobre os temas que mais
-          importam — sem vender impenetrável.
+          importam, sem vender impenetrável.
         </ArticleLi>
         <ArticleLi>
-          Ordem importa: usuário → chave → sshd/sudo → firewall/sysctl →
-          tempo/MAC → updates → verificar.
+          Ordem importa: usuário, depois chave, depois sshd/sudo, depois
+          firewall/sysctl, depois tempo/MAC, depois updates, depois verificar.
         </ArticleLi>
         <ArticleLi>
           <TermLink href={OPENSSH_URL}>OpenSSH</TermLink> com chave,
