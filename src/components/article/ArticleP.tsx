@@ -9,7 +9,7 @@ export function ArticleP({ children, className, ...props }: ArticlePProps) {
   return (
     <p
       className={cn(
-        "mb-4 text-base leading-relaxed text-muted",
+        "mb-4 text-base leading-relaxed text-article-body",
         className,
       )}
       {...props}

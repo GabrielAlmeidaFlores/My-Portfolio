@@ -17,7 +17,7 @@ export function ArticleUl({ children, className, ...props }: ListProps) {
   return (
     <ul
       className={cn(
-        "mb-4 list-disc space-y-2 pl-10 text-base leading-relaxed text-muted sm:pl-12",
+        "mb-4 list-disc space-y-2 pl-10 text-base leading-relaxed text-article-body sm:pl-12",
         className,
       )}
       {...props}
@@ -31,7 +31,7 @@ export function ArticleOl({ children, className, ...props }: OrderedListProps) {
   return (
     <ol
       className={cn(
-        "mb-4 list-decimal space-y-2 pl-10 text-base leading-relaxed text-muted sm:pl-12",
+        "mb-4 list-decimal space-y-2 pl-10 text-base leading-relaxed text-article-body sm:pl-12",
         className,
       )}
       {...props}

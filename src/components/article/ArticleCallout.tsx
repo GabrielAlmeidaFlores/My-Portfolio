@@ -32,7 +32,7 @@ export function ArticleCallout({
       )}
     >
       <p className="mb-2 text-sm font-semibold text-foreground">{title}</p>
-      <div className="text-sm leading-relaxed text-muted [&_p]:mb-0">
+      <div className="text-sm leading-relaxed text-article-body [&_p]:mb-0">
         {children}
       </div>
     </aside>

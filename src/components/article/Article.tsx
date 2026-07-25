@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 interface ArticleProps {
@@ -6,10 +6,15 @@ interface ArticleProps {
   className?: string;
 }
 
-export function Article({ children, className }: ArticleProps) {
-  return (
-    <article className={cn("article-prose w-full min-w-0", className)}>
-      {children}
-    </article>
-  );
-}
+export const Article = forwardRef<HTMLElement, ArticleProps>(
+  function Article({ children, className }, ref) {
+    return (
+      <article
+        ref={ref}
+        className={cn("article-prose w-full min-w-0", className)}
+      >
+        {children}
+      </article>
+    );
+  },
+);

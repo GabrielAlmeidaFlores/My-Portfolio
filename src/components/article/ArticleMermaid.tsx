@@ -1,6 +1,7 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/cn";
+import { renderMermaidChart } from "@/lib/renderMermaidChart";
 
 interface ArticleMermaidProps {
   chart: string;
@@ -16,40 +17,42 @@ export function ArticleMermaid({
   const reactId = useId().replace(/:/g, "");
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const hostRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
   const [svg, setSvg] = useState("");
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    const host = hostRef.current;
+    if (!host) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.01 },
+    );
+
+    observer.observe(host);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) {
+      return;
+    }
+
     let cancelled = false;
     const renderId = `mermaid-${reactId}-${isDark ? "dark" : "light"}`;
 
     async function renderDiagram() {
       try {
-        const { default: mermaid } = await import("mermaid");
-
-        mermaid.initialize({
-          startOnLoad: false,
-          theme: isDark ? "dark" : "default",
-          securityLevel: "strict",
-          fontFamily: "var(--font-sans)",
-          flowchart: {
-            htmlLabels: true,
-            curve: "basis",
-            padding: 16,
-            nodeSpacing: 40,
-            rankSpacing: 48,
-            wrappingWidth: 160,
-          },
-          themeVariables: {
-            fontSize: "14px",
-            lineColor: isDark ? "#94a3b8" : "#64748b",
-          },
-        });
-
-        const { svg: rendered } = await mermaid.render(
-          renderId,
-          chart.trim(),
-        );
+        const rendered = await renderMermaidChart(renderId, chart, isDark);
 
         if (!cancelled) {
           setSvg(rendered);
@@ -68,26 +71,25 @@ export function ArticleMermaid({
     return () => {
       cancelled = true;
     };
-  }, [chart, isDark, reactId]);
+  }, [chart, isDark, isInView, reactId]);
 
   if (hasError) {
     return (
-      <pre
-        className={cn(
-          "my-8 w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border bg-surface p-4 font-mono text-sm text-muted",
-          className,
-        )}
-      >
-        {chart.trim()}
-      </pre>
+      <div ref={hostRef} className={cn("my-8 w-full min-w-0", className)}>
+        <pre className="w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border bg-surface p-4 font-mono text-sm text-muted">
+          {chart.trim()}
+        </pre>
+      </div>
     );
   }
 
   if (!svg) {
     return (
       <div
+        ref={hostRef}
         className={cn(
-          "my-8 h-56 w-full min-w-0 animate-pulse rounded-[var(--radius-card)] border border-border bg-surface",
+          "my-8 h-56 w-full min-w-0 rounded-[var(--radius-card)] border border-border bg-surface",
+          isInView && "animate-pulse",
           className,
         )}
         aria-hidden="true"
@@ -97,6 +99,7 @@ export function ArticleMermaid({
 
   return (
     <div
+      ref={hostRef}
       className={cn(
         "my-8 w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border bg-surface p-4 sm:p-6",
         "[&_svg]:mx-auto [&_svg]:block [&_svg]:h-auto [&_svg]:max-w-full",

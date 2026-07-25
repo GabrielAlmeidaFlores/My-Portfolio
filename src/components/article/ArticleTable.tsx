@@ -17,7 +17,7 @@ export function ArticleTable({
     <div className="my-6 w-full min-w-0 overflow-x-auto rounded-[var(--radius-card)] border border-border">
       <table
         className={cn(
-          "w-full min-w-[36rem] border-collapse text-left text-sm text-muted",
+          "w-full min-w-[36rem] border-collapse text-left text-sm text-article-body",
           className,
         )}
         {...props}

@@ -70,6 +70,8 @@ export interface SiteCopy {
     notFoundTitle: string;
     notFoundDescription: string;
     publishedOn: string;
+    tableOfContents: string;
+    tableOfContentsAria: string;
   };
   contact: {
     eyebrow: string;
@@ -186,6 +188,8 @@ const ptBR: SiteCopy = {
     notFoundDescription:
       "O conteúdo que você procura não existe ou foi movido.",
     publishedOn: "Publicado em",
+    tableOfContents: "Neste artigo",
+    tableOfContentsAria: "Índice do artigo",
   },
   contact: {
     eyebrow: "// vamos construir",
@@ -303,6 +307,8 @@ const en: SiteCopy = {
     notFoundDescription:
       "The content you are looking for does not exist or has been moved.",
     publishedOn: "Published on",
+    tableOfContents: "In this article",
+    tableOfContentsAria: "Article table of contents",
   },
   contact: {
     eyebrow: "// let's build",
@@ -420,6 +426,8 @@ const es: SiteCopy = {
     notFoundDescription:
       "El contenido que buscas no existe o ha sido movido.",
     publishedOn: "Publicado el",
+    tableOfContents: "En este artículo",
+    tableOfContentsAria: "Índice del artículo",
   },
   contact: {
     eyebrow: "// construyamos",

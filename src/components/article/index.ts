@@ -10,6 +10,7 @@ export { ArticleImg } from "@/components/article/ArticleImg";
 export { ArticleCode } from "@/components/article/ArticleCode";
 export { ArticleCallout } from "@/components/article/ArticleCallout";
 export { ArticleMermaid } from "@/components/article/ArticleMermaid";
+export { ArticleTableOfContents } from "@/components/article/ArticleTableOfContents";
 export {
   ArticleTable,
   ArticleThead,

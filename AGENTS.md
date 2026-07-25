@@ -239,20 +239,21 @@ Rotas adicionais:
 **Página de leitura (`PublicationPage` / rota `/publicacoes/:slug`):**
 - Botão voltar para `/#publicacoes`
 - Metadados + capa + corpo do artigo
+- **Índice do artigo (TOC):** estilo Medium (trilha vertical de tracinhos fixa à esquerda no desktop). Colapsado: só as marcas. No hover/focus: expande e mostra os títulos de `ArticleH2`/`ArticleH3` com âncoras e destaque da seção ativa (`ArticleTableOfContents` + `useArticleHeadings`). Não entra no fluxo do texto; oculto abaixo de `lg`
 - Corpo em **JSX** com kit `components/article/`
 - Imagens em `public/images/publications/<slug>/` via `ArticleImg` (`alt` obrigatório; preferir baixar da web/docs oficiais a hotlink)
-- Diagramas via `ArticleMermaid` (`import()` dinâmico; `ariaLabel` obrigatório); usar quando não houver imagem pronta adequada
-- Em cada H2/H3: aplicar o **teste visual** (imagem da web primeiro; Mermaid como fallback)
+- Diagramas via `ArticleMermaid` (`import()` dinâmico; render lazy com IntersectionObserver + fila serial; `ariaLabel` obrigatório); usar quando não houver imagem pronta adequada
+- Em cada H2/H3: aplicar o **teste visual** (imagem da web primeiro; Mermaid como fallback); headings geram `id` automático (slug) para âncoras do TOC
 - Antes da Conclusão: seção **Key takeaways** / Pontos-chave / Puntos clave (lista curta)
 - `ArticleCallout` exige `title` traduzido
 
-**Layout:** botão, título, capa e corpo com a **mesma margem lateral**; mobile `px-4`; desktop paddings em `vw`
+**Layout:** botão, título, capa e corpo com a **mesma margem lateral** via `--publication-inline` / classe `publication-shell`; home/seções usam `--page-inline` em `container-app`; Header mantém `px-4` próprio (não usa `--page-inline`); TOC flutuante fora do fluxo do texto
 
 **Roteamento:** sem `vercel.json`; lazy load de `PublicationPage`; fora da home, Header usa `/#secao`
 
-**i18n:** `title`, `summary`, `tags`, `Content` nos três locales: sem fallback parcial
+**i18n:** `title`, `summary`, `tags`, `Content` nos três locales: sem fallback parcial; labels do TOC em `copy.publications.tableOfContents` / `tableOfContentsAria`
 
-**Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationPage`, kit `article/`
+**Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationPage`, kit `article/` (inclui `ArticleTableOfContents`)
 
 #### Tom e prosa das publicações (obrigatório)
 
@@ -553,7 +554,7 @@ Sem tokens `--max-width-*` explícitos, utilitários como `max-w-3xl` **caem no 
 
 Antes de usar `max-w-*` novo, confirmar que o token `--max-width-*` correspondente existe.
 
-Containers de leitura/publicação: preferir padding lateral explícito (e `vw` no desktop) em vez de depender só de `max-w-*` para “margem até a borda da tela”.
+Containers de leitura/publicação: usar `publication-shell` + `--publication-inline` (não misturar `px-*` soltos por breakpoint). Home/seções: `container-app` + `--page-inline`.
 
 ---
 

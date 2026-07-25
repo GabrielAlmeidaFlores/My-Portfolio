@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { getPublicationBySlug } from "@/data/publications";
+import { useArticleHeadings } from "@/hooks/useArticleHeadings";
 import { useTranslations } from "@/hooks/useTranslations";
-import { Article } from "@/components/article";
+import { Article, ArticleTableOfContents } from "@/components/article";
 import { Badge } from "@/components/ui/Badge";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { GridBackground } from "@/components/ui/GridBackground";
@@ -17,13 +19,18 @@ function formatPublishedDate(isoDate: string, locale: string) {
 }
 
 const publicationShellClassName =
-  "content-block relative z-10 isolate mx-auto w-full min-w-0 px-4 py-28 md:px-24 md:py-36 lg:px-[12vw] xl:px-[16vw] 2xl:px-[18vw]";
+  "publication-shell content-block relative z-10 isolate mx-auto w-full min-w-0 py-28 md:py-36";
 
 export function PublicationPage() {
   const { slug = "" } = useParams<{ slug: string }>();
   const { copy, locale } = useTranslations();
   const sectionCopy = copy.publications;
   const publication = getPublicationBySlug(slug, locale);
+  const articleRef = useRef<HTMLElement>(null);
+  const { headings, activeId } = useArticleHeadings(
+    articleRef,
+    `${slug}:${locale}`,
+  );
 
   if (!publication) {
     return (
@@ -80,7 +87,7 @@ export function PublicationPage() {
                 {publication.title}
               </h1>
 
-              <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg">
+              <p className="mt-4 text-base leading-relaxed text-article-body sm:text-lg">
                 {publication.summary}
               </p>
 
@@ -102,15 +109,20 @@ export function PublicationPage() {
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.14}>
-            <div className="mt-12 w-full min-w-0">
-              <Article>
-                <Content />
-              </Article>
-            </div>
-          </FadeIn>
+          <div className="mt-12 w-full min-w-0">
+            <Article ref={articleRef}>
+              <Content />
+            </Article>
+          </div>
         </div>
       </div>
+
+      <ArticleTableOfContents
+        headings={headings}
+        activeId={activeId}
+        title={sectionCopy.tableOfContents}
+        ariaLabel={sectionCopy.tableOfContentsAria}
+      />
     </main>
   );
 }
