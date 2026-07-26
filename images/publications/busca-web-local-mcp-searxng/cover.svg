@@ -1,72 +1,72 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="MCP e SearXNG">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="mcp-bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#020617"/>
       <stop offset="45%" stop-color="#0b1224"/>
       <stop offset="100%" stop-color="#04101f"/>
     </linearGradient>
-    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="mcp-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#67e8f9"/>
       <stop offset="100%" stop-color="#22d3ee"/>
     </linearGradient>
-    <linearGradient id="neonMagenta" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="mcp-magenta" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#e879f9"/>
       <stop offset="100%" stop-color="#c026d3"/>
     </linearGradient>
-    <linearGradient id="beam" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient id="mcp-beam" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#22d3ee"/>
       <stop offset="50%" stop-color="#a855f7"/>
       <stop offset="100%" stop-color="#f0abfc"/>
     </linearGradient>
-    <filter id="glowCyan" x="-40%" y="-40%" width="180%" height="180%">
+    <filter id="mcp-glow-cyan" x="-40%" y="-40%" width="180%" height="180%">
       <feGaussianBlur stdDeviation="8" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <filter id="glowMagenta" x="-40%" y="-40%" width="180%" height="180%">
+    <filter id="mcp-glow-magenta" x="-40%" y="-40%" width="180%" height="180%">
       <feGaussianBlur stdDeviation="8" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <filter id="glowSoft" x="-50%" y="-50%" width="200%" height="200%">
+    <filter id="mcp-glow-soft" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="18" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <pattern id="mcp-grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" opacity="0.45"/>
     </pattern>
   </defs>
 
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect width="1200" height="630" fill="url(#grid)"/>
-  <circle cx="220" cy="180" r="160" fill="#22d3ee" opacity="0.08" filter="url(#glowSoft)"/>
-  <circle cx="980" cy="460" r="180" fill="#c026d3" opacity="0.1" filter="url(#glowSoft)"/>
+  <rect width="1200" height="630" fill="url(#mcp-bg)"/>
+  <rect width="1200" height="630" fill="url(#mcp-grid)"/>
+  <circle cx="220" cy="180" r="160" fill="#22d3ee" opacity="0.08" filter="url(#mcp-glow-soft)"/>
+  <circle cx="980" cy="460" r="180" fill="#c026d3" opacity="0.1" filter="url(#mcp-glow-soft)"/>
   <circle cx="600" cy="315" r="120" fill="#818cf8" opacity="0.06"/>
 
   <g transform="translate(170 200)">
     <rect x="0" y="0" width="220" height="220" rx="28" fill="#0f172a" stroke="#22d3ee" stroke-width="2" opacity="0.95"/>
-    <rect x="0" y="0" width="220" height="220" rx="28" fill="none" stroke="#67e8f9" stroke-width="1" opacity="0.35" filter="url(#glowCyan)"/>
-    <g transform="translate(55 48) scale(4.5)" filter="url(#glowCyan)">
+    <rect x="0" y="0" width="220" height="220" rx="28" fill="none" stroke="#67e8f9" stroke-width="1" opacity="0.35" filter="url(#mcp-glow-cyan)"/>
+    <g transform="translate(55 48) scale(4.5)" filter="url(#mcp-glow-cyan)">
       <path fill="#67e8f9" d="M13.85 0a4.16 4.16 0 0 0-2.95 1.217L1.456 10.66a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l9.442-9.442a2.49 2.49 0 0 1 3.541 0 2.49 2.49 0 0 1 0 3.541L8.59 12.97l-.1.1a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l.1-.098 7.03-7.034a2.49 2.49 0 0 1 3.542 0l.049.05a2.49 2.49 0 0 1 0 3.54l-8.54 8.54a1.96 1.96 0 0 0 0 2.755l1.753 1.753a.835.835 0 0 0 1.18 0 .835.835 0 0 0 0-1.18l-1.753-1.753a.266.266 0 0 1 0-.394l8.54-8.54a4.185 4.185 0 0 0 0-5.9l-.05-.05a4.16 4.16 0 0 0-2.95-1.218c-.2 0-.401.02-.6.048a4.17 4.17 0 0 0-1.17-3.552A4.16 4.16 0 0 0 13.85 0m0 3.333a.84.84 0 0 0-.59.245L6.275 10.56a4.186 4.186 0 0 0 0 5.902 4.186 4.186 0 0 0 5.902 0L19.16 9.48a.835.835 0 0 0 0-1.18.835.835 0 0 0-1.18 0l-6.985 6.984a2.49 2.49 0 0 1-3.54 0 2.49 2.49 0 0 1 0-3.54l6.983-6.985a.835.835 0 0 0 0-1.18.84.84 0 0 0-.59-.245"/>
     </g>
   </g>
 
-  <text x="280" y="470" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="56" font-weight="700" letter-spacing="0.12em" fill="url(#neonCyan)" filter="url(#glowCyan)">MCP</text>
+  <text x="280" y="470" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="56" font-weight="700" letter-spacing="0.12em" fill="url(#mcp-cyan)" filter="url(#mcp-glow-cyan)">MCP</text>
   <text x="280" y="508" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" letter-spacing="0.28em" fill="#94a3b8">MODEL CONTEXT PROTOCOL</text>
 
-  <g filter="url(#glowSoft)">
-    <path d="M430 310 H770" stroke="url(#beam)" stroke-width="4" stroke-linecap="round" opacity="0.95"/>
+  <g filter="url(#mcp-glow-soft)">
+    <path d="M430 310 H770" stroke="url(#mcp-beam)" stroke-width="4" stroke-linecap="round" opacity="0.95"/>
     <path d="M430 310 H770" stroke="#e2e8f0" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
   </g>
-  <polygon points="770,310 742,296 742,324" fill="#f0abfc" filter="url(#glowMagenta)"/>
-  <polygon points="430,310 458,296 458,324" fill="#67e8f9" filter="url(#glowCyan)"/>
+  <polygon points="770,310 742,296 742,324" fill="#f0abfc" filter="url(#mcp-glow-magenta)"/>
+  <polygon points="430,310 458,296 458,324" fill="#67e8f9" filter="url(#mcp-glow-cyan)"/>
 
   <g opacity="0.9">
     <circle cx="520" cy="310" r="5" fill="#67e8f9"/>
@@ -78,13 +78,13 @@
 
   <g transform="translate(810 200)">
     <rect x="0" y="0" width="220" height="220" rx="28" fill="#0f172a" stroke="#e879f9" stroke-width="2" opacity="0.95"/>
-    <rect x="0" y="0" width="220" height="220" rx="28" fill="none" stroke="#f0abfc" stroke-width="1" opacity="0.35" filter="url(#glowMagenta)"/>
-    <g transform="translate(55 48) scale(4.5)" filter="url(#glowMagenta)">
+    <rect x="0" y="0" width="220" height="220" rx="28" fill="none" stroke="#f0abfc" stroke-width="1" opacity="0.35" filter="url(#mcp-glow-magenta)"/>
+    <g transform="translate(55 48) scale(4.5)" filter="url(#mcp-glow-magenta)">
       <path fill="#f0abfc" d="m13.716 17.261 6.873 6.582L24 20.282l-6.824-6.536a9.11 9.11 0 0 0 1.143-4.43c0-5.055-4.105-9.159-9.16-9.159S0 4.261 0 9.316c0 5.055 4.104 9.159 9.159 9.159a9.11 9.11 0 0 0 4.557-1.214ZM9.159 2.773a6.546 6.546 0 0 1 6.543 6.543 6.545 6.545 0 0 1-6.543 6.542 6.545 6.545 0 0 1-6.542-6.542 6.545 6.545 0 0 1 6.542-6.543ZM7.26 5.713a4.065 4.065 0 0 1 4.744.747 4.064 4.064 0 0 1 .707 4.749l1.157.611a5.376 5.376 0 0 0-.935-6.282 5.377 5.377 0 0 0-6.274-.987l.601 1.162Z"/>
     </g>
   </g>
 
-  <text x="920" y="470" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="44" font-weight="700" letter-spacing="0.08em" fill="url(#neonMagenta)" filter="url(#glowMagenta)">SearXNG</text>
+  <text x="920" y="470" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="44" font-weight="700" letter-spacing="0.08em" fill="url(#mcp-magenta)" filter="url(#mcp-glow-magenta)">SearXNG</text>
   <text x="920" y="508" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" letter-spacing="0.28em" fill="#94a3b8">METASEARCH ENGINE</text>
 
   <rect x="40" y="40" width="1120" height="550" rx="24" fill="none" stroke="#334155" stroke-width="1" opacity="0.55"/>
