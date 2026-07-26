@@ -1,9 +1,25 @@
 import type { Locale } from "@/types/locale";
 import type { Education } from "@/types/education";
 
+const educationLogos = {
+  "pucpr-postgrad": "/images/organizations/pucpr.png",
+  "uniso-graduation": "/images/organizations/uniso.png",
+} as const;
+
+type EducationId = keyof typeof educationLogos;
+
+function withLogo(
+  item: Omit<Education, "logo"> & { id: EducationId },
+): Education {
+  return {
+    ...item,
+    logo: educationLogos[item.id],
+  };
+}
+
 export const educationByLocale: Record<Locale, Education[]> = {
   "pt-BR": [
-    {
+    withLogo({
       id: "pucpr-postgrad",
       title: "Arquitetura de Software, Cybersecurity e Ciência de Dados",
       institution: "PUCPR",
@@ -14,8 +30,8 @@ export const educationByLocale: Record<Locale, Education[]> = {
         "Cybersecurity",
         "Ciência de Dados",
       ],
-    },
-    {
+    }),
+    withLogo({
       id: "uniso-graduation",
       title: "Análise e Desenvolvimento de Sistemas",
       institution: "Universidade de Sorocaba",
@@ -27,10 +43,10 @@ export const educationByLocale: Record<Locale, Education[]> = {
         "Banco de Dados",
         "APIs e Integrações",
       ],
-    },
+    }),
   ],
   en: [
-    {
+    withLogo({
       id: "pucpr-postgrad",
       title: "Software Architecture, Cybersecurity, and Data Science",
       institution: "PUCPR",
@@ -41,8 +57,8 @@ export const educationByLocale: Record<Locale, Education[]> = {
         "Cybersecurity",
         "Data Science",
       ],
-    },
-    {
+    }),
+    withLogo({
       id: "uniso-graduation",
       title: "Systems Analysis and Development",
       institution: "Universidade de Sorocaba",
@@ -54,10 +70,10 @@ export const educationByLocale: Record<Locale, Education[]> = {
         "Databases",
         "APIs and Integrations",
       ],
-    },
+    }),
   ],
   es: [
-    {
+    withLogo({
       id: "pucpr-postgrad",
       title: "Arquitectura de Software, Cybersecurity y Ciencia de Datos",
       institution: "PUCPR",
@@ -68,8 +84,8 @@ export const educationByLocale: Record<Locale, Education[]> = {
         "Cybersecurity",
         "Ciencia de Datos",
       ],
-    },
-    {
+    }),
+    withLogo({
       id: "uniso-graduation",
       title: "Análisis y Desarrollo de Sistemas",
       institution: "Universidade de Sorocaba",
@@ -81,7 +97,6 @@ export const educationByLocale: Record<Locale, Education[]> = {
         "Bases de Datos",
         "APIs e Integraciones",
       ],
-    },
+    }),
   ],
 };
-

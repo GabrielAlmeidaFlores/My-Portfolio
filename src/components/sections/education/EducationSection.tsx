@@ -58,15 +58,7 @@ export function EducationSection() {
               <div className="relative">
                 <div className="timeline-dot absolute -left-10 top-6" />
                 <SpotlightCard className="w-full p-7">
-                  {item.logo ? (
-                    <>
-                      <OrganizationLogo
-                        src={item.logo}
-                        alt={item.institution}
-                      />
-                      <br />
-                    </>
-                  ) : null}
+                  <OrganizationLogo src={item.logo} alt={item.institution} />
                   <MonoText className="text-primary-500">{item.period}</MonoText>
                   <h3 className="text-safe mt-2 w-full text-2xl font-bold">
                     {item.title}

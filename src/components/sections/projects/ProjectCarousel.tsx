@@ -151,9 +151,6 @@ function ProjectSlide({ project }: { project: Project }) {
       </div>
 
       <div className="flex w-full min-w-0 flex-1 flex-col justify-center p-7 lg:p-10">
-        {project.isClientProject && (
-          <Badge className="mb-3 w-fit">{copy.projects.clientProject}</Badge>
-        )}
         <h3 className="text-safe w-full text-2xl font-bold lg:text-3xl">
           {project.title}
         </h3>

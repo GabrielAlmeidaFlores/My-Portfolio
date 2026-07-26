@@ -14,7 +14,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "pulse",
       title: "Pulse",
       shortDescription:
-        "SaaS de monitoramento de saúde ocupacional: pesquisas anônimas, alertas por setor e conformidade com a LGPD para o PGR.",
+        "SaaS de monitoramento de saúde ocupacional com pesquisas anônimas, alertas por setor, canal de relato e relatórios PDF alinhados à LGPD para o PGR.",
       image: pulseImage,
       demoUrl: pulseUrl,
       technologies: [
@@ -42,10 +42,9 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "xcheck",
       title: "XCheck",
       shortDescription:
-        "Exame toxicológico secreto em cabelo: coleta em casa, laudo 100% anônimo identificado só pelo lacre, laboratório credenciado e janela de detecção de até 90 dias. Sem clínica e sem exposição.",
+        "Projeto contratado. Exame toxicológico secreto em cabelo: coleta em casa, laudo anônimo só pelo lacre e detecção de até 90 dias, sem clínica.",
       image: xcheckImage,
       demoUrl: xcheckUrl,
-      isClientProject: true,
       technologies: [
         "PHP",
         "MySQL",
@@ -73,7 +72,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "http-cli",
       title: "HTTP-CLI",
       shortDescription:
-        "Teste APIs sem sair do terminal. Um cliente HTTP interativo em TUI - estilo Postman - com navegação vim, autenticação, importação de cURL/Postman e histórico persistente para um fluxo 100% teclado.",
+        "Teste APIs sem sair do terminal: cliente HTTP interativo em TUI estilo Postman, com navegação vim, autenticação, importação cURL/Postman, histórico persistente e fluxo 100% teclado.",
       image: httpCliImage,
       githubUrl: httpCliGithub,
       technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
@@ -95,7 +94,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "pulse",
       title: "Pulse",
       shortDescription:
-        "Occupational health monitoring SaaS: anonymous surveys, sector alerts, and LGPD-aligned compliance for risk management programs.",
+        "Occupational health monitoring SaaS with anonymous surveys, sector alerts, a permanent report channel, and LGPD-aligned PDF evidence for risk programs.",
       image: pulseImage,
       demoUrl: pulseUrl,
       technologies: [
@@ -123,10 +122,9 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "xcheck",
       title: "XCheck",
       shortDescription:
-        "Secret hair toxicology testing: at-home collection, a fully anonymous report identified only by the seal number, accredited lab, and up to a 90-day detection window. No clinic visit and no exposure.",
+        "Contracted project. Secret hair toxicology testing: at-home collection, anonymous report by seal number only, and up to 90-day detection without a clinic visit.",
       image: xcheckImage,
       demoUrl: xcheckUrl,
-      isClientProject: true,
       technologies: [
         "PHP",
         "MySQL",
@@ -154,7 +152,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "http-cli",
       title: "HTTP-CLI",
       shortDescription:
-        "Test APIs without leaving the terminal. An interactive Postman-style HTTP client in a TUI - with vim navigation, auth, cURL/Postman import, and persistent history for a fully keyboard-driven workflow.",
+        "Test APIs without leaving the terminal: an interactive Postman-style HTTP client in a TUI, with vim navigation, auth, cURL/Postman import, persistent history, and a fully keyboard-driven workflow.",
       image: httpCliImage,
       githubUrl: httpCliGithub,
       technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
@@ -176,7 +174,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "pulse",
       title: "Pulse",
       shortDescription:
-        "SaaS de monitoreo de salud ocupacional: encuestas anónimas, alertas por sector y conformidad con la LGPD para el PGR.",
+        "SaaS de monitoreo de salud ocupacional con encuestas anónimas, alertas por sector, canal de relato e informes PDF alineados a la LGPD para el PGR.",
       image: pulseImage,
       demoUrl: pulseUrl,
       technologies: [
@@ -204,10 +202,9 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "xcheck",
       title: "XCheck",
       shortDescription:
-        "Examen toxicológico secreto en cabello: recolección en casa, informe 100% anónimo identificado solo por el precinto, laboratorio acreditado y ventana de detección de hasta 90 días. Sin clínica y sin exposición.",
+        "Proyecto contratado. Examen toxicológico secreto en cabello: recolección en casa, informe anónimo solo por el precinto y detección de hasta 90 días, sin clínica.",
       image: xcheckImage,
       demoUrl: xcheckUrl,
-      isClientProject: true,
       technologies: [
         "PHP",
         "MySQL",
@@ -235,7 +232,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       id: "http-cli",
       title: "HTTP-CLI",
       shortDescription:
-        "Prueba APIs sin salir del terminal. Un cliente HTTP interactivo estilo Postman en TUI - con navegación vim, autenticación, importación cURL/Postman e historial persistente para un flujo 100% teclado.",
+        "Prueba APIs sin salir del terminal: cliente HTTP interactivo en TUI estilo Postman, con navegación vim, autenticación, importación cURL/Postman, historial persistente y flujo 100% teclado.",
       image: httpCliImage,
       githubUrl: httpCliGithub,
       technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],

@@ -1,16 +1,9 @@
-import { cn } from "@/lib/cn";
-
 interface OrganizationLogoProps {
   src: string;
   alt: string;
-  className?: string;
 }
 
-export function OrganizationLogo({
-  src,
-  alt,
-  className,
-}: OrganizationLogoProps) {
+export function OrganizationLogo({ src, alt }: OrganizationLogoProps) {
   return (
     <img
       src={src}
@@ -19,10 +12,7 @@ export function OrganizationLogo({
       height={32}
       loading="lazy"
       decoding="async"
-      className={cn(
-        "mb-5 inline-block size-8 rounded-full bg-white object-cover ring-1 ring-border/70",
-        className,
-      )}
+      className="mb-5 block size-8 rounded-full bg-white object-cover ring-1 ring-border/70"
     />
   );
 }

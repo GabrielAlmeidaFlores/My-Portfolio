@@ -13,5 +13,4 @@ export interface Project {
   githubUrl?: string;
   demoUrl?: string;
   embedUrl?: string;
-  isClientProject?: boolean;
 }

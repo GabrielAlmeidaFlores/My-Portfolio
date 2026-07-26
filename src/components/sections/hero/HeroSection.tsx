@@ -73,16 +73,16 @@ export function HeroSection() {
             </div>
           </SpotlightCard>
 
-          <div className="absolute -right-4 -bottom-8 hidden lg:block">
-            <SpotlightCard className="h-52 w-44 overflow-hidden p-0">
+          <div className="absolute -right-1 -bottom-16 z-10 sm:-right-2 sm:-bottom-20 lg:-right-4 lg:-bottom-8">
+            <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-[var(--radius-card)] border border-border bg-card shadow-[var(--shadow-card)] sm:h-44 sm:w-36 lg:h-52 lg:w-44">
               <img
                 src={profile.photo}
                 alt={heroCopy.photoAlt}
-                className="h-full w-full object-cover object-top"
+                className="h-full w-full object-cover object-[center_18%]"
                 loading="eager"
                 decoding="async"
               />
-            </SpotlightCard>
+            </div>
           </div>
         </motion.div>
       </div>

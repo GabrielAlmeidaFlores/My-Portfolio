@@ -8,7 +8,6 @@ import { experiencesByLocale } from "@/data/experiences";
 import { projectsByLocale } from "@/data/projects";
 import { educationByLocale } from "@/data/education";
 import { contactOpportunitiesByLocale } from "@/data/contact";
-import { educationLogoById } from "@/data/organizationLogos";
 import {
   getTechFilters,
   getTechnologies,
@@ -30,10 +29,7 @@ export function useTranslations() {
       socialLinks: getSocialLinks(locale),
       experiences: experiencesByLocale[locale],
       projects: projectsByLocale[locale],
-      education: educationByLocale[locale].map((item) => ({
-        ...item,
-        logo: educationLogoById[item.id] ?? "",
-      })),
+      education: educationByLocale[locale],
       contactOpportunities: contactOpportunitiesByLocale[locale],
       techFilters: getTechFilters(locale),
       technologies: getTechnologies(locale),
