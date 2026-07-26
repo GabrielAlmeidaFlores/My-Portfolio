@@ -59,7 +59,7 @@ export function HeroSection() {
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
           className="relative w-full min-w-0"
         >
-          <SpotlightCard className="code-block min-h-[320px]">
+          <SpotlightCard className="code-block">
             <pre className="text-foreground">
               <code>{displayed}</code>
               {!isComplete && <span className="animate-pulse text-primary-500">|</span>}
