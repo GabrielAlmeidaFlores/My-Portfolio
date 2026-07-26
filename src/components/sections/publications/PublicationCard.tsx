@@ -22,73 +22,6 @@ function formatPublishedDate(isoDate: string, locale: string) {
   }).format(new Date(`${isoDate}T12:00:00`));
 }
 
-export function PublicationCover({
-  coverImage,
-  className,
-}: {
-  coverImage: string;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        "aspect-[16/9] w-full overflow-hidden border-b border-border",
-        className,
-      )}
-    >
-      <img
-        src={coverImage}
-        alt=""
-        loading="lazy"
-        decoding="async"
-        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-      />
-    </div>
-  );
-}
-
-export function PublicationBody({
-  publication,
-  readMoreLabel,
-  publishedOnLabel,
-  locale,
-  className,
-}: {
-  publication: LocalizedPublication;
-  readMoreLabel: string;
-  publishedOnLabel: string;
-  locale: string;
-  className?: string;
-}) {
-  return (
-    <div className={cn("flex flex-col gap-3 p-6", className)}>
-      <MonoText className="text-primary-500">
-        {publishedOnLabel}{" "}
-        {formatPublishedDate(publication.publishedAt, locale)}
-      </MonoText>
-
-      <h3 className="text-safe text-xl font-bold text-foreground">
-        {publication.title}
-      </h3>
-
-      <p className="text-safe text-sm leading-relaxed text-muted">
-        {publication.summary}
-      </p>
-
-      <div className="mt-auto flex flex-wrap gap-2">
-        {publication.tags.map((tag) => (
-          <Badge key={tag}>{tag}</Badge>
-        ))}
-      </div>
-
-      <span className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-300">
-        {readMoreLabel}
-        <ArrowRight size={16} aria-hidden="true" />
-      </span>
-    </div>
-  );
-}
-
 export function PublicationCard({
   publication,
   readMoreLabel,
@@ -105,14 +38,41 @@ export function PublicationCard({
       )}
     >
       <SpotlightCard className="flex h-full flex-col overflow-hidden p-0">
-        <PublicationCover coverImage={publication.coverImage} />
-        <PublicationBody
-          publication={publication}
-          readMoreLabel={readMoreLabel}
-          publishedOnLabel={publishedOnLabel}
-          locale={locale}
-          className="flex-1"
-        />
+        <div className="aspect-[16/9] w-full shrink-0 overflow-hidden border-b border-border">
+          <img
+            src={publication.coverImage}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+          />
+        </div>
+
+        <div className="flex flex-1 flex-col gap-3 p-6">
+          <MonoText className="text-primary-500">
+            {publishedOnLabel}{" "}
+            {formatPublishedDate(publication.publishedAt, locale)}
+          </MonoText>
+
+          <h3 className="text-safe text-xl font-bold text-foreground">
+            {publication.title}
+          </h3>
+
+          <p className="text-safe text-sm leading-relaxed text-muted">
+            {publication.summary}
+          </p>
+
+          <div className="mt-auto flex flex-wrap gap-2">
+            {publication.tags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
+            ))}
+          </div>
+
+          <span className="mt-2 inline-flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-300">
+            {readMoreLabel}
+            <ArrowRight size={16} aria-hidden="true" />
+          </span>
+        </div>
       </SpotlightCard>
     </Link>
   );
