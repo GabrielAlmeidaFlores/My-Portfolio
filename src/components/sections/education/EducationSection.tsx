@@ -9,6 +9,7 @@ import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { Badge } from "@/components/ui/Badge";
 import { MonoText } from "@/components/ui/MonoText";
 import { FadeIn } from "@/components/ui/FadeIn";
+import { OrganizationLogo } from "@/components/ui/OrganizationLogo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,6 +58,15 @@ export function EducationSection() {
               <div className="relative">
                 <div className="timeline-dot absolute -left-10 top-6" />
                 <SpotlightCard className="w-full p-7">
+                  {item.logo ? (
+                    <>
+                      <OrganizationLogo
+                        src={item.logo}
+                        alt={item.institution}
+                      />
+                      <br />
+                    </>
+                  ) : null}
                   <MonoText className="text-primary-500">{item.period}</MonoText>
                   <h3 className="text-safe mt-2 w-full text-2xl font-bold">
                     {item.title}

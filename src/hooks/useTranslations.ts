@@ -9,6 +9,10 @@ import { projectsByLocale } from "@/data/projects";
 import { educationByLocale } from "@/data/education";
 import { contactOpportunitiesByLocale } from "@/data/contact";
 import {
+  educationLogoById,
+  experienceLogoById,
+} from "@/data/organizationLogos";
+import {
   getTechFilters,
   getTechnologies,
 } from "@/data/technologies";
@@ -27,9 +31,15 @@ export function useTranslations() {
       profile: profiles[locale],
       navLinks: getNavLinks(locale),
       socialLinks: getSocialLinks(locale),
-      experiences: experiencesByLocale[locale],
+      experiences: experiencesByLocale[locale].map((item) => ({
+        ...item,
+        logo: experienceLogoById[item.id] ?? "",
+      })),
       projects: projectsByLocale[locale],
-      education: educationByLocale[locale],
+      education: educationByLocale[locale].map((item) => ({
+        ...item,
+        logo: educationLogoById[item.id] ?? "",
+      })),
       contactOpportunities: contactOpportunitiesByLocale[locale],
       techFilters: getTechFilters(locale),
       technologies: getTechnologies(locale),
