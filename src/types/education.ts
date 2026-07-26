@@ -3,7 +3,7 @@ export interface Education {
   title: string;
   institution: string;
   period: string;
-  logo: string;
+  logo?: string;
   description?: string;
   focusAreas?: string[];
 }
