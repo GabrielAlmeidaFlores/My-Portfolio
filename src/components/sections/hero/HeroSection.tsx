@@ -60,10 +60,17 @@ export function HeroSection() {
           className="relative w-full min-w-0"
         >
           <SpotlightCard className="code-block">
-            <pre className="text-foreground">
-              <code>{displayed}</code>
-              {!isComplete && <span className="animate-pulse text-primary-500">|</span>}
-            </pre>
+            <div className="relative">
+              <pre className="invisible whitespace-pre-wrap" aria-hidden="true">
+                <code>{heroCode}</code>
+              </pre>
+              <pre className="absolute inset-0 whitespace-pre-wrap text-foreground">
+                <code>{displayed}</code>
+                {!isComplete && (
+                  <span className="animate-pulse text-primary-500">|</span>
+                )}
+              </pre>
+            </div>
           </SpotlightCard>
 
           <div className="absolute -right-4 -bottom-8 hidden lg:block">
