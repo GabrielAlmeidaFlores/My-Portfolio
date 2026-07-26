@@ -146,7 +146,8 @@ export function TechnologiesSection() {
           aria-labelledby="tech-modal-title"
         >
           <div
-            className="glass-card content-block max-h-[85vh] w-full max-w-lg overflow-y-auto p-8"
+            className="glass-card content-block max-h-[85vh] w-full max-w-lg overflow-y-auto overscroll-contain p-8 touch-pan-y"
+            data-lenis-prevent
             onClick={(e) => e.stopPropagation()}
             style={
               selectedCategoryColor
