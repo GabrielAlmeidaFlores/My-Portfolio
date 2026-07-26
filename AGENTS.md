@@ -31,6 +31,7 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
 | Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
 | Prosa de publicações | Leitura leve e completa; storytelling; diagrama após o texto e com blocos compactos; termos explicados na 1ª menção e linkados em toda ocorrência legível |
+| Tom informativo (posts) | Nunca escrever como se o autor tivesse feito algo de errado; explicar padrões, riscos e tradeoffs sem autoacusação |
 | `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
 | Sem travessão (`—`) | Proibido em **todo** o site: UI, `data/`, meta SEO, README e publicações. Preferir ponto, vírgula, dois pontos, `|` ou hífen simples em ranges/títulos oficiais |
 | Sem se apresentar como Tech Lead | Não usar "Tech Lead" / "Líder Técnico" fora da experiência na **Ousion** |
@@ -314,19 +315,20 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
    - **Toda subseção avançada abre com contexto.** Antes de comando, arquivo ou lista de flags: (1) por que este tema existe neste post, (2) o que quebra / como costuma ser explorado se ignorar, (3) o que a ferramenta faz em uma frase. Só então o bloco copiável. Proibido H3 que vai direto do título para `ArticleCode`.
 11. **Explicitar o óbvio técnico quando ele for a chave da compreensão.** Ex.: “local ≠ offline”, “JSON precisa estar habilitado”, “o agente usa tools, não abre o navegador”.
 12. **Pronome com referente explícito (obrigatório).** Proibido “ele / ela / isso / it” como atalho quando o leitor puder perguntar “quem?” ou “o quê?”. Preferir repetir o sujeito pelo nome: “o agente”, “o SearXNG”, “o pacote MCP”, “o modelo”. Vale sobretudo depois de lista, parágrafo com vários substantivos, ou início de frase nova. Ex.: errado: “Sem acesso à web, ele chuta versão errada.” Certo: “Sem acesso à web, o agente chuta versão errada.”
-13. **Tom:** coloquial profissional, técnico e direto. Contar o que falhou, o que foi descartado e por quê. Sem marketing, sem autoajuda.
-14. **Proibido tom de “medo/incapacidade”.** Não escrever frases que soem como defesa pessoal (“não por medo de código”, “não é falta de capacidade técnica”, “não tenho medo de implementar”). Justificar decisões por foco, ownership, custo de manutenção, prazo ou encaixe no objetivo.
-15. **Proibido vocabulário pejorativo ou moralizante.** Evitar palavras como “tentação”, “pecado”, “preguiça”, “atalho sujo” e similares para descrever escolhas técnicas. Preferir neutro: “caminho comum”, “alternativa”, “opção rápida”, “atalho operacional”.
-16. **Proibido clichês de IA / copy genérica**, inclusive (lista não exaustiva): "no cenário atual", "além disso", "além do mais", "crucial", "em suma", "vale ressaltar", "cabe destacar", "portanto", "neste contexto", "é importante destacar", "sem mais delongas", "journey", "unlock", "game-changer", "robust solution", "seamless", "leverage".
-17. **Proibido** apresentar o autor como Tech Lead / Líder Técnico (ver regra de identidade).
-18. **i18n:** as mesmas regras de prosa valem para `pt-BR`, `en` e `es`. Adaptar idioma; não traduzir palavra a palavra de forma engessada.
-19. **Código e configs:** blocos reais, copiáveis, com o mínimo necessário. Explicar o “porquê” e o “o que isso mostra” **no texto ao redor** (parágrafo ou lista **antes** do bloco), não com comentário críptico dentro do snippet. Código do repo da LP também não leva comentários.
+13. **Tom:** coloquial profissional, técnico e direto. Contar o que falha em sistemas, o que foi descartado como opção e por quê. Sem marketing, sem autoajuda.
+14. **Proibido tom de autoacusação / “eu errei”.** Em nenhuma publicação (nem em copy/data) escrever como se o autor tivesse feito algo de errado. Proibido: “eu já respondi errado”, “eu não tinha o mapa”, “a ferida / o erro foi meu”, “papéis que eu misturei errado”, “me equivoquei”, “aprendi na marra porque falhei”, e equivalentes em en/es. Preferir tom **informativo**: padrão comum, risco de desenho, anti-padrão observado em times, tradeoff. Pode falar na 1ª pessoa sobre decisões, critérios e o que escolheu; não sobre culpa pessoal. Ex.: errado: “Eu já respondi errado essa pergunta.” Certo: “A resposta rasa ainda aparece com frequência.” Errado: “O erro foi unificar feed e cobrança.” (como confissão) Certo: “Unificar feed e cobrança no mesmo perfil é o anti-padrão.”
+15. **Proibido tom de “medo/incapacidade”.** Não escrever frases que soem como defesa pessoal (“não por medo de código”, “não é falta de capacidade técnica”, “não tenho medo de implementar”). Justificar decisões por foco, ownership, custo de manutenção, prazo ou encaixe no objetivo.
+16. **Proibido vocabulário pejorativo ou moralizante.** Evitar palavras como “tentação”, “pecado”, “preguiça”, “atalho sujo” e similares para descrever escolhas técnicas. Preferir neutro: “caminho comum”, “alternativa”, “opção rápida”, “atalho operacional”.
+17. **Proibido clichês de IA / copy genérica**, inclusive (lista não exaustiva): "no cenário atual", "além disso", "além do mais", "crucial", "em suma", "vale ressaltar", "cabe destacar", "portanto", "neste contexto", "é importante destacar", "sem mais delongas", "journey", "unlock", "game-changer", "robust solution", "seamless", "leverage".
+18. **Proibido** apresentar o autor como Tech Lead / Líder Técnico (ver regra de identidade).
+19. **i18n:** as mesmas regras de prosa valem para `pt-BR`, `en` e `es`. Adaptar idioma; não traduzir palavra a palavra de forma engessada.
+20. **Código e configs:** blocos reais, copiáveis, com o mínimo necessário. Explicar o “porquê” e o “o que isso mostra” **no texto ao redor** (parágrafo ou lista **antes** do bloco), não com comentário críptico dentro do snippet. Código do repo da LP também não leva comentários.
    - **Proibido comentário-quiz no snippet.** Errado: `# RHEL: Enforcing, Permissive ou Disabled?` (só lista jargão e não ensina). Certo: na lista/parágrafo acima, “`getenforce`: se a proteção extra do sistema (SELinux) está ligada de verdade”.
    - Se um rótulo curto dentro do bloco for inevitável (ex.: `# Debian/Ubuntu` vs `# RHEL`), ele só identifica a família da distro. A explicação do comando fica fora, em linguagem de colega.
    - **Proibido dump de config avançada sem pedagogia.** Toda seção que introduz parâmetros (`sysctl`, `sshd_config`, flags de mount, modos SELinux/AppArmor, etc.) precisa, **antes do bloco**, dizer em linguagem clara: (1) o que é aquela peça, (2) para que serve neste post, (3) o que cada grupo de linhas está fazendo / por que importa. Público-alvo: quem já usa Linux no dia a dia, mas **ainda está começando** em hardening/ops; não explicar o que é Linux, e não assumir que o leitor já sabe o que é `rp_filter` ou `Enforcing`.
    - O mesmo padrão vale para **todo o post**, não só para comentários: preferir “o que o leitor precisa saber em português/inglês/espanhol claro” a nomes de modo, siglas soltas ou perguntas retóricas técnicas.
-20. **Key takeaways antes da Conclusão (obrigatório em todo post).** Todo artigo termina com uma seção H3 de takeaways imediatamente **antes** da Conclusão. Títulos: **Pontos-chave** (`pt-BR`), **Key takeaways** (`en`), **Puntos clave** (`es`). Conteúdo: lista curta (tipicamente 4 a 7 itens) com o que o leitor deve lembrar ou fazer; cada item em uma frase acionável, sem repetir a conclusão em prosa. Aqui a lista é bem-vinda (é checklist de retenção, não narrativa). Não inventar ponto novo que o post não defendeu.
-21. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
+21. **Key takeaways antes da Conclusão (obrigatório em todo post).** Todo artigo termina com uma seção H3 de takeaways imediatamente **antes** da Conclusão. Títulos: **Pontos-chave** (`pt-BR`), **Key takeaways** (`en`), **Puntos clave** (`es`). Conteúdo: lista curta (tipicamente 4 a 7 itens) com o que o leitor deve lembrar ou fazer; cada item em uma frase acionável, sem repetir a conclusão em prosa. Aqui a lista é bem-vinda (é checklist de retenção, não narrativa). Não inventar ponto novo que o post não defendeu.
+22. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
 
 **Checklist rápido de prosa:**
 
@@ -349,6 +351,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 - [ ] Zero clichês da lista acima
 - [ ] Sem “Executive summary” / “Resumo executivo”; fechamento como Conclusão (depois dos Key takeaways)
 - [ ] Snippets: o “o que isso faz / mostra” está no texto ao redor (lista ou parágrafo), sem comentário-quiz de jargão dentro do código
+- [ ] Tom informativo: sem autoacusação do autor (“eu errei”, “ferida”, “misturei errado”)
 - [ ] Soa como alguém contando uma decisão técnica real
 
 ---
@@ -664,6 +667,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
 - [ ] Publicações: intro conectada; prosa simples; referente explícito (sem “ele” solto); sem seta `→` em fluxo; key takeaways antes da conclusão; teste visual; diagrama após texto; termos explicados na 1ª menção + link em toda ocorrência legível; teste do leitor; sem seção rasa / Executive summary
+- [ ] Tom informativo: sem autoacusação (“eu errei”, “ferida minha”, “misturei errado”); riscos/anti-padrões em 3ª pessoa ou como padrão observado
 - [ ] Sem travessão (`—`) em nenhum conteúdo do site (UI, data, meta, README, artigos)
 
 ### O que não fazer
@@ -679,6 +683,7 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - Citar tecnologia/jargão sem explicar em linguagem simples na primeira menção, ou sem link em cada ocorrência legível do termo
 - Deixar subseção de arquitetura rasa (só nomes, sem o quê / para quê / como se conecta)
 - Usar tom de “medo de código” / “falta de capacidade” para justificar decisão técnica
+- Escrever publicação como se o autor tivesse feito algo de errado (autoacusação); preferir tom informativo
 - Usar vocabulário pejorativo/moralizante (“tentação”, etc.) para escolhas técnicas
 - Fechar publicação com “Executive summary” / “Resumo executivo” (usar Conclusão)
 - Usar `max-w-3xl` sem `--max-width-3xl` no tema

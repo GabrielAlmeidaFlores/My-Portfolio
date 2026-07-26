@@ -131,8 +131,9 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
       <ArticleH2>1. El problema de la respuesta superficial</ArticleH2>
 
       <ArticleP>
-        Ya respondí mal esa pregunta. En entrevista (y después en diseño de
-        servicio), salí con el automático:
+        La pregunta "¿qué base usarías?" todavía recibe una respuesta superficial
+        con frecuencia. En entrevista (y después en diseño de servicio), el
+        automático suele ser:
       </ArticleP>
 
       <ArticleUl>
@@ -149,13 +150,14 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
       </ArticleUl>
 
       <ArticleP>
-        El entrevistador no quería un logo. Quería saber qué priorizo bajo{" "}
-        <TermLink href={PARTITION_URL}>partición</TermLink> y qué acepto pagar
-        en latencia. No tenía el mapa. Solo tenía el meme.
+        El entrevistador no quería un logo. Quería saber qué se prioriza bajo{" "}
+        <TermLink href={PARTITION_URL}>partición</TermLink> y qué se acepta pagar
+        en latencia. Sin el mapa de tradeoffs, solo queda el atajo de la
+        entrevista.
       </ArticleP>
 
       <ArticleP>
-        En proyecto real la herida se repitió: un equipo puso feed y cobro en el
+        En proyecto real el patrón se repite: un equipo pone feed y cobro en el
         mismo perfil de base "porque ya conocíamos Postgres". El feed aguantaba
         retraso. El cobro no. La base correcta para uno se volvió dolor en el
         otro.
@@ -915,7 +917,7 @@ session.execute(readStatement);`}
       <ArticleP>
         Escena típica: catálogo de producto con JSON flexible. Alguien dice
         "vamos con <TermLink href={MONGODB_URL}>MongoDB</TermLink> porque es
-        NoSQL y rápido". El modelo documento encaja. El error es creer que el
+        NoSQL y rápido". El modelo documento encaja. El riesgo es creer que el
         replica set nació para ceder C.
       </ArticleP>
 
@@ -997,8 +999,8 @@ session.execute(readStatement);`}
 
       <ArticleH3>
         <TermLink href={REDIS_URL}>Redis</TermLink> y{" "}
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: roles que ya
-        mezclé mal
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: roles que se
+        mezclan con frecuencia
       </ArticleH3>
 
       <ArticleP>
@@ -1010,8 +1012,8 @@ session.execute(readStatement);`}
       </ArticleP>
 
       <ArticleP>
-        Otra escena: Postgres excelente en el monolito single-region. El error
-        llegó después: fingir multi-primary global solo con réplica async y RDS
+        Otra escena: Postgres excelente en el monolito single-region. El desvío
+        aparece después: fingir multi-primary global solo con réplica async y RDS
         caro. Transacciones y joins siguen excelentes. El mapa{" "}
         <TermLink href={PACELC_URL}>PACELC</TermLink> no.
       </ArticleP>
@@ -1101,8 +1103,8 @@ session.execute(readStatement);`}
       </ArticleTable>
 
       <ArticleP>
-        Eso es lo que quise decir con "herida": el error fue unificar feed y
-        cobro. El acierto es dejar que{" "}
+        Eso es lo que muestra el ejemplo del cobro: unificar feed y cobro en el
+        mismo perfil es el antipatrón. El camino sólido es dejar que{" "}
         <TermLink href={PACELC_URL}>PACELC</TermLink> decida por servicio.
       </ArticleP>
 

@@ -131,8 +131,9 @@ export function EscolhaBancoDadosCapPacelcContentPt() {
       <ArticleH2>1. O problema da resposta rasa</ArticleH2>
 
       <ArticleP>
-        Eu já respondi errado essa pergunta. Em entrevista (e depois em
-        desenho de serviço), saí com o automático:
+        A pergunta “qual banco você usaria?” ainda recebe resposta rasa com
+        frequência. Em entrevista (e depois em desenho de serviço), o automático
+        costuma ser:
       </ArticleP>
 
       <ArticleUl>
@@ -149,13 +150,14 @@ export function EscolhaBancoDadosCapPacelcContentPt() {
       </ArticleUl>
 
       <ArticleP>
-        O entrevistador não quis saber o logo. Quis saber o que eu priorizo sob{" "}
-        <TermLink href={PARTITION_URL}>partição</TermLink> e o que eu aceito
-        pagar em latência. Eu não tinha o mapa. Só tinha o meme.
+        O entrevistador não quis saber o logo. Quis saber o que se prioriza sob{" "}
+        <TermLink href={PARTITION_URL}>partição</TermLink> e o que se aceita
+        pagar em latência. Sem o mapa de tradeoffs, sobra só o atalho da
+        entrevista.
       </ArticleP>
 
       <ArticleP>
-        Em projeto real a ferida repetiu: um time colocou feed e cobrança no
+        Em projeto real o padrão se repete: um time coloca feed e cobrança no
         mesmo perfil de banco “porque já conhecíamos Postgres”. Feed aguentava
         atraso. Cobrança não. O banco certo para um virou dor no outro.
       </ArticleP>
@@ -882,7 +884,7 @@ session.execute(readStatement);`}
       <ArticleP>
         Cena típica: catálogo de produto com JSON flexível. Alguém diz “vamos
         de <TermLink href={MONGODB_URL}>MongoDB</TermLink> porque é NoSQL e
-        rápido”. O modelo documento encaixa. O erro é achar que o replica set
+        rápido”. O modelo documento encaixa. O risco é achar que o replica set
         nasceu para abrir mão de C.
       </ArticleP>
 
@@ -962,8 +964,8 @@ session.execute(readStatement);`}
 
       <ArticleH3>
         <TermLink href={REDIS_URL}>Redis</TermLink> e{" "}
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: papéis que eu já
-        misturei errado
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: papéis que se
+        misturam com frequência
       </ArticleH3>
 
       <ArticleP>
@@ -975,9 +977,9 @@ session.execute(readStatement);`}
       </ArticleP>
 
       <ArticleP>
-        Outra cena: Postgres excelente no monólito single-region. O erro veio
-        depois: fingir multi-primary global só com réplica async e RDS caro.
-        Transações e joins continuam ótimos. O mapa{" "}
+        Outra cena: Postgres excelente no monólito single-region. O desvio
+        aparece depois: fingir multi-primary global só com réplica async e RDS
+        caro. Transações e joins continuam ótimos. O mapa{" "}
         <TermLink href={PACELC_URL}>PACELC</TermLink> não.
       </ArticleP>
 
@@ -1064,8 +1066,8 @@ session.execute(readStatement);`}
       </ArticleTable>
 
       <ArticleP>
-        É isso que eu quis dizer com “ferida”: o erro foi unificar feed e
-        cobrança. O acerto é deixar o{" "}
+        É isso que o exemplo da cobrança mostra: unificar feed e cobrança no
+        mesmo perfil é o anti-padrão. O caminho sólido é deixar o{" "}
         <TermLink href={PACELC_URL}>PACELC</TermLink> decidir por serviço.
       </ArticleP>
 

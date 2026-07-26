@@ -131,8 +131,9 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
       <ArticleH2>1. The shallow answer problem</ArticleH2>
 
       <ArticleP>
-        I have already answered this question wrong. In an interview (and later
-        in service design), I went with the automatic reply:
+        The question "which database would you use?" still gets a shallow answer
+        often. In an interview (and later in service design), the automatic reply
+        usually is:
       </ArticleP>
 
       <ArticleUl>
@@ -149,13 +150,14 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
       </ArticleUl>
 
       <ArticleP>
-        The interviewer did not want a logo. They wanted what I prioritize under{" "}
-        <TermLink href={PARTITION_URL}>partition</TermLink> and what I accept to
-        pay in latency. I did not have the map. I only had the meme.
+        The interviewer did not want a logo. They wanted what you prioritize under{" "}
+        <TermLink href={PARTITION_URL}>partition</TermLink> and what you accept to
+        pay in latency. Without the tradeoff map, only the interview shortcut is
+        left.
       </ArticleP>
 
       <ArticleP>
-        On a real project the wound repeated: a team put feed and billing on the
+        On a real project the pattern repeats: a team puts feed and billing on the
         same database profile "because we already knew Postgres". Feed could
         tolerate delay. Billing could not. The right database for one became pain
         for the other.
@@ -912,7 +914,7 @@ session.execute(readStatement);`}
       <ArticleP>
         Typical scene: product catalog with flexible JSON. Someone says "let us
         go with <TermLink href={MONGODB_URL}>MongoDB</TermLink> because it is
-        NoSQL and fast". The document model fits. The mistake is assuming the
+        NoSQL and fast". The document model fits. The pitfall is assuming the
         replica set was born to give up C.
       </ArticleP>
 
@@ -990,8 +992,8 @@ session.execute(readStatement);`}
 
       <ArticleH3>
         <TermLink href={REDIS_URL}>Redis</TermLink> and{" "}
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: roles I have mixed
-        up wrong
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: roles that get
+        mixed up often
       </ArticleH3>
 
       <ArticleP>
@@ -1005,7 +1007,7 @@ session.execute(readStatement);`}
 
       <ArticleP>
         Another scene: Postgres excellent in a single-region monolith. The
-        mistake came later: faking global multi-primary with only async replica
+        drift shows up later: faking global multi-primary with only async replica
         and expensive RDS. Transactions and joins stay great. The{" "}
         <TermLink href={PACELC_URL}>PACELC</TermLink> map does not.
       </ArticleP>
@@ -1094,8 +1096,8 @@ session.execute(readStatement);`}
       </ArticleTable>
 
       <ArticleP>
-        That is what I meant by "wound": the mistake was unifying feed and
-        billing. The fix is letting{" "}
+        That is what the billing example shows: unifying feed and billing on the
+        same profile is the anti-pattern. The solid path is letting{" "}
         <TermLink href={PACELC_URL}>PACELC</TermLink> decide per service.
       </ArticleP>
 
