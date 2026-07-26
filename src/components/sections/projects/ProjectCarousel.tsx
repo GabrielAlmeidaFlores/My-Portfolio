@@ -26,7 +26,7 @@ const SWIPE_THRESHOLD = 80;
 
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 280 : -280,
+    x: direction > 0 ? "100%" : "-100%",
     opacity: 0,
   }),
   center: {
@@ -34,7 +34,7 @@ const slideVariants = {
     opacity: 1,
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 280 : -280,
+    x: direction < 0 ? "100%" : "-100%",
     opacity: 0,
   }),
 };
@@ -119,7 +119,7 @@ function ProjectMedia({ project }: { project: Project }) {
       <img
         src={project.image}
         alt={project.title}
-        className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02]"
+        className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.02]"
         loading="lazy"
         decoding="async"
         onError={() => setHasError(true)}
@@ -129,7 +129,7 @@ function ProjectMedia({ project }: { project: Project }) {
         aria-hidden="true"
       />
       {openUrl && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/80 opacity-0 transition-opacity duration-350 group-hover:opacity-100 focus-within:opacity-100">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/80 opacity-0 transition-opacity duration-350 focus-within:opacity-100 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100">
           <Button href={openUrl} variant="secondary" className="gap-2 leading-none">
             <Search className="size-4 shrink-0 translate-y-px" aria-hidden="true" />
             <span className="leading-none">{copy.projects.access}</span>
@@ -220,7 +220,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
 
   return (
     <div
-      className="relative mt-12 w-full"
+      className="carousel-bleed mt-12"
       role="region"
       aria-roledescription="carrossel"
       aria-label={sectionCopy.title}
@@ -230,20 +230,20 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
           direction="prev"
           label={carousel.previousProject}
           onClick={() => paginate(-1)}
-          className="absolute top-1/2 left-0 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
+          className="carousel-bleed-arrow-prev absolute top-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 md:inline-flex"
         />
         <CarouselNavButton
           direction="next"
           label={carousel.nextProject}
           onClick={() => paginate(1)}
-          className="absolute top-1/2 right-0 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
+          className="carousel-bleed-arrow-next absolute top-1/2 z-20 hidden translate-x-1/2 -translate-y-1/2 md:inline-flex"
         />
 
-        <div className="relative grid overflow-hidden px-0 md:px-6">
+        <div className="relative grid py-2">
           {projects.map((project) => (
             <div
               key={`measure-${project.id}`}
-              className="pointer-events-none invisible col-start-1 row-start-1"
+              className="carousel-bleed-inset pointer-events-none invisible col-start-1 row-start-1"
               aria-hidden="true"
             >
               <ProjectSlide project={project} />
@@ -266,7 +266,9 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                 onDragEnd={handleDragEnd}
                 className="w-full touch-pan-y"
               >
-                <ProjectSlide project={currentProject} />
+                <div className="carousel-bleed-inset">
+                  <ProjectSlide project={currentProject} />
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>

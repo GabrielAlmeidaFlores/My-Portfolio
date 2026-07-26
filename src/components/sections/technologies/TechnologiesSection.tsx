@@ -88,18 +88,20 @@ export function TechnologiesSection() {
         })}
       </div>
 
-      <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-        {filtered.map((tech) => (
-          <KeyboardKey
-            key={tech.id}
-            label={tech.name}
-            description={tech.description}
-            accentColor={getTechCategoryColor(tech.category)}
-            active={selected?.id === tech.id}
-            onClick={() => setSelected(tech)}
-          />
-        ))}
-      </div>
+      <FadeIn>
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          {filtered.map((tech) => (
+            <KeyboardKey
+              key={tech.id}
+              label={tech.name}
+              description={tech.description}
+              accentColor={getTechCategoryColor(tech.category)}
+              active={selected?.id === tech.id}
+              onClick={() => setSelected(tech)}
+            />
+          ))}
+        </div>
+      </FadeIn>
 
       {selected && (
         <div

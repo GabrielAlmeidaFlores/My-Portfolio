@@ -247,6 +247,34 @@
     padding-inline: var(--page-inline);
   }
 
+  .carousel-bleed {
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .carousel-bleed-inset {
+    padding-inline: max(
+      var(--page-inline),
+      calc((100vw - var(--container-max)) / 2 + var(--page-inline))
+    );
+  }
+
+  .carousel-bleed-arrow-prev {
+    left: max(
+      var(--page-inline),
+      calc((100vw - var(--container-max)) / 2 + var(--page-inline))
+    );
+  }
+
+  .carousel-bleed-arrow-next {
+    right: max(
+      var(--page-inline),
+      calc((100vw - var(--container-max)) / 2 + var(--page-inline))
+    );
+  }
+
   .container-app:has(> .grid-bg) {
     position: relative;
     isolation: isolate;
@@ -650,14 +678,26 @@
     pointer-events: none;
   }
 
-  .spotlight-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-card-hover);
-    border-color: color-mix(in srgb, var(--color-primary-500) 35%, var(--color-border));
+  @media (hover: hover) and (pointer: fine) {
+    .spotlight-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-card-hover);
+      border-color: color-mix(in srgb, var(--color-primary-500) 35%, var(--color-border));
+    }
+
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
   }
 
-  .spotlight-card:hover::before {
-    opacity: 1;
+  @media (prefers-reduced-motion: reduce) {
+    .spotlight-card {
+      transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+
+    .spotlight-card:hover {
+      transform: none;
+    }
   }
 
   .keyboard-key {
@@ -702,10 +742,8 @@
     animation: keyPop 0.45s ease-out both;
   }
 
-  .keyboard-key:hover,
   .keyboard-key:focus-visible,
   .keyboard-key-active {
-    transform: translateY(-4px);
     border-color: var(--key-accent);
     box-shadow:
       0 6px 0 color-mix(in srgb, var(--key-accent) 30%, transparent),
@@ -716,10 +754,44 @@
     box-shadow: var(--shadow-card-active);
   }
 
-  .keyboard-key:hover::before,
   .keyboard-key:focus-visible::before,
   .keyboard-key-active::before {
     opacity: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .keyboard-key:hover,
+    .keyboard-key:focus-visible {
+      transform: translateY(-4px);
+      border-color: var(--key-accent);
+      box-shadow:
+        0 6px 0 color-mix(in srgb, var(--key-accent) 30%, transparent),
+        0 8px 24px color-mix(in srgb, var(--key-accent) 25%, transparent);
+    }
+
+    .keyboard-key-active {
+      transform: translateY(-4px);
+    }
+
+    .keyboard-key:hover::before {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .keyboard-key-visible {
+      animation: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .keyboard-key-visible {
+      animation: none;
+    }
+
+    .keyboard-key {
+      transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
   }
 
   .code-block {

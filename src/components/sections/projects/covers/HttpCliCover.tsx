@@ -79,7 +79,7 @@ export function HttpCliCover({
       </div>
 
       {openUrl && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/75 opacity-0 transition-opacity duration-350 group-hover:opacity-100 focus-within:opacity-100">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/75 opacity-0 transition-opacity duration-350 focus-within:opacity-100 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100">
           <Button href={openUrl} variant="secondary" className="gap-2 leading-none">
             <Search className="size-4 shrink-0 translate-y-px" aria-hidden="true" />
             <span className="leading-none">{accessLabel}</span>

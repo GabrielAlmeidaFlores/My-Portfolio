@@ -37,14 +37,14 @@ export function PublicationCard({
         className,
       )}
     >
-      <SpotlightCard className="flex h-full flex-col overflow-hidden p-0">
+      <SpotlightCard className="group flex h-full flex-col overflow-hidden p-0">
         <div className="aspect-[16/9] w-full shrink-0 overflow-hidden border-b border-border">
           <img
             src={publication.coverImage}
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+            className="h-full w-full object-cover transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-[1.02]"
           />
         </div>
 

@@ -14,6 +14,26 @@ import { cn } from "@/lib/cn";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const MOBILE_FEATURED_LIMIT = 4;
+
+function useIsDesktopViewport() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 768px)");
+
+    function update() {
+      setIsDesktop(query.matches);
+    }
+
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return isDesktop;
+}
+
 function ExperienceResponsibilities({
   item,
   othersLabel,
@@ -24,19 +44,27 @@ function ExperienceResponsibilities({
   showLessLabel: string;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const isDesktop = useIsDesktopViewport();
   const featured = item.featuredResponsibilities ?? item.responsibilities;
   const featuredSet = new Set(featured);
   const others = item.responsibilities.filter(
     (responsibility) => !featuredSet.has(responsibility),
   );
-  const visible = isExpanded ? [...featured, ...others] : featured;
+  const collapsedFeatured = isDesktop
+    ? featured
+    : featured.slice(0, MOBILE_FEATURED_LIMIT);
+  const hiddenCount =
+    featured.length - collapsedFeatured.length + others.length;
+  const visible = isExpanded
+    ? [...featured, ...others]
+    : collapsedFeatured;
 
   return (
     <div className="mt-4 flex flex-wrap gap-2">
       {visible.map((responsibility) => (
         <Badge key={responsibility}>{responsibility}</Badge>
       ))}
-      {others.length > 0 && (
+      {hiddenCount > 0 && (
         <button
           type="button"
           onClick={() => setIsExpanded((prev) => !prev)}

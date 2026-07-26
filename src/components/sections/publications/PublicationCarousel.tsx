@@ -23,7 +23,7 @@ const SWIPE_THRESHOLD = 80;
 
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 280 : -280,
+    x: direction > 0 ? "100%" : "-100%",
     opacity: 0,
   }),
   center: {
@@ -31,7 +31,7 @@ const slideVariants = {
     opacity: 1,
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 280 : -280,
+    x: direction < 0 ? "100%" : "-100%",
     opacity: 0,
   }),
 };
@@ -79,7 +79,7 @@ export function PublicationCarousel({
 
   return (
     <div
-      className="relative mt-12 w-full md:hidden"
+      className="carousel-bleed mt-12 md:hidden"
       role="region"
       aria-roledescription="carrossel"
       aria-label={sectionCopy.title}
@@ -89,20 +89,20 @@ export function PublicationCarousel({
           direction="prev"
           label={carousel.previousPublication}
           onClick={() => paginate(-1)}
-          className="absolute top-1/2 left-0 z-20 -translate-x-1/2 -translate-y-1/2"
+          className="carousel-bleed-arrow-prev absolute top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
         />
         <CarouselNavButton
           direction="next"
           label={carousel.nextPublication}
           onClick={() => paginate(1)}
-          className="absolute top-1/2 right-0 z-20 translate-x-1/2 -translate-y-1/2"
+          className="carousel-bleed-arrow-next absolute top-1/2 z-20 translate-x-1/2 -translate-y-1/2"
         />
 
-        <div className="relative grid overflow-hidden px-0">
+        <div className="relative grid py-2">
           {publications.map((publication) => (
             <div
               key={`measure-${publication.id}`}
-              className="pointer-events-none invisible col-start-1 row-start-1"
+              className="carousel-bleed-inset pointer-events-none invisible col-start-1 row-start-1"
               aria-hidden="true"
             >
               <PublicationCard
@@ -130,12 +130,14 @@ export function PublicationCarousel({
                 onDragEnd={handleDragEnd}
                 className="w-full touch-pan-y"
               >
-                <PublicationCard
-                  publication={currentPublication}
-                  readMoreLabel={readMoreLabel}
-                  publishedOnLabel={publishedOnLabel}
-                  locale={locale}
-                />
+                <div className="carousel-bleed-inset">
+                  <PublicationCard
+                    publication={currentPublication}
+                    readMoreLabel={readMoreLabel}
+                    publishedOnLabel={publishedOnLabel}
+                    locale={locale}
+                  />
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>

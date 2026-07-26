@@ -21,7 +21,10 @@ export function KeyboardKey({
   className,
 }: KeyboardKeyProps) {
   const ref = useMouseSpotlight<HTMLButtonElement>();
-  const { ref: inViewRef, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  const { ref: inViewRef, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+  });
 
   const accentStyle = accentColor
     ? ({ "--key-accent": accentColor } as CSSProperties)
