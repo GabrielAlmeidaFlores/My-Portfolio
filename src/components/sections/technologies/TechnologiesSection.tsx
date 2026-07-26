@@ -1,10 +1,16 @@
 import { useCallback, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+} from "framer-motion";
 import { certifications } from "@/data/certifications";
 import type { TechFilter, Technology } from "@/types/technology";
 import {
   getTechCategoryColor,
   getTechCategoryLabel,
 } from "@/lib/techCategories";
+import { MOTION_DURATION, MOTION_EASE } from "@/lib/motion";
 import { useModal } from "@/hooks/useModal";
 import { useTranslations } from "@/hooks/useTranslations";
 import { SectionWrapper } from "@/components/layout/SectionWrapper";
@@ -23,6 +29,7 @@ function getFilterColor(filter: TechFilter): string | undefined {
 export function TechnologiesSection() {
   const [filter, setFilter] = useState<TechFilter>("all");
   const [selected, setSelected] = useState<Technology | null>(null);
+  const prefersReducedMotion = useReducedMotion();
   const {
     locale,
     copy,
@@ -45,6 +52,12 @@ export function TechnologiesSection() {
     ? getTechCategoryColor(selected.category)
     : undefined;
 
+  function handleFilterChange(nextFilter: TechFilter) {
+    if (nextFilter === filter) return;
+    setFilter(nextFilter);
+    setSelected(null);
+  }
+
   return (
     <SectionWrapper id="tecnologias" ariaLabel={sectionCopy.ariaLabel}>
       <GridBackground />
@@ -61,7 +74,7 @@ export function TechnologiesSection() {
             <button
               key={item.id}
               type="button"
-              onClick={() => setFilter(item.id)}
+              onClick={() => handleFilterChange(item.id)}
               aria-pressed={isActive}
               className={cn(
                 "rounded-[var(--radius-badge)] border px-4 py-2 font-mono text-xs transition-all duration-350 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -88,20 +101,41 @@ export function TechnologiesSection() {
         })}
       </div>
 
-      <FadeIn>
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {filtered.map((tech) => (
-            <KeyboardKey
-              key={tech.id}
-              label={tech.name}
-              description={tech.description}
-              accentColor={getTechCategoryColor(tech.category)}
-              active={selected?.id === tech.id}
-              onClick={() => setSelected(tech)}
-            />
+      <div className="mt-10 grid grid-cols-2 items-stretch gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <AnimatePresence mode="popLayout">
+          {filtered.map((tech, index) => (
+            <motion.div
+              key={`${filter}-${tech.id}`}
+              layout={!prefersReducedMotion}
+              initial={
+                prefersReducedMotion
+                  ? false
+                  : { opacity: 0, y: 14, scale: 0.96 }
+              }
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={
+                prefersReducedMotion
+                  ? undefined
+                  : { opacity: 0, y: -10, scale: 0.96 }
+              }
+              transition={{
+                duration: MOTION_DURATION,
+                ease: MOTION_EASE,
+                delay: prefersReducedMotion ? 0 : Math.min(index * 0.03, 0.24),
+              }}
+              className="h-full min-w-0"
+            >
+              <KeyboardKey
+                label={tech.name}
+                description={tech.description}
+                accentColor={getTechCategoryColor(tech.category)}
+                active={selected?.id === tech.id}
+                onClick={() => setSelected(tech)}
+              />
+            </motion.div>
           ))}
-        </div>
-      </FadeIn>
+        </AnimatePresence>
+      </div>
 
       {selected && (
         <div

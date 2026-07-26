@@ -53,7 +53,7 @@ export function KeyboardKey({
         {label}
       </span>
       {description && (
-        <span className="text-safe mt-2 block text-xs leading-relaxed text-muted opacity-100 md:opacity-0 md:transition-opacity md:duration-350 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
+        <span className="text-safe mt-2 text-xs leading-relaxed text-muted opacity-100 transition-opacity duration-350 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
           {description}
         </span>
       )}
