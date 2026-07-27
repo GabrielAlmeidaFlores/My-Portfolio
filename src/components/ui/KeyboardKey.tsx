@@ -20,7 +20,7 @@ export function KeyboardKey({
   onClick,
   className,
 }: KeyboardKeyProps) {
-  const ref = useMouseSpotlight<HTMLButtonElement>();
+  const ref = useMouseSpotlight<HTMLButtonElement | HTMLDivElement>();
   const { ref: inViewRef, inView } = useInView({
     triggerOnce: true,
     threshold: 0.2,
@@ -30,22 +30,15 @@ export function KeyboardKey({
     ? ({ "--key-accent": accentColor } as CSSProperties)
     : undefined;
 
-  return (
-    <button
-      ref={(node) => {
-        (ref as { current: HTMLButtonElement | null }).current = node;
-        inViewRef(node);
-      }}
-      type="button"
-      onClick={onClick}
-      style={accentStyle}
-      className={cn(
-        "keyboard-key group w-full min-w-0 text-left",
-        inView && "keyboard-key-visible",
-        active && "keyboard-key-active",
-        className,
-      )}
-    >
+  const sharedClassName = cn(
+    "keyboard-key group w-full min-w-0 text-left",
+    inView && "keyboard-key-visible",
+    active && "keyboard-key-active",
+    className,
+  );
+
+  const content = (
+    <>
       <span
         className="font-mono text-sm font-semibold"
         style={accentColor ? { color: accentColor } : undefined}
@@ -57,6 +50,36 @@ export function KeyboardKey({
           {description}
         </span>
       )}
+    </>
+  );
+
+  if (!onClick) {
+    return (
+      <div
+        ref={(node) => {
+          (ref as { current: HTMLDivElement | null }).current = node;
+          inViewRef(node);
+        }}
+        style={accentStyle}
+        className={sharedClassName}
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <button
+      ref={(node) => {
+        (ref as { current: HTMLButtonElement | null }).current = node;
+        inViewRef(node);
+      }}
+      type="button"
+      onClick={onClick}
+      style={accentStyle}
+      className={sharedClassName}
+    >
+      {content}
     </button>
   );
 }

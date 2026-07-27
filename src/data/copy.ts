@@ -36,12 +36,6 @@ export interface SiteCopy {
     title: string;
     subtitle: string;
     ariaLabel: string;
-    modal: {
-      relatedProjects: string;
-      certifications: string;
-      experiences: string;
-      close: string;
-    };
   };
   certifications: {
     title: string;
@@ -142,14 +136,8 @@ const ptBR: SiteCopy = {
   technologies: {
     title: "Stack Tecnológica",
     subtitle:
-      "Selecione uma tecnologia para explorar projetos, certificações e experiências relacionadas.",
+      "Tecnologias e ferramentas usadas nos projetos, certificações e experiências.",
     ariaLabel: "Tecnologias",
-    modal: {
-      relatedProjects: "Projetos relacionados",
-      certifications: "Certificações",
-      experiences: "Experiências",
-      close: "Fechar",
-    },
   },
   certifications: {
     title: "Certificações",
@@ -254,14 +242,8 @@ const en: SiteCopy = {
   technologies: {
     title: "Tech Stack",
     subtitle:
-      "Select a technology to explore related projects, certifications, and experience.",
+      "Technologies and tools used across projects, certifications, and experience.",
     ariaLabel: "Technologies",
-    modal: {
-      relatedProjects: "Related projects",
-      certifications: "Certifications",
-      experiences: "Experience",
-      close: "Close",
-    },
   },
   certifications: {
     title: "Certifications",
@@ -366,14 +348,8 @@ const es: SiteCopy = {
   technologies: {
     title: "Stack Tecnológico",
     subtitle:
-      "Selecciona una tecnología para explorar proyectos, certificaciones y experiencias relacionadas.",
+      "Tecnologías y herramientas usadas en proyectos, certificaciones y experiencias.",
     ariaLabel: "Tecnologías",
-    modal: {
-      relatedProjects: "Proyectos relacionados",
-      certifications: "Certificaciones",
-      experiences: "Experiencias",
-      close: "Cerrar",
-    },
   },
   certifications: {
     title: "Certificaciones",
