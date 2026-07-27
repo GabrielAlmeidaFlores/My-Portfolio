@@ -896,8 +896,10 @@ session.execute(readStatement);`}
       </ArticleP>
 
       <ArticleP>
-        Eu usaria Mongo quando o domínio é documento + C importa no set. Não
-        quando o brief é “fique no ar a qualquer custo como Cassandra”.
+        Eu usaria Mongo quando o domínio é orientado a documentos e quando
+        consistência forte dentro do replica set é importante. Eu não usaria
+        Mongo quando o requisito principal for disponibilidade máxima sob
+        partição, que é o perfil clássico do Cassandra.
       </ArticleP>
 
       <ArticleH3>
@@ -958,8 +960,9 @@ session.execute(readStatement);`}
       </ArticleUl>
 
       <ArticleP>
-        Eu só levo esses nomes à mesa quando o requisito global + SQL + C é
-        explícito. Senão o custo (dinheiro e ops) come o ganho.
+        Eu só levo esses nomes à mesa quando o requisito é explícito: SQL
+        global com consistência forte entre regiões. Sem esse requisito, o
+        custo de dinheiro e operação geralmente supera o ganho.
       </ArticleP>
 
       <ArticleH3>
@@ -1146,7 +1149,8 @@ session.execute(readStatement);`}
 
       <ArticleUl>
         <ArticleLi>
-          “SQL vs NoSQL” não escolhe banco. Atributo sob falha escolhe.
+          “SQL vs NoSQL” sozinho não decide banco. O critério decisivo é qual
+          atributo precisa ser preservado durante falhas.
         </ArticleLi>
         <ArticleLi>
           <TermLink href={CAP_URL}>CAP</TermLink> +{" "}
@@ -1161,10 +1165,13 @@ session.execute(readStatement);`}
           consistência ajustável em runtime (escrita e leitura).
         </ArticleLi>
         <ArticleLi>
-          <TermLink href={MONGODB_URL}>MongoDB</TermLink> prioriza C no set;{" "}
-          <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> diala na leitura;{" "}
-          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> /{" "}
-          <TermLink href={SPANNER_URL}>Spanner</TermLink> pagam C forte global.
+          <TermLink href={MONGODB_URL}>MongoDB</TermLink> tende a priorizar
+          consistência dentro do replica set;{" "}
+          <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> permite escolher o
+          nível de consistência por leitura;{" "}
+          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> e{" "}
+          <TermLink href={SPANNER_URL}>Spanner</TermLink> cobram mais para
+          entregar consistência forte global.
         </ArticleLi>
         <ArticleLi>
           <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> não vira Spanner
@@ -1189,9 +1196,11 @@ session.execute(readStatement);`}
       </ArticleP>
 
       <ArticleP>
-        Na próxima entrevista, troque “uso Mongo porque é rápido” por o
-        parágrafo do X/Y/Z/W/D. Isso muda o jogo: mostra system design, não
-        catálogo de logos.
+        Na próxima entrevista, em vez de “uso Mongo porque é rápido”, explique
+        seu raciocínio completo: prioridade sob partição, prioridade sem
+        partição, caso de uso real, candidato escolhido e ajuste de
+        consistência disponível. Isso mostra decisão de system design de forma
+        clara.
       </ArticleP>
     </>
   );

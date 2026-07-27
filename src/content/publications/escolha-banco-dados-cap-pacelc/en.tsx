@@ -926,8 +926,10 @@ session.execute(readStatement);`}
       </ArticleP>
 
       <ArticleP>
-        I would use Mongo when the domain is document + C matters in the set. Not
-        when the brief is "stay up at any cost like Cassandra".
+        I would use Mongo when the domain is document-oriented and when strong
+        consistency inside the replica set is important. I would not use Mongo
+        when the main requirement is maximum availability under partition, which
+        is the classic Cassandra profile.
       </ArticleP>
 
       <ArticleH3>
@@ -986,8 +988,9 @@ session.execute(readStatement);`}
       </ArticleUl>
 
       <ArticleP>
-        I only bring these names to the table when global + SQL + C is explicit.
-        Otherwise cost (money and ops) eats the gain.
+        I only bring these names to the table when the requirement is explicit:
+        global SQL with strong consistency across regions. Without that
+        requirement, cost in money and operations usually eats the gain.
       </ArticleP>
 
       <ArticleH3>
@@ -1176,7 +1179,8 @@ session.execute(readStatement);`}
 
       <ArticleUl>
         <ArticleLi>
-          "SQL vs NoSQL" does not pick a database. Attribute under failure does.
+          "SQL vs NoSQL" alone does not pick a database. The deciding factor is
+          which attribute must be preserved during failure.
         </ArticleLi>
         <ArticleLi>
           <TermLink href={CAP_URL}>CAP</TermLink> +{" "}
@@ -1191,11 +1195,13 @@ session.execute(readStatement);`}
           tunable consistency at runtime (write and read).
         </ArticleLi>
         <ArticleLi>
-          <TermLink href={MONGODB_URL}>MongoDB</TermLink> prioritizes C in the
-          set; <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> dials on read;{" "}
-          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> /{" "}
-          <TermLink href={SPANNER_URL}>Spanner</TermLink> pay for strong global
-          C.
+          <TermLink href={MONGODB_URL}>MongoDB</TermLink> usually prioritizes
+          consistency inside the replica set;{" "}
+          <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> lets you choose
+          consistency per read;{" "}
+          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> and{" "}
+          <TermLink href={SPANNER_URL}>Spanner</TermLink> charge more to deliver
+          strong global consistency.
         </ArticleLi>
         <ArticleLi>
           <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> does not become
@@ -1220,9 +1226,10 @@ session.execute(readStatement);`}
       </ArticleP>
 
       <ArticleP>
-        In the next interview, swap "I use Mongo because it is fast" for the
-        X/Y/Z/W/D paragraph. That changes the game: it shows system design, not
-        a logo catalog.
+        In the next interview, instead of "I use Mongo because it is fast",
+        explain the full reasoning: priority under partition, priority without
+        partition, real use case, chosen candidate, and available consistency
+        dial. That shows clear system design decision-making.
       </ArticleP>
     </>
   );

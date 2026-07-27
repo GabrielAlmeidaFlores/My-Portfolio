@@ -329,6 +329,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
    - O mesmo padrão vale para **todo o post**, não só para comentários: preferir “o que o leitor precisa saber em português/inglês/espanhol claro” a nomes de modo, siglas soltas ou perguntas retóricas técnicas.
 21. **Key takeaways antes da Conclusão (obrigatório em todo post).** Todo artigo termina com uma seção H3 de takeaways imediatamente **antes** da Conclusão. Títulos: **Pontos-chave** (`pt-BR`), **Key takeaways** (`en`), **Puntos clave** (`es`). Conteúdo: lista curta (tipicamente 4 a 7 itens) com o que o leitor deve lembrar ou fazer; cada item em uma frase acionável, sem repetir a conclusão em prosa. Aqui a lista é bem-vinda (é checklist de retenção, não narrativa). Não inventar ponto novo que o post não defendeu.
 22. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
+23. **Frase curta precisa ser cristalina.** Ao usar frases rápidas para dar ritmo, validar se um leitor externo entende na primeira leitura. Evitar atalho interno, sigla solta ou shorthand sem contexto (ex.: "documento + C no set", "X/Y/Z/W/D", "brief"), e preferir frase completa com sujeito, condição e consequência explícitos.
 
 **Checklist rápido de prosa:**
 
@@ -349,6 +350,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 - [ ] Parágrafos com contexto suficiente (não só frases soltas)
 - [ ] Poucas muralhas densas; onde houver várias ideias paralelas, preferir lista
 - [ ] Zero clichês da lista acima
+- [ ] Frases curtas continuam claras para leitor externo (sem shorthand ambíguo)
 - [ ] Sem “Executive summary” / “Resumo executivo”; fechamento como Conclusão (depois dos Key takeaways)
 - [ ] Snippets: o “o que isso faz / mostra” está no texto ao redor (lista ou parágrafo), sem comentário-quiz de jargão dentro do código
 - [ ] Tom informativo: sem autoacusação do autor (“eu errei”, “ferida”, “misturei errado”)
