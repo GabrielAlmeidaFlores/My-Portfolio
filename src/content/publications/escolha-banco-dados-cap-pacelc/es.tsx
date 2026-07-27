@@ -104,6 +104,12 @@ const QUORUM_URL =
 const ACID_URL = "https://en.wikipedia.org/wiki/ACID";
 const TRUETIME_URL =
   "https://cloud.google.com/spanner/docs/true-time-external-consistency";
+const CLICKHOUSE_URL = "https://clickhouse.com/docs";
+const BIGQUERY_URL = "https://cloud.google.com/bigquery/docs";
+const TIMESCALE_URL = "https://docs.timescale.com/";
+const INFLUXDB_URL = "https://docs.influxdata.com/influxdb/";
+const NEO4J_URL = "https://neo4j.com/docs/";
+const ELASTICSEARCH_URL = "https://www.elastic.co/docs";
 const VIDEO_SOURCE_URL = "https://www.youtube.com/watch?v=bhw4-Kq_RPs";
 
 function TermLink({
@@ -686,7 +692,7 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH2>5. Cómo encajan las bases (y qué cambia en Cassandra)</ArticleH2>
+      <ArticleH2>5. Cómo los modelos de base impactan la elección</ArticleH2>
 
       <ArticleP>
         La elección empieza por el atributo (
@@ -707,10 +713,10 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
         elegir "framework".
       </ArticleP>
 
-      <ArticleTable caption="Lectura rápida en el mapa PACELC (simplificado)">
+      <ArticleTable caption="Lectura rápida por familia de base (simplificado)">
         <ArticleThead>
           <ArticleTr>
-            <ArticleTh>Base</ArticleTh>
+            <ArticleTh>Familia / ejemplo</ArticleTh>
             <ArticleTh>Bajo partición</ArticleTh>
             <ArticleTh>Sin partición</ArticleTh>
             <ArticleTh>Notas</ArticleTh>
@@ -719,20 +725,22 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
         <ArticleTbody>
           <ArticleTr>
             <ArticleTd>
-              <TermLink href={CASSANDRA_URL}>Cassandra</TermLink>
+              Wide-column (
+              <TermLink href={CASSANDRA_URL}>Cassandra</TermLink>)
             </ArticleTd>
             <ArticleTd>Prioriza A</ArticleTd>
             <ArticleTd>Prioriza L</ArticleTd>
-            <ArticleTd>Columnar; consistencia ajustable (quorum)</ArticleTd>
+            <ArticleTd>Escala de escritura y alta disponibilidad; consistencia ajustable (quorum)</ArticleTd>
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              <TermLink href={MONGODB_URL}>MongoDB</TermLink>
+              Documento (
+              <TermLink href={MONGODB_URL}>MongoDB</TermLink>)
             </ArticleTd>
             <ArticleTd>Prioriza C</ArticleTd>
             <ArticleTd>Prioriza C</ArticleTd>
             <ArticleTd>
-              Documento; replica set con líder (
+              Modelo flexible; replica set con líder (
               <TermLink href={RAFT_URL}>Raft</TermLink>
               -like);{" "}
               <TermLink href={ACID_URL}>ACID</TermLink> en varios escenarios
@@ -740,49 +748,67 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink>
+              Clave-valor (
+              <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> /{" "}
+              <TermLink href={REDIS_URL}>Redis</TermLink>)
             </ArticleTd>
             <ArticleTd>Configurable</ArticleTd>
             <ArticleTd>Configurable</ArticleTd>
             <ArticleTd>
-              Consistent read true/false cambia el perfil de la lectura
+              Lookup por clave con baja latencia; lectura consistente configurable
             </ArticleTd>
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              <TermLink href={COCKROACH_URL}>CockroachDB</TermLink>
+              Relacional distribuido (
+              <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> /{" "}
+              <TermLink href={SPANNER_URL}>Spanner</TermLink>)
             </ArticleTd>
             <ArticleTd>Prioriza C</ArticleTd>
             <ArticleTd>Prioriza C</ArticleTd>
-            <ArticleTd>SQL distribuido; fuerte en consistencia</ArticleTd>
+            <ArticleTd>SQL multi-región con consistencia fuerte, costo mayor</ArticleTd>
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              <TermLink href={SPANNER_URL}>Spanner</TermLink>
+              RDBMS por filas (
+              <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> /{" "}
+              <TermLink href={MYSQL_URL}>MySQL</TermLink>)
             </ArticleTd>
-            <ArticleTd>Prioriza C</ArticleTd>
-            <ArticleTd>Prioriza C</ArticleTd>
+            <ArticleTd>Tiende a preservar C en el nodo principal</ArticleTd>
+            <ArticleTd>Tiende a preservar C y transacción local</ArticleTd>
             <ArticleTd>
-              <TermLink href={TRUETIME_URL}>TrueTime</TermLink> /{" "}
-              <TermLink href={PAXOS_URL}>Paxos</TermLink>; caro y potente
+              OLTP transaccional con joins; escalar escritura global requiere arquitectura adicional
             </ArticleTd>
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              <TermLink href={REDIS_URL}>Redis</TermLink> +{" "}
-              <TermLink href={SENTINEL_URL}>Sentinel</TermLink>
+              Columnar analítico (
+              <TermLink href={CLICKHOUSE_URL}>ClickHouse</TermLink> /{" "}
+              <TermLink href={BIGQUERY_URL}>BigQuery</TermLink>)
             </ArticleTd>
-            <ArticleTd>Depende del modo</ArticleTd>
-            <ArticleTd>Baja L</ArticleTd>
-            <ArticleTd>Cache / estructura en memoria; no es OLTP general</ArticleTd>
+            <ArticleTd>No está orientado a tolerancia de partición OLTP</ArticleTd>
+            <ArticleTd>Optimizado para lectura agregada</ArticleTd>
+            <ArticleTd>Excelente para analytics; suele complementar al transaccional</ArticleTd>
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>
+              Time-series (
+              <TermLink href={TIMESCALE_URL}>TimescaleDB</TermLink> /{" "}
+              <TermLink href={INFLUXDB_URL}>InfluxDB</TermLink>)
             </ArticleTd>
-            <ArticleTd>Límite de single-node</ArticleTd>
-            <ArticleTd>C fuerte en el nodo</ArticleTd>
-            <ArticleTd>Excelente en el rol correcto; no es Spanner casero</ArticleTd>
+            <ArticleTd>Depende de topología y política de retención</ArticleTd>
+            <ArticleTd>Enfoque en consultas por ventana temporal</ArticleTd>
+            <ArticleTd>Diseñado para telemetría, retención, downsampling y series temporales</ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>
+              Graph/Search (
+              <TermLink href={NEO4J_URL}>Neo4j</TermLink> /{" "}
+              <TermLink href={ELASTICSEARCH_URL}>Elasticsearch</TermLink>)
+            </ArticleTd>
+            <ArticleTd>Depende de estrategia de indexación y replicación</ArticleTd>
+            <ArticleTd>Búsqueda textual y relaciones profundas</ArticleTd>
+            <ArticleTd>Motores especializados, normalmente junto a la fuente transaccional</ArticleTd>
           </ArticleTr>
         </ArticleTbody>
       </ArticleTable>
@@ -792,6 +818,425 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
         doc del modo que activaste. Puedes "aflojar" o "apretar" algunas bases.
         No siempre vale la pena pelear contra la esencia.
       </ArticleP>
+
+      <ArticleH3>RDBMS por filas: transacción e integridad primero</ArticleH3>
+
+      <ArticleP>
+        En motores por filas como <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>{" "}
+        y <TermLink href={MYSQL_URL}>MySQL</TermLink>, cada registro es una fila
+        completa en tabla con schema definido. La fortaleza está en transacciones{" "}
+        <TermLink href={ACID_URL}>ACID</TermLink>, integridad referencial
+        (claves foráneas, unique, check) y joins entre tablas relacionadas.
+      </ArticleP>
+
+      <ArticleP>
+        En la práctica, el flujo típico es: la app abre transacción, guarda el
+        pedido, guarda ítems, descuenta inventario y confirma pago en el mismo
+        commit. Si algún paso falla, todo vuelve atrás. Este modelo encaja cuando
+        la regla de negocio exige "o se guarda todo, o no se guarda nada".
+      </ArticleP>
+
+      <ArticleP>
+        <strong>Cuándo tiene sentido elegir RDBMS por filas:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Cobro, factura, suscripción, saldo, transferencia: el valor debe
+          cuadrar y no puede "desaparecer" a mitad del flujo.
+        </ArticleLi>
+        <ArticleLi>
+          Pedido, carrito, inventario reservado: varias tablas deben cambiar
+          juntas con consistencia fuerte.
+        </ArticleLi>
+        <ArticleLi>
+          Registro con relación rica: cliente con direcciones, pedidos, pagos y
+          consultas cruzadas con SQL.
+        </ArticleLi>
+        <ArticleLi>
+          Reportes operativos pequeños y predecibles (últimos 30 días de ventas
+          por tienda) aún caben en la misma base, con el índice correcto.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Cuándo el RDBMS por filas empieza a doler (y necesitas
+        complementos):</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Analytics pesado en miles de millones de filas (scan de tabla entera
+          cada día): el motor fue hecho para transacción fila a fila, no para
+          agregación masiva.
+        </ArticleLi>
+        <ArticleLi>
+          Búsqueda textual con relevancia, autocomplete y facetas en catálogo
+          grande: SQL con <ArticleCode>LIKE</ArticleCode> no escala bien.
+        </ArticleLi>
+        <ArticleLi>
+          Escritura global con baja latencia en varias regiones: réplica de
+          lectura ayuda, pero el nodo principal de escritura sigue siendo
+          cuello de botella hasta shardar o migrar a SQL distribuido.
+        </ArticleLi>
+        <ArticleLi>
+          Volumen de escritura muy por encima de lo que un nodo aguanta, sin
+          patrón de acceso que justifique wide-column o clave-valor.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs que asumes:</strong> consistencia fuerte y joins
+        potentes en el nodo principal; escala vertical primero (CPU, RAM, disco
+        más rápido); réplicas mejoran lectura, pero no multiplican escritura
+        libremente; migración de schema exige cuidado en producción (locks,
+        downtime planificado).
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Regla práctica para RDBMS por filas">
+        <ArticleP>
+          Si la pregunta principal del sistema es "¿este saldo/pedido/inventario
+          está correcto ahora?" y la respuesta debe ser sí con garantía, empieza
+          aquí. Si la pregunta principal pasó a "¿cuánto vendimos en 12 meses
+          cruzando 40 dimensiones?", el RDBMS pasa a ser complemento, no motor
+          principal de analytics.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleH3>Clave-valor: baja latencia con acceso predecible por clave</ArticleH3>
+
+      <ArticleP>
+        Clave-valor es un mapa: guardas un valor (string, JSON, binario) bajo
+        una clave y recuperas por esa clave. No hay join nativo ni SQL libre. El
+        patrón de acceso es siempre "ya sé la clave antes de consultar".
+      </ArticleP>
+
+      <ArticleP>
+        <TermLink href={REDIS_URL}>Redis</TermLink> suele vivir en RAM (con
+        persistencia opcional) y responde en sub-milisegundos para cache, cola
+        ligera y contador.{" "}
+        <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> es servicio gestionado:
+        escala de throughput por partición, TTL nativo y consistencia de lectura
+        configurable por request.
+      </ArticleP>
+
+      <ArticleP>
+        <strong>Cuándo tiene sentido elegir clave-valor:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Sesión de usuario: clave <ArticleCode>session:abc123</ArticleCode>,
+          valor JSON con user id y permisos, TTL de 24h.
+        </ArticleLi>
+        <ArticleLi>
+          Cache de resultado caro: clave derivada de parámetros (
+          <ArticleCode>product:42:details</ArticleCode>), invalidación por TTL o
+          evento.
+        </ArticleLi>
+        <ArticleLi>
+          Rate limit y contador: incremento atómico por clave (
+          <ArticleCode>rate:user:99:2026-07-27</ArticleCode>).
+        </ArticleLi>
+        <ArticleLi>
+          Idempotencia: clave <ArticleCode>idempotency:payment-xyz</ArticleCode>{" "}
+          guarda estado de la operación para no cobrar dos veces.
+        </ArticleLi>
+        <ArticleLi>
+          Feature flag, lock distribuido, leaderboard simple: acceso por id
+          conocido, latencia mínima.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Cuándo clave-valor puro se vuelve problema:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Necesitas filtrar por campo que no forma parte de la clave ("todos los
+          pedidos arriba de $500 de ayer").
+        </ArticleLi>
+        <ArticleLi>
+          El dominio exige joins entre entidades (cliente + pedido + ítem +
+          inventario) como consulta ad hoc.
+        </ArticleLi>
+        <ArticleLi>
+          Reporte analítico con GROUP BY en varias dimensiones: la app tendría
+          que recorrer todas las claves o mantener índices secundarios
+          artificiales.
+        </ArticleLi>
+        <ArticleLi>
+          Fuente de verdad de negocio sin otra base detrás: si Redis cae sin
+          persistencia adecuada, el dato se pierde.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs:</strong> latencia y simplicidad de escala por clave;
+        pérdida de flexibilidad de consulta; en DynamoDB, el diseño de partition
+        key define el techo de throughput (hot partition es error clásico); en
+        Redis, memoria es el límite y cluster exige cuidado con claves que
+        concentran tráfico.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Regla práctica para clave-valor">
+        <ArticleP>
+          Antes de elegir clave-valor, escribe 5 consultas reales del sistema.
+          Si 4 empiezan con "dado el id X, trae Y", encaja. Si 4 empiezan con
+          "lista todo donde campo Z...", clave-valor puro empuja complejidad al
+          código e índices manuales.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleH3>Columnar analítico: agregación rápida en lectura masiva</ArticleH3>
+
+      <ArticleP>
+        Motores columnares analíticos como{" "}
+        <TermLink href={CLICKHOUSE_URL}>ClickHouse</TermLink> y{" "}
+        <TermLink href={BIGQUERY_URL}>BigQuery</TermLink> almacenan datos por
+        columna, no por fila entera. Columnas repetidas (status, país, categoría)
+        comprimen mucho. Consultas del tipo "suma ventas por región en los
+        últimos 90 días" leen solo las columnas necesarias, no cada campo de
+        cada evento.
+      </ArticleP>
+
+      <ArticleP>
+        El flujo típico es ingestión en lote (batch) o stream vía pipeline: la
+        base transaccional sigue recibiendo pedidos en tiempo real; un job de ETL
+        o CDC copia eventos al columnar; dashboards y BI consultan el columnar
+        sin competir con la operación diaria.
+      </ArticleP>
+
+      <ArticleP>
+        <strong>Cuándo tiene sentido elegir columnar analítico:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Dashboard ejecutivo: ingresos, churn, conversión de funnel en ventanas
+          de tiempo grandes.
+        </ArticleLi>
+        <ArticleLi>
+          Análisis histórico: "¿cómo cambió el comportamiento entre Q1 y Q4?"
+          sobre cientos de millones de eventos.
+        </ArticleLi>
+        <ArticleLi>
+          Log agregado de producto: clics, impresiones, experimentos A/B
+          analizados por dimensión.
+        </ArticleLi>
+        <ArticleLi>
+          Data warehouse: capa de BI donde analistas corren SQL pesado sin tumbar
+          producción.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Cuándo columnar analítico no debe ser la base principal:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Update frecuente fila a fila ("cliente cambió dirección ahora"): muchos
+          columnares son append-heavy; update puntual es caro o asíncrono.
+        </ArticleLi>
+        <ArticleLi>
+          Transacción con regla de negocio estricta en el mismo request del
+          usuario: latencia de commit y modelo de escritura no fueron hechos para
+          checkout.
+        </ArticleLi>
+        <ArticleLi>
+          Lookup por id único con SLA de milisegundos: columnar optimiza scan y
+          agregación, no lectura puntual unitaria.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs:</strong> lectura analítica barata y rápida en volumen;
+        ingestión en batch o micro-batch (datos en dashboard pueden tener
+        retraso de minutos); schema pensado para consulta analítica
+        (desnormalización aceptable); costo de almacenamiento menor por
+        compresión, pero query mal escrita (scan full) sigue doliendo en
+        BigQuery.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Regla práctica para columnar analítico">
+        <ArticleP>
+          Usa columnar cuando la pregunta es "¿cuánto / cuántos / qué tendencia
+          en mucho dato histórico?". Mantén la base transaccional como fuente de
+          verdad operacional y trata el columnar como réplica analítica
+          derivada, no como lugar para grabar pedidos en tiempo real.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleH3>Time-series: modelado orientado a timestamp</ArticleH3>
+
+      <ArticleP>
+        Time-series asume que cada evento lleva timestamp como eje central.
+        Herramientas como <TermLink href={TIMESCALE_URL}>TimescaleDB</TermLink>{" "}
+        (extensión de <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>) y{" "}
+        <TermLink href={INFLUXDB_URL}>InfluxDB</TermLink> (modelo propio)
+        optimizan ingestión continua, compresión por bloque temporal, retención
+        automática ("borrar datos con más de 90 días") y consultas por ventana
+        ("promedio de CPU en los últimos 15 minutos").
+      </ArticleP>
+
+      <ArticleP>
+        <strong>Cuándo tiene sentido elegir time-series:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Métricas de infra: CPU, memoria, latencia de API, cola, error por
+          minuto.
+        </ArticleLi>
+        <ArticleLi>
+          IoT y sensores: temperatura, presión, ubicación cada N segundos.
+        </ArticleLi>
+        <ArticleLi>
+          Observabilidad de app: spans, contadores, histogramas exportados por
+          OpenTelemetry o Prometheus.
+        </ArticleLi>
+        <ArticleLi>
+          Eventos de producto con tiempo como filtro principal: "¿cuántos logins
+          por hora en la última semana?".
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Cuándo time-series no es la elección correcta:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Entidad de negocio estable (cliente, producto, contrato) sin eje
+          temporal dominante en la consulta.
+        </ArticleLi>
+        <ArticleLi>
+          Necesitas join pesado entre muchas entidades relacionales: time-series
+          brilla en append + agregación temporal, no en modelo relacional
+          completo.
+        </ArticleLi>
+        <ArticleLi>
+          Volumen bajo (miles de puntos por día): Postgres con índice en{" "}
+          <ArticleCode>created_at</ArticleCode> puede bastar sin motor dedicado.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs:</strong> ingestión barata y predecible en alto volumen;
+        políticas de retención y downsampling nativas; consultas fuera del eje
+        temporal ("todos los eventos del sensor X sin importar fecha" sin
+        partition key correcta) pueden ser lentas; TimescaleDB trae SQL familiar,
+        InfluxDB exige aprender modelo y lenguaje de query propios.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Regla práctica para time-series">
+        <ArticleP>
+          Si el dato nace con timestamp, llega continuamente y la pregunta
+          habitual es "¿qué pasó entre T1 y T2?" o "¿cuál es la tasa por
+          minuto?", time-series encaja. Si la pregunta habitual es "¿cuál es el
+          estado actual de este registro?", vuelve a RDBMS o documento.
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleH3>Graph/Search: motores especializados alrededor del OLTP</ArticleH3>
+
+      <ArticleP>
+        Graph y search resuelven preguntas de lectura que RDBMS y clave-valor
+        hacen mal a escala. <TermLink href={NEO4J_URL}>Neo4j</TermLink> modela
+        nodos (entidades) y aristas (relaciones) y optimiza recorrido ("amigos de
+        amigos en 3 saltos", "camino más corto", "¿quién tiene acceso indirecto
+        a este recurso?").{" "}
+        <TermLink href={ELASTICSEARCH_URL}>Elasticsearch</TermLink> mantiene
+        índice invertido para búsqueda textual con relevancia, autocomplete,
+        fuzzy match y facetas (filtrar por marca, precio, categoría mientras
+        buscas texto).
+      </ArticleP>
+
+      <ArticleP>
+        <strong>Cuándo tiene sentido elegir graph (Neo4j):</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Detección de fraude: cuenta ligada a tarjeta ligada a dispositivo
+          ligado a otra cuenta sospechosa.
+        </ArticleLi>
+        <ArticleLi>
+          Recomendación por red: "usuarios similares también compraron".
+        </ArticleLi>
+        <ArticleLi>
+          Permisos y organigrama profundo: herencia de acceso en árbol con
+          muchos niveles.
+        </ArticleLi>
+        <ArticleLi>
+          Knowledge graph: conceptos relacionados, dependencias entre servicios o
+          componentes.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Cuándo tiene sentido elegir search (Elasticsearch):</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Catálogo e-commerce: búsqueda "auriculares bluetooth noise cancelling"
+          con ranking y filtros laterales.
+        </ArticleLi>
+        <ArticleLi>
+          Logs centralizados: búsqueda full-text en millones de líneas con
+          filtro por servicio, nivel, host.
+        </ArticleLi>
+        <ArticleLi>
+          Autocomplete y "did you mean?" en campo de búsqueda expuesto al
+          usuario.
+        </ArticleLi>
+        <ArticleLi>
+          Documentos y contenido editorial: artículos, FAQs, tickets de soporte.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Cuándo graph/search no deben ser fuente de verdad:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Cobro, inventario y saldo: el valor financiero sigue en la base
+          transaccional; el índice de búsqueda o el grafo pueden ir atrasados
+          unos segundos.
+        </ArticleLi>
+        <ArticleLi>
+          Esperas consistencia inmediata tras cada write: Elasticsearch es
+          near-real-time (index refresh); Neo4j en cluster también tiene
+          latencia de replicación.
+        </ArticleLi>
+        <ArticleLi>
+          CRUD simple por id sin recorrido ni relevancia textual: RDBMS o
+          documento lo resuelven con menos piezas.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs y arquitectura típica:</strong> los datos nacen en la
+        base transaccional; pipeline (CDC, cola, job) sincroniza a Neo4j o
+        Elasticsearch; la app lee del motor especializado en pantalla de búsqueda
+        o análisis de red, pero confirma operación crítica en el transaccional.
+        Costo extra de operar segundo cluster, mapear schema de índice,
+        reindexar cuando cambia mapping, monitorear lag de sincronización.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Regla práctica para graph/search">
+        <ArticleP>
+          Elige graph cuando la pregunta es "¿cómo A se conecta a B en N
+          pasos?". Elige search cuando la pregunta es "encuentra texto parecido
+          a X y ordénalo por relevancia". En ambos casos, asume consistencia
+          eventual respecto a la base principal y planifica reprocesamiento si el
+          índice queda defasado.
+        </ArticleP>
+      </ArticleCallout>
 
       <ArticleH3>
         <TermLink href={CASSANDRA_URL}>Cassandra</TermLink>: nodos, RF y quorum
@@ -1049,8 +1494,9 @@ session.execute(readStatement);`}
           read) o el default del producto ya basta?
         </ArticleLi>
         <ArticleLi>
-          ¿Qué modelo de datos pide el dominio (relacional, documento,
-          columnar, KV)?
+          ¿Qué modelo de datos pide el dominio (relacional por filas,
+          documento, wide-column, clave-valor, columnar analítico,
+          time-series, graph/search)?
         </ArticleLi>
         <ArticleLi>
           ¿Cuál es el costo operativo: el equipo conoce la base? ¿multi-región?
