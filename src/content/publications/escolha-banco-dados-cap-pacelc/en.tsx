@@ -204,7 +204,7 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
           </a>{" "}
           map and{" "}
           <a
-            href="#5-how-databases-fit-and-what-changes-in-cassandra"
+            href="#5-how-database-models-impact-the-choice"
             className={linkClass}
           >
             section 5
@@ -274,7 +274,7 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
           </a>{" "}
           and{" "}
           <a
-            href="#5-how-databases-fit-and-what-changes-in-cassandra"
+            href="#5-how-database-models-impact-the-choice"
             className={linkClass}
           >
             section 5
@@ -693,15 +693,21 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
       <ArticleP>
         The choice starts with the attribute (
         <TermLink href={PACELC_URL}>PACELC</TermLink>
-        ), then the data model:
+        ), then the data model. The table below is the compass; blocks A, B,
+        and C walk each family in the order I usually decide.
       </ArticleP>
 
       <ArticleUl>
-        <ArticleLi>relational (rows/tables, joins)</ArticleLi>
-        <ArticleLi>document (flexible JSON/BSON)</ArticleLi>
-        <ArticleLi>columnar / wide-column</ArticleLi>
-        <ArticleLi>key-value</ArticleLi>
-        <ArticleLi>distributed relational (SQL + consensus across nodes)</ArticleLi>
+        <ArticleLi>
+          Block A (transactional): row-based relational, document, distributed
+          relational
+        </ArticleLi>
+        <ArticleLi>
+          Block B (scale): wide-column, key-value
+        </ArticleLi>
+        <ArticleLi>
+          Block C (complementary): analytical columnar, time-series, graph/search
+        </ArticleLi>
       </ArticleUl>
 
       <ArticleP>
@@ -721,12 +727,15 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
         <ArticleTbody>
           <ArticleTr>
             <ArticleTd>
-              Wide-column (
-              <TermLink href={CASSANDRA_URL}>Cassandra</TermLink>)
+              Row-based RDBMS (
+              <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> /{" "}
+              <TermLink href={MYSQL_URL}>MySQL</TermLink>)
             </ArticleTd>
-            <ArticleTd>Prioritizes A</ArticleTd>
-            <ArticleTd>Prioritizes L</ArticleTd>
-            <ArticleTd>Write scale and high availability; tunable consistency (quorum)</ArticleTd>
+            <ArticleTd>Tends to preserve C on the primary node</ArticleTd>
+            <ArticleTd>Tends to preserve C and local transactions</ArticleTd>
+            <ArticleTd>
+              Transactional OLTP with joins; global write scale needs extra architecture
+            </ArticleTd>
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
@@ -744,18 +753,6 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              Key-value (
-              <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> /{" "}
-              <TermLink href={REDIS_URL}>Redis</TermLink>)
-            </ArticleTd>
-            <ArticleTd>Configurable</ArticleTd>
-            <ArticleTd>Configurable</ArticleTd>
-            <ArticleTd>
-              Key lookup with low latency; consistent read is configurable
-            </ArticleTd>
-          </ArticleTr>
-          <ArticleTr>
-            <ArticleTd>
               Distributed relational (
               <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> /{" "}
               <TermLink href={SPANNER_URL}>Spanner</TermLink>)
@@ -766,14 +763,23 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
           </ArticleTr>
           <ArticleTr>
             <ArticleTd>
-              Row-based RDBMS (
-              <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> /{" "}
-              <TermLink href={MYSQL_URL}>MySQL</TermLink>)
+              Wide-column (
+              <TermLink href={CASSANDRA_URL}>Cassandra</TermLink>)
             </ArticleTd>
-            <ArticleTd>Tends to preserve C on the primary node</ArticleTd>
-            <ArticleTd>Tends to preserve C and local transactions</ArticleTd>
+            <ArticleTd>Prioritizes A</ArticleTd>
+            <ArticleTd>Prioritizes L</ArticleTd>
+            <ArticleTd>Write scale and high availability; tunable consistency (quorum)</ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
             <ArticleTd>
-              Transactional OLTP with joins; global write scale needs extra architecture
+              Key-value (
+              <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> /{" "}
+              <TermLink href={REDIS_URL}>Redis</TermLink>)
+            </ArticleTd>
+            <ArticleTd>Configurable</ArticleTd>
+            <ArticleTd>Configurable</ArticleTd>
+            <ArticleTd>
+              Key lookup with low latency; consistent read is configurable
             </ArticleTd>
           </ArticleTr>
           <ArticleTr>
@@ -815,7 +821,14 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
         databases. Fighting the essence is not always worth it.
       </ArticleP>
 
-      <ArticleH3>Row-based RDBMS: transactions and integrity first</ArticleH3>
+      <ArticleP>
+        <strong>Block A: transactional core.</strong> The question here is where
+        business source of truth lives (order, balance, profile). Read in order:
+        row-based RDBMS, document, then distributed SQL when one region is not
+        enough.
+      </ArticleP>
+
+<ArticleH3>Row-based RDBMS: transactions and integrity first</ArticleH3>
 
       <ArticleP>
         In row-based engines like{" "}
@@ -890,6 +903,23 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
         care in production (locks, planned downtime).
       </ArticleP>
 
+      
+      <ArticleP>
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> shines in a
+        single-region monolith: transactions and joins stay excellent. The drift
+        appears when teams pretend global multi-primary with async replicas and
+        an expensive cloud instance. The{" "}
+        <TermLink href={PACELC_URL}>PACELC</TermLink> map does not change just
+        because the bill went up.
+      </ArticleP>
+
+      <ArticleP>
+        Manual <TermLink href={SHARDING_URL}>sharding</TermLink> on Postgres
+        means becoming a database platform team: key routing, rebalancing,
+        shard failover. It works. It is rarely worth it when the requirement
+        already asks for a truly distributed store.
+      </ArticleP>
+
       <ArticleCallout variant="tip" title="Practical rule for row-based RDBMS">
         <ArticleP>
           If the main question is "is this balance/order/inventory correct right
@@ -900,336 +930,89 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH3>Key-value: low latency through predictable key access</ArticleH3>
+      
+      <ArticleP>
+        Document is the flexible model (JSON/BSON) inside the transactional
+        core. Below, what changes in real conversations with{" "}
+        <TermLink href={MONGODB_URL}>MongoDB</TermLink>.
+      </ArticleP>
+
+<ArticleH3>
+        <TermLink href={MONGODB_URL}>MongoDB</TermLink>: the "it is NoSQL, so
+        it scales alone" story
+      </ArticleH3>
 
       <ArticleP>
-        Key-value is a map: you store a value (string, JSON, binary) under a key
-        and fetch by that key. There is no native join or free SQL. The access
-        pattern is always "I already know the key before I query".
+        Typical scene: product catalog with flexible JSON. Someone says "let us
+        go with <TermLink href={MONGODB_URL}>MongoDB</TermLink> because it is
+        NoSQL and fast". The document model fits. The pitfall is assuming the
+        replica set was born to give up C.
       </ArticleP>
 
       <ArticleP>
-        <TermLink href={REDIS_URL}>Redis</TermLink> usually lives in RAM (with
-        optional persistence) and responds in sub-milliseconds for cache, light
-        queues, and counters.{" "}
-        <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> is a managed service:
-        throughput scales by partition, native TTL, and read consistency
-        configurable per request.
+        In the set there is a leader for writes. If the leader falls, consensus
+        (<TermLink href={RAFT_URL}>Raft</TermLink> family) elects another. Meanwhile
+        the historical default prioritizes consistency in the set. There is{" "}
+        <TermLink href={ACID_URL}>ACID</TermLink> in supported transactions.
       </ArticleP>
 
       <ArticleP>
-        <strong>When key-value is the right choice:</strong>
+        I would use Mongo when the domain is document-oriented and when strong
+        consistency inside the replica set is important. I would not use Mongo
+        when the main requirement is maximum availability under partition, which
+        is the classic Cassandra profile.
       </ArticleP>
 
-      <ArticleUl>
-        <ArticleLi>
-          User session: key <ArticleCode>session:abc123</ArticleCode>, JSON value
-          with user id and permissions, 24h TTL.
-        </ArticleLi>
-        <ArticleLi>
-          Cache of expensive results: key derived from parameters (
-          <ArticleCode>product:42:details</ArticleCode>), invalidation by TTL
-          or event.
-        </ArticleLi>
-        <ArticleLi>
-          Rate limit and counter: atomic increment per key (
-          <ArticleCode>rate:user:99:2026-07-27</ArticleCode>).
-        </ArticleLi>
-        <ArticleLi>
-          Idempotency: key <ArticleCode>idempotency:payment-xyz</ArticleCode>{" "}
-          stores operation status to avoid double charging.
-        </ArticleLi>
-        <ArticleLi>
-          Feature flag, distributed lock, simple leaderboard: access by known
-          id, minimum latency.
-        </ArticleLi>
-      </ArticleUl>
+      
+<ArticleH3>
+        <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> and{" "}
+        <TermLink href={SPANNER_URL}>Spanner</TermLink>: when SQL must cross
+        regions
+      </ArticleH3>
 
       <ArticleP>
-        <strong>When pure key-value becomes a problem:</strong>
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          You need to filter by a field that is not part of the key ("all orders
-          above $500 from yesterday").
-        </ArticleLi>
-        <ArticleLi>
-          The domain needs joins across entities (customer + order + item +
-          inventory) as ad-hoc queries.
-        </ArticleLi>
-        <ArticleLi>
-          Analytical reports with GROUP BY on several dimensions: the app would
-          have to scan all keys or maintain artificial secondary indexes.
-        </ArticleLi>
-        <ArticleLi>
-          Business source of truth with no other database behind it: if Redis
-          goes down without adequate persistence, data is gone.
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        <strong>Tradeoffs:</strong> latency and scale simplicity per key; loss of
-        query flexibility; in DynamoDB, partition key design sets the throughput
-        ceiling (hot partition is a classic mistake); in Redis, memory is the
-        limit and clustering needs care with keys that concentrate traffic.
-      </ArticleP>
-
-      <ArticleCallout variant="tip" title="Practical rule for key-value">
-        <ArticleP>
-          Before choosing key-value, write 5 real queries from the system. If 4
-          start with "given id X, fetch Y", it fits. If 4 start with "list
-          everything where field Z...", pure key-value pushes complexity into
-          code and manual indexes.
-        </ArticleP>
-      </ArticleCallout>
-
-      <ArticleH3>Analytical columnar: aggregate fast at large read volume</ArticleH3>
-
-      <ArticleP>
-        Analytical columnar engines like{" "}
-        <TermLink href={CLICKHOUSE_URL}>ClickHouse</TermLink> and{" "}
-        <TermLink href={BIGQUERY_URL}>BigQuery</TermLink> store data by column,
-        not by full row. Repeated columns (status, country, category) compress
-        heavily. Queries like "sum sales by region over the last 90 days" read
-        only the needed columns, not every field of every event.
-      </ArticleP>
-
-      <ArticleP>
-        The typical flow is batch ingestion or stream via pipeline: the
-        transactional database keeps receiving orders in real time; an ETL or
-        CDC job copies events to the columnar store; dashboards and BI query the
-        columnar layer without competing with daily operations.
-      </ArticleP>
-
-      <ArticleP>
-        <strong>When analytical columnar is the right choice:</strong>
+        Interview (and global product) scene: inventory or ledger with SQL,
+        multi-region, no "eventual is fine". Spinning up another{" "}
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> with async replica
+        does not close it.
       </ArticleP>
 
       <ArticleUl>
         <ArticleLi>
-          Executive dashboard: revenue, churn, funnel conversion over large
-          time windows.
+          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink>: distributed SQL
+          with a C focus; <TermLink href={RAFT_URL}>Raft</TermLink> underneath;
+          inventory, finance, multi-region games.
         </ArticleLi>
         <ArticleLi>
-          Historical analysis: "how did behavior change between Q1 and Q4?" over
-          hundreds of millions of events.
-        </ArticleLi>
-        <ArticleLi>
-          Aggregated product logs: clicks, impressions, A/B experiments analyzed
-          by dimension.
-        </ArticleLi>
-        <ArticleLi>
-          Data warehouse: BI layer where analysts run heavy SQL without taking
-          down production.
+          <TermLink href={SPANNER_URL}>Spanner</TermLink>: strong global C with{" "}
+          <TermLink href={TRUETIME_URL}>TrueTime</TermLink> and{" "}
+          <TermLink href={PAXOS_URL}>Paxos</TermLink> family. Expensive. You are
+          buying the hard problem solved.
         </ArticleLi>
       </ArticleUl>
 
       <ArticleP>
-        <strong>When analytical columnar should not be the primary database:</strong>
+        I only bring these names to the table when the requirement is explicit:
+        global SQL with strong consistency across regions. Without that
+        requirement, cost in money and operations usually eats the gain.
       </ArticleP>
 
-      <ArticleUl>
-        <ArticleLi>
-          Frequent row-by-row updates ("customer changed address now"): many
-          columnar stores are append-heavy; point updates are expensive or async.
-        </ArticleLi>
-        <ArticleLi>
-          Transactions with strict business rules in the same user request:
-          commit latency and write model were not built for checkout flows.
-        </ArticleLi>
-        <ArticleLi>
-          Lookup by single id with millisecond SLA: columnar optimizes scan and
-          aggregation, not single-point reads.
-        </ArticleLi>
-      </ArticleUl>
-
+      
       <ArticleP>
-        <strong>Tradeoffs:</strong> cheap, fast analytical reads at volume;
-        batch or micro-batch ingestion (dashboard data may lag by minutes);
-        schema designed for analytical queries (denormalization is acceptable);
-        lower storage cost through compression, but a badly written query (full
-        scan) still hurts on BigQuery.
-      </ArticleP>
-
-      <ArticleCallout variant="tip" title="Practical rule for analytical columnar">
-        <ArticleP>
-          Use columnar when the question is "how much / how many / what trend
-          over lots of historical data?". Keep the transactional database as
-          operational source of truth and treat columnar as a derived analytical
-          replica, not the place to write live orders.
-        </ArticleP>
-      </ArticleCallout>
-
-      <ArticleH3>Time-series: timestamp-first modeling</ArticleH3>
-
-      <ArticleP>
-        Time-series assumes each event carries timestamp as the central axis.
-        Tools like <TermLink href={TIMESCALE_URL}>TimescaleDB</TermLink> (a{" "}
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> extension) and{" "}
-        <TermLink href={INFLUXDB_URL}>InfluxDB</TermLink> (its own model)
-        optimize continuous ingestion, compression by time block, automatic
-        retention ("delete data older than 90 days"), and window queries
-        ("average CPU over the last 15 minutes").
+        <strong>Block B: scale and partition profile.</strong> When requirements
+        lean on availability, latency, or massive writes, wide-column and
+        key-value enter. After the family overview, product examples show how
+        the dial appears (quorum in Cassandra, ConsistentRead in DynamoDB).
       </ArticleP>
 
       <ArticleP>
-        <strong>When time-series is the right choice:</strong>
+        Wide-column in practice: data partitioned across nodes, massive writes,
+        and a consistency dial per operation.{" "}
+        <TermLink href={CASSANDRA_URL}>Cassandra</TermLink> is the most cited
+        example in this profile.
       </ArticleP>
 
-      <ArticleUl>
-        <ArticleLi>
-          Infrastructure metrics: CPU, memory, API latency, queue depth, errors
-          per minute.
-        </ArticleLi>
-        <ArticleLi>
-          IoT and sensors: temperature, pressure, location every N seconds.
-        </ArticleLi>
-        <ArticleLi>
-          App observability: spans, counters, histograms exported by
-          OpenTelemetry or Prometheus.
-        </ArticleLi>
-        <ArticleLi>
-          Product events where time is the main filter: "how many logins per hour
-          in the last week?".
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        <strong>When time-series is not the right choice:</strong>
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          Stable business entities (customer, product, contract) without time
-          as the dominant query axis.
-        </ArticleLi>
-        <ArticleLi>
-          Heavy joins across many relational entities: time-series shines at
-          append + temporal aggregation, not full relational modeling.
-        </ArticleLi>
-        <ArticleLi>
-          Low volume (thousands of points per day): Postgres with an index on{" "}
-          <ArticleCode>created_at</ArticleCode> may be enough without a dedicated
-          engine.
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        <strong>Tradeoffs:</strong> cheap, predictable ingestion at high volume;
-        native retention and downsampling policies; queries outside the time
-        axis ("all events from sensor X regardless of date" without the right
-        partition key) can be slow; TimescaleDB brings familiar SQL, InfluxDB
-        requires learning its own model and query language.
-      </ArticleP>
-
-      <ArticleCallout variant="tip" title="Practical rule for time-series">
-        <ArticleP>
-          If data is born with a timestamp, arrives continuously, and the usual
-          question is "what happened between T1 and T2?" or "what is the rate
-          per minute?", time-series fits. If the usual question is "what is the
-          current state of this record?", go back to RDBMS or document stores.
-        </ArticleP>
-      </ArticleCallout>
-
-      <ArticleH3>Graph/Search: specialized read engines around core OLTP</ArticleH3>
-
-      <ArticleP>
-        Graph and search solve read questions that RDBMS and key-value handle
-        poorly at scale. <TermLink href={NEO4J_URL}>Neo4j</TermLink> models
-        nodes (entities) and edges (relationships) and optimizes traversal
-        ("friends of friends in 3 hops", "shortest path", "who has indirect
-        access to this resource?").{" "}
-        <TermLink href={ELASTICSEARCH_URL}>Elasticsearch</TermLink> keeps an
-        inverted index for text search with relevance, autocomplete, fuzzy
-        match, and facets (filter by brand, price, category while searching
-        text).
-      </ArticleP>
-
-      <ArticleP>
-        <strong>When graph (Neo4j) is the right choice:</strong>
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          Fraud detection: account linked to card linked to device linked to
-          another suspicious account.
-        </ArticleLi>
-        <ArticleLi>
-          Network-based recommendation: "similar users also bought".
-        </ArticleLi>
-        <ArticleLi>
-          Deep permissions and org charts: access inheritance in a tree with many
-          levels.
-        </ArticleLi>
-        <ArticleLi>
-          Knowledge graph: related concepts, dependencies between services or
-          components.
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        <strong>When search (Elasticsearch) is the right choice:</strong>
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          E-commerce catalog: search "bluetooth noise cancelling headphones"
-          with ranking and side filters.
-        </ArticleLi>
-        <ArticleLi>
-          Centralized logs: full-text search over millions of lines with filters
-          by service, level, host.
-        </ArticleLi>
-        <ArticleLi>
-          Autocomplete and "did you mean?" in a user-facing search box.
-        </ArticleLi>
-        <ArticleLi>
-          Documents and editorial content: articles, FAQs, support tickets.
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        <strong>When graph/search should not be source of truth:</strong>
-      </ArticleP>
-
-      <ArticleUl>
-        <ArticleLi>
-          Billing, inventory, and balances: financial values stay in the
-          transactional database; the search index or graph may lag by a few
-          seconds.
-        </ArticleLi>
-        <ArticleLi>
-          You expect immediate consistency after every write: Elasticsearch is
-          near-real-time (index refresh); Neo4j in cluster also has replication
-          lag.
-        </ArticleLi>
-        <ArticleLi>
-          Simple CRUD by id without traversal or text relevance: RDBMS or
-          document stores solve it with fewer moving parts.
-        </ArticleLi>
-      </ArticleUl>
-
-      <ArticleP>
-        <strong>Tradeoffs and typical architecture:</strong> data is born in the
-        transactional database; a pipeline (CDC, queue, job) syncs to Neo4j or
-        Elasticsearch; the app reads from the specialized engine on search or
-        network analysis screens, but confirms critical operations on the
-        transactional store. Extra cost to operate a second cluster, map index
-        schema, reindex when mapping changes, monitor sync lag.
-      </ArticleP>
-
-      <ArticleCallout variant="tip" title="Practical rule for graph/search">
-        <ArticleP>
-          Choose graph when the question is "how does A connect to B in N
-          steps?". Choose search when the question is "find text similar to X
-          and rank by relevance". In both cases, assume eventual consistency
-          relative to the primary database and plan reprocessing if the index
-          falls behind.
-        </ArticleP>
-      </ArticleCallout>
-
-      <ArticleH3>
+<ArticleH3>
         <TermLink href={CASSANDRA_URL}>Cassandra</TermLink>: nodes, RF, and quorum
       </ArticleH3>
 
@@ -1345,33 +1128,108 @@ session.execute(readStatement);`}
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH3>
-        <TermLink href={MONGODB_URL}>MongoDB</TermLink>: the "it is NoSQL, so
-        it scales alone" story
-      </ArticleH3>
+      
+<ArticleH3>Key-value: low latency through predictable key access</ArticleH3>
 
       <ArticleP>
-        Typical scene: product catalog with flexible JSON. Someone says "let us
-        go with <TermLink href={MONGODB_URL}>MongoDB</TermLink> because it is
-        NoSQL and fast". The document model fits. The pitfall is assuming the
-        replica set was born to give up C.
+        Key-value is a map: you store a value (string, JSON, binary) under a key
+        and fetch by that key. There is no native join or free SQL. The access
+        pattern is always "I already know the key before I query".
       </ArticleP>
 
       <ArticleP>
-        In the set there is a leader for writes. If the leader falls, consensus
-        (<TermLink href={RAFT_URL}>Raft</TermLink> family) elects another. Meanwhile
-        the historical default prioritizes consistency in the set. There is{" "}
-        <TermLink href={ACID_URL}>ACID</TermLink> in supported transactions.
+        <TermLink href={REDIS_URL}>Redis</TermLink> usually lives in RAM (with
+        optional persistence) and responds in sub-milliseconds for cache, light
+        queues, and counters.{" "}
+        <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink> is a managed service:
+        throughput scales by partition, native TTL, and read consistency
+        configurable per request.
       </ArticleP>
 
       <ArticleP>
-        I would use Mongo when the domain is document-oriented and when strong
-        consistency inside the replica set is important. I would not use Mongo
-        when the main requirement is maximum availability under partition, which
-        is the classic Cassandra profile.
+        <strong>When key-value is the right choice:</strong>
       </ArticleP>
 
-      <ArticleH3>
+      <ArticleUl>
+        <ArticleLi>
+          User session: key <ArticleCode>session:abc123</ArticleCode>, JSON value
+          with user id and permissions, 24h TTL.
+        </ArticleLi>
+        <ArticleLi>
+          Cache of expensive results: key derived from parameters (
+          <ArticleCode>product:42:details</ArticleCode>), invalidation by TTL
+          or event.
+        </ArticleLi>
+        <ArticleLi>
+          Rate limit and counter: atomic increment per key (
+          <ArticleCode>rate:user:99:2026-07-27</ArticleCode>).
+        </ArticleLi>
+        <ArticleLi>
+          Idempotency: key <ArticleCode>idempotency:payment-xyz</ArticleCode>{" "}
+          stores operation status to avoid double charging.
+        </ArticleLi>
+        <ArticleLi>
+          Feature flag, distributed lock, simple leaderboard: access by known
+          id, minimum latency.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>When pure key-value becomes a problem:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          You need to filter by a field that is not part of the key ("all orders
+          above $500 from yesterday").
+        </ArticleLi>
+        <ArticleLi>
+          The domain needs joins across entities (customer + order + item +
+          inventory) as ad-hoc queries.
+        </ArticleLi>
+        <ArticleLi>
+          Analytical reports with GROUP BY on several dimensions: the app would
+          have to scan all keys or maintain artificial secondary indexes.
+        </ArticleLi>
+        <ArticleLi>
+          Business source of truth with no other database behind it: if Redis
+          goes down without adequate persistence, data is gone.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs:</strong> latency and scale simplicity per key; loss of
+        query flexibility; in DynamoDB, partition key design sets the throughput
+        ceiling (hot partition is a classic mistake); in Redis, memory is the
+        limit and clustering needs care with keys that concentrate traffic.
+      </ArticleP>
+
+      
+      <ArticleP>
+        Common anti-pattern: "let us store balance in{" "}
+        <TermLink href={REDIS_URL}>Redis</TermLink> because it is fast".
+        Latency is great. Ledger durability and model, not so much. Redis (+{" "}
+        <TermLink href={SENTINEL_URL}>Sentinel</TermLink>) shines for cache,
+        session, light queue, and ranking. Bad as the only database for banking
+        domain logic.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Practical rule for key-value">
+        <ArticleP>
+          Before choosing key-value, write 5 real queries from the system. If 4
+          start with "given id X, fetch Y", it fits. If 4 start with "list
+          everything where field Z...", pure key-value pushes complexity into
+          code and manual indexes.
+        </ArticleP>
+      </ArticleCallout>
+
+      
+      <ArticleP>
+        Tunable key-value on AWS: same service, eventual or strong read per
+        request.
+      </ArticleP>
+
+<ArticleH3>
         <TermLink href={DYNAMODB_URL}>DynamoDB</TermLink>: one service, two
         dials
       </ArticleH3>
@@ -1399,67 +1257,259 @@ session.execute(readStatement);`}
         operation. That moves the conversation from vendor to requirement.
       </ArticleP>
 
-      <ArticleH3>
-        <TermLink href={COCKROACH_URL}>CockroachDB</TermLink> and{" "}
-        <TermLink href={SPANNER_URL}>Spanner</TermLink>: when SQL must cross
-        regions
-      </ArticleH3>
+      
+      <ArticleP>
+        <strong>Block C: complementary engines.</strong> Analytics, telemetry,
+        and search/traversal rarely replace transactional stores. They read
+        derived or indexed data beside daily operations.
+      </ArticleP>
+
+<ArticleH3>Analytical columnar: aggregate fast at large read volume</ArticleH3>
 
       <ArticleP>
-        Interview (and global product) scene: inventory or ledger with SQL,
-        multi-region, no "eventual is fine". Spinning up another{" "}
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> with async replica
-        does not close it.
+        Analytical columnar engines like{" "}
+        <TermLink href={CLICKHOUSE_URL}>ClickHouse</TermLink> and{" "}
+        <TermLink href={BIGQUERY_URL}>BigQuery</TermLink> store data by column,
+        not by full row. Repeated columns (status, country, category) compress
+        heavily. Queries like "sum sales by region over the last 90 days" read
+        only the needed columns, not every field of every event.
+      </ArticleP>
+
+      <ArticleP>
+        The typical flow is batch ingestion or stream via pipeline: the
+        transactional database keeps receiving orders in real time; an ETL or
+        CDC job copies events to the columnar store; dashboards and BI query the
+        columnar layer without competing with daily operations.
+      </ArticleP>
+
+      <ArticleP>
+        <strong>When analytical columnar is the right choice:</strong>
       </ArticleP>
 
       <ArticleUl>
         <ArticleLi>
-          <TermLink href={COCKROACH_URL}>CockroachDB</TermLink>: distributed SQL
-          with a C focus; <TermLink href={RAFT_URL}>Raft</TermLink> underneath;
-          inventory, finance, multi-region games.
+          Executive dashboard: revenue, churn, funnel conversion over large
+          time windows.
         </ArticleLi>
         <ArticleLi>
-          <TermLink href={SPANNER_URL}>Spanner</TermLink>: strong global C with{" "}
-          <TermLink href={TRUETIME_URL}>TrueTime</TermLink> and{" "}
-          <TermLink href={PAXOS_URL}>Paxos</TermLink> family. Expensive. You are
-          buying the hard problem solved.
+          Historical analysis: "how did behavior change between Q1 and Q4?" over
+          hundreds of millions of events.
+        </ArticleLi>
+        <ArticleLi>
+          Aggregated product logs: clicks, impressions, A/B experiments analyzed
+          by dimension.
+        </ArticleLi>
+        <ArticleLi>
+          Data warehouse: BI layer where analysts run heavy SQL without taking
+          down production.
         </ArticleLi>
       </ArticleUl>
 
       <ArticleP>
-        I only bring these names to the table when the requirement is explicit:
-        global SQL with strong consistency across regions. Without that
-        requirement, cost in money and operations usually eats the gain.
+        <strong>When analytical columnar should not be the primary database:</strong>
       </ArticleP>
 
-      <ArticleH3>
-        <TermLink href={REDIS_URL}>Redis</TermLink> and{" "}
-        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink>: roles that get
-        mixed up often
-      </ArticleH3>
-
-      <ArticleP>
-        Scene: "let us store the balance in{" "}
-        <TermLink href={REDIS_URL}>Redis</TermLink> because it is fast". Great
-        latency. Durability and ledger model, no. Redis (+{" "}
-        <TermLink href={SENTINEL_URL}>Sentinel</TermLink>) shines as cache,
-        session, light queue, ranking. Bad as the only database for a banking
-        domain.
-      </ArticleP>
+      <ArticleUl>
+        <ArticleLi>
+          Frequent row-by-row updates ("customer changed address now"): many
+          columnar stores are append-heavy; point updates are expensive or async.
+        </ArticleLi>
+        <ArticleLi>
+          Transactions with strict business rules in the same user request:
+          commit latency and write model were not built for checkout flows.
+        </ArticleLi>
+        <ArticleLi>
+          Lookup by single id with millisecond SLA: columnar optimizes scan and
+          aggregation, not single-point reads.
+        </ArticleLi>
+      </ArticleUl>
 
       <ArticleP>
-        Another scene: Postgres excellent in a single-region monolith. The
-        drift shows up later: faking global multi-primary with only async replica
-        and expensive RDS. Transactions and joins stay great. The{" "}
-        <TermLink href={PACELC_URL}>PACELC</TermLink> map does not.
+        <strong>Tradeoffs:</strong> cheap, fast analytical reads at volume;
+        batch or micro-batch ingestion (dashboard data may lag by minutes);
+        schema designed for analytical queries (denormalization is acceptable);
+        lower storage cost through compression, but a badly written query (full
+        scan) still hurts on BigQuery.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Practical rule for analytical columnar">
+        <ArticleP>
+          Use columnar when the question is "how much / how many / what trend
+          over lots of historical data?". Keep the transactional database as
+          operational source of truth and treat columnar as a derived analytical
+          replica, not the place to write live orders.
+        </ArticleP>
+      </ArticleCallout>
+
+      
+<ArticleH3>Time-series: timestamp-first modeling</ArticleH3>
+
+      <ArticleP>
+        Time-series assumes each event carries timestamp as the central axis.
+        Tools like <TermLink href={TIMESCALE_URL}>TimescaleDB</TermLink> (a{" "}
+        <TermLink href={POSTGRES_URL}>PostgreSQL</TermLink> extension) and{" "}
+        <TermLink href={INFLUXDB_URL}>InfluxDB</TermLink> (its own model)
+        optimize continuous ingestion, compression by time block, automatic
+        retention ("delete data older than 90 days"), and window queries
+        ("average CPU over the last 15 minutes").
       </ArticleP>
 
       <ArticleP>
-        Doing manual <TermLink href={SHARDING_URL}>sharding</TermLink> on
-        Postgres means becoming a database platform team: id routing, rebalance,
-        slice failover. It works. Almost never worth it if the requirement already
-        asks for a truly distributed store.
+        <strong>When time-series is the right choice:</strong>
       </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Infrastructure metrics: CPU, memory, API latency, queue depth, errors
+          per minute.
+        </ArticleLi>
+        <ArticleLi>
+          IoT and sensors: temperature, pressure, location every N seconds.
+        </ArticleLi>
+        <ArticleLi>
+          App observability: spans, counters, histograms exported by
+          OpenTelemetry or Prometheus.
+        </ArticleLi>
+        <ArticleLi>
+          Product events where time is the main filter: "how many logins per hour
+          in the last week?".
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>When time-series is not the right choice:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Stable business entities (customer, product, contract) without time
+          as the dominant query axis.
+        </ArticleLi>
+        <ArticleLi>
+          Heavy joins across many relational entities: time-series shines at
+          append + temporal aggregation, not full relational modeling.
+        </ArticleLi>
+        <ArticleLi>
+          Low volume (thousands of points per day): Postgres with an index on{" "}
+          <ArticleCode>created_at</ArticleCode> may be enough without a dedicated
+          engine.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs:</strong> cheap, predictable ingestion at high volume;
+        native retention and downsampling policies; queries outside the time
+        axis ("all events from sensor X regardless of date" without the right
+        partition key) can be slow; TimescaleDB brings familiar SQL, InfluxDB
+        requires learning its own model and query language.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Practical rule for time-series">
+        <ArticleP>
+          If data is born with a timestamp, arrives continuously, and the usual
+          question is "what happened between T1 and T2?" or "what is the rate
+          per minute?", time-series fits. If the usual question is "what is the
+          current state of this record?", go back to RDBMS or document stores.
+        </ArticleP>
+      </ArticleCallout>
+
+      
+<ArticleH3>Graph/Search: specialized read engines around core OLTP</ArticleH3>
+
+      <ArticleP>
+        Graph and search solve read questions that RDBMS and key-value handle
+        poorly at scale. <TermLink href={NEO4J_URL}>Neo4j</TermLink> models
+        nodes (entities) and edges (relationships) and optimizes traversal
+        ("friends of friends in 3 hops", "shortest path", "who has indirect
+        access to this resource?").{" "}
+        <TermLink href={ELASTICSEARCH_URL}>Elasticsearch</TermLink> keeps an
+        inverted index for text search with relevance, autocomplete, fuzzy
+        match, and facets (filter by brand, price, category while searching
+        text).
+      </ArticleP>
+
+      <ArticleP>
+        <strong>When graph (Neo4j) is the right choice:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Fraud detection: account linked to card linked to device linked to
+          another suspicious account.
+        </ArticleLi>
+        <ArticleLi>
+          Network-based recommendation: "similar users also bought".
+        </ArticleLi>
+        <ArticleLi>
+          Deep permissions and org charts: access inheritance in a tree with many
+          levels.
+        </ArticleLi>
+        <ArticleLi>
+          Knowledge graph: related concepts, dependencies between services or
+          components.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>When search (Elasticsearch) is the right choice:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          E-commerce catalog: search "bluetooth noise cancelling headphones"
+          with ranking and side filters.
+        </ArticleLi>
+        <ArticleLi>
+          Centralized logs: full-text search over millions of lines with filters
+          by service, level, host.
+        </ArticleLi>
+        <ArticleLi>
+          Autocomplete and "did you mean?" in a user-facing search box.
+        </ArticleLi>
+        <ArticleLi>
+          Documents and editorial content: articles, FAQs, support tickets.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>When graph/search should not be source of truth:</strong>
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Billing, inventory, and balances: financial values stay in the
+          transactional database; the search index or graph may lag by a few
+          seconds.
+        </ArticleLi>
+        <ArticleLi>
+          You expect immediate consistency after every write: Elasticsearch is
+          near-real-time (index refresh); Neo4j in cluster also has replication
+          lag.
+        </ArticleLi>
+        <ArticleLi>
+          Simple CRUD by id without traversal or text relevance: RDBMS or
+          document stores solve it with fewer moving parts.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        <strong>Tradeoffs and typical architecture:</strong> data is born in the
+        transactional database; a pipeline (CDC, queue, job) syncs to Neo4j or
+        Elasticsearch; the app reads from the specialized engine on search or
+        network analysis screens, but confirms critical operations on the
+        transactional store. Extra cost to operate a second cluster, map index
+        schema, reindex when mapping changes, monitor sync lag.
+      </ArticleP>
+
+      <ArticleCallout variant="tip" title="Practical rule for graph/search">
+        <ArticleP>
+          Choose graph when the question is "how does A connect to B in N
+          steps?". Choose search when the question is "find text similar to X
+          and rank by relevance". In both cases, assume eventual consistency
+          relative to the primary database and plan reprocessing if the index
+          falls behind.
+        </ArticleP>
+      </ArticleCallout>
 
       <ArticleH2>6. How I choose in practice</ArticleH2>
 
