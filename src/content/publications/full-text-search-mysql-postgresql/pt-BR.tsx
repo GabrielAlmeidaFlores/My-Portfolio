@@ -128,10 +128,17 @@ export function FullTextSearchMysqlPostgresqlContentPt() {
 
       <ArticleP>
         Aqui o foco é objetivo: quando <ArticleCode>LIKE</ArticleCode> quebra,
-        como <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> corrige
-        relevância e performance, e o que muda entre{" "}
+        o que é <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink>, como
+        o mecanismo corrige relevância e performance, e o que muda entre{" "}
         <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> e{" "}
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
+      </ArticleP>
+
+      <ArticleP>
+        A sequência do post é proposital: primeiro o problema do{" "}
+        <ArticleCode>LIKE</ArticleCode>, depois o conceito de Full Text Search,
+        então a implementação em cada banco, e só depois operação, qualidade e
+        decisão de arquitetura.
       </ArticleP>
 
       <ArticleH2>2. Por que LIKE falha em busca de produto e texto</ArticleH2>
@@ -195,7 +202,78 @@ WHERE name LIKE '%anel%';`}
         gargalo previsível.
       </ArticleP>
 
-      <ArticleH2>3. Full Text Search no MySQL</ArticleH2>
+      <ArticleH2>3. O que é Full Text Search</ArticleH2>
+
+      <ArticleP>
+        <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> (FTS) é o
+        mecanismo nativo do banco relacional para buscar texto por termos e
+        relevância, não por coincidência cega de caracteres.
+      </ArticleP>
+
+      <ArticleP>
+        Em linguagem simples: em vez de perguntar "esta string contém estes
+        caracteres?", o banco pergunta "quais registros falam sobre estes
+        termos, e quais combinam melhor com a busca?".
+      </ArticleP>
+
+      <ArticleP>
+        Exemplo: na busca "fone bluetooth", o FTS trata "fone" e "bluetooth" como
+        termos pesquisáveis, encontra produtos relacionados a esses conceitos e
+        pode ordenar o resultado pelo quanto cada registro combina com a
+        intenção do usuário.
+      </ArticleP>
+
+      <ArticleP>
+        O que muda na prática em relação ao <ArticleCode>LIKE</ArticleCode>:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Índice textual dedicado: o banco prepara os termos com antecedência.
+          Exemplo: em vez de varrer 1 milhão de linhas a cada busca, ele consulta
+          um índice que já sabe onde "bluetooth" aparece.
+        </ArticleLi>
+        <ArticleLi>
+          Relevância: o resultado pode ser ordenado por score, não só por
+          "bateu ou não bateu". Exemplo: um título "Fone Bluetooth Pro" sobe
+          antes de uma descrição que só cita "bluetooth" no meio do texto.
+        </ArticleLi>
+        <ArticleLi>
+          Apoio linguístico: stemming (reduzir variações à raiz da palavra), stop
+          words (ignorar palavras pouco discriminantes como "de" e "a") e
+          dicionários ajudam com plural e variações. Exemplo: "fones" e "fone"
+          podem ser tratados como o mesmo conceito, algo que o{" "}
+          <ArticleCode>LIKE</ArticleCode> não faz sozinho.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        O fluxo mental do FTS tem três etapas:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          Indexar: transformar campos como nome e descrição em termos
+          pesquisáveis.
+        </ArticleLi>
+        <ArticleLi>
+          Consultar: transformar o texto digitado pelo usuário em uma query de
+          termos.
+        </ArticleLi>
+        <ArticleLi>
+          Ranquear: devolver primeiro os registros que melhor combinam com a
+          busca.
+        </ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        Nas próximas seções, a implementação em{" "}
+        <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> e{" "}
+        <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>. Depois, o que
+        acontece por baixo dos panos: tokenização, índice invertido e ranking.
+      </ArticleP>
+
+      <ArticleH2>4. Full Text Search no MySQL</ArticleH2>
 
       <ArticleP>
         No <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink>, a porta de entrada é
@@ -258,13 +336,15 @@ WHERE MATCH(name, description) AGAINST('fone bluetooth' IN NATURAL LANGUAGE MODE
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleH2>4. Full Text Search no PostgreSQL</ArticleH2>
+      <ArticleH2>5. Full Text Search no PostgreSQL</ArticleH2>
 
       <ArticleP>
         O <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink> tem stack mais
         rica para busca textual: <ArticleCode>to_tsvector</ArticleCode>,{" "}
         <ArticleCode>to_tsquery</ArticleCode> e índice{" "}
-        <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink>.
+        <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink>. GIN é um tipo de índice
+        feito para valores com muitos componentes, como as listas de termos do
+        full text search.
       </ArticleP>
 
       <ArticleP>
@@ -307,7 +387,7 @@ WHERE to_tsvector('portuguese', coalesce(name, '') || ' ' || coalesce(descriptio
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleH2>5. O que acontece por baixo dos panos</ArticleH2>
+      <ArticleH2>6. O que acontece por baixo dos panos</ArticleH2>
 
       <ArticleP>
         O núcleo da busca textual é simples: transformar texto em termos
@@ -357,7 +437,7 @@ WHERE to_tsvector('portuguese', coalesce(name, '') || ' ' || coalesce(descriptio
         Esse comportamento aumenta recall sem perder totalmente a precisão.
       </ArticleP>
 
-      <ArticleH2>6. Qualidade de busca na prática</ArticleH2>
+      <ArticleH2>7. Qualidade de busca na prática</ArticleH2>
 
       <ArticleP>
         Depois que o FTS básico funciona, a qualidade final depende de como você
@@ -448,10 +528,10 @@ LIMIT 20 OFFSET 0;`}
       <ArticleP>
         Typo tolerance mais agressiva não é ponto forte do FTS nativo. Se typo é
         requisito central de produto, essa decisão pesa na arquitetura da seção
-        8.
+        9.
       </ArticleP>
 
-      <ArticleH2>7. Operação e benchmark confiável</ArticleH2>
+      <ArticleH2>8. Operação e benchmark confiável</ArticleH2>
 
       <ArticleP>
         Resultado de benchmark só vale quando compara cenário equivalente. O erro
@@ -513,7 +593,7 @@ LIMIT 20 OFFSET 0;`}
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH2>8. Quando FTS nativo basta e quando migrar de stack</ArticleH2>
+      <ArticleH2>9. Quando FTS nativo basta e quando migrar de stack</ArticleH2>
 
       <ArticleTable caption="Decisão arquitetural para mecanismo de busca">
         <ArticleThead>
@@ -556,7 +636,7 @@ LIMIT 20 OFFSET 0;`}
         quando os requisitos de busca virarem um subsistema próprio do produto.
       </ArticleP>
 
-      <ArticleH2>9. Como decidir entre LIKE, MySQL FTS e PostgreSQL FTS</ArticleH2>
+      <ArticleH2>10. Como decidir entre LIKE, MySQL FTS e PostgreSQL FTS</ArticleH2>
 
       <ArticleTable caption="Resumo de decisão para busca textual">
         <ArticleThead>

@@ -127,11 +127,18 @@ export function FullTextSearchMysqlPostgresqlContentEs() {
       </ArticleCallout>
 
       <ArticleP>
-        El foco es directo: cuando <ArticleCode>LIKE</ArticleCode> falla, como{" "}
-        <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> mejora
-        relevancia y performance, y qué cambia entre{" "}
+        El foco es directo: cuando <ArticleCode>LIKE</ArticleCode> falla, qué es{" "}
+        <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink>, cómo el
+        mecanismo mejora relevancia y performance, y qué cambia entre{" "}
         <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> y{" "}
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
+      </ArticleP>
+
+      <ArticleP>
+        El orden del post es deliberado: primero el problema de{" "}
+        <ArticleCode>LIKE</ArticleCode>, después el concepto de Full Text Search,
+        luego la implementación en cada base, y solo entonces operación,
+        calidad y decisión de arquitectura.
       </ArticleP>
 
       <ArticleH2>2. Por qué LIKE falla en búsqueda real</ArticleH2>
@@ -191,13 +198,110 @@ FROM products
 WHERE name LIKE '%anillo%';`}
       </ArticleCode>
 
-      <ArticleH2>3. Full Text Search en MySQL</ArticleH2>
+      <ArticleP>
+        Cuando esto corre en una tabla grande y bajo concurrencia, la consulta
+        se vuelve un cuello de botella previsible.
+      </ArticleP>
+
+      <ArticleH2>3. Qué es Full Text Search</ArticleH2>
+
+      <ArticleP>
+        <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> (FTS) es el
+        mecanismo nativo de la base relacional para buscar texto por términos y
+        relevancia, no por coincidencia ciega de caracteres.
+      </ArticleP>
+
+      <ArticleP>
+        En lenguaje simple: en lugar de preguntar "¿esta string contiene estos
+        caracteres?", la base pregunta "¿qué registros hablan de estos términos
+        y cuáles combinan mejor con la búsqueda?".
+      </ArticleP>
+
+      <ArticleP>
+        Ejemplo: en la búsqueda "auricular bluetooth", el FTS trata "auricular" y
+        "bluetooth" como términos buscables, encuentra productos relacionados y
+        puede ordenar el resultado según cuánto cada registro combina con la
+        intención del usuario.
+      </ArticleP>
+
+      <ArticleP>
+        Qué cambia en la práctica frente a <ArticleCode>LIKE</ArticleCode>:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          Índice textual dedicado: la base prepara los términos con
+          anticipación. Ejemplo: en lugar de escanear 1 millón de filas en cada
+          búsqueda, consulta un índice que ya sabe dónde aparece "bluetooth".
+        </ArticleLi>
+        <ArticleLi>
+          Relevancia: el resultado puede ordenarse por score, no solo por
+          "coincidió o no". Ejemplo: un título "Auricular Bluetooth Pro" sube
+          antes que una descripción que solo cita "bluetooth" en medio del
+          texto.
+        </ArticleLi>
+        <ArticleLi>
+          Apoyo lingüístico: stemming (reducir variaciones a la raíz de la
+          palabra), stop words (ignorar palabras poco discriminantes como "de" y
+          "la") y diccionarios ayudan con plural y variaciones. Ejemplo:
+          "auriculares" y "auricular" pueden tratarse como el mismo concepto,
+          algo que <ArticleCode>LIKE</ArticleCode> no hace solo.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        El modelo mental del FTS tiene tres pasos:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          Indexar: transformar campos como nombre y descripción en términos
+          buscables.
+        </ArticleLi>
+        <ArticleLi>
+          Consultar: transformar el texto del usuario en una query de términos.
+        </ArticleLi>
+        <ArticleLi>
+          Ranquear: devolver primero los registros que mejor combinan con la
+          búsqueda.
+        </ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        En las siguientes secciones, la implementación en{" "}
+        <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> y{" "}
+        <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>. Después, qué
+        pasa por debajo: tokenización, índice invertido y ranking.
+      </ArticleP>
+
+      <ArticleH2>4. Full Text Search en MySQL</ArticleH2>
 
       <ArticleP>
         En <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink>, el camino base es
         índice <ArticleCode>FULLTEXT</ArticleCode> y consulta{" "}
         <ArticleCode>MATCH ... AGAINST</ArticleCode>.
       </ArticleP>
+
+      <ArticleP>
+        Flujo mínimo:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          Crear índice full text en las columnas que el usuario realmente busca
+          (por ejemplo <ArticleCode>name</ArticleCode> y{" "}
+          <ArticleCode>description</ArticleCode>).
+        </ArticleLi>
+        <ArticleLi>
+          Cambiar <ArticleCode>LIKE</ArticleCode> por{" "}
+          <ArticleCode>MATCH ... AGAINST</ArticleCode> en la query de búsqueda.
+        </ArticleLi>
+        <ArticleLi>
+          Validar relevancia y costo con{" "}
+          <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> antes de
+          publicar.
+        </ArticleLi>
+      </ArticleOl>
 
       <ArticleCode block>
         {`CREATE FULLTEXT INDEX search_idx
@@ -207,6 +311,11 @@ SELECT id, name, description
 FROM products
 WHERE MATCH(name, description) AGAINST('auricular bluetooth' IN NATURAL LANGUAGE MODE);`}
       </ArticleCode>
+
+      <ArticleP>
+        La ganancia típica es doble: mejores resultados arriba y menor costo de
+        lectura en la base.
+      </ArticleP>
 
       <ArticleH3>Tradeoffs en MySQL</ArticleH3>
 
@@ -228,13 +337,15 @@ WHERE MATCH(name, description) AGAINST('auricular bluetooth' IN NATURAL LANGUAGE
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleH2>4. Full Text Search en PostgreSQL</ArticleH2>
+      <ArticleH2>5. Full Text Search en PostgreSQL</ArticleH2>
 
       <ArticleP>
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink> ofrece una capa
         más avanzada con <ArticleCode>to_tsvector</ArticleCode>,{" "}
         <ArticleCode>to_tsquery</ArticleCode> e índice{" "}
-        <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink>.
+        <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink>. GIN es un tipo de índice
+        pensado para valores con muchos componentes, como las listas de términos
+        del full text search.
       </ArticleP>
 
       <ArticleCode block>
@@ -247,6 +358,11 @@ FROM products
 WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, ''))
 @@ to_tsquery('spanish', 'anillo & plata');`}
       </ArticleCode>
+
+      <ArticleP>
+        Con esto, la base usa un índice textual para recuperar candidatos y
+        ranquearlos con mucho menos costo que escanear la tabla entera.
+      </ArticleP>
 
       <ArticleH3>Por qué PostgreSQL suele ser más flexible</ArticleH3>
 
@@ -268,7 +384,7 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleH2>5. Qué pasa por debajo</ArticleH2>
+      <ArticleH2>6. Qué pasa por debajo</ArticleH2>
 
       <ArticleP>
         El motor de búsqueda textual sigue un pipeline simple y potente.
@@ -313,7 +429,7 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
         {`SELECT to_tsvector('spanish', 'programador programando programacion programadores');`}
       </ArticleCode>
 
-      <ArticleH2>6. Calidad de búsqueda en producción</ArticleH2>
+      <ArticleH2>7. Calidad de búsqueda en producción</ArticleH2>
 
       <ArticleP>
         Cuando el FTS base ya funciona, la calidad final depende de cómo armas la
@@ -407,7 +523,7 @@ LIMIT 20 OFFSET 0;`}
         requisito es central, la decisión de arquitectura cambia.
       </ArticleP>
 
-      <ArticleH2>7. Operación y benchmark confiable</ArticleH2>
+      <ArticleH2>8. Operación y benchmark confiable</ArticleH2>
 
       <ArticleP>
         Un benchmark solo sirve si comparas en condiciones equivalentes. Medir
@@ -468,7 +584,7 @@ LIMIT 20 OFFSET 0;`}
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH2>8. Cuando FTS nativo alcanza y cuando migrar</ArticleH2>
+      <ArticleH2>9. Cuando FTS nativo alcanza y cuando migrar</ArticleH2>
 
       <ArticleTable caption="Decisión arquitectónica para stack de búsqueda">
         <ArticleThead>
@@ -510,7 +626,7 @@ LIMIT 20 OFFSET 0;`}
         la búsqueda se convierta en un subsistema propio del producto.
       </ArticleP>
 
-      <ArticleH2>9. Cómo elegir en producción</ArticleH2>
+      <ArticleH2>10. Cómo elegir en producción</ArticleH2>
 
       <ArticleTable caption="Resumen de decisión para búsqueda textual">
         <ArticleThead>

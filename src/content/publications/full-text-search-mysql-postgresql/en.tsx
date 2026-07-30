@@ -127,11 +127,18 @@ export function FullTextSearchMysqlPostgresqlContentEn() {
       </ArticleCallout>
 
       <ArticleP>
-        The focus is direct: when <ArticleCode>LIKE</ArticleCode> breaks, how{" "}
-        <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> improves
-        relevance and performance, and what changes between{" "}
+        The focus is direct: when <ArticleCode>LIKE</ArticleCode> breaks, what{" "}
+        <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> is, how the
+        mechanism improves relevance and performance, and what changes between{" "}
         <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> and{" "}
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
+      </ArticleP>
+
+      <ArticleP>
+        The post order is intentional: first the{" "}
+        <ArticleCode>LIKE</ArticleCode> problem, then the Full Text Search
+        concept, then implementation in each database, and only after that
+        operations, quality, and architecture decisions.
       </ArticleP>
 
       <ArticleH2>2. Why LIKE fails for real search</ArticleH2>
@@ -192,13 +199,106 @@ FROM products
 WHERE name LIKE '%ring%';`}
       </ArticleCode>
 
-      <ArticleH2>3. Full Text Search in MySQL</ArticleH2>
+      <ArticleP>
+        When this runs on a large table under concurrency, the query becomes a
+        predictable bottleneck.
+      </ArticleP>
+
+      <ArticleH2>3. What Full Text Search is</ArticleH2>
+
+      <ArticleP>
+        <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> (FTS) is the
+        native relational-database mechanism for searching text by terms and
+        relevance, not by blind character matching.
+      </ArticleP>
+
+      <ArticleP>
+        In plain language: instead of asking "does this string contain these
+        characters?", the database asks "which rows talk about these terms, and
+        which ones match the query best?".
+      </ArticleP>
+
+      <ArticleP>
+        Example: for the query "bluetooth headset", FTS treats "bluetooth" and
+        "headset" as searchable terms, finds related products, and can rank
+        results by how well each row matches user intent.
+      </ArticleP>
+
+      <ArticleP>
+        What changes in practice compared with <ArticleCode>LIKE</ArticleCode>:
+      </ArticleP>
+
+      <ArticleUl>
+        <ArticleLi>
+          A dedicated text index: the database prepares terms ahead of time.
+          Example: instead of scanning 1 million rows on every search, it looks
+          up an index that already knows where "bluetooth" appears.
+        </ArticleLi>
+        <ArticleLi>
+          Relevance ranking: results can be ordered by score, not only by
+          match/no-match. Example: a title like "Pro Bluetooth Headset" ranks
+          above a long description that mentions "bluetooth" once.
+        </ArticleLi>
+        <ArticleLi>
+          Language support: stemming (reducing word forms to a shared root),
+          stop words (ignoring low-value words such as "the" and "a"), and
+          dictionaries help with plurals and variations. Example: "headsets" and
+          "headset" can be treated as the same concept, which{" "}
+          <ArticleCode>LIKE</ArticleCode> does not do by itself.
+        </ArticleLi>
+      </ArticleUl>
+
+      <ArticleP>
+        The mental model of FTS has three steps:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          Index: turn fields such as name and description into searchable terms.
+        </ArticleLi>
+        <ArticleLi>
+          Query: turn the user's typed text into a term-based query.
+        </ArticleLi>
+        <ArticleLi>
+          Rank: return the best-matching rows first.
+        </ArticleLi>
+      </ArticleOl>
+
+      <ArticleP>
+        Next come the implementations in{" "}
+        <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> and{" "}
+        <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>. After that, the
+        internals: tokenization, inverted index, and ranking.
+      </ArticleP>
+
+      <ArticleH2>4. Full Text Search in MySQL</ArticleH2>
 
       <ArticleP>
         In <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink>, the basic path is a{" "}
         <ArticleCode>FULLTEXT</ArticleCode> index plus{" "}
         <ArticleCode>MATCH ... AGAINST</ArticleCode>.
       </ArticleP>
+
+      <ArticleP>
+        Minimum flow:
+      </ArticleP>
+
+      <ArticleOl>
+        <ArticleLi>
+          Create a full text index on the columns users actually search (for
+          example <ArticleCode>name</ArticleCode> and{" "}
+          <ArticleCode>description</ArticleCode>).
+        </ArticleLi>
+        <ArticleLi>
+          Replace <ArticleCode>LIKE</ArticleCode> with{" "}
+          <ArticleCode>MATCH ... AGAINST</ArticleCode> in the search query.
+        </ArticleLi>
+        <ArticleLi>
+          Validate relevance and cost with{" "}
+          <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> before
+          shipping.
+        </ArticleLi>
+      </ArticleOl>
 
       <ArticleCode block>
         {`CREATE FULLTEXT INDEX search_idx
@@ -210,7 +310,8 @@ WHERE MATCH(name, description) AGAINST('bluetooth headset' IN NATURAL LANGUAGE M
       </ArticleCode>
 
       <ArticleP>
-        This usually improves top-result relevance and reduces query cost.
+        The typical gain is twofold: better results at the top and lower read
+        cost in the database.
       </ArticleP>
 
       <ArticleH3>MySQL tradeoffs</ArticleH3>
@@ -233,13 +334,15 @@ WHERE MATCH(name, description) AGAINST('bluetooth headset' IN NATURAL LANGUAGE M
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleH2>4. Full Text Search in PostgreSQL</ArticleH2>
+      <ArticleH2>5. Full Text Search in PostgreSQL</ArticleH2>
 
       <ArticleP>
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink> offers a richer
         stack with <ArticleCode>to_tsvector</ArticleCode>,{" "}
         <ArticleCode>to_tsquery</ArticleCode>, and{" "}
-        <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink> indexes.
+        <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink> indexes. GIN is an index
+        type built for values with many components, such as the term lists used
+        in full text search.
       </ArticleP>
 
       <ArticleCode block>
@@ -252,6 +355,11 @@ FROM products
 WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, ''))
 @@ to_tsquery('english', 'ring & silver');`}
       </ArticleCode>
+
+      <ArticleP>
+        With this setup, the database uses a text index to retrieve candidates
+        and rank them at much lower cost than scanning the full table.
+      </ArticleP>
 
       <ArticleH3>Why PostgreSQL can go deeper</ArticleH3>
 
@@ -273,7 +381,7 @@ WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, 
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleH2>5. What happens internally</ArticleH2>
+      <ArticleH2>6. What happens internally</ArticleH2>
 
       <ArticleP>
         Full text search works by transforming raw text into searchable terms and
@@ -316,7 +424,7 @@ WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, 
         {`SELECT to_tsvector('english', 'developer developing development developers');`}
       </ArticleCode>
 
-      <ArticleH2>6. Search quality in production</ArticleH2>
+      <ArticleH2>7. Search quality in production</ArticleH2>
 
       <ArticleP>
         After basic FTS works, final quality depends on query modeling and ranking
@@ -408,7 +516,7 @@ LIMIT 20 OFFSET 0;`}
         first-class decision.
       </ArticleP>
 
-      <ArticleH2>7. Operations and reliable benchmarking</ArticleH2>
+      <ArticleH2>8. Operations and reliable benchmarking</ArticleH2>
 
       <ArticleP>
         Benchmark numbers only matter when the comparison is fair. Cold vs warm
@@ -469,7 +577,7 @@ LIMIT 20 OFFSET 0;`}
         </ArticleP>
       </ArticleCallout>
 
-      <ArticleH2>8. When native FTS is enough and when to move</ArticleH2>
+      <ArticleH2>9. When native FTS is enough and when to move</ArticleH2>
 
       <ArticleTable caption="Architectural decision guide for search stack">
         <ArticleThead>
@@ -511,7 +619,7 @@ LIMIT 20 OFFSET 0;`}
         when search itself becomes a dedicated product subsystem.
       </ArticleP>
 
-      <ArticleH2>9. Decision guide for production</ArticleH2>
+      <ArticleH2>10. Decision guide for production</ArticleH2>
 
       <ArticleTable caption="Decision summary for text search">
         <ArticleThead>
