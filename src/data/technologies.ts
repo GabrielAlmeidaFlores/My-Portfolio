@@ -153,7 +153,7 @@ const techBase: TechBase[] = [
     category: "frontend",
     relatedProjects: ["syntonia", "pulse"],
     relatedCertifications: [],
-    relatedExperiences: ["ousion-tech-lead"],
+    relatedExperiences: ["ousion-tech-lead", "ousion-pleno"],
   },
   {
     id: "nextjs",
@@ -161,7 +161,7 @@ const techBase: TechBase[] = [
     category: "frontend",
     relatedProjects: ["pulse"],
     relatedCertifications: [],
-    relatedExperiences: [],
+    relatedExperiences: ["ousion-pleno"],
   },
   {
     id: "flutter",
@@ -201,7 +201,7 @@ const techBase: TechBase[] = [
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: [],
+    relatedExperiences: ["ousion-tech-lead"],
   },
   {
     id: "csharp",
@@ -221,7 +221,7 @@ const techBase: TechBase[] = [
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: ["ousion-pleno"],
+    relatedExperiences: ["ousion-tech-lead"],
   },
   {
     id: "springboot",
@@ -229,7 +229,7 @@ const techBase: TechBase[] = [
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: ["ousion-pleno"],
+    relatedExperiences: ["ousion-tech-lead"],
   },
   {
     id: "go",
@@ -253,7 +253,11 @@ const techBase: TechBase[] = [
     category: "backend",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: ["ousion-pleno", "ousion-junior"],
+    relatedExperiences: [
+      "ousion-tech-lead",
+      "ousion-pleno",
+      "ousion-junior",
+    ],
   },
   {
     id: "php",
@@ -277,7 +281,11 @@ const techBase: TechBase[] = [
     category: "database",
     relatedProjects: ["pulse", "db-term"],
     relatedCertifications: [],
-    relatedExperiences: ["ousion-pleno", "ousion-junior"],
+    relatedExperiences: [
+      "ousion-tech-lead",
+      "ousion-pleno",
+      "ousion-junior",
+    ],
   },
   {
     id: "mysql",
@@ -285,7 +293,7 @@ const techBase: TechBase[] = [
     category: "database",
     relatedProjects: ["xcheck"],
     relatedCertifications: [],
-    relatedExperiences: [],
+    relatedExperiences: ["ousion-pleno"],
   },
   {
     id: "sqlserver",
@@ -301,7 +309,7 @@ const techBase: TechBase[] = [
     category: "database",
     relatedProjects: [],
     relatedCertifications: [],
-    relatedExperiences: [],
+    relatedExperiences: ["ousion-tech-lead", "ousion-pleno"],
   },
   {
     id: "dynamodb",
