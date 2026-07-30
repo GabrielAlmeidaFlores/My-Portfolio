@@ -291,6 +291,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 3. **Ritmo:** variar tamanho de frase. Misturar frases curtas e diretas com períodos um pouco mais longos que descrevem o porquê. Evitar período único com várias cláusulas separadas por ponto e vírgula encadeando ideias diferentes.
 4. **Lista quando houver várias ideias paralelas ou um fluxo em passos.** Se o trecho compara opções, enumera falhas, resume um diagrama, lista sintomas/caminhos **ou descreve um fluxo** (pesquisar, ler, aplicar, validar), **use lista** (`ArticleUl` / `ArticleOl`). Fica mais legível que um parágrafo complexo. Narrativa contínua fica para explicar um mecanismo único em prosa curta. Troubleshooting, takeaways, comparativos e pontes antes de diagrama são candidatos naturais a lista.
    - **Proibido cadeia com seta (`→`) no corpo do post.** Não escrever `pesquisar → ler → aplicar → validar` nem `search → fetch → síntese`. Preferir `ArticleOl` / `ArticleUl`. A seta `→` em Mermaid (`A --> B`), em tabelas de docs internas do `AGENTS.md`, ou em código/config, não conta. Vale para o texto legível pelo leitor nas publicações (`pt-BR` / `en` / `es`).
+   - **Proibido item de lista raso / telegráfico.** Cada `<ArticleLi>` precisa ser autoexplicativo na primeira leitura: o que é, quando usar e o que muda no resultado (sujeito + condição + consequência). **Preferir sempre um exemplo curto** quando o conceito for abstrato, comportamental ou de tradeoff. Errado: `Weak relevance: it matches characters, not intent.` Certo: `Relevância ruim: o LIKE compara caracteres, não intenção. Exemplo: quem busca "fone bluetooth" pode receber resultados só porque a descrição contém as duas palavras soltas.` Se o item não sobreviver ao teste “um colega lê só a bullet e entende a decisão”, expandir ou virar parágrafo.
 5. **Diagramas são complementares, nunca a primeira explicação.**
    - Antes de qualquer Mermaid (ou figura), o texto já deve ter apresentado os assuntos, termos e relações que o diagrama mostra.
    - O diagrama reforça, resume e torna o fluxo **chamativo e completo**, mas não substitui a prosa.
@@ -330,12 +331,15 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 21. **Key takeaways antes da Conclusão (obrigatório em todo post).** Todo artigo termina com uma seção H3 de takeaways imediatamente **antes** da Conclusão. Títulos: **Pontos-chave** (`pt-BR`), **Key takeaways** (`en`), **Puntos clave** (`es`). Conteúdo: lista curta (tipicamente 4 a 7 itens) com o que o leitor deve lembrar ou fazer; cada item em uma frase acionável, sem repetir a conclusão em prosa. Aqui a lista é bem-vinda (é checklist de retenção, não narrativa). Não inventar ponto novo que o post não defendeu.
 22. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
 23. **Frase curta precisa ser cristalina.** Ao usar frases rápidas para dar ritmo, validar se um leitor externo entende na primeira leitura. Evitar atalho interno, sigla solta ou shorthand sem contexto (ex.: "documento + C no set", "X/Y/Z/W/D", "brief"), e preferir frase completa com sujeito, condição e consequência explícitos.
+24. **Exemplos são o padrão de clareza (obrigatório em afirmações abstratas).** Sempre que o texto afirmar um comportamento, risco, tradeoff, falha ou benefício, acompanhar com um exemplo concreto do dia a dia (produto, query, comando, cenário). Preferir “afirmação + exemplo” a slogan técnico. Errado: `Weak relevance: it matches characters, not intent.` Certo: explicar o que isso significa e dar um caso (`"anel"` traz `"panela"`). Vale para prosa, listas, callouts e tabelas. Exceção estreita: takeaways finais e checklists de ação já óbvios pelo contexto imediato da seção.
 
 **Checklist rápido de prosa:**
 
 - [ ] Leitura leve e completa: o leitor entende o objetivo sem quebrar a cabeça
 - [ ] Pronomes com referente explícito (agente, SearXNG, pacote…, não “ele” solto)
 - [ ] Parágrafos simples (uma ideia por bloco); lista quando houver várias ideias paralelas ou fluxo em passos
+- [ ] Itens de lista autoexplicativos (o quê + quando + consequência; sem bullet telegráfica)
+- [ ] Afirmações abstratas acompanhadas de exemplo concreto
 - [ ] Sem cadeia com seta (`→`) no corpo do post; fluxo vira lista
 - [ ] Introdução conectada: tese + dor concreta + para onde o post vai (sem metáfora solta)
 - [ ] Storytelling: problema → conceitos → alternativas → reforço visual/código → key takeaways → conclusão

@@ -144,17 +144,24 @@ export function FullTextSearchMysqlPostgresqlContentPt() {
 
       <ArticleUl>
         <ArticleLi>
-          Relevância ruim: encontra caracteres, não intenção de busca.
+          Relevância ruim: o <ArticleCode>LIKE</ArticleCode> compara caracteres,
+          não intenção. Exemplo: quem busca "fone bluetooth" pode receber
+          resultados só porque a descrição contém "fone" e "bluetooth" separados,
+          sem relação com o produto que a pessoa quer.
         </ArticleLi>
         <ArticleLi>
-          Muitos falsos positivos: "anel" traz "panela", "capa" traz "capacete".
+          Muitos falsos positivos: substring dentro de outra palavra conta como
+          match. Exemplo: "anel" traz "panela"; "capa" traz "capacete".
         </ArticleLi>
         <ArticleLi>
           Busca composta frágil: ordem, plural e variações linguísticas quebram
-          com facilidade.
+          com facilidade. Exemplo: "fones bluetooth" pode falhar se o catálogo
+          guarda "fone bluetooth" no singular.
         </ArticleLi>
         <ArticleLi>
-          Custo alto: o banco varre linha por linha para achar matches.
+          Custo alto: o banco varre linha por linha para achar matches. Exemplo:
+          em uma tabela de 1 milhão de produtos, cada busca com{" "}
+          <ArticleCode>LIKE '%termo%'</ArticleCode> tende a ler a tabela inteira.
         </ArticleLi>
       </ArticleUl>
 
@@ -202,10 +209,19 @@ WHERE name LIKE '%anel%';`}
 
       <ArticleOl>
         <ArticleLi>
-          criar índice full text nas colunas relevantes
+          Criar índice full text nas colunas que o usuário realmente busca
+          (ex.: <ArticleCode>name</ArticleCode> e{" "}
+          <ArticleCode>description</ArticleCode>).
         </ArticleLi>
-        <ArticleLi>trocar LIKE por MATCH AGAINST</ArticleLi>
-        <ArticleLi>validar relevância e custo com EXPLAIN ANALYZE</ArticleLi>
+        <ArticleLi>
+          Trocar <ArticleCode>LIKE</ArticleCode> por{" "}
+          <ArticleCode>MATCH ... AGAINST</ArticleCode> na query de busca.
+        </ArticleLi>
+        <ArticleLi>
+          Validar relevância e custo com{" "}
+          <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> antes de
+          publicar.
+        </ArticleLi>
       </ArticleOl>
 
       <ArticleCode block>
@@ -226,14 +242,19 @@ WHERE MATCH(name, description) AGAINST('fone bluetooth' IN NATURAL LANGUAGE MODE
 
       <ArticleUl>
         <ArticleLi>
-          Excelente para sair do LIKE com pouco esforço.
+          Boa porta de saída do <ArticleCode>LIKE</ArticleCode>: com pouco
+          código você já melhora relevância e reduz varredura completa.
         </ArticleLi>
         <ArticleLi>
-          Ranking nativo ajuda em catálogo e conteúdo.
+          Ranking nativo ajuda em catálogo e conteúdo. Exemplo: produtos cujo
+          título bate com a busca sobem antes de itens que só citam o termo na
+          descrição longa.
         </ArticleLi>
         <ArticleLi>
           Recursos linguísticos são mais limitados que no{" "}
-          <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
+          <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>. Exemplo:
+          sinônimos de domínio ("fone" = "headset") exigem mais trabalho manual
+          no MySQL.
         </ArticleLi>
       </ArticleUl>
 
@@ -270,14 +291,19 @@ WHERE to_tsvector('portuguese', coalesce(name, '') || ' ' || coalesce(descriptio
 
       <ArticleUl>
         <ArticleLi>
-          Melhor suporte a idioma e normalização de termos.
+          Melhor suporte a idioma e normalização de termos. Exemplo: configurar
+          o dicionário <ArticleCode>portuguese</ArticleCode> trata plural e
+          variação de escrita com menos gambiarra na aplicação.
         </ArticleLi>
         <ArticleLi>
-          Stemming e léxicos dão mais controle de relevância.
+          Stemming e léxicos dão mais controle de relevância. Exemplo:
+          "programador" e "programando" podem cair na mesma raiz e aumentar
+          recall sem depender de <ArticleCode>LIKE</ArticleCode>.
         </ArticleLi>
         <ArticleLi>
           Configurações avançadas de dicionário, incluindo sinônimos, permitem
-          ajuste fino por domínio.
+          ajuste fino por domínio. Exemplo: mapear "fone" e "headset" para o
+          mesmo conceito no catálogo.
         </ArticleLi>
       </ArticleUl>
 
@@ -290,16 +316,23 @@ WHERE to_tsvector('portuguese', coalesce(name, '') || ' ' || coalesce(descriptio
 
       <ArticleOl>
         <ArticleLi>
-          tokenização: quebra texto em unidades úteis
+          Tokenização: quebra o texto em unidades úteis. Exemplo: "Fone Bluetooth
+          Pro" vira termos como "fone", "bluetooth" e "pro".
         </ArticleLi>
         <ArticleLi>
-          remoção de stop words: remove palavras com pouco valor para ranking
+          Remoção de stop words: tira palavras com pouco valor para ranking.
+          Exemplo: "de", "a", "o" deixam de competir com termos que realmente
+          discriminam o resultado.
         </ArticleLi>
         <ArticleLi>
-          índice invertido: mapeia termo para lista de documentos
+          Índice invertido: mapeia cada termo para a lista de documentos onde ele
+          aparece. Exemplo: "bluetooth" aponta para os IDs dos produtos que
+          contêm essa palavra.
         </ArticleLi>
         <ArticleLi>
-          ranking: ordena por proximidade e frequência dos termos buscados
+          Ranking: ordena por proximidade e frequência dos termos buscados.
+          Exemplo: um título com "fone bluetooth" sobe à frente de uma descrição
+          que só cita "bluetooth" uma vez no meio do texto.
         </ArticleLi>
       </ArticleOl>
 
@@ -334,17 +367,27 @@ WHERE to_tsvector('portuguese', coalesce(name, '') || ' ' || coalesce(descriptio
 
       <ArticleH3>Consultas que reduzem ruído</ArticleH3>
 
+      <ArticleP>
+        Nem toda busca deve tratar os termos do usuário da mesma forma. O modo
+        de consulta define o quanto o banco exige proximidade entre as palavras e
+        o quanto ele tolera variação de entrada.
+      </ArticleP>
+
       <ArticleUl>
         <ArticleLi>
-          Busca por frase: evita trazer registros com termos soltos e sem
-          contexto.
+          Busca por frase: o usuário quer os termos juntos e na ordem. Exemplo:
+          "anel de prata" deve priorizar o produto com essa expressão, não um
+          anel de ouro que só cita "prata" em outro campo.
         </ArticleLi>
         <ArticleLi>
-          Busca por prefixo: ajuda autocomplete e variações de início de palavra.
+          Busca por prefixo: o usuário ainda está digitando. Exemplo: "fone blu"
+          precisa completar para "fone bluetooth" no autocomplete, sem exigir a
+          palavra inteira.
         </ArticleLi>
         <ArticleLi>
-          Busca composta tolerante: aceita ordem diferente dos termos sem perder
-          precisão.
+          Busca composta tolerante: o usuário digita vários termos em qualquer
+          ordem. Exemplo: "prata anel" e "anel prata" devem retornar o mesmo
+          conjunto relevante, sem exigir a ordem exata da frase.
         </ArticleLi>
       </ArticleUl>
 
@@ -355,16 +398,19 @@ WHERE to_tsvector('portuguese', coalesce(name, '') || ' ' || coalesce(descriptio
 
       <ArticleUl>
         <ArticleLi>
-          <ArticleCode>plainto_tsquery</ArticleCode>: simples e segura para texto
-          livre.
+          <ArticleCode>plainto_tsquery</ArticleCode>: recebe texto livre do
+          usuário e monta a consulta com segurança, sem exigir sintaxe de
+          operadores.
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>to_tsquery</ArticleCode>: modo avançado com operadores
-          explícitos.
+          <ArticleCode>to_tsquery</ArticleCode>: permite operadores explícitos
+          como <ArticleCode>&</ArticleCode>, <ArticleCode>|</ArticleCode> e{" "}
+          <ArticleCode>!</ArticleCode> quando a aplicação controla a query.
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>websearch_to_tsquery</ArticleCode>: experiência parecida
-          com buscador web para o usuário final.
+          <ArticleCode>websearch_to_tsquery</ArticleCode>: aceita sintaxe
+          parecida com buscador web (aspas, <ArticleCode>-</ArticleCode>,{" "}
+          <ArticleCode>or</ArticleCode>), útil para campo de busca do produto.
         </ArticleLi>
       </ArticleUl>
 
@@ -415,13 +461,22 @@ LIMIT 20 OFFSET 0;`}
       <ArticleH3>Checklist de medição</ArticleH3>
 
       <ArticleOl>
-        <ArticleLi>Fixar dataset e volume de concorrência.</ArticleLi>
-        <ArticleLi>Comparar LIKE e FTS no mesmo ambiente.</ArticleLi>
         <ArticleLi>
-          Medir p50/p95 de latência, não apenas uma execução isolada.
+          Fixar dataset e volume de concorrência. Exemplo: medir com o mesmo
+          volume de produtos e o mesmo número de buscas simultâneas.
         </ArticleLi>
         <ArticleLi>
-          Validar plano com <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink>.
+          Comparar <ArticleCode>LIKE</ArticleCode> e FTS no mesmo ambiente, com
+          cache e hardware equivalentes.
+        </ArticleLi>
+        <ArticleLi>
+          Medir p50/p95 de latência, não apenas uma execução isolada. Uma query
+          "quente" isolada esconde o comportamento sob carga.
+        </ArticleLi>
+        <ArticleLi>
+          Validar plano com{" "}
+          <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> para
+          confirmar se o índice full text está sendo usado de fato.
         </ArticleLi>
       </ArticleOl>
 
@@ -429,16 +484,25 @@ LIMIT 20 OFFSET 0;`}
 
       <ArticleUl>
         <ArticleLi>
-          Índice full text acelera leitura, mas aumenta custo de escrita e update.
+          Índice full text acelera leitura, mas aumenta custo de escrita e
+          update. Exemplo: cada alteração em{" "}
+          <ArticleCode>description</ArticleCode> também atualiza o índice de
+          busca.
         </ArticleLi>
         <ArticleLi>
-          Reindex e manutenção precisam janela operacional planejada.
+          Reindex e manutenção precisam janela operacional planejada. Em tabela
+          grande, reconstruir índice full text pode travar escrita se feito sem
+          cuidado.
         </ArticleLi>
         <ArticleLi>
-          Paginação por score exige desempate estável (ex.: score + id).
+          Paginação por score exige desempate estável. Exemplo: ordenar por{" "}
+          <ArticleCode>score DESC, id DESC</ArticleCode> evita páginas que
+          "pulam" ou repetem itens quando vários scores empatam.
         </ArticleLi>
         <ArticleLi>
           Limite de tamanho da query evita consultas abusivas em texto livre.
+          Exemplo: bloquear buscas com milhares de caracteres ou dezenas de
+          tokens inúteis.
         </ArticleLi>
       </ArticleUl>
 

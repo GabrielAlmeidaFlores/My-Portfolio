@@ -143,16 +143,27 @@ export function FullTextSearchMysqlPostgresqlContentEn() {
       </ArticleP>
 
       <ArticleUl>
-        <ArticleLi>Weak relevance: it matches characters, not intent.</ArticleLi>
         <ArticleLi>
-          False positives: "ring" can match unrelated terms by substring.
+          Weak relevance: <ArticleCode>LIKE</ArticleCode> matches characters, not
+          intent. Example: a search for "bluetooth headset" can return rows just
+          because "bluetooth" and "headset" appear somewhere, even when they are
+          not the product the user wants.
+        </ArticleLi>
+        <ArticleLi>
+          False positives: a substring inside another word still counts as a
+          match. Example: searching "ring" can return unrelated products whose
+          names only contain that character sequence.
         </ArticleLi>
         <ArticleLi>
           Fragile multi-word behavior: order, plural, and language variations
-          break easily.
+          break easily. Example: "bluetooth headsets" can miss catalog rows
+          stored as "bluetooth headset" in the singular.
         </ArticleLi>
         <ArticleLi>
-          High cost: the database scans row by row to find matches.
+          High cost: the database scans row by row to find matches. Example: on a
+          1 million product table, each{" "}
+          <ArticleCode>LIKE '%term%'</ArticleCode> search often reads the whole
+          table.
         </ArticleLi>
       </ArticleUl>
 
@@ -205,11 +216,20 @@ WHERE MATCH(name, description) AGAINST('bluetooth headset' IN NATURAL LANGUAGE M
       <ArticleH3>MySQL tradeoffs</ArticleH3>
 
       <ArticleUl>
-        <ArticleLi>Fast way to leave LIKE behind.</ArticleLi>
-        <ArticleLi>Good native ranking for catalog search.</ArticleLi>
+        <ArticleLi>
+          Fast upgrade path away from <ArticleCode>LIKE</ArticleCode>: with
+          little code you improve relevance and reduce full-table scans.
+        </ArticleLi>
+        <ArticleLi>
+          Native ranking helps catalog and content search. Example: products
+          whose title matches the query rise above items that only mention the
+          term deep in a long description.
+        </ArticleLi>
         <ArticleLi>
           Language-level controls are more limited than{" "}
-          <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
+          <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>. Example:
+          domain synonyms such as "headset" = "earphone" usually need more
+          manual work in MySQL.
         </ArticleLi>
       </ArticleUl>
 
@@ -236,10 +256,20 @@ WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, 
       <ArticleH3>Why PostgreSQL can go deeper</ArticleH3>
 
       <ArticleUl>
-        <ArticleLi>Better language support and normalization.</ArticleLi>
-        <ArticleLi>More control over stemming and ranking behavior.</ArticleLi>
         <ArticleLi>
-          Advanced dictionary configuration, including synonym workflows.
+          Better language support and normalization. Example: using the{" "}
+          <ArticleCode>english</ArticleCode> dictionary handles plurals and word
+          forms with less application-side logic.
+        </ArticleLi>
+        <ArticleLi>
+          Stemming and lexicons give more ranking control. Example: "developer"
+          and "developing" can collapse to a shared root and improve recall
+          without <ArticleCode>LIKE</ArticleCode>.
+        </ArticleLi>
+        <ArticleLi>
+          Advanced dictionary configuration, including synonyms, supports
+          domain tuning. Example: mapping "headset" and "earphone" to the same
+          catalog concept.
         </ArticleLi>
       </ArticleUl>
 
@@ -251,10 +281,23 @@ WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, 
       </ArticleP>
 
       <ArticleOl>
-        <ArticleLi>tokenization splits text into meaningful units</ArticleLi>
-        <ArticleLi>stop words are removed from ranking logic</ArticleLi>
-        <ArticleLi>an inverted index maps term to document list</ArticleLi>
-        <ArticleLi>the engine ranks results by relevance</ArticleLi>
+        <ArticleLi>
+          Tokenization splits text into useful units. Example: "Pro Bluetooth
+          Headset" becomes terms such as "pro", "bluetooth", and "headset".
+        </ArticleLi>
+        <ArticleLi>
+          Stop words are removed from ranking logic. Example: words like "the"
+          and "a" stop competing with terms that actually discriminate results.
+        </ArticleLi>
+        <ArticleLi>
+          An inverted index maps each term to the documents that contain it.
+          Example: "bluetooth" points to the product IDs where that word appears.
+        </ArticleLi>
+        <ArticleLi>
+          The engine ranks results by relevance. Example: a title with
+          "bluetooth headset" ranks above a description that only mentions
+          "bluetooth" once in the middle of a long paragraph.
+        </ArticleLi>
       </ArticleOl>
 
       <ArticleMermaid
@@ -282,11 +325,27 @@ WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, 
 
       <ArticleH3>Query modes that reduce noise</ArticleH3>
 
+      <ArticleP>
+        Not every search should treat user terms the same way. The query mode
+        decides how strictly the database requires word proximity and how much
+        input variation it tolerates.
+      </ArticleP>
+
       <ArticleUl>
-        <ArticleLi>Phrase queries for contextual precision.</ArticleLi>
-        <ArticleLi>Prefix behavior for autocomplete patterns.</ArticleLi>
         <ArticleLi>
-          Multi-term tolerant parsing for realistic user input.
+          Phrase search: the user wants the terms together and in order. Example:
+          "silver ring" should prioritize that exact expression, not a gold ring
+          that only mentions "silver" in another field.
+        </ArticleLi>
+        <ArticleLi>
+          Prefix search: the user is still typing. Example: "blue tooth hea"
+          should complete toward "bluetooth headset" in autocomplete without
+          requiring the full word.
+        </ArticleLi>
+        <ArticleLi>
+          Tolerant multi-term search: the user types several words in any order.
+          Example: "ring silver" and "silver ring" should return the same
+          relevant set, without requiring exact phrase order.
         </ArticleLi>
       </ArticleUl>
 
@@ -297,13 +356,18 @@ WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, 
 
       <ArticleUl>
         <ArticleLi>
-          <ArticleCode>plainto_tsquery</ArticleCode> for safe plain input.
+          <ArticleCode>plainto_tsquery</ArticleCode>: takes free-form user text
+          and builds a safe query without requiring operator syntax.
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>to_tsquery</ArticleCode> for explicit operators.
+          <ArticleCode>to_tsquery</ArticleCode>: supports explicit operators such
+          as <ArticleCode>&</ArticleCode>, <ArticleCode>|</ArticleCode>, and{" "}
+          <ArticleCode>!</ArticleCode> when the application controls the query.
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>websearch_to_tsquery</ArticleCode> for web-like user syntax.
+          <ArticleCode>websearch_to_tsquery</ArticleCode>: accepts web-like syntax
+          (quotes, <ArticleCode>-</ArticleCode>, <ArticleCode>or</ArticleCode>),
+          useful for a product search box.
         </ArticleLi>
       </ArticleUl>
 
@@ -354,11 +418,22 @@ LIMIT 20 OFFSET 0;`}
       <ArticleH3>Measurement checklist</ArticleH3>
 
       <ArticleOl>
-        <ArticleLi>Lock dataset size and concurrency profile.</ArticleLi>
-        <ArticleLi>Compare LIKE and FTS in the same environment.</ArticleLi>
-        <ArticleLi>Track p50 and p95 latency, not one isolated run.</ArticleLi>
         <ArticleLi>
-          Validate plans with <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink>.
+          Lock dataset size and concurrency profile. Example: measure with the
+          same product volume and the same number of concurrent searches.
+        </ArticleLi>
+        <ArticleLi>
+          Compare <ArticleCode>LIKE</ArticleCode> and FTS in the same
+          environment, with equivalent cache and hardware.
+        </ArticleLi>
+        <ArticleLi>
+          Track p50 and p95 latency, not one isolated run. A single warm query
+          hides behavior under load.
+        </ArticleLi>
+        <ArticleLi>
+          Validate plans with{" "}
+          <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> to confirm
+          the full text index is actually used.
         </ArticleLi>
       </ArticleOl>
 
@@ -367,15 +442,23 @@ LIMIT 20 OFFSET 0;`}
       <ArticleUl>
         <ArticleLi>
           Full text indexes improve reads but increase write/update cost.
+          Example: every change to <ArticleCode>description</ArticleCode> also
+          updates the search index.
         </ArticleLi>
         <ArticleLi>
-          Reindex and index maintenance need explicit operational windows.
+          Reindex and index maintenance need explicit operational windows. On a
+          large table, rebuilding a full text index can block writes if done
+          carelessly.
         </ArticleLi>
         <ArticleLi>
-          Score pagination needs deterministic tie-break ordering.
+          Score pagination needs deterministic tie-break ordering. Example:
+          order by <ArticleCode>score DESC, id DESC</ArticleCode> to avoid pages
+          that skip or repeat rows when scores collide.
         </ArticleLi>
         <ArticleLi>
-          Query length and token limits protect your search endpoints.
+          Query length and token limits protect your search endpoints. Example:
+          reject searches with thousands of characters or dozens of useless
+          tokens.
         </ArticleLi>
       </ArticleUl>
 

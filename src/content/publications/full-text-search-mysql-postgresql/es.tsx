@@ -142,13 +142,27 @@ export function FullTextSearchMysqlPostgresqlContentEs() {
       </ArticleP>
 
       <ArticleUl>
-        <ArticleLi>Coincide caracteres, no intencion de busqueda.</ArticleLi>
-        <ArticleLi>Genera falsos positivos con frecuencia.</ArticleLi>
         <ArticleLi>
-          Se rompe con busquedas compuestas y variaciones de lenguaje.
+          Baja relevancia: <ArticleCode>LIKE</ArticleCode> compara caracteres, no
+          intencion. Ejemplo: quien busca "auricular bluetooth" puede recibir
+          filas solo porque aparecen "auricular" y "bluetooth" en algun lugar,
+          aunque no sean el producto deseado.
         </ArticleLi>
         <ArticleLi>
-          Tiende a escaneo completo y sube mucho el costo bajo concurrencia.
+          Muchos falsos positivos: un substring dentro de otra palabra cuenta
+          como match. Ejemplo: buscar "aro" puede traer "barro"; buscar "capa"
+          puede traer "capacete".
+        </ArticleLi>
+        <ArticleLi>
+          Busqueda compuesta fragil: orden, plural y variaciones de lenguaje se
+          rompen con facilidad. Ejemplo: "auriculares bluetooth" puede fallar si
+          el catalogo guarda "auricular bluetooth" en singular.
+        </ArticleLi>
+        <ArticleLi>
+          Costo alto: el banco escanea fila por fila para encontrar matches.
+          Ejemplo: en una tabla de 1 millon de productos, cada{" "}
+          <ArticleCode>LIKE '%termino%'</ArticleCode> suele leer la tabla
+          entera.
         </ArticleLi>
       </ArticleUl>
 
@@ -197,11 +211,20 @@ WHERE MATCH(name, description) AGAINST('auricular bluetooth' IN NATURAL LANGUAGE
       <ArticleH3>Tradeoffs en MySQL</ArticleH3>
 
       <ArticleUl>
-        <ArticleLi>Mejora fuerte frente a LIKE con bajo esfuerzo.</ArticleLi>
-        <ArticleLi>Ranking nativo util para catalogo y contenido.</ArticleLi>
+        <ArticleLi>
+          Buena salida de <ArticleCode>LIKE</ArticleCode>: con poco codigo ya
+          mejoras relevancia y reduces el escaneo completo.
+        </ArticleLi>
+        <ArticleLi>
+          Ranking nativo util para catalogo y contenido. Ejemplo: productos cuyo
+          titulo coincide con la busqueda suben antes que items que solo citan el
+          termino en una descripcion larga.
+        </ArticleLi>
         <ArticleLi>
           Menos control linguistico que{" "}
-          <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
+          <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>. Ejemplo:
+          sinonimos de dominio ("auricular" = "headset") suelen exigir mas
+          trabajo manual en MySQL.
         </ArticleLi>
       </ArticleUl>
 
@@ -228,10 +251,20 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
       <ArticleH3>Por que PostgreSQL suele ser mas flexible</ArticleH3>
 
       <ArticleUl>
-        <ArticleLi>Mejor soporte de idioma y normalizacion.</ArticleLi>
-        <ArticleLi>Control mas fino de stemming y ranking.</ArticleLi>
+        <ArticleLi>
+          Mejor soporte de idioma y normalizacion. Ejemplo: usar el diccionario{" "}
+          <ArticleCode>spanish</ArticleCode> trata plural y variaciones con menos
+          logica en la aplicacion.
+        </ArticleLi>
+        <ArticleLi>
+          Stemming y lexicos dan mas control de ranking. Ejemplo: "programador" y
+          "programando" pueden caer en la misma raiz y subir el recall sin{" "}
+          <ArticleCode>LIKE</ArticleCode>.
+        </ArticleLi>
         <ArticleLi>
           Configuracion avanzada de diccionarios y sinonimos por dominio.
+          Ejemplo: mapear "auricular" y "headset" al mismo concepto del
+          catalogo.
         </ArticleLi>
       </ArticleUl>
 
@@ -242,10 +275,26 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
       </ArticleP>
 
       <ArticleOl>
-        <ArticleLi>tokenizacion del texto</ArticleLi>
-        <ArticleLi>eliminacion de stop words</ArticleLi>
-        <ArticleLi>indice invertido termino a documentos</ArticleLi>
-        <ArticleLi>ranking por relevancia</ArticleLi>
+        <ArticleLi>
+          Tokenizacion: parte el texto en unidades utiles. Ejemplo: "Auricular
+          Bluetooth Pro" se convierte en terminos como "auricular", "bluetooth" y
+          "pro".
+        </ArticleLi>
+        <ArticleLi>
+          Eliminacion de stop words: quita palabras con poco valor para ranking.
+          Ejemplo: "de", "la", "el" dejan de competir con terminos que de verdad
+          discriminan el resultado.
+        </ArticleLi>
+        <ArticleLi>
+          Indice invertido: mapea cada termino a la lista de documentos donde
+          aparece. Ejemplo: "bluetooth" apunta a los IDs de productos que
+          contienen esa palabra.
+        </ArticleLi>
+        <ArticleLi>
+          Ranking: ordena por proximidad y frecuencia de los terminos buscados.
+          Ejemplo: un titulo con "auricular bluetooth" sube por encima de una
+          descripcion que solo cita "bluetooth" una vez.
+        </ArticleLi>
       </ArticleOl>
 
       <ArticleMermaid
@@ -273,11 +322,28 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
 
       <ArticleH3>Modos de consulta que reducen ruido</ArticleH3>
 
+      <ArticleP>
+        No toda busqueda debe tratar los terminos del usuario de la misma forma.
+        El modo de consulta define cuanto exige el banco de proximidad entre
+        palabras y cuanto tolera variacion de entrada.
+      </ArticleP>
+
       <ArticleUl>
-        <ArticleLi>Busqueda por frase para subir precision contextual.</ArticleLi>
-        <ArticleLi>Prefijo para flujos de autocomplete.</ArticleLi>
         <ArticleLi>
-          Parsing tolerante para consultas compuestas del usuario.
+          Busqueda por frase: el usuario quiere los terminos juntos y en orden.
+          Ejemplo: "anillo de plata" debe priorizar ese producto, no un anillo
+          de oro que solo menciona "plata" en otro campo.
+        </ArticleLi>
+        <ArticleLi>
+          Busqueda por prefijo: el usuario todavia esta escribiendo. Ejemplo:
+          "auri blu" debe completar hacia "auricular bluetooth" en autocomplete,
+          sin exigir la palabra completa.
+        </ArticleLi>
+        <ArticleLi>
+          Busqueda compuesta tolerante: el usuario escribe varios terminos en
+          cualquier orden. Ejemplo: "plata anillo" y "anillo plata" deben
+          devolver el mismo conjunto relevante, sin exigir el orden exacto de la
+          frase.
         </ArticleLi>
       </ArticleUl>
 
@@ -288,14 +354,20 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
 
       <ArticleUl>
         <ArticleLi>
-          <ArticleCode>plainto_tsquery</ArticleCode> para entrada simple.
+          <ArticleCode>plainto_tsquery</ArticleCode>: recibe texto libre del
+          usuario y arma la consulta con seguridad, sin exigir sintaxis de
+          operadores.
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>to_tsquery</ArticleCode> para operadores explicitos.
+          <ArticleCode>to_tsquery</ArticleCode>: permite operadores explicitos
+          como <ArticleCode>&</ArticleCode>, <ArticleCode>|</ArticleCode> y{" "}
+          <ArticleCode>!</ArticleCode> cuando la aplicacion controla la query.
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>websearch_to_tsquery</ArticleCode> para sintaxis estilo
-          buscador.
+          <ArticleCode>websearch_to_tsquery</ArticleCode>: acepta sintaxis estilo
+          buscador (comillas, <ArticleCode>-</ArticleCode>,{" "}
+          <ArticleCode>or</ArticleCode>), util para el campo de busqueda del
+          producto.
         </ArticleLi>
       </ArticleUl>
 
@@ -345,12 +417,22 @@ LIMIT 20 OFFSET 0;`}
       <ArticleH3>Checklist de medicion</ArticleH3>
 
       <ArticleOl>
-        <ArticleLi>Fijar tamaño de dataset y concurrencia.</ArticleLi>
-        <ArticleLi>Comparar LIKE y FTS en el mismo entorno.</ArticleLi>
-        <ArticleLi>Medir p50 y p95, no una sola corrida.</ArticleLi>
+        <ArticleLi>
+          Fijar tamaño de dataset y concurrencia. Ejemplo: medir con el mismo
+          volumen de productos y el mismo numero de busquedas simultaneas.
+        </ArticleLi>
+        <ArticleLi>
+          Comparar <ArticleCode>LIKE</ArticleCode> y FTS en el mismo entorno, con
+          cache y hardware equivalentes.
+        </ArticleLi>
+        <ArticleLi>
+          Medir p50 y p95, no una sola corrida. Una query aislada "caliente"
+          esconde el comportamiento bajo carga.
+        </ArticleLi>
         <ArticleLi>
           Revisar plan con{" "}
-          <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink>.
+          <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> para
+          confirmar que el indice full text se usa de verdad.
         </ArticleLi>
       </ArticleOl>
 
@@ -359,15 +441,23 @@ LIMIT 20 OFFSET 0;`}
       <ArticleUl>
         <ArticleLi>
           Indice full text acelera lectura, pero aumenta costo de escritura.
+          Ejemplo: cada cambio en <ArticleCode>description</ArticleCode> tambien
+          actualiza el indice de busqueda.
         </ArticleLi>
         <ArticleLi>
-          Reindex y mantenimiento de indice requieren ventana operativa.
+          Reindex y mantenimiento de indice requieren ventana operativa. En
+          tablas grandes, reconstruir el indice puede bloquear escrituras si se
+          hace sin cuidado.
         </ArticleLi>
         <ArticleLi>
-          Paginacion por score necesita desempate estable.
+          Paginacion por score necesita desempate estable. Ejemplo: ordenar por{" "}
+          <ArticleCode>score DESC, id DESC</ArticleCode> evita paginas que saltan
+          o repiten filas cuando varios scores empatan.
         </ArticleLi>
         <ArticleLi>
-          Limitar tamaño de query protege endpoints de busqueda.
+          Limitar tamaño de query protege endpoints de busqueda. Ejemplo:
+          bloquear busquedas con miles de caracteres o docenas de tokens
+          inutiles.
         </ArticleLi>
       </ArticleUl>
 
