@@ -9,6 +9,11 @@ import {
   BuscaWebLocalMcpSearxngContentPt,
 } from "@/content/publications/busca-web-local-mcp-searxng";
 import {
+  FullTextSearchMysqlPostgresqlContentEn,
+  FullTextSearchMysqlPostgresqlContentEs,
+  FullTextSearchMysqlPostgresqlContentPt,
+} from "@/content/publications/full-text-search-mysql-postgresql";
+import {
   EscolhaBancoDadosCapPacelcContentEn,
   EscolhaBancoDadosCapPacelcContentEs,
   EscolhaBancoDadosCapPacelcContentPt,
@@ -20,6 +25,47 @@ import {
 } from "@/content/publications/hardening-linux-vps-baseline";
 
 export const publications: Publication[] = [
+  {
+    id: "full-text-search-mysql-postgresql",
+    slug: "full-text-search-mysql-postgresql",
+    publishedAt: "2026-07-30",
+    tags: {
+      "pt-BR": [
+        "Banco de Dados",
+        "Full Text Search",
+        "MySQL",
+        "PostgreSQL",
+        "System Design",
+      ],
+      en: ["Databases", "Full Text Search", "MySQL", "PostgreSQL", "System Design"],
+      es: [
+        "Bases de Datos",
+        "Full Text Search",
+        "MySQL",
+        "PostgreSQL",
+        "System Design",
+      ],
+    },
+    coverImage:
+      "/images/publications/full-text-search-mysql-postgresql/cover.svg",
+    title: {
+      "pt-BR":
+        "Buscas inteligentes no banco: Full Text Search, ranking e arquitetura em MySQL e PostgreSQL",
+      en: "Intelligent database search: Full Text Search, ranking, and architecture in MySQL and PostgreSQL",
+      es: "Busquedas inteligentes en base de datos: Full Text Search, ranking y arquitectura en MySQL y PostgreSQL",
+    },
+    summary: {
+      "pt-BR":
+        "Guia prático para sair do LIKE e evoluir busca textual com ranking, benchmark, tradeoffs operacionais e decisão arquitetural entre FTS nativo e engine dedicada.",
+      en: "Practical guide to moving beyond LIKE and building production search with ranking, benchmarking, operational tradeoffs, and architectural decisions between native FTS and dedicated engines.",
+      es: "Guía práctica para salir de LIKE y evolucionar la búsqueda textual con ranking, benchmark, tradeoffs operativos y decisión arquitectónica entre FTS nativo y motores dedicados.",
+    },
+    Content: {
+      "pt-BR": FullTextSearchMysqlPostgresqlContentPt,
+      en: FullTextSearchMysqlPostgresqlContentEn,
+      es: FullTextSearchMysqlPostgresqlContentEs,
+    },
+  },
   {
     id: "hardening-linux-vps-baseline",
     slug: "hardening-linux-vps-baseline",
