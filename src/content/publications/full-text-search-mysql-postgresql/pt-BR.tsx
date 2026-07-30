@@ -18,11 +18,11 @@ import {
 import type { ReactNode } from "react";
 
 const WHY_CHART = `flowchart TB
-  User["Usuario digita busca"]
+  User["Usuário digita busca"]
   Api["API monta consulta"]
   Like["LIKE com wildcard"]
   SeqScan["Escaneamento completo"]
-  BadRel["Baixa relevancia"]
+  BadRel["Baixa relevância"]
   BadPerf["Custo cresce com volume"]
 
   User --> Api
@@ -32,12 +32,12 @@ const WHY_CHART = `flowchart TB
   SeqScan --> BadPerf`;
 
 const FTS_CHART = `flowchart TB
-  Source["Nome + descricao"]
-  Token["Tokenizacao"]
-  Inverted["Indice invertido"]
+  Source["Nome + descrição"]
+  Token["Tokenização"]
+  Inverted["Índice invertido"]
   Query["Termo da busca"]
-  Rank["Ranqueamento por relevancia"]
-  Result["Resultados melhores e mais rapidos"]
+  Rank["Ranqueamento por relevância"]
+  Result["Resultados melhores e mais rápidos"]
 
   Source --> Token
   Token --> Inverted
@@ -110,7 +110,7 @@ export function FullTextSearchMysqlPostgresqlContentPt() {
         . A base de conteúdo, os exemplos e a sequência conceitual vêm dessa aula.
       </ArticleP>
 
-      <ArticleCallout variant="note" title="Credito da fonte">
+      <ArticleCallout variant="note" title="Crédito da fonte">
         <ArticleP>
           Fonte principal:{" "}
           <a
@@ -119,7 +119,7 @@ export function FullTextSearchMysqlPostgresqlContentPt() {
             rel="noopener noreferrer"
             className={linkClass}
           >
-            video original no YouTube
+            vídeo original no YouTube
           </a>
           . Este post reorganiza o material em formato de referência rápida para
           consulta durante implementação.
@@ -171,7 +171,7 @@ export function FullTextSearchMysqlPostgresqlContentPt() {
       </ArticleP>
 
       <ArticleMermaid
-        ariaLabel="Fluxo com LIKE gera escaneamento completo e baixa relevancia"
+        ariaLabel="Fluxo com LIKE gera escaneamento completo e baixa relevância"
         chart={WHY_CHART}
       />
 
@@ -337,7 +337,7 @@ WHERE to_tsvector('portuguese', coalesce(name, '') || ' ' || coalesce(descriptio
       </ArticleOl>
 
       <ArticleMermaid
-        ariaLabel="Pipeline interno de full text search com tokenizacao e indice invertido"
+        ariaLabel="Pipeline interno de full text search com tokenização e índice invertido"
         chart={FTS_CHART}
       />
 

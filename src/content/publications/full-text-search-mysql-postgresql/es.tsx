@@ -18,12 +18,12 @@ import {
 import type { ReactNode } from "react";
 
 const WHY_CHART = `flowchart TB
-  User["Usuario escribe busqueda"]
+  User["Usuario escribe búsqueda"]
   Api["API arma consulta"]
   Like["LIKE con wildcard"]
   SeqScan["Escaneo completo"]
   BadRel["Baja relevancia"]
-  BadPerf["Costo crece con trafico"]
+  BadPerf["Costo crece con tráfico"]
 
   User --> Api
   Api --> Like
@@ -32,12 +32,12 @@ const WHY_CHART = `flowchart TB
   SeqScan --> BadPerf`;
 
 const FTS_CHART = `flowchart TB
-  Source["Nombre + descripcion"]
-  Token["Tokenizacion"]
-  Inverted["Indice invertido"]
-  Query["Termino buscado"]
+  Source["Nombre + descripción"]
+  Token["Tokenización"]
+  Inverted["Índice invertido"]
+  Query["Término buscado"]
   Rank["Ranking por relevancia"]
-  Result["Resultados mejores y mas rapidos"]
+  Result["Resultados mejores y más rápidos"]
 
   Source --> Token
   Token --> Inverted
@@ -89,16 +89,16 @@ function TermLink({
 export function FullTextSearchMysqlPostgresqlContentEs() {
   return (
     <>
-      <ArticleH2>1. Contexto y creditos</ArticleH2>
+      <ArticleH2>1. Contexto y créditos</ArticleH2>
 
       <ArticleP>
-        Este articulo es una guia practica sobre busqueda inteligente en bases
+        Este artículo es una guía práctica sobre búsqueda inteligente en bases
         relacionales con <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> y{" "}
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
       </ArticleP>
 
       <ArticleP>
-        Este post funciona como documentacion tecnica del video{" "}
+        Este post funciona como documentación técnica del video{" "}
         <a
           href={VIDEO_URL}
           target="_blank"
@@ -110,7 +110,7 @@ export function FullTextSearchMysqlPostgresqlContentEs() {
         . La secuencia y los ejemplos parten de ese material.
       </ArticleP>
 
-      <ArticleCallout variant="note" title="Credito de la fuente">
+      <ArticleCallout variant="note" title="Crédito de la fuente">
         <ArticleP>
           Fuente principal:{" "}
           <a
@@ -121,7 +121,7 @@ export function FullTextSearchMysqlPostgresqlContentEs() {
           >
             video original en YouTube
           </a>
-          . Aqui se reorganiza el material en formato de referencia para aplicar
+          . Aquí se reorganiza el material en formato de referencia para aplicar
           en proyectos reales.
         </ArticleP>
       </ArticleCallout>
@@ -129,12 +129,12 @@ export function FullTextSearchMysqlPostgresqlContentEs() {
       <ArticleP>
         El foco es directo: cuando <ArticleCode>LIKE</ArticleCode> falla, como{" "}
         <TermLink href={MYSQL_FTS_URL}>Full Text Search</TermLink> mejora
-        relevancia y performance, y que cambia entre{" "}
+        relevancia y performance, y qué cambia entre{" "}
         <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink> y{" "}
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>.
       </ArticleP>
 
-      <ArticleH2>2. Por que LIKE falla en busqueda real</ArticleH2>
+      <ArticleH2>2. Por qué LIKE falla en búsqueda real</ArticleH2>
 
       <ArticleP>
         <ArticleCode>LIKE</ArticleCode> con wildcard sirve para filtros por
@@ -144,31 +144,31 @@ export function FullTextSearchMysqlPostgresqlContentEs() {
       <ArticleUl>
         <ArticleLi>
           Baja relevancia: <ArticleCode>LIKE</ArticleCode> compara caracteres, no
-          intencion. Ejemplo: quien busca "auricular bluetooth" puede recibir
-          filas solo porque aparecen "auricular" y "bluetooth" en algun lugar,
+          intención. Ejemplo: quien busca "auricular bluetooth" puede recibir
+          filas solo porque aparecen "auricular" y "bluetooth" en algún lugar,
           aunque no sean el producto deseado.
         </ArticleLi>
         <ArticleLi>
           Muchos falsos positivos: un substring dentro de otra palabra cuenta
-          como match. Ejemplo: buscar "aro" puede traer "barro"; buscar "capa"
-          puede traer "capacete".
+          como match. Ejemplo: buscar "aro" puede traer "barro"; buscar "sol"
+          puede traer "consola".
         </ArticleLi>
         <ArticleLi>
-          Busqueda compuesta fragil: orden, plural y variaciones de lenguaje se
+          Búsqueda compuesta frágil: orden, plural y variaciones de lenguaje se
           rompen con facilidad. Ejemplo: "auriculares bluetooth" puede fallar si
-          el catalogo guarda "auricular bluetooth" en singular.
+          el catálogo guarda "auricular bluetooth" en singular.
         </ArticleLi>
         <ArticleLi>
           Costo alto: el banco escanea fila por fila para encontrar matches.
-          Ejemplo: en una tabla de 1 millon de productos, cada{" "}
-          <ArticleCode>LIKE '%termino%'</ArticleCode> suele leer la tabla
+          Ejemplo: en una tabla de 1 millón de productos, cada{" "}
+          <ArticleCode>LIKE '%término%'</ArticleCode> suele leer la tabla
           entera.
         </ArticleLi>
       </ArticleUl>
 
       <ArticleP>
         El impacto es directo en experiencia de usuario y costo operativo. Bajo
-        concurrencia, el volumen de lectura crece rapido.
+        concurrencia, el volumen de lectura crece rápido.
       </ArticleP>
 
       <ArticleMermaid
@@ -176,11 +176,11 @@ export function FullTextSearchMysqlPostgresqlContentEs() {
         chart={WHY_CHART}
       />
 
-      <ArticleH3>Senal en el plan de ejecucion</ArticleH3>
+      <ArticleH3>Señal en el plan de ejecución</ArticleH3>
 
       <ArticleP>
         En <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink>,{" "}
-        <ArticleCode>LIKE '%termino%'</ArticleCode> suele mostrar lectura amplia
+        <ArticleCode>LIKE '%término%'</ArticleCode> suele mostrar lectura amplia
         de tabla.
       </ArticleP>
 
@@ -195,7 +195,7 @@ WHERE name LIKE '%anillo%';`}
 
       <ArticleP>
         En <TermLink href={MYSQL_FTS_URL}>MySQL</TermLink>, el camino base es
-        indice <ArticleCode>FULLTEXT</ArticleCode> y consulta{" "}
+        índice <ArticleCode>FULLTEXT</ArticleCode> y consulta{" "}
         <ArticleCode>MATCH ... AGAINST</ArticleCode>.
       </ArticleP>
 
@@ -212,18 +212,18 @@ WHERE MATCH(name, description) AGAINST('auricular bluetooth' IN NATURAL LANGUAGE
 
       <ArticleUl>
         <ArticleLi>
-          Buena salida de <ArticleCode>LIKE</ArticleCode>: con poco codigo ya
+          Buena salida de <ArticleCode>LIKE</ArticleCode>: con poco código ya
           mejoras relevancia y reduces el escaneo completo.
         </ArticleLi>
         <ArticleLi>
-          Ranking nativo util para catalogo y contenido. Ejemplo: productos cuyo
-          titulo coincide con la busqueda suben antes que items que solo citan el
-          termino en una descripcion larga.
+          Ranking nativo útil para catálogo y contenido. Ejemplo: productos cuyo
+          título coincide con la búsqueda suben antes que ítems que solo citan el
+          término en una descripción larga.
         </ArticleLi>
         <ArticleLi>
-          Menos control linguistico que{" "}
+          Menos control lingüístico que{" "}
           <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>. Ejemplo:
-          sinonimos de dominio ("auricular" = "headset") suelen exigir mas
+          sinónimos de dominio ("auricular" = "headset") suelen exigir más
           trabajo manual en MySQL.
         </ArticleLi>
       </ArticleUl>
@@ -232,8 +232,8 @@ WHERE MATCH(name, description) AGAINST('auricular bluetooth' IN NATURAL LANGUAGE
 
       <ArticleP>
         <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink> ofrece una capa
-        mas avanzada con <ArticleCode>to_tsvector</ArticleCode>,{" "}
-        <ArticleCode>to_tsquery</ArticleCode> e indice{" "}
+        más avanzada con <ArticleCode>to_tsvector</ArticleCode>,{" "}
+        <ArticleCode>to_tsquery</ArticleCode> e índice{" "}
         <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink>.
       </ArticleP>
 
@@ -248,57 +248,57 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
 @@ to_tsquery('spanish', 'anillo & plata');`}
       </ArticleCode>
 
-      <ArticleH3>Por que PostgreSQL suele ser mas flexible</ArticleH3>
+      <ArticleH3>Por qué PostgreSQL suele ser más flexible</ArticleH3>
 
       <ArticleUl>
         <ArticleLi>
-          Mejor soporte de idioma y normalizacion. Ejemplo: usar el diccionario{" "}
+          Mejor soporte de idioma y normalización. Ejemplo: usar el diccionario{" "}
           <ArticleCode>spanish</ArticleCode> trata plural y variaciones con menos
-          logica en la aplicacion.
+          lógica en la aplicación.
         </ArticleLi>
         <ArticleLi>
-          Stemming y lexicos dan mas control de ranking. Ejemplo: "programador" y
-          "programando" pueden caer en la misma raiz y subir el recall sin{" "}
+          Stemming y léxicos dan más control de ranking. Ejemplo: "programador" y
+          "programando" pueden caer en la misma raíz y subir el recall sin{" "}
           <ArticleCode>LIKE</ArticleCode>.
         </ArticleLi>
         <ArticleLi>
-          Configuracion avanzada de diccionarios y sinonimos por dominio.
+          Configuración avanzada de diccionarios y sinónimos por dominio.
           Ejemplo: mapear "auricular" y "headset" al mismo concepto del
-          catalogo.
+          catálogo.
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleH2>5. Que pasa por debajo</ArticleH2>
+      <ArticleH2>5. Qué pasa por debajo</ArticleH2>
 
       <ArticleP>
-        El motor de busqueda textual sigue un pipeline simple y potente.
+        El motor de búsqueda textual sigue un pipeline simple y potente.
       </ArticleP>
 
       <ArticleOl>
         <ArticleLi>
-          Tokenizacion: parte el texto en unidades utiles. Ejemplo: "Auricular
-          Bluetooth Pro" se convierte en terminos como "auricular", "bluetooth" y
+          Tokenización: parte el texto en unidades útiles. Ejemplo: "Auricular
+          Bluetooth Pro" se convierte en términos como "auricular", "bluetooth" y
           "pro".
         </ArticleLi>
         <ArticleLi>
-          Eliminacion de stop words: quita palabras con poco valor para ranking.
-          Ejemplo: "de", "la", "el" dejan de competir con terminos que de verdad
+          Eliminación de stop words: quita palabras con poco valor para ranking.
+          Ejemplo: "de", "la", "el" dejan de competir con términos que de verdad
           discriminan el resultado.
         </ArticleLi>
         <ArticleLi>
-          Indice invertido: mapea cada termino a la lista de documentos donde
+          Índice invertido: mapea cada término a la lista de documentos donde
           aparece. Ejemplo: "bluetooth" apunta a los IDs de productos que
           contienen esa palabra.
         </ArticleLi>
         <ArticleLi>
-          Ranking: ordena por proximidad y frecuencia de los terminos buscados.
-          Ejemplo: un titulo con "auricular bluetooth" sube por encima de una
-          descripcion que solo cita "bluetooth" una vez.
+          Ranking: ordena por proximidad y frecuencia de los términos buscados.
+          Ejemplo: un título con "auricular bluetooth" sube por encima de una
+          descripción que solo cita "bluetooth" una vez.
         </ArticleLi>
       </ArticleOl>
 
       <ArticleMermaid
-        ariaLabel="Pipeline de full text con tokenizacion e indice invertido"
+        ariaLabel="Pipeline de full text con tokenización e índice invertido"
         chart={FTS_CHART}
       />
 
@@ -306,41 +306,41 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
 
       <ArticleP>
         En <TermLink href={POSTGRES_TEXTSEARCH_URL}>PostgreSQL text search</TermLink>,
-        formas relacionadas de una palabra pueden caer en una misma raiz lexical.
+        formas relacionadas de una palabra pueden caer en una misma raíz lexical.
       </ArticleP>
 
       <ArticleCode block>
         {`SELECT to_tsvector('spanish', 'programador programando programacion programadores');`}
       </ArticleCode>
 
-      <ArticleH2>6. Calidad de busqueda en produccion</ArticleH2>
+      <ArticleH2>6. Calidad de búsqueda en producción</ArticleH2>
 
       <ArticleP>
-        Cuando el FTS base ya funciona, la calidad final depende de como armas la
-        query y de como ordenas por relevancia.
+        Cuando el FTS base ya funciona, la calidad final depende de cómo armas la
+        query y de cómo ordenas por relevancia.
       </ArticleP>
 
       <ArticleH3>Modos de consulta que reducen ruido</ArticleH3>
 
       <ArticleP>
-        No toda busqueda debe tratar los terminos del usuario de la misma forma.
-        El modo de consulta define cuanto exige el banco de proximidad entre
-        palabras y cuanto tolera variacion de entrada.
+        No toda búsqueda debe tratar los términos del usuario de la misma forma.
+        El modo de consulta define cuánto exige el banco de proximidad entre
+        palabras y cuánto tolera variación de entrada.
       </ArticleP>
 
       <ArticleUl>
         <ArticleLi>
-          Busqueda por frase: el usuario quiere los terminos juntos y en orden.
+          Búsqueda por frase: el usuario quiere los términos juntos y en orden.
           Ejemplo: "anillo de plata" debe priorizar ese producto, no un anillo
           de oro que solo menciona "plata" en otro campo.
         </ArticleLi>
         <ArticleLi>
-          Busqueda por prefijo: el usuario todavia esta escribiendo. Ejemplo:
+          Búsqueda por prefijo: el usuario todavía está escribiendo. Ejemplo:
           "auri blu" debe completar hacia "auricular bluetooth" en autocomplete,
           sin exigir la palabra completa.
         </ArticleLi>
         <ArticleLi>
-          Busqueda compuesta tolerante: el usuario escribe varios terminos en
+          Búsqueda compuesta tolerante: el usuario escribe varios términos en
           cualquier orden. Ejemplo: "plata anillo" y "anillo plata" deben
           devolver el mismo conjunto relevante, sin exigir el orden exacto de la
           frase.
@@ -359,14 +359,14 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
           operadores.
         </ArticleLi>
         <ArticleLi>
-          <ArticleCode>to_tsquery</ArticleCode>: permite operadores explicitos
+          <ArticleCode>to_tsquery</ArticleCode>: permite operadores explícitos
           como <ArticleCode>&</ArticleCode>, <ArticleCode>|</ArticleCode> y{" "}
-          <ArticleCode>!</ArticleCode> cuando la aplicacion controla la query.
+          <ArticleCode>!</ArticleCode> cuando la aplicación controla la query.
         </ArticleLi>
         <ArticleLi>
           <ArticleCode>websearch_to_tsquery</ArticleCode>: acepta sintaxis estilo
           buscador (comillas, <ArticleCode>-</ArticleCode>,{" "}
-          <ArticleCode>or</ArticleCode>), util para el campo de busqueda del
+          <ArticleCode>or</ArticleCode>), útil para el campo de búsqueda del
           producto.
         </ArticleLi>
       </ArticleUl>
@@ -389,37 +389,37 @@ LIMIT 20 OFFSET 0;`}
 
       <ArticleP>
         <TermLink href={POSTGRES_RANK_URL}>ts_rank_cd</TermLink> con pesos por
-        campo corrige un problema tipico: el nombre debe pesar mas que una
-        descripcion larga.
+        campo corrige un problema típico: el nombre debe pesar más que una
+        descripción larga.
       </ArticleP>
 
-      <ArticleH3>Acento, mayusculas y typo</ArticleH3>
+      <ArticleH3>Acento, mayúsculas y typo</ArticleH3>
 
       <ArticleP>
         El usuario real no escribe texto normalizado. En escenarios multilenguaje,
-        conviene normalizar acentos y caja en indexacion y consulta. En
+        conviene normalizar acentos y caja en indexación y consulta. En
         PostgreSQL, <TermLink href={POSTGRES_UNACCENT_URL}>unaccent</TermLink>{" "}
-        suele formar parte de la solucion.
+        suele formar parte de la solución.
       </ArticleP>
 
       <ArticleP>
-        Tolerancia fuerte a typo no es el punto mas fuerte del FTS nativo. Si ese
-        requisito es central, la decision de arquitectura cambia.
+        Tolerancia fuerte a typo no es el punto más fuerte del FTS nativo. Si ese
+        requisito es central, la decisión de arquitectura cambia.
       </ArticleP>
 
-      <ArticleH2>7. Operacion y benchmark confiable</ArticleH2>
+      <ArticleH2>7. Operación y benchmark confiable</ArticleH2>
 
       <ArticleP>
         Un benchmark solo sirve si comparas en condiciones equivalentes. Medir
-        cache fria contra cache caliente da conclusiones engañosas.
+        cache fría contra cache caliente da conclusiones engañosas.
       </ArticleP>
 
-      <ArticleH3>Checklist de medicion</ArticleH3>
+      <ArticleH3>Checklist de medición</ArticleH3>
 
       <ArticleOl>
         <ArticleLi>
           Fijar tamaño de dataset y concurrencia. Ejemplo: medir con el mismo
-          volumen de productos y el mismo numero de busquedas simultaneas.
+          volumen de productos y el mismo número de búsquedas simultaneas.
         </ArticleLi>
         <ArticleLi>
           Comparar <ArticleCode>LIKE</ArticleCode> y FTS en el mismo entorno, con
@@ -432,7 +432,7 @@ LIMIT 20 OFFSET 0;`}
         <ArticleLi>
           Revisar plan con{" "}
           <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> para
-          confirmar que el indice full text se usa de verdad.
+          confirmar que el índice full text se usa de verdad.
         </ArticleLi>
       </ArticleOl>
 
@@ -440,37 +440,37 @@ LIMIT 20 OFFSET 0;`}
 
       <ArticleUl>
         <ArticleLi>
-          Indice full text acelera lectura, pero aumenta costo de escritura.
-          Ejemplo: cada cambio en <ArticleCode>description</ArticleCode> tambien
-          actualiza el indice de busqueda.
+          Índice full text acelera lectura, pero aumenta costo de escritura.
+          Ejemplo: cada cambio en <ArticleCode>description</ArticleCode> también
+          actualiza el índice de búsqueda.
         </ArticleLi>
         <ArticleLi>
-          Reindex y mantenimiento de indice requieren ventana operativa. En
-          tablas grandes, reconstruir el indice puede bloquear escrituras si se
+          Reindex y mantenimiento de índice requieren ventana operativa. En
+          tablas grandes, reconstruir el índice puede bloquear escrituras si se
           hace sin cuidado.
         </ArticleLi>
         <ArticleLi>
-          Paginacion por score necesita desempate estable. Ejemplo: ordenar por{" "}
-          <ArticleCode>score DESC, id DESC</ArticleCode> evita paginas que saltan
+          Paginación por score necesita desempate estable. Ejemplo: ordenar por{" "}
+          <ArticleCode>score DESC, id DESC</ArticleCode> evita páginas que saltan
           o repiten filas cuando varios scores empatan.
         </ArticleLi>
         <ArticleLi>
-          Limitar tamaño de query protege endpoints de busqueda. Ejemplo:
-          bloquear busquedas con miles de caracteres o docenas de tokens
-          inutiles.
+          Limitar tamaño de query protege endpoints de búsqueda. Ejemplo:
+          bloquear búsquedas con miles de caracteres o docenas de tokens
+          inútiles.
         </ArticleLi>
       </ArticleUl>
 
-      <ArticleCallout variant="tip" title="Seguridad de implementacion">
+      <ArticleCallout variant="tip" title="Seguridad de implementación">
         <ArticleP>
           No concatenes texto de usuario directo en SQL. Usa queries
-          parametrizadas y validacion de entrada para reducir riesgo de inyeccion.
+          parametrizadas y validación de entrada para reducir riesgo de inyección.
         </ArticleP>
       </ArticleCallout>
 
       <ArticleH2>8. Cuando FTS nativo alcanza y cuando migrar</ArticleH2>
 
-      <ArticleTable caption="Decision arquitectonica para stack de busqueda">
+      <ArticleTable caption="Decisión arquitectónica para stack de búsqueda">
         <ArticleThead>
           <ArticleTr>
             <ArticleTh>Escenario</ArticleTh>
@@ -480,7 +480,7 @@ LIMIT 20 OFFSET 0;`}
         </ArticleThead>
         <ArticleTbody>
           <ArticleTr>
-            <ArticleTd>Catalogo medio con filtros simples</ArticleTd>
+            <ArticleTd>Catálogo medio con filtros simples</ArticleTd>
             <ArticleTd>Suele alcanzar</ArticleTd>
             <ArticleTd>Opcional</ArticleTd>
           </ArticleTr>
@@ -490,7 +490,7 @@ LIMIT 20 OFFSET 0;`}
             <ArticleTd>Recomendado</ArticleTd>
           </ArticleTr>
           <ArticleTr>
-            <ArticleTd>Facetas complejas y busqueda multilenguaje masiva</ArticleTd>
+            <ArticleTd>Facetas complejas y búsqueda multilenguaje masiva</ArticleTd>
             <ArticleTd>Puede sufrir</ArticleTd>
             <ArticleTd>Recomendado</ArticleTd>
           </ArticleTr>
@@ -498,25 +498,25 @@ LIMIT 20 OFFSET 0;`}
       </ArticleTable>
 
       <ArticleP>
-        Cuando la busqueda crece en complejidad, herramientas como{" "}
+        Cuando la búsqueda crece en complejidad, herramientas como{" "}
         <TermLink href={ELASTIC_URL}>Elasticsearch</TermLink>,{" "}
         <TermLink href={OPENSEARCH_URL}>OpenSearch</TermLink> o{" "}
         <TermLink href={MEILI_URL}>Meilisearch</TermLink> suelen encajar mejor.
-        El costo es operacion extra y pipeline dedicado de indexacion.
+        El costo es operación extra y pipeline dedicado de indexación.
       </ArticleP>
 
       <ArticleP>
         Empieza con FTS nativo mientras cumpla calidad y latencia. Migra cuando
-        la busqueda se convierta en un subsistema propio del producto.
+        la búsqueda se convierta en un subsistema propio del producto.
       </ArticleP>
 
-      <ArticleH2>9. Como elegir en produccion</ArticleH2>
+      <ArticleH2>9. Cómo elegir en producción</ArticleH2>
 
-      <ArticleTable caption="Resumen de decision para busqueda textual">
+      <ArticleTable caption="Resumen de decisión para búsqueda textual">
         <ArticleThead>
           <ArticleTr>
             <ArticleTh>Escenario</ArticleTh>
-            <ArticleTh>Eleccion sugerida</ArticleTh>
+            <ArticleTh>Elección sugerida</ArticleTh>
             <ArticleTh>Motivo</ArticleTh>
           </ArticleTr>
         </ArticleThead>
@@ -527,12 +527,12 @@ LIMIT 20 OFFSET 0;`}
             <ArticleTd>Baja complejidad, sin ranking exigente</ArticleTd>
           </ArticleTr>
           <ArticleTr>
-            <ArticleTd>Busqueda de catalogo en MySQL</ArticleTd>
+            <ArticleTd>Búsqueda de catálogo en MySQL</ArticleTd>
             <ArticleTd>MySQL Full Text Search</ArticleTd>
             <ArticleTd>Mejor relevancia sin migrar de base</ArticleTd>
           </ArticleTr>
           <ArticleTr>
-            <ArticleTd>Busqueda con requisitos linguisticos fuertes</ArticleTd>
+            <ArticleTd>Búsqueda con requisitos lingüísticos fuertes</ArticleTd>
             <ArticleTd>PostgreSQL Full Text Search</ArticleTd>
             <ArticleTd>Mayor control de idioma y ranking</ArticleTd>
           </ArticleTr>
@@ -544,7 +544,7 @@ LIMIT 20 OFFSET 0;`}
       <ArticleUl>
         <ArticleLi>
           <ArticleCode>LIKE</ArticleCode> es operador de substring, no motor de
-          busqueda inteligente.
+          búsqueda inteligente.
         </ArticleLi>
         <ArticleLi>
           Full text mejora relevancia y performance al mismo tiempo.
@@ -555,15 +555,15 @@ LIMIT 20 OFFSET 0;`}
         </ArticleLi>
         <ArticleLi>
           <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink> entrega capa
-          linguistica mas avanzada.
+          lingüística más avanzada.
         </ArticleLi>
         <ArticleLi>
-          Valida cada decision con{" "}
+          Valida cada decisión con{" "}
           <TermLink href={MYSQL_EXPLAIN_URL}>EXPLAIN ANALYZE</TermLink> en datos
           reales.
         </ArticleLi>
         <ArticleLi>
-          Este articulo documenta el{" "}
+          Este artículo documenta el{" "}
           <a
             href={VIDEO_URL}
             target="_blank"
@@ -579,14 +579,14 @@ LIMIT 20 OFFSET 0;`}
       <ArticleH3>Conclusión</ArticleH3>
 
       <ArticleP>
-        La busqueda inteligente no depende de hacks de consulta. Depende de
+        La búsqueda inteligente no depende de hacks de consulta. Depende de
         elegir el modelo correcto para el problema del producto.
       </ArticleP>
 
       <ArticleP>
-        Cuando la busqueda impacta conversion o descubrimiento, salir de{" "}
-        <ArticleCode>LIKE</ArticleCode> deja de ser opcion. El camino practico es
-        usar full text nativo, medir planes de ejecucion y ajustar relevancia con
+        Cuando la búsqueda impacta conversión o descubrimiento, salir de{" "}
+        <ArticleCode>LIKE</ArticleCode> deja de ser opción. El camino práctico es
+        usar full text nativo, medir planes de ejecución y ajustar relevancia con
         feedback real.
       </ArticleP>
     </>

@@ -52,7 +52,7 @@ export const publications: Publication[] = [
       "pt-BR":
         "Buscas inteligentes no banco: Full Text Search, ranking e arquitetura em MySQL e PostgreSQL",
       en: "Intelligent database search: Full Text Search, ranking, and architecture in MySQL and PostgreSQL",
-      es: "Busquedas inteligentes en base de datos: Full Text Search, ranking y arquitectura en MySQL y PostgreSQL",
+      es: "Búsquedas inteligentes en base de datos: Full Text Search, ranking y arquitectura en MySQL y PostgreSQL",
     },
     summary: {
       "pt-BR":
