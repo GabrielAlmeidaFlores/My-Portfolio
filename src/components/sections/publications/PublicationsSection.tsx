@@ -11,7 +11,7 @@ export function PublicationsSection() {
   const sectionCopy = copy.publications;
 
   return (
-    <SectionWrapper id="publicacoes" ariaLabel={sectionCopy.ariaLabel}>
+    <SectionWrapper id="posts" ariaLabel={sectionCopy.ariaLabel}>
       <GridBackground />
       <FadeIn>
         <SectionTitle

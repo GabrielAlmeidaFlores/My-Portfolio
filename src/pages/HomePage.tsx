@@ -40,10 +40,10 @@ export function HomePage() {
       <HeroSection />
       <ExperienceSection />
       <ProjectsSection />
-      <TechnologiesSection />
-      <CertificationsSection />
-      <EducationSection />
       <PublicationsSection />
+      <CertificationsSection />
+      <TechnologiesSection />
+      <EducationSection />
       <ContactSection />
     </main>
   );

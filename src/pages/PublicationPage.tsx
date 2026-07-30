@@ -46,7 +46,7 @@ export function PublicationPage() {
             </p>
             <div className="mt-8">
               <Link
-                to="/#publicacoes"
+                to="/#posts"
                 className="inline-flex items-center gap-2 rounded-[var(--radius-button)] border border-primary-500 bg-transparent px-5 py-2.5 text-sm font-semibold text-primary-700 transition-all duration-350 ease-out hover:bg-primary-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-primary-300 dark:hover:bg-primary/10"
               >
                 <ArrowLeft size={16} aria-hidden="true" />
@@ -68,7 +68,7 @@ export function PublicationPage() {
         <div className="flex w-full min-w-0 flex-col">
           <FadeIn>
             <Link
-              to="/#publicacoes"
+              to="/#posts"
               className="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 transition-colors hover:text-primary-500 dark:text-primary-300 dark:hover:text-primary-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
             >
               <ArrowLeft size={16} aria-hidden="true" />

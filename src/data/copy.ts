@@ -153,13 +153,13 @@ const ptBR: SiteCopy = {
     ariaLabel: "Formação acadêmica",
   },
   publications: {
-    title: "Publicações",
+    title: "Posts",
     subtitle:
       "Artigos e notas técnicas sobre arquitetura, cloud, engenharia e processo de trabalho.",
-    ariaLabel: "Publicações",
-    readMore: "Ler publicação",
-    backToList: "Voltar às publicações",
-    notFoundTitle: "Publicação não encontrada",
+    ariaLabel: "Posts",
+    readMore: "Ler post",
+    backToList: "Voltar aos posts",
+    notFoundTitle: "Post não encontrado",
     notFoundDescription:
       "O conteúdo que você procura não existe ou foi movido.",
     publishedOn: "Publicado em",
@@ -196,12 +196,12 @@ const ptBR: SiteCopy = {
   carousel: {
     previousProject: "Projeto anterior",
     nextProject: "Próximo projeto",
-    previousPublication: "Publicação anterior",
-    nextPublication: "Próxima publicação",
+    previousPublication: "Post anterior",
+    nextPublication: "Próximo post",
     projects: "Projetos",
-    publications: "Publicações",
+    publications: "Posts",
     projectAria: "{title}, projeto {current} de {total}",
-    publicationAria: "{title}, publicação {current} de {total}",
+    publicationAria: "{title}, post {current} de {total}",
   },
 };
 
@@ -259,13 +259,13 @@ const en: SiteCopy = {
     ariaLabel: "Education",
   },
   publications: {
-    title: "Publications",
+    title: "Posts",
     subtitle:
       "Articles and technical notes on architecture, cloud, engineering, and working process.",
-    ariaLabel: "Publications",
-    readMore: "Read publication",
-    backToList: "Back to publications",
-    notFoundTitle: "Publication not found",
+    ariaLabel: "Posts",
+    readMore: "Read post",
+    backToList: "Back to posts",
+    notFoundTitle: "Post not found",
     notFoundDescription:
       "The content you are looking for does not exist or has been moved.",
     publishedOn: "Published on",
@@ -302,12 +302,12 @@ const en: SiteCopy = {
   carousel: {
     previousProject: "Previous project",
     nextProject: "Next project",
-    previousPublication: "Previous publication",
-    nextPublication: "Next publication",
+    previousPublication: "Previous post",
+    nextPublication: "Next post",
     projects: "Projects",
-    publications: "Publications",
+    publications: "Posts",
     projectAria: "{title}, project {current} of {total}",
-    publicationAria: "{title}, publication {current} of {total}",
+    publicationAria: "{title}, post {current} of {total}",
   },
 };
 
@@ -365,13 +365,13 @@ const es: SiteCopy = {
     ariaLabel: "Formación académica",
   },
   publications: {
-    title: "Publicaciones",
+    title: "Posts",
     subtitle:
       "Artículos y notas técnicas sobre arquitectura, cloud, ingeniería y proceso de trabajo.",
-    ariaLabel: "Publicaciones",
-    readMore: "Leer publicación",
-    backToList: "Volver a publicaciones",
-    notFoundTitle: "Publicación no encontrada",
+    ariaLabel: "Posts",
+    readMore: "Leer post",
+    backToList: "Volver a posts",
+    notFoundTitle: "Post no encontrado",
     notFoundDescription:
       "El contenido que buscas no existe o ha sido movido.",
     publishedOn: "Publicado el",
@@ -408,12 +408,12 @@ const es: SiteCopy = {
   carousel: {
     previousProject: "Proyecto anterior",
     nextProject: "Siguiente proyecto",
-    previousPublication: "Publicación anterior",
-    nextPublication: "Siguiente publicación",
+    previousPublication: "Post anterior",
+    nextPublication: "Siguiente post",
     projects: "Proyectos",
-    publications: "Publicaciones",
+    publications: "Posts",
     projectAria: "{title}, proyecto {current} de {total}",
-    publicationAria: "{title}, publicación {current} de {total}",
+    publicationAria: "{title}, post {current} de {total}",
   },
 };
 
