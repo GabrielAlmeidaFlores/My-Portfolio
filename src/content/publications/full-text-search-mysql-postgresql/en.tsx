@@ -32,18 +32,33 @@ const WHY_CHART = `flowchart TB
   SeqScan --> BadPerf`;
 
 const FTS_CHART = `flowchart TB
-  Source["Name + description"]
-  Token["Tokenization"]
-  Inverted["Inverted index"]
-  Query["Search term"]
-  Rank["Relevance ranking"]
-  Result["Better and faster results"]
+  subgraph indexPath ["1. Indexing inside the DB"]
+    Docs["Document text"]
+    Norm["Normalization<br/>case and accents"]
+    Tok["Tokenization"]
+    Stop["Remove stop words"]
+    Stem["Stemming / lexeme"]
+    Post["Postings<br/>doc + freq + position"]
+    Inv["Inverted index<br/>FULLTEXT or GIN"]
+    Docs --> Norm --> Tok --> Stop --> Stem --> Post --> Inv
+  end
 
-  Source --> Token
-  Token --> Inverted
-  Query --> Inverted
-  Inverted --> Rank
-  Rank --> Result`;
+  Map["Term to document map<br/>headset: Doc1<br/>bluetooth: Doc1, Doc2<br/>mouse: Doc2"]
+
+  subgraph queryPath ["2. Search execution"]
+    User["Query: bluetooth headset"]
+    QPipe["Same pipeline<br/>on the query"]
+    Look["Lookup terms"]
+    Bool["Combine postings<br/>intersection or union"]
+    Score["Score and ranking"]
+    Page["Sort and paginate"]
+    Out["Final results"]
+    User --> QPipe --> Look --> Bool --> Score --> Page --> Out
+  end
+
+  Inv --> Map
+  Map --> Look
+  Stem -.-> QPipe`;
 
 const VIDEO_URL = "https://www.youtube.com/watch?v=UYOr-rpQs1I";
 const MYSQL_FTS_URL =
@@ -384,32 +399,59 @@ WHERE to_tsvector('english', coalesce(name, '') || ' ' || coalesce(description, 
       <ArticleH2>6. What happens internally</ArticleH2>
 
       <ArticleP>
-        Full text search works by transforming raw text into searchable terms and
-        mapping where those terms appear.
+        Full Text Search does not “read the whole table” on every request. The
+        database prepares text ahead of time and, at query time, looks up a ready
+        structure: the inverted index.
+      </ArticleP>
+
+      <ArticleP>
+        The full process has two phases. During indexing, the database turns text
+        into terms and stores where each term appears. During search, it applies
+        the same treatment to the user query, intersects postings, and ranks.
       </ArticleP>
 
       <ArticleOl>
         <ArticleLi>
-          Tokenization splits text into useful units. Example: "Pro Bluetooth
-          Headset" becomes terms such as "pro", "bluetooth", and "headset".
+          Normalization: standardizes case and, when configured, accents.
+          Example: "Headset" and "headset" compete as the same term.
         </ArticleLi>
         <ArticleLi>
-          Stop words are removed from ranking logic. Example: words like "the"
-          and "a" stop competing with terms that actually discriminate results.
+          Tokenization: splits text into useful units. Example: "Pro Bluetooth
+          Headset" becomes "pro", "bluetooth", and "headset".
         </ArticleLi>
         <ArticleLi>
-          An inverted index maps each term to the documents that contain it.
-          Example: "bluetooth" points to the product IDs where that word appears.
+          Stop-word removal: drops low-value words from ranking. Example: "the"
+          and "a" stop polluting the index.
         </ArticleLi>
         <ArticleLi>
-          The engine ranks results by relevance. Example: a title with
-          "bluetooth headset" ranks above a description that only mentions
-          "bluetooth" once in the middle of a long paragraph.
+          Stemming / lexeme: reduces related forms to a shared root. Example:
+          "developer" and "developing" can collapse into the same lexeme.
+        </ArticleLi>
+        <ArticleLi>
+          Postings in the inverted index: each term points to documents, with
+          metadata useful for ranking. Example: "bluetooth" points to Doc1 and
+          Doc2, with term frequency and approximate position.
+        </ArticleLi>
+        <ArticleLi>
+          Index persistence: MySQL stores this in a{" "}
+          <ArticleCode>FULLTEXT</ArticleCode> index; PostgreSQL usually uses{" "}
+          <TermLink href={POSTGRES_GIN_URL}>GIN</TermLink> over{" "}
+          <ArticleCode>tsvector</ArticleCode>.
+        </ArticleLi>
+        <ArticleLi>
+          Search execution: the query goes through the same linguistic pipeline,
+          the database looks up terms, combines document lists, computes score,
+          and returns the ordered page.
         </ArticleLi>
       </ArticleOl>
 
+      <ArticleP>
+        The diagram below shows the end-to-end path: from raw text to the
+        inverted index, and from the user query to final ranking.
+      </ArticleP>
+
       <ArticleMermaid
-        ariaLabel="Full text pipeline with tokenization and inverted index"
+        ariaLabel="Full text search end-to-end flow: normalization, tokenization, inverted index, posting lookup, combination, and ranking"
         chart={FTS_CHART}
       />
 
