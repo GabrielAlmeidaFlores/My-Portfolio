@@ -5,17 +5,17 @@
 <h1 align="center">João Gabriel Almeida Flores</h1>
 
 <p align="center">
-  <strong>Desenvolvedor de Software · Arquiteto Cloud · SysAdmin · DevOps</strong>
+  <strong>Software Developer · Cloud Architect · SysAdmin · DevOps</strong>
 </p>
 
 <p align="center">
-  Transformo desafios complexos em plataformas escaláveis, seguras e cloud-native:
-  da arquitetura à produção, com foco em infraestrutura e entrega contínua de valor.
+  I turn complex challenges into scalable, secure, cloud-native platforms:
+  from architecture to production, with a focus on infrastructure and continuous delivery of value.
 </p>
 
 <p align="center">
   <a href="https://gabrielflores.kybers.com.br">
-    <img src="https://img.shields.io/badge/Acessar_site-2567A8?style=for-the-badge" alt="Acessar site" />
+    <img src="https://img.shields.io/badge/Visit_site-2567A8?style=for-the-badge" alt="Visit site" />
   </a>
 </p>
 
@@ -24,7 +24,7 @@
   ·
   <a href="https://www.linkedin.com/in/joao-gabriel-flores/">LinkedIn</a>
   ·
-  <a href="mailto:gabrielalmeidaflores@hotmail.com">E-mail</a>
+  <a href="mailto:gabrielalmeidaflores@hotmail.com">Email</a>
 </p>
 
 <p align="center">
@@ -36,86 +36,86 @@
 
 ---
 
-## Por que este portfólio?
+## Why this portfolio?
 
-Este não é um site genérico de “mais um desenvolvedor”. É a vitrine profissional de quem atua em arquitetura, cloud e engenharia, com projetos reais, stack atualizada e foco em impacto de negócio.
+This is not a generic “just another developer” website. It is a professional showcase for architecture, cloud, and engineering work, with real projects, a current stack, and a focus on business impact.
 
-**O que você encontra aqui**
+**What you will find here**
 
-- Experiência em cloud-native (AWS & Azure), CI/CD e plataformas multi-tenant, incluindo atuação como Líder Técnico na Ousion
-- Projetos de produto e open source: **Pulse**, **XCheck**, **HTTP-CLI**
-- Stack completa: backend, frontend, DevOps, bancos e observabilidade
-- Certificações AWS, GCP e Linux
-- Contato direto para conversas sobre arquitetura, cloud e oportunidades
+- Experience in cloud-native platforms (AWS & Azure), CI/CD, and multi-tenant systems, including work at Ousion
+- Product and open-source projects: **Pulse**, **XCheck**, **HTTP-CLI**
+- Full stack coverage: backend, frontend, DevOps, databases, and observability
+- AWS, GCP, and Linux certifications
+- Direct contact for conversations about architecture, cloud, and opportunities
 
-Se você busca alguém que une **código, infraestrutura e arquitetura**, este é o lugar certo.
+If you are looking for someone who connects **code, infrastructure, and architecture**, this is the right place.
 
 ---
 
-## Sobre o projeto
+## About the project
 
-Landing page single-page em React, pensada para primeira impressão forte, credibilidade técnica e conversão. Prioridades: performance, acessibilidade, animações discretas e código fácil de manter.
+A React single-page landing designed for a strong first impression, technical credibility, and conversion. Priorities: performance, accessibility, subtle animations, and maintainable code.
 
-| Camada        | Tecnologia     |
+| Layer         | Technology     |
 |---------------|----------------|
 | Framework     | React          |
 | Build         | Vite           |
-| Linguagem     | TypeScript     |
-| Estilos       | Tailwind CSS   |
-| Animações     | Framer Motion  |
+| Language      | TypeScript     |
+| Styles        | Tailwind CSS   |
+| Animations    | Framer Motion  |
 | Package mgr   | Yarn           |
 | Lint          | Oxlint         |
 
 ---
 
-## Como rodar
+## Getting started
 
 ```bash
-git clone <url-do-repositorio>
+git clone <repository-url>
 cd Gabriel-Flores-Portfolio
 yarn
 yarn dev
 ```
 
-Abra [http://localhost:5173](http://localhost:5173).
+Open [http://localhost:5173](http://localhost:5173).
 
-| Comando        | Descrição                   |
-|----------------|-----------------------------|
-| `yarn`         | Instala dependências        |
-| `yarn dev`     | Servidor de desenvolvimento |
-| `yarn build`   | Build de produção           |
-| `yarn preview` | Preview do build            |
-| `yarn lint`    | Lint com Oxlint             |
+| Command        | Description              |
+|----------------|--------------------------|
+| `yarn`         | Install dependencies     |
+| `yarn dev`     | Development server       |
+| `yarn build`   | Production build         |
+| `yarn preview` | Preview the build        |
+| `yarn lint`    | Lint with Oxlint         |
 
-Este projeto usa **somente Yarn** (`yarn.lock`). Não use `npm` nem gere `package-lock.json`.
-
----
-
-## Seções da landing
-
-| #  | Seção                    |
-|----|--------------------------|
-| 1  | Hero                     |
-| 2  | Experiência Profissional |
-| 3  | Projetos em Destaque     |
-| 4  | Tecnologias              |
-| 5  | Certificações            |
-| 6  | Formação                 |
-| 7  | Publicações              |
-| 8  | Contato                  |
-
-Convenções e detalhes de implementação: [`AGENTS.md`](./AGENTS.md).
+This project uses **Yarn only** (`yarn.lock`). Do not use `npm` or create a `package-lock.json`.
 
 ---
 
-## Estrutura
+## Landing sections
+
+| #  | Section          |
+|----|------------------|
+| 1  | Hero             |
+| 2  | Experience       |
+| 3  | Featured Projects|
+| 4  | Posts            |
+| 5  | Certifications   |
+| 6  | Technologies     |
+| 7  | Education        |
+| 8  | Contact          |
+
+Conventions and implementation details: [`AGENTS.md`](./AGENTS.md).
+
+---
+
+## Structure
 
 ```
 Gabriel-Flores-Portfolio/
-├── public/          # assets, CV, ícones
+├── public/          # assets, CV, icons
 ├── src/
 │   ├── components/  # ui, layout, sections
-│   ├── data/        # conteúdo tipado
+│   ├── data/        # typed content
 │   ├── hooks/
 │   ├── lib/
 │   ├── styles/
@@ -126,16 +126,16 @@ Gabriel-Flores-Portfolio/
 
 ---
 
-## Destaques de UX
+## UX highlights
 
-- Timeline de experiência com pills de stack
-- Carrossel de projetos com preview e CTA
-- Tema claro/escuro
-- Animações leves (Framer Motion + GSAP)
+- Experience timeline with stack pills
+- Project carousel with preview and CTA
+- Light/dark theme
+- Lightweight animations (Framer Motion + GSAP)
 - i18n (pt-BR / en / es)
 
 ---
 
 <p align="center">
-  <sub>Projeto pessoal · João Gabriel Almeida Flores · Todos os direitos reservados</sub>
+  <sub>Personal project · João Gabriel Almeida Flores · All rights reserved</sub>
 </p>
