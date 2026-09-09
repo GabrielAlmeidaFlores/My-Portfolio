@@ -1292,7 +1292,7 @@ Cite links and separate configuration causes from engine blocks.`}
           <ArticleCode>127.0.0.1</ArticleCode>, degrading engines = normal.
         </ArticleLi>
         <ArticleLi>
-          Agent: search → fetch → synthesis. Little noise in context.
+          Agent: search, then fetch, then synthesis. Little noise in context.
         </ArticleLi>
         <ArticleLi>
           Grounding raises factuality / freshness. It does not “improve the

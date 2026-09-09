@@ -313,7 +313,7 @@ const techBase: TechBase[] = [
   },
   {
     id: "dynamodb",
-    name: "DynamoDB",
+    name: "AWS DynamoDB",
     category: "database",
     relatedProjects: ["syntonia", "pulse"],
     relatedCertifications: [],
@@ -438,7 +438,7 @@ const descriptions: Record<Locale, Record<string, string>> = {
     java: "APIs y sistemas corporativos robustos con Java.",
     go: "Servicios de alto rendimiento y concurrencia con Go.",
     springboot: "Microservicios y APIs REST con Spring Boot.",
-    gin: "APIs HTTP ligeras y performantes en Go con Gin.",
+    gin: "APIs HTTP ligeras y de alto rendimiento en Go con Gin.",
   },
 };
 

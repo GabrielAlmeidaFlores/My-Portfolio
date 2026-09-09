@@ -144,7 +144,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       challenge:
         "Traditional toxicology tests require clinics, identity exposure, and personal documents on the report - creating friction and privacy risk.",
       solution:
-        "XCheck ships a kit home, enables online activation in minutes, and issues a PDF report identified only by the seal number: no name, CPF, or address on the document, with personal data deleted after a defined retention period.",
+        "XCheck ships a kit home, enables online activation in minutes, and issues a PDF report identified only by the seal number: no name, CPF (Brazilian taxpayer number), or address on the document, with personal data deleted after a defined retention period.",
       architecture:
         "Portal built with pure PHP 8.2 (no frameworks), Apache, MySQL 5.7, and vanilla HTML/CSS/JavaScript. Native JWT auth, PDF reports via wkhtmltopdf/FPDF, webhooks (Loja Integrada and Innovatox), WhatsApp/SMTP notifications, and containerized deploy on Azure App Service.",
     },
@@ -224,7 +224,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       challenge:
         "Los exámenes toxicológicos tradicionales exigen clínica, exposición de identidad y documentos personales en el informe - lo que genera fricción y riesgo a la privacidad.",
       solution:
-        "XCheck envía el kit a domicilio, permite activación online en minutos y emite un PDF identificado solo por el precinto: sin nombre, CPF ni dirección en el documento, con datos personales eliminados tras el plazo definido.",
+        "XCheck envía el kit a domicilio, permite activación online en minutos y emite un PDF identificado solo por el precinto: sin nombre, CPF (número fiscal brasileño) ni dirección en el documento, con datos personales eliminados tras el plazo definido.",
       architecture:
         "Portal en PHP 8.2 puro (sin frameworks) con Apache, MySQL 5.7 y frontend HTML/CSS/JavaScript vanilla. Autenticación JWT nativa, generación de informes con wkhtmltopdf/FPDF, webhooks (Loja Integrada e Innovatox), notificaciones WhatsApp/SMTP y deploy containerizado en Azure App Service.",
     },
@@ -237,7 +237,7 @@ export const projectsByLocale: Record<Locale, Project[]> = {
       githubUrl: httpCliGithub,
       technologies: ["Go", "Bubble Tea", "Cobra", "YAML", "TUI"],
       results: [
-        "Layout de tres paneles con editor de request por pestañas",
+        "Layout de tres paneles con editor de peticiones por pestañas",
         "Import/export de cURL y collections Postman v2.1",
         "Navegación vim y keybindings totalmente configurables",
       ],

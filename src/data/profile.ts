@@ -42,7 +42,7 @@ export const profiles: Record<Locale, Profile> = {
     cvUrl: "/cv/Gabriel_Flores_EN.pdf",
     role: "Desarrollador de Software • Arquitecto Cloud • SysAdmin • DevOps",
     tagline:
-      "Construyendo plataformas escalables, seguras y resilientes con foco en arquitectura cloud-native, infraestructura y entrega continua de valor.",
+      "Construyendo plataformas escalables, seguras y resilientes con enfoque en arquitectura cloud-native, infraestructura y entrega continua de valor.",
     highlights: [
       "💻 Desarrollador de Software",
       "☁️ Arquitecto Cloud (AWS & Azure)",

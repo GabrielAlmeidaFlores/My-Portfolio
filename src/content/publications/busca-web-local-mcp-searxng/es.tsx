@@ -1290,7 +1290,7 @@ Cita links y separa causa de configuración de bloqueo de engine.`}
           <ArticleCode>127.0.0.1</ArticleCode>, engines que degradan = normal.
         </ArticleLi>
         <ArticleLi>
-          Agente: search → fetch → síntesis. Poco ruido en el contexto.
+          Agente: search, después fetch y luego síntesis. Poco ruido en el contexto.
         </ArticleLi>
         <ArticleLi>
           Grounding sube factualidad / frescura. No “mejora el prompt” solo.

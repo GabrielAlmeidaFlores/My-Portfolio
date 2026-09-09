@@ -327,7 +327,7 @@ const es: SiteCopy = {
   experience: {
     title: "Experiencia Profesional",
     subtitle:
-      "Trayectoria en empresas de tecnología, con foco en arquitectura, cloud e ingeniería de software.",
+      "Trayectoria en empresas de tecnología, con enfoque en arquitectura, cloud e ingeniería de software.",
     ariaLabel: "Experiencia profesional",
     others: "Otras",
     showLess: "Ver menos",

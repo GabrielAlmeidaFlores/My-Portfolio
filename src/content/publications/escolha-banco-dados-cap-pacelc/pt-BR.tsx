@@ -266,6 +266,28 @@ export function EscolhaBancoDadosCapPacelcContentPt() {
         </ArticleLi>
       </ArticleUl>
 
+      <ArticleCallout variant="tip" title="Atalho">
+        <ArticleP>
+          Quer o mapa de decisão e a tabela de bancos agora? Pule para a{" "}
+          <a href="#4-cap-e-pacelc" className={linkClass}>
+            seção 4
+          </a>{" "}
+          e a{" "}
+          <a
+            href="#5-como-modelos-de-banco-impactam-a-escolha"
+            className={linkClass}
+          >
+            seção 5
+          </a>
+          .
+        </ArticleP>
+      </ArticleCallout>
+
+      <ArticleP>
+        Se preferir o caminho completo: escala, réplicas, teoremas e, só então,
+        a tabela.
+      </ArticleP>
+
       <ArticleH2>2. Do servidor único ao gargalo no banco</ArticleH2>
 
       <ArticleP>
