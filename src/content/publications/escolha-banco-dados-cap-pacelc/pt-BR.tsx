@@ -3,7 +3,6 @@ import {
   ArticleCode,
   ArticleH2,
   ArticleH3,
-  ArticleImg,
   ArticleLi,
   ArticleMermaid,
   ArticleOl,
@@ -18,16 +17,22 @@ import {
 } from "@/components/article";
 import type { ReactNode } from "react";
 
+const CAP_CHART = `flowchart TB
+  P["P: partição acontece"] --> Q{"Sob partição, o que priorizar?"}
+  Q -->|"Consistência"| CP["CP: consistência forte"]
+  Q -->|"Disponibilidade"| AP["AP: disponibilidade"]
+  CA["CA: sem partição, C + A"] -.->|"fora do cenário distribuído"| Q`;
+
 const SCALE_CHART = `flowchart LR
   S1["1 servidor"] --> S2["API + DB separados"]
   S2 --> S3["N apps + LB"]
   S3 --> S4["1 DB gargalo"]`;
 
 const REPLICATION_CHART = `flowchart TB
-  Apps["Apps / API"]
-  Primary["Primary write"]
-  R1["Replica read"]
-  R2["Replica read"]
+  Apps(["Apps / API"])
+  Primary[("Primary write")]
+  R1[("Replica read")]
+  R2[("Replica read")]
 
   Apps -->|"escrita"| Primary
   Apps -->|"leitura"| R1
@@ -37,26 +42,26 @@ const REPLICATION_CHART = `flowchart TB
 
 const TRADEOFF_CHART = `flowchart TB
   Write["Escrita no primary"]
-  Write --> Sync["Replicacao sincrona"]
-  Write --> Async["Replicacao assincrona"]
-  Sync --> PainSync["Latencia / indisponibilidade"]
-  Async --> PainAsync["Consistencia eventual"]`;
+  Write --> Sync["Replicação síncrona"]
+  Write --> Async["Replicação assíncrona"]
+  Sync --> PainSync["Latência / indisponibilidade"]
+  Async --> PainAsync["Consistência eventual"]`;
 
 const PACELC_CHART = `flowchart TB
-  Q["Ha particao de rede?"]
+  Q["Há partição de rede?"]
   Q -->|"Sim"| PA["Escolha: A ou C"]
-  Q -->|"Nao"| EL["Escolha: L ou C"]
+  Q -->|"Não"| EL["Escolha: L ou C"]
   PA --> Social["Ex: like / feed"]
   PA --> Bank["Ex: saldo / Pix"]
-  EL --> Fast["Baixa latencia"]
-  EL --> Strong["Consistencia forte"]`;
+  EL --> Fast["Baixa latência"]
+  EL --> Strong["Consistência forte"]`;
 
 const CASSANDRA_CHART = `flowchart TB
-  Client["Cliente"]
-  N1["No 1"]
-  N2["No 2"]
-  N3["No 3"]
-  N4["No 4"]
+  Client(["Cliente"])
+  N1[("No 1")]
+  N2[("No 2")]
+  N3[("No 3")]
+  N4[("No 4")]
 
   Client --> N1
   Client --> N2
@@ -68,10 +73,10 @@ const CASSANDRA_CHART = `flowchart TB
   N4 --- N1`;
 
 const QUORUM_CHART = `flowchart LR
-  RF["RF = 10 nos"] --> Maj["Quorum = 6"]
+  RF{{"RF = 10 nos"}} --> Maj{{"Quorum = 6"}}
   Maj --> Write["Write QUORUM"]
   Maj --> Read["Read QUORUM"]
-  Write --> Safe["Intersecao garante dado fresco"]
+  Write --> Safe(["Intersecao garante dado fresco"])
   Read --> Safe`;
 
 const linkClass =
@@ -471,7 +476,7 @@ export function EscolhaBancoDadosCapPacelcContentPt() {
       </ArticleP>
 
       <ArticleMermaid
-        ariaLabel="Escrita: caminho sincrono gera latencia ou indisponibilidade; assincrono gera consistencia eventual"
+        ariaLabel="Escrita: caminho síncrono gera latência ou indisponibilidade; assíncrono gera consistência eventual"
         chart={TRADEOFF_CHART}
       />
 
@@ -515,44 +520,11 @@ export function EscolhaBancoDadosCapPacelcContentPt() {
         async mantém A e abre mão de C imediata.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem.svg"
-        alt="Diagrama do teorema CAP com Consistency, Availability e Partition tolerance"
-        caption={
-          <>
-            Diagrama clássico do{" "}
-            <TermLink href={CAP_URL}>CAP</TermLink>. Fonte:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem.svg"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
-      />
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem-euler.png"
-        alt="Diagrama de Euler do teorema CAP mostrando os pares CA, CP e AP"
-        caption={
-          <>
-            Visão em conjuntos (CA / CP / AP) do{" "}
-            <TermLink href={CAP_URL}>CAP</TermLink>. Fonte:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem_Euler_Diagram.png"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
+
+      <ArticleMermaid
+        ariaLabel="CAP: sob partição, escolher consistência ou disponibilidade; CA fica fora do cenário distribuído"
+        chart={CAP_CHART}
       />
 
       <ArticleH3>
@@ -585,24 +557,6 @@ export function EscolhaBancoDadosCapPacelcContentPt() {
         É esse mapa que eu uso na entrevista e no desenho de serviço.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/pacelc-theorem.png"
-        alt="Diagrama do teorema PACELC: sob partição A ou C; senão latência ou C"
-        caption={
-          <>
-            <TermLink href={PACELC_URL}>PACELC</TermLink> em uma figura. Fonte:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:PACELC_theorem.png"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
-      />
 
       <ArticleMermaid
         ariaLabel="Decisão PACELC: com partição A ou C; sem partição latência ou C"
@@ -1095,12 +1049,10 @@ VALUES (uuid(), 'Camera Sony', 15000);`}
         No client, o nível de consistência entra na operação:
       </ArticleP>
 
-      <ArticleCode block>
-        {`// escrita com quórum (maioria do RF)
-statement.setConsistencyLevel(ConsistencyLevel.QUORUM);
+      <ArticleCode block language="java">
+        {`statement.setConsistencyLevel(ConsistencyLevel.QUORUM);
 session.execute(statement);
 
-// leitura folgada (aceita possível atraso)
 readStatement.setConsistencyLevel(ConsistencyLevel.ONE);
 session.execute(readStatement);`}
       </ArticleCode>

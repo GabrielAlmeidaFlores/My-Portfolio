@@ -44,7 +44,7 @@
   <text x="88" y="150" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" letter-spacing="0.42em" fill="#94a3b8">VPS DAY-1</text>
   <text x="88" y="230" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="72" font-weight="700" letter-spacing="0.04em" fill="url(#linux-green)" filter="url(#linux-glow)">HARDENING</text>
   <text x="88" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="42" font-weight="600" letter-spacing="0.18em" fill="#e2e8f0">LINUX</text>
-  <text x="88" y="340" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#94a3b8">SSH · firewall · sysctl · baseline seguro</text>
+  <text x="88" y="340" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" fill="#94a3b8">SSH · firewall · sysctl · secure baseline</text>
 
   <g transform="translate(88 390)">
     <rect x="0" y="0" width="112" height="40" rx="20" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>

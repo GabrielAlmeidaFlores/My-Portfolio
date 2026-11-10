@@ -18,7 +18,7 @@ import {
 import type { ReactNode } from "react";
 
 const WHY_CHART = `flowchart TB
-  User["Usuario escribe búsqueda"]
+  User(["Usuario escribe búsqueda"])
   Api["API arma consulta"]
   Like["LIKE con wildcard"]
   SeqScan["Escaneo completo"]
@@ -33,26 +33,26 @@ const WHY_CHART = `flowchart TB
 
 const FTS_CHART = `flowchart TB
   subgraph indexPath ["1. Indexación en la base"]
-    Docs["Texto del documento"]
+    Docs[["Texto del documento"]]
     Norm["Normalización<br/>caja y acento"]
     Tok["Tokenización"]
     Stop["Quita stop words"]
     Stem["Stemming / lexema"]
-    Post["Postings<br/>doc + freq + posición"]
-    Inv["Índice invertido<br/>FULLTEXT o GIN"]
+    Post[("Postings<br/>doc + freq + posición")]
+    Inv[("Índice invertido<br/>FULLTEXT o GIN")]
     Docs --> Norm --> Tok --> Stop --> Stem --> Post --> Inv
   end
 
   Map["Mapa término a docs<br/>auricular: Doc1<br/>bluetooth: Doc1, Doc2<br/>mouse: Doc2"]
 
   subgraph queryPath ["2. Ejecución de la búsqueda"]
-    User["Query: auricular bluetooth"]
+    User(["Query: auricular bluetooth"])
     QPipe["Mismo pipeline<br/>en la query"]
     Look["Lookup de términos"]
     Bool["Cruza postings<br/>intersección o unión"]
     Score["Score y ranking"]
-    Page["Ordena y pagina"]
-    Out["Resultados finales"]
+    Page["Ordena y página"]
+    Out(["Resultados finales"])
     User --> QPipe --> Look --> Bool --> Score --> Page --> Out
   end
 
@@ -506,7 +506,7 @@ WHERE to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, 
 
       <ArticleP>
         En <TermLink href={POSTGRES_FTS_URL}>PostgreSQL</TermLink>, estas
-        funciones suelen cubrir la mayoria de casos:
+        funciones suelen cubrir la mayoría de casos:
       </ArticleP>
 
       <ArticleUl>

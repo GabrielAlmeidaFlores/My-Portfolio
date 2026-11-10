@@ -7,6 +7,7 @@ import { SectionWrapper } from "@/components/layout/SectionWrapper";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { GridBackground } from "@/components/ui/GridBackground";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { OrganizationLogo } from "@/components/ui/OrganizationLogo";
 import { Badge } from "@/components/ui/Badge";
 import { MonoText } from "@/components/ui/MonoText";
 import { FadeIn } from "@/components/ui/FadeIn";
@@ -128,6 +129,9 @@ export function ExperienceSection() {
               <div className="relative">
                 <div className="timeline-dot absolute -left-10 top-6" />
                 <SpotlightCard className="w-full p-7">
+                  {item.logo && (
+                    <OrganizationLogo src={item.logo} alt={item.company} />
+                  )}
                   <MonoText className="text-primary-500">{item.period}</MonoText>
                   <h3 className="text-safe mt-2 w-full text-2xl font-bold">{item.role}</h3>
                   <p className="text-safe text-lg text-muted">{item.company}</p>

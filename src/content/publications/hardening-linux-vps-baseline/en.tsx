@@ -18,11 +18,11 @@ import {
 import type { ReactNode } from "react";
 
 const ORDER_CHART = `flowchart LR
-  A["1. User + key"] --> B["2. SSH + sudo"]
+  A(["1. User + key"]) --> B["2. SSH + sudo"]
   B --> C["3. Firewall + sysctl"]
   C --> D["4. Time + MAC"]
   D --> E["5. Updates + fail2ban"]
-  E --> F["6. Cut + verify"]`;
+  E --> F(["6. Cut + verify"])`;
 
 const linkClass =
   "font-semibold text-primary-600 underline-offset-2 hover:underline dark:text-primary-300";

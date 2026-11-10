@@ -29,7 +29,10 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Deps pesadas | Mermaid e libs grandes com `import()` dinâmico; rotas com `React.lazy` |
 | Sem exports legados | Proibido `export const x = xByLocale["pt-BR"]` |
 | Dados fora de componentes | Conteúdo em `data/` / `content/`, tipado em `types/` |
-| Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas |
+| Publicações | JSX + kit `article/`; mesma margem lateral; corpo nos 3 idiomas; grid desktop paginado com 4 posts por página |
+| Código em publicações | Blocos com syntax highlight estilo IDE (Prism), botão de copiar e cores só via tokens `--syntax-*` |
+| Imagens de publicações | Texto de capas e imagens sempre em **inglês**, independente do locale do corpo; capas seguem o mesmo padrão de título e subtítulo das demais; proibido usar imagens externas de diagramas/benchmarks |
+| Diagramas de publicações | Mermaid clicável com paleta semântica, formas próprias e fundo dedicado; viewer acessível com zoom, pan, reset e download; animação respeita `prefers-reduced-motion` |
 | Prosa de publicações | Leitura leve e completa; storytelling; diagrama após o texto e com blocos compactos; termos explicados na 1ª menção e linkados em toda ocorrência legível |
 | Tom informativo (posts) | Nunca escrever como se o autor tivesse feito algo de errado; explicar padrões, riscos e tradeoffs sem autoacusação |
 | `max-w-*` | Exige token `--max-width-*` em `@theme` (não misturar com `--spacing-*`) |
@@ -50,6 +53,7 @@ Landing page profissional em **React** (com rotas para publicações) para Gabri
 | Animações | Framer Motion (UI) + GSAP/ScrollTrigger (scroll) |
 | Roteamento | React Router |
 | Diagramas | Mermaid (lazy / dynamic import) |
+| Syntax highlight | Prism (`prism-react-renderer`) |
 | Package manager | Yarn (`yarn.lock` apenas) |
 | Tema | `ThemeProvider` compartilhado |
 | Lint | Oxlint |
@@ -160,10 +164,10 @@ sections/
   <HeroSection />
   <ExperienceSection />
   <ProjectsSection />
-  <TechnologiesSection />
-  <CertificationsSection />
-  <EducationSection />
   <PublicationsSection />
+  <CertificationsSection />
+  <TechnologiesSection />
+  <EducationSection />
   <ContactSection />
 </main>
 <Footer />
@@ -233,15 +237,16 @@ Rotas adicionais:
 
 **Objetivo:** artigos e notas técnicas estilo documentação, com página dedicada.
 
-**Listagem (landing):** no mobile, carrossel (`PublicationCarousel`) no mesmo padrão dos projetos (setas laterais + indicadores); em `md+`, grid de cards. Cada card: capa, título, resumo, data e tags, com link para `/publicacoes/:slug`
+**Listagem (landing):** no mobile, carrossel (`PublicationCarousel`) no mesmo padrão dos projetos (setas laterais + indicadores), com todos os posts; em `md+`, grid de cards paginado com **4 posts por página**, controles de página numerados, anterior/próxima e status acessível. Cada card: capa, título, resumo, data e tags, com link para `/publicacoes/:slug`
 
 **Página de leitura (`PublicationPage` / rota `/publicacoes/:slug`):**
 - Botão voltar para `/#publicacoes`
 - Metadados + capa + corpo do artigo
 - **Índice do artigo (TOC):** estilo Medium (trilha vertical de tracinhos fixa à esquerda no desktop). Colapsado: só as marcas. No hover/focus: expande e mostra os títulos de `ArticleH2`/`ArticleH3` com âncoras e destaque da seção ativa (`ArticleTableOfContents` + `useArticleHeadings`). Não entra no fluxo do texto; oculto abaixo de `lg`
 - Corpo em **JSX** com kit `components/article/`
-- Imagens em `public/images/publications/<slug>/` via `ArticleImg` (`alt` obrigatório; preferir baixar da web/docs oficiais a hotlink)
-- Diagramas via `ArticleMermaid` (`import()` dinâmico; render lazy com IntersectionObserver + fila serial; `ariaLabel` obrigatório); usar quando não houver imagem pronta adequada
+- Blocos de código via `ArticleCode block` com syntax highlight estilo IDE (Prism), botão de copiar com feedback, detecção automática de linguagem + prop `language` para forçar; cores apenas via tokens `--syntax-*` (tema claro/escuro), sem cor hardcoded
+- Imagens em `public/images/publications/<slug>/` via `ArticleImg` (`alt` obrigatório; preferir baixar da web/docs oficiais a hotlink). Texto dentro de capas/imagens sempre em **inglês**, mesmo quando o corpo está em pt-BR ou es. Capas seguem o mesmo padrão visual: título e subtítulo na mesma posição, tamanho e peso das demais, sem barras, riscos ou hierarquias extras. **Proibido usar imagens externas de diagramas ou gráficos de benchmark**: recriar o diagrama em Mermaid ou apresentar os dados em tabela com fonte
+- Diagramas via `ArticleMermaid` (`import()` dinâmico; render lazy com IntersectionObserver + fila serial; `ariaLabel` obrigatório); clicáveis, abrem viewer com zoom, pan, reset e download em modal animado com foco preso; usar quando não houver imagem pronta adequada
 - Em cada H2/H3: aplicar o **teste visual** (imagem da web primeiro; Mermaid como fallback); headings geram `id` automático (slug) para âncoras do TOC
 - Antes da Conclusão: seção **Key takeaways** / Pontos-chave / Puntos clave (lista curta)
 - `ArticleCallout` exige `title` traduzido
@@ -253,6 +258,26 @@ Rotas adicionais:
 **i18n:** `title`, `summary`, `tags`, `Content` nos três locales: sem fallback parcial; labels do TOC em `copy.publications.tableOfContents` / `tableOfContentsAria`
 
 **Componentes:** `PublicationsSection`, `PublicationCard`, `PublicationCarousel`, `PublicationPage`, kit `article/` (inclui `ArticleTableOfContents`)
+
+#### Visual dos diagramas Mermaid
+
+Os diagramas usam um sistema semântico compartilhado, aplicado em `renderMermaidChart.ts` e estilizado via `data-role` no CSS:
+
+| Papel | Exemplos de nós | Cor | Forma |
+|---|---|---|---|
+| Dados / storage | `DB`, `Primary`, `R1`, `Graph`, `Inv` | azul | cilindro |
+| Processo / serviço | `Api`, `MCP`, `Merge`, `Service` | violeta | retângulo arredondado |
+| Decisão | `Q`, `Domain`, `Read`, `Size` | âmbar | diamante |
+| Externo / usuário | `Client`, `User`, `Apps`, `Agent` | ciano | pílula |
+| Início | `Start`, `Need`, `Write` | ciano | pílula |
+| Sucesso / saída | `Result`, `Out`, `Safe`, `Hybrid`, `F` | verde | pílula ou retângulo |
+| Alerta / risco | `Pain`, `Bad`, `Gap`, `S4` | vermelho | retângulo |
+| Interface | `Port` | azul | subrotina |
+
+- Cores sempre via tokens (`--color-*` + `color-mix`), funcionando nos temas claro e escuro.
+- Classes de papel são adicionadas automaticamente pelo ID do nó, com exceções explícitas no `renderMermaidChart.ts`.
+- Formas são aplicadas por ID em cada chart, nos três locales, preservando os rótulos localizados; as cores vêm do `data-role` resolvido no render.
+- Não adicionar pacote de ícones ao Mermaid sem aprovação explícita.
 
 #### Tom e prosa das publicações (obrigatório)
 
@@ -332,6 +357,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 22. **Fechamento = Conclusão, nunca “Executive summary”.** Proibido títulos ou seções no estilo *Executive summary* / *Resumo executivo* / *Resumen ejecutivo*. Preferir **Conclusão** (`pt-BR`), **Conclusion** (`en`), **Conclusión** (`es`): fechamento humano, em prosa, sem tom de relatório corporativo. A Conclusão vem **depois** dos Key takeaways.
 23. **Frase curta precisa ser cristalina.** Ao usar frases rápidas para dar ritmo, validar se um leitor externo entende na primeira leitura. Evitar atalho interno, sigla solta ou shorthand sem contexto (ex.: "documento + C no set", "X/Y/Z/W/D", "brief"), e preferir frase completa com sujeito, condição e consequência explícitos.
 24. **Exemplos são o padrão de clareza (obrigatório em afirmações abstratas).** Sempre que o texto afirmar um comportamento, risco, tradeoff, falha ou benefício, acompanhar com um exemplo concreto do dia a dia (produto, query, comando, cenário). Preferir “afirmação + exemplo” a slogan técnico. Errado: `Weak relevance: it matches characters, not intent.` Certo: explicar o que isso significa e dar um caso (`"anel"` traz `"panela"`). Vale para prosa, listas, callouts e tabelas. Exceção estreita: takeaways finais e checklists de ação já óbvios pelo contexto imediato da seção.
+25. **Didática acima de brevidade (obrigatório).** Não economizar texto quando faltar contexto para o leitor entender o mecanismo. Explicar o vocabulário antes dos exemplos, acompanhar cada bloco de código com o que ele mostra e por que existe, detalhar o caminho de execução (quem chama quem, o que volta) e dizer o que muda no resultado. Preferir uma seção mais longa e clara a uma seção curta que pressupõe conhecimento. Exemplo: em um post de ORM, definir ORM, micro-ORM, mapeamento, change tracking, migration, N+1 e transação antes de comparar ferramentas. Brevidade vale para frases, não para ideias que o leitor precisa para acompanhar o texto.
 
 **Checklist rápido de prosa:**
 
@@ -352,6 +378,7 @@ Proibido abrir com metáforas soltas, frases de efeito sem âncora (“gira em f
 - [ ] Teste do leitor: alguém de fora consegue explicar o mecanismo de volta
 - [ ] Nenhum travessão (`—`) em lugar nenhum do site (UI, data, meta, artigos)
 - [ ] Parágrafos com contexto suficiente (não só frases soltas)
+- [ ] Didática acima de brevidade: termos definidos antes dos exemplos e cada bloco de código explicado no texto
 - [ ] Poucas muralhas densas; onde houver várias ideias paralelas, preferir lista
 - [ ] Zero clichês da lista acima
 - [ ] Frases curtas continuam claras para leitor externo (sem shorthand ambíguo)
@@ -673,6 +700,11 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - [ ] Dependências/scripts via Yarn; sem `package-lock.json`
 - [ ] Regras novas do usuário refletidas neste `AGENTS.md` (se houver)
 - [ ] Publicações: intro conectada; prosa simples; referente explícito (sem “ele” solto); sem seta `→` em fluxo; key takeaways antes da conclusão; teste visual; diagrama após texto; termos explicados na 1ª menção + link em toda ocorrência legível; teste do leitor; sem seção rasa / Executive summary
+- [ ] Blocos de código com highlight estilo IDE, botão de copiar e cores só via tokens `--syntax-*`
+- [ ] Mermaid clicável com viewer acessível (zoom, pan, reset, download) e animação respeitando `prefers-reduced-motion`
+- [ ] Texto de capas/imagens de publicações em inglês
+- [ ] Capas mantêm o mesmo padrão de título e subtítulo das demais
+- [ ] Publicações sem imagens externas de diagramas; usar Mermaid ou tabela com fonte
 - [ ] Tom informativo: sem autoacusação (“eu errei”, “ferida minha”, “misturei errado”); riscos/anti-padrões em 3ª pessoa ou como padrão observado
 - [ ] Sem travessão (`—`) em nenhum conteúdo do site (UI, data, meta, README, artigos)
 
@@ -688,10 +720,13 @@ Escopos sugeridos: `hero`, `about`, `projects`, `publications`, `contact`, `ui`,
 - Encher nó de Mermaid com parágrafo longo (blocos exageradamente grandes)
 - Citar tecnologia/jargão sem explicar em linguagem simples na primeira menção, ou sem link em cada ocorrência legível do termo
 - Deixar subseção de arquitetura rasa (só nomes, sem o quê / para quê / como se conecta)
+- Economizar contexto didático a ponto de o leitor precisar adivinhar o mecanismo ou o que o código faz
 - Usar tom de “medo de código” / “falta de capacidade” para justificar decisão técnica
 - Escrever publicação como se o autor tivesse feito algo de errado (autoacusação); preferir tom informativo
 - Usar vocabulário pejorativo/moralizante (“tentação”, etc.) para escolhas técnicas
 - Fechar publicação com “Executive summary” / “Resumo executivo” (usar Conclusão)
+- Usar cores hardcoded no syntax highlight (usar tokens `--syntax-*`)
+- Colocar texto em pt-BR nas capas/imagens de publicações
 - Usar `max-w-3xl` sem `--max-width-3xl` no tema
 - Deixar capa/botão/texto da publicação com larguras laterais diferentes
 - Adicionar comentários no código

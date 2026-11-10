@@ -23,8 +23,144 @@ import {
   HardeningLinuxVpsBaselineContentEs,
   HardeningLinuxVpsBaselineContentPt,
 } from "@/content/publications/hardening-linux-vps-baseline";
+import {
+  SolidNaPraticaContentEn,
+  SolidNaPraticaContentEs,
+  SolidNaPraticaContentPt,
+} from "@/content/publications/solid-na-pratica";
+import {
+  DapperEntityFrameworkOrmsDotnetContentEn,
+  DapperEntityFrameworkOrmsDotnetContentEs,
+  DapperEntityFrameworkOrmsDotnetContentPt,
+} from "@/content/publications/dapper-entity-framework-orms-dotnet";
+import {
+  GraphifyMapaCodebaseContentEn,
+  GraphifyMapaCodebaseContentEs,
+  GraphifyMapaCodebaseContentPt,
+} from "@/content/publications/graphify-mapa-codebase";
 
 export const publications: Publication[] = [
+  {
+    id: "graphify-mapa-codebase",
+    slug: "graphify-mapa-codebase",
+    publishedAt: "2026-11-10",
+    tags: {
+      "pt-BR": [
+        "Graphify",
+        "Knowledge Graph",
+        "Code Search",
+        "Agentes de IA",
+        "MCP",
+        "Tree-sitter",
+      ],
+      en: [
+        "Graphify",
+        "Knowledge Graph",
+        "Code Search",
+        "AI Agents",
+        "MCP",
+        "Tree-sitter",
+      ],
+      es: [
+        "Graphify",
+        "Grafo de Conocimiento",
+        "Búsqueda de Código",
+        "Agentes de IA",
+        "MCP",
+        "Tree-sitter",
+      ],
+    },
+    coverImage: "/images/publications/graphify-mapa-codebase/cover.svg",
+    title: {
+      "pt-BR": "Graphify: mapa do codebase para humanos e agentes",
+      en: "Graphify: a codebase map for humans and agents",
+      es: "Graphify: un mapa del codebase para humanos y agentes",
+    },
+    summary: {
+      "pt-BR":
+        "O que é o Graphify, como instalar e consultar o grafo, quando ele ajuda de verdade e o que os benchmarks do projeto mostram sobre busca em código.",
+      en: "What Graphify is, how to install and query the graph, when it actually helps, and what the project benchmarks show about code search.",
+      es: "Qué es Graphify, cómo instalar y consultar el grafo, cuándo ayuda de verdad y qué muestran los benchmarks del proyecto sobre búsqueda en código.",
+    },
+    Content: {
+      "pt-BR": GraphifyMapaCodebaseContentPt,
+      en: GraphifyMapaCodebaseContentEn,
+      es: GraphifyMapaCodebaseContentEs,
+    },
+  },
+  {
+    id: "dapper-entity-framework-orms-dotnet",
+    slug: "dapper-entity-framework-orms-dotnet",
+    publishedAt: "2026-11-10",
+    tags: {
+      "pt-BR": ["C#", ".NET", "Dapper", "Entity Framework", "ORM", "Banco de Dados"],
+      en: ["C#", ".NET", "Dapper", "Entity Framework", "ORM", "Databases"],
+      es: ["C#", ".NET", "Dapper", "Entity Framework", "ORM", "Bases de Datos"],
+    },
+    coverImage:
+      "/images/publications/dapper-entity-framework-orms-dotnet/cover.svg",
+    title: {
+      "pt-BR": "Dapper, Entity Framework e outros ORMs: quando usar cada um no .NET",
+      en: "Dapper, Entity Framework, and other ORMs: when to use each in .NET",
+      es: "Dapper, Entity Framework y otros ORMs: cuándo usar cada uno en .NET",
+    },
+    summary: {
+      "pt-BR":
+        "Micro-ORM vs ORM completo com código C#, tradeoffs de produtividade e controle, e um mapa dos principais ORMs do ecossistema .NET.",
+      en: "Micro-ORM vs full ORM with C# code, productivity and control tradeoffs, and a map of the main ORMs in the .NET ecosystem.",
+      es: "Micro-ORM vs ORM completo con código C#, tradeoffs de productividad y control, y un mapa de los principales ORMs del ecosistema .NET.",
+    },
+    Content: {
+      "pt-BR": DapperEntityFrameworkOrmsDotnetContentPt,
+      en: DapperEntityFrameworkOrmsDotnetContentEn,
+      es: DapperEntityFrameworkOrmsDotnetContentEs,
+    },
+  },
+  {
+    id: "solid-na-pratica",
+    slug: "solid-na-pratica",
+    publishedAt: "2026-11-10",
+    tags: {
+      "pt-BR": [
+        "SOLID",
+        "Arquitetura",
+        "TypeScript",
+        "Clean Code",
+        "Orientação a Objetos",
+      ],
+      en: [
+        "SOLID",
+        "Architecture",
+        "TypeScript",
+        "Clean Code",
+        "Object Orientation",
+      ],
+      es: [
+        "SOLID",
+        "Arquitectura",
+        "TypeScript",
+        "Clean Code",
+        "Orientación a Objetos",
+      ],
+    },
+    coverImage: "/images/publications/solid-na-pratica/cover.svg",
+    title: {
+      "pt-BR": "SOLID na prática: cinco princípios com exemplos reais",
+      en: "SOLID in practice: five principles with real examples",
+      es: "SOLID en la práctica: cinco principios con ejemplos reales",
+    },
+    summary: {
+      "pt-BR":
+        "Os cinco princípios com código antes e depois, tradeoffs e o momento em que aplicar SOLID passa a atrapalhar.",
+      en: "The five principles with before and after code, tradeoffs, and the moment when applying SOLID starts to get in the way.",
+      es: "Los cinco principios con código antes y después, tradeoffs y el momento en que aplicar SOLID empieza a estorbar.",
+    },
+    Content: {
+      "pt-BR": SolidNaPraticaContentPt,
+      en: SolidNaPraticaContentEn,
+      es: SolidNaPraticaContentEs,
+    },
+  },
   {
     id: "full-text-search-mysql-postgresql",
     slug: "full-text-search-mysql-postgresql",

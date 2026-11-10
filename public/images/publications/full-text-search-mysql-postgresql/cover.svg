@@ -40,9 +40,9 @@
   </g>
 
   <text x="140" y="730" fill="#E2E8F0" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="700">
-    Full Text Search em MySQL e PostgreSQL
+    Full Text Search in MySQL and PostgreSQL
   </text>
   <text x="140" y="784" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">
-    relevancia, performance e decisoes praticas
+    relevance, performance and practical decisions
   </text>
 </svg>

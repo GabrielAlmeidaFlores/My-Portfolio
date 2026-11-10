@@ -18,11 +18,11 @@ import {
 import type { ReactNode } from "react";
 
 const ORDER_CHART = `flowchart LR
-  A["1. Usuario + clave"] --> B["2. SSH + sudo"]
+  A(["1. Usuario + clave"]) --> B["2. SSH + sudo"]
   B --> C["3. Firewall + sysctl"]
   C --> D["4. Tiempo + MAC"]
   D --> E["5. Updates + fail2ban"]
-  E --> F["6. Cortar + verificar"]`;
+  E --> F(["6. Cortar + verificar"])`;
 
 const linkClass =
   "font-semibold text-primary-600 underline-offset-2 hover:underline dark:text-primary-300";
@@ -681,7 +681,7 @@ timedatectl status`}
       </ArticleH3>
 
       <ArticleP>
-        <strong>Qué es:</strong> Mandatory Access Control. Además del
+        <strong>Qué es:</strong> Mandatory Access Control. También del
         usuario Linux tradicional, el sistema define qué puede tocar cada
         programa. En Ubuntu suele ser{" "}
         <TermLink href={APPARMOR_URL}>AppArmor</TermLink>. En

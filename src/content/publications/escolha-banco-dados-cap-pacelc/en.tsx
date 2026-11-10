@@ -3,7 +3,6 @@ import {
   ArticleCode,
   ArticleH2,
   ArticleH3,
-  ArticleImg,
   ArticleLi,
   ArticleMermaid,
   ArticleOl,
@@ -18,16 +17,22 @@ import {
 } from "@/components/article";
 import type { ReactNode } from "react";
 
+const CAP_CHART = `flowchart TB
+  P["P: network partition happens"] --> Q{"What to prioritize under partition?"}
+  Q -->|"Consistency"| CP["CP: strong consistency"]
+  Q -->|"Availability"| AP["AP: availability"]
+  CA["CA: no partition, C + A"] -.->|"outside the distributed scenario"| Q`;
+
 const SCALE_CHART = `flowchart LR
   S1["1 server"] --> S2["API + DB split"]
   S2 --> S3["N apps + LB"]
   S3 --> S4["1 DB bottleneck"]`;
 
 const REPLICATION_CHART = `flowchart TB
-  Apps["Apps / API"]
-  Primary["Primary write"]
-  R1["Replica read"]
-  R2["Replica read"]
+  Apps(["Apps / API"])
+  Primary[("Primary write")]
+  R1[("Replica read")]
+  R2[("Replica read")]
 
   Apps -->|"write"| Primary
   Apps -->|"read"| R1
@@ -52,11 +57,11 @@ const PACELC_CHART = `flowchart TB
   EL --> Strong["Strong consistency"]`;
 
 const CASSANDRA_CHART = `flowchart TB
-  Client["Client"]
-  N1["Node 1"]
-  N2["Node 2"]
-  N3["Node 3"]
-  N4["Node 4"]
+  Client(["Client"])
+  N1[("Node 1")]
+  N2[("Node 2")]
+  N3[("Node 3")]
+  N4[("Node 4")]
 
   Client --> N1
   Client --> N2
@@ -68,10 +73,10 @@ const CASSANDRA_CHART = `flowchart TB
   N4 --- N1`;
 
 const QUORUM_CHART = `flowchart LR
-  RF["RF = 10 nodes"] --> Maj["Quorum = 6"]
+  RF{{"RF = 10 nodes"}} --> Maj{{"Quorum = 6"}}
   Maj --> Write["Write QUORUM"]
   Maj --> Read["Read QUORUM"]
-  Write --> Safe["Intersection guarantees fresh data"]
+  Write --> Safe(["Intersection guarantees fresh data"])
   Read --> Safe`;
 
 const linkClass =
@@ -521,44 +526,11 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
         A; async keeps A and gives up immediate C.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem.svg"
-        alt="CAP theorem diagram with Consistency, Availability, and Partition tolerance"
-        caption={
-          <>
-            Classic{" "}
-            <TermLink href={CAP_URL}>CAP</TermLink> diagram. Source:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem.svg"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
-      />
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem-euler.png"
-        alt="Euler diagram of the CAP theorem showing CA, CP, and AP pairs"
-        caption={
-          <>
-            Set view (CA / CP / AP) of{" "}
-            <TermLink href={CAP_URL}>CAP</TermLink>. Source:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem_Euler_Diagram.png"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
+
+      <ArticleMermaid
+        ariaLabel="CAP: under partition, choose consistency or availability; CA sits outside the distributed scenario"
+        chart={CAP_CHART}
       />
 
       <ArticleH3>
@@ -591,24 +563,6 @@ export function EscolhaBancoDadosCapPacelcContentEn() {
         That is the map I use in interviews and service design.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/pacelc-theorem.png"
-        alt="PACELC theorem diagram: under partition A or C; otherwise latency or C"
-        caption={
-          <>
-            <TermLink href={PACELC_URL}>PACELC</TermLink> in one figure. Source:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:PACELC_theorem.png"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
-      />
 
       <ArticleMermaid
         ariaLabel="PACELC decision: with partition A or C; without partition latency or C"
@@ -1102,12 +1056,10 @@ VALUES (uuid(), 'Sony Camera', 15000);`}
         On the client, consistency level goes on the operation:
       </ArticleP>
 
-      <ArticleCode block>
-        {`// write with quorum (majority of RF)
-statement.setConsistencyLevel(ConsistencyLevel.QUORUM);
+      <ArticleCode block language="java">
+        {`statement.setConsistencyLevel(ConsistencyLevel.QUORUM);
 session.execute(statement);
 
-// loose read (accepts possible lag)
 readStatement.setConsistencyLevel(ConsistencyLevel.ONE);
 session.execute(readStatement);`}
       </ArticleCode>

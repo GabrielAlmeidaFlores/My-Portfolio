@@ -4,10 +4,11 @@ import type { Experience } from "@/types/experience";
 export const experiencesByLocale: Record<Locale, Experience[]> = {
   "pt-BR": [
     {
-      id: "code-group-backend",
-      role: "Desenvolvedor Backend de Software",
-      company: "Code Group",
-      period: "Agosto 2026 a Atual",
+      id: "nuclea-software-developer",
+      role: "Desenvolvedor de Software (Contractor via Code Group)",
+      company: "Núclea",
+      period: "Agosto 2026 a Atual · Tempo integral",
+      logo: "/images/organizations/nuclea.png",
       responsibilitiesLabel: "Principais responsabilidades",
       featuredResponsibilities: [
         "Go",
@@ -197,10 +198,11 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   ],
   en: [
     {
-      id: "code-group-backend",
-      role: "Backend Software Developer",
-      company: "Code Group",
-      period: "August 2026 to Present",
+      id: "nuclea-software-developer",
+      role: "Software Developer (Contractor via Code Group)",
+      company: "Núclea",
+      period: "August 2026 to Present · Full-time",
+      logo: "/images/organizations/nuclea.png",
       responsibilitiesLabel: "Key responsibilities",
       featuredResponsibilities: [
         "Go",
@@ -390,10 +392,11 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   ],
   es: [
     {
-      id: "code-group-backend",
-      role: "Desarrollador Backend de Software",
-      company: "Code Group",
-      period: "Agosto 2026 a Actual",
+      id: "nuclea-software-developer",
+      role: "Desarrollador de Software (Contractor via Code Group)",
+      company: "Núclea",
+      period: "Agosto 2026 a Actual · Tiempo completo",
+      logo: "/images/organizations/nuclea.png",
       responsibilitiesLabel: "Principales responsabilidades",
       featuredResponsibilities: [
         "Go",

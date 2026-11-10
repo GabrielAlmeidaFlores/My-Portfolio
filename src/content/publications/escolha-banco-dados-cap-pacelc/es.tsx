@@ -3,7 +3,6 @@ import {
   ArticleCode,
   ArticleH2,
   ArticleH3,
-  ArticleImg,
   ArticleLi,
   ArticleMermaid,
   ArticleOl,
@@ -18,16 +17,22 @@ import {
 } from "@/components/article";
 import type { ReactNode } from "react";
 
+const CAP_CHART = `flowchart TB
+  P["P: ocurre una partición de red"] --> Q{"¿Qué priorizar bajo partición?"}
+  Q -->|"Consistencia"| CP["CP: consistencia fuerte"]
+  Q -->|"Disponibilidad"| AP["AP: disponibilidad"]
+  CA["CA: sin partición, C + A"] -.->|"fuera del escenario distribuido"| Q`;
+
 const SCALE_CHART = `flowchart LR
   S1["1 servidor"] --> S2["API + DB separados"]
   S2 --> S3["N apps + LB"]
   S3 --> S4["1 DB cuello de botella"]`;
 
 const REPLICATION_CHART = `flowchart TB
-  Apps["Apps / API"]
-  Primary["Primary write"]
-  R1["Replica read"]
-  R2["Replica read"]
+  Apps(["Apps / API"])
+  Primary[("Primary write")]
+  R1[("Replica read")]
+  R2[("Replica read")]
 
   Apps -->|"escritura"| Primary
   Apps -->|"lectura"| R1
@@ -37,13 +42,13 @@ const REPLICATION_CHART = `flowchart TB
 
 const TRADEOFF_CHART = `flowchart TB
   Write["Escritura en primary"]
-  Write --> Sync["Replicacion sincrona"]
-  Write --> Async["Replicacion asincrona"]
+  Write --> Sync["Replicación síncrona"]
+  Write --> Async["Replicación asíncrona"]
   Sync --> PainSync["Latencia / indisponibilidad"]
   Async --> PainAsync["Consistencia eventual"]`;
 
 const PACELC_CHART = `flowchart TB
-  Q["Hay particion de red?"]
+  Q["¿Hay partición de red?"]
   Q -->|"Si"| PA["Elige: A o C"]
   Q -->|"No"| EL["Elige: L o C"]
   PA --> Social["Ej: like / feed"]
@@ -52,11 +57,11 @@ const PACELC_CHART = `flowchart TB
   EL --> Strong["Consistencia fuerte"]`;
 
 const CASSANDRA_CHART = `flowchart TB
-  Client["Cliente"]
-  N1["Nodo 1"]
-  N2["Nodo 2"]
-  N3["Nodo 3"]
-  N4["Nodo 4"]
+  Client(["Cliente"])
+  N1[("Nodo 1")]
+  N2[("Nodo 2")]
+  N3[("Nodo 3")]
+  N4[("Nodo 4")]
 
   Client --> N1
   Client --> N2
@@ -68,10 +73,10 @@ const CASSANDRA_CHART = `flowchart TB
   N4 --- N1`;
 
 const QUORUM_CHART = `flowchart LR
-  RF["RF = 10 nodos"] --> Maj["Quorum = 6"]
+  RF{{"RF = 10 nodos"}} --> Maj{{"Quorum = 6"}}
   Maj --> Write["Write QUORUM"]
   Maj --> Read["Read QUORUM"]
-  Write --> Safe["Interseccion garantiza dato fresco"]
+  Write --> Safe(["Intersección garantiza dato fresco"])
   Read --> Safe`;
 
 const linkClass =
@@ -356,7 +361,7 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
       </ArticleP>
 
       <ArticleMermaid
-        ariaLabel="Evolucion: un servidor, separar base, varias apps con load balancer y cuello de botella en la base"
+        ariaLabel="Evolución: un servidor, separar base, varias apps con load balancer y cuello de botella en la base"
         chart={SCALE_CHART}
       />
 
@@ -482,7 +487,7 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
       </ArticleP>
 
       <ArticleMermaid
-        ariaLabel="Escritura: camino sincrono genera latencia o indisponibilidad; asincrono genera consistencia eventual"
+        ariaLabel="Escritura: camino síncrono genera latencia o indisponibilidad; asíncrono genera consistencia eventual"
         chart={TRADEOFF_CHART}
       />
 
@@ -526,44 +531,11 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
         A; async mantiene A y cede C inmediata.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem.svg"
-        alt="Diagrama del teorema CAP con Consistency, Availability y Partition tolerance"
-        caption={
-          <>
-            Diagrama clásico del{" "}
-            <TermLink href={CAP_URL}>CAP</TermLink>. Fuente:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem.svg"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
-      />
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/cap-theorem-euler.png"
-        alt="Diagrama de Euler del teorema CAP mostrando los pares CA, CP y AP"
-        caption={
-          <>
-            Vista en conjuntos (CA / CP / AP) del{" "}
-            <TermLink href={CAP_URL}>CAP</TermLink>. Fuente:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:CAP_Theorem_Euler_Diagram.png"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
+
+      <ArticleMermaid
+        ariaLabel="CAP: bajo partición, elegir consistencia o disponibilidad; CA queda fuera del escenario distribuido"
+        chart={CAP_CHART}
       />
 
       <ArticleH3>
@@ -596,27 +568,9 @@ export function EscolhaBancoDadosCapPacelcContentEs() {
         Es ese mapa el que uso en entrevista y en diseño de servicio.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/escolha-banco-dados-cap-pacelc/pacelc-theorem.png"
-        alt="Diagrama del teorema PACELC: bajo partición A o C; si no, latencia o C"
-        caption={
-          <>
-            <TermLink href={PACELC_URL}>PACELC</TermLink> en una figura. Fuente:{" "}
-            <a
-              href="https://commons.wikimedia.org/wiki/File:PACELC_theorem.png"
-              className={linkClass}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Wikimedia Commons
-            </a>
-            .
-          </>
-        }
-      />
 
       <ArticleMermaid
-        ariaLabel="Decision PACELC: con particion A o C; sin particion latencia o C"
+        ariaLabel="Decisión PACELC: con partición A o C; sin partición latencia o C"
         chart={PACELC_CHART}
       />
 
@@ -1108,12 +1062,10 @@ VALUES (uuid(), 'Camara Sony', 15000);`}
         En el client, el nivel de consistencia entra en la operación:
       </ArticleP>
 
-      <ArticleCode block>
-        {`// escritura con quorum (mayoria del RF)
-statement.setConsistencyLevel(ConsistencyLevel.QUORUM);
+      <ArticleCode block language="java">
+        {`statement.setConsistencyLevel(ConsistencyLevel.QUORUM);
 session.execute(statement);
 
-// lectura floja (acepta posible retraso)
 readStatement.setConsistencyLevel(ConsistencyLevel.ONE);
 session.execute(readStatement);`}
       </ArticleCode>

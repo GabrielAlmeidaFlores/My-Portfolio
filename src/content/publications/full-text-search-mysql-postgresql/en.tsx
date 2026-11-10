@@ -18,7 +18,7 @@ import {
 import type { ReactNode } from "react";
 
 const WHY_CHART = `flowchart TB
-  User["User types search"]
+  User(["User types search"])
   Api["API builds query"]
   Like["LIKE with wildcard"]
   SeqScan["Full table scan"]
@@ -33,26 +33,26 @@ const WHY_CHART = `flowchart TB
 
 const FTS_CHART = `flowchart TB
   subgraph indexPath ["1. Indexing inside the DB"]
-    Docs["Document text"]
+    Docs[["Document text"]]
     Norm["Normalization<br/>case and accents"]
     Tok["Tokenization"]
     Stop["Remove stop words"]
     Stem["Stemming / lexeme"]
-    Post["Postings<br/>doc + freq + position"]
-    Inv["Inverted index<br/>FULLTEXT or GIN"]
+    Post[("Postings<br/>doc + freq + position")]
+    Inv[("Inverted index<br/>FULLTEXT or GIN")]
     Docs --> Norm --> Tok --> Stop --> Stem --> Post --> Inv
   end
 
   Map["Term to document map<br/>headset: Doc1<br/>bluetooth: Doc1, Doc2<br/>mouse: Doc2"]
 
   subgraph queryPath ["2. Search execution"]
-    User["Query: bluetooth headset"]
+    User(["Query: bluetooth headset"])
     QPipe["Same pipeline<br/>on the query"]
     Look["Lookup terms"]
     Bool["Combine postings<br/>intersection or union"]
     Score["Score and ranking"]
     Page["Sort and paginate"]
-    Out["Final results"]
+    Out(["Final results"])
     User --> QPipe --> Look --> Bool --> Score --> Page --> Out
   end
 

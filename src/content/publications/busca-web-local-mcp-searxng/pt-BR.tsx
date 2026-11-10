@@ -3,7 +3,6 @@ import {
   ArticleCode,
   ArticleH2,
   ArticleH3,
-  ArticleImg,
   ArticleLi,
   ArticleMermaid,
   ArticleOl,
@@ -19,10 +18,10 @@ import {
 import type { ReactNode } from "react";
 
 const ARCHITECTURE_CHART = `flowchart TB
-  Client["1. Cliente MCP / Agente"]
+  Client(["1. Cliente MCP / Agente"])
   MCP["2. Servidor MCP"]
-  SearX["3. SearXNG local"]
-  Engines["4. Engines externas"]
+  SearX{{"3. SearXNG local"}}
+  Engines(["4. Engines externas"])
 
   Client -->|"search_web / fetch_url"| MCP
   MCP -->|"HTTP JSON local"| SearX
@@ -32,32 +31,32 @@ const ARCHITECTURE_CHART = `flowchart TB
   MCP -->|"contexto"| Client`;
 
 const DECISION_CHART = `flowchart TB
-  Start["Busca web no agente"]
+  Start(["Busca web no agente"])
 
   Start --> A["A: scraper MCP"]
   Start --> B["B: MCP + SearXNG"]
   Start --> C["C: MCP custom"]
 
   A --> ResultA["Smoke test"]
-  B --> ResultB["Uso diario"]
-  C --> ResultC["Alto esforco"]
+  B --> ResultB["Uso diário"]
+  C --> ResultC["Alto esforço"]
 
-  ResultB --> Pick["Decisao: B"]`;
+  ResultB --> Pick["Decisão: B"]`;
 
 const PROBLEM_CHART = `flowchart TB
-  Need["Agente precisa da web"]
+  Need(["Agente precisa da web"])
   Need --> Paid["API de busca paga"]
   Need --> Scrape["MCP scraper direto"]
   Paid --> PainPaid["Cota / custo / privacidade"]
   Scrape --> PainScrape["CAPTCHA / bloqueio / HTML"]
-  PainPaid --> Gap["Falta busca local estavel"]
+  PainPaid --> Gap["Falta busca local estável"]
   PainScrape --> Gap`;
 
 
 const OPTION_B_CHART = `flowchart LR
-  Ag["Agente"] --> Mcp["MCP pronto"]
-  Mcp --> Sx["SearXNG local"]
-  Sx --> Eng["Engines"]
+  Ag(["Agente"]) --> Mcp["MCP pronto"]
+  Mcp --> Sx{{"SearXNG local"}}
+  Sx --> Eng(["Engines"])
   Eng --> Sx
   Sx --> Mcp
   Mcp --> Ag`;
@@ -80,7 +79,7 @@ const SCRAPER_VS_SEARXNG_CHART = `flowchart TB
 
 const SETUP_CHART = `flowchart LR
   F1["1. SearXNG Docker"] --> F2["2. MCP no cliente"]
-  F2 --> F3["3. Aceite rapido"]`;
+  F2 --> F3["3. Aceite rápido"]`;
 
 const linkClass =
   "font-semibold text-primary-600 underline-offset-2 hover:underline dark:text-primary-300";
@@ -1048,18 +1047,36 @@ Cite links e separe causa de configuração de bloqueio de engine.`}
         pontos, não multiplicar por 1,3.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/busca-web-local-mcp-searxng/brave-simpleqa-grounding.jpg"
-        alt="Gráfico SimpleQA da Brave mostrando desempenho alto com AI Grounding frente a baselines"
-        caption={
-          <>
-            Referência visual: salto de factualidade com grounding. Fonte: Brave
-            Search (
-            <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>
-            ).
-          </>
-        }
-      />
+      <ArticleTable caption="Referências de benchmark citadas no texto">
+        <ArticleThead>
+          <ArticleTr>
+            <ArticleTh>Cenário</ArticleTh>
+            <ArticleTh>Resultado</ArticleTh>
+            <ArticleTh>Fonte</ArticleTh>
+          </ArticleTr>
+        </ArticleThead>
+        <ArticleTbody>
+          <ArticleTr>
+            <ArticleTd>Sem busca (GPT-4o, SimpleQA)</ArticleTd>
+            <ArticleTd>Abaixo de ~40%</ArticleTd>
+            <ArticleTd>
+              <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Com AI Grounding (Brave, SimpleQA)</ArticleTd>
+            <ArticleTd>F1 de 94,1%</ArticleTd>
+            <ArticleTd>
+              <TermLink href={GROUNDING_URL}>Brave Search</TermLink>
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Análises de vendors (SimpleQA e FRAMES)</ArticleTd>
+            <ArticleTd>Ganho típico de +25 a +40 pontos percentuais</ArticleTd>
+            <ArticleTd>Análises de vendors</ArticleTd>
+          </ArticleTr>
+        </ArticleTbody>
+      </ArticleTable>
 
       <ArticleCallout variant="note" title="O que eu não estou prometendo">
         <ArticleP>

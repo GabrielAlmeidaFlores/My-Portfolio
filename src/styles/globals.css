@@ -106,7 +106,33 @@
   );
 }
 
+:root {
+  --syntax-plain: #24292f;
+  --syntax-comment: #8b95a5;
+  --syntax-keyword: #7c3aed;
+  --syntax-string: #0e7490;
+  --syntax-number: #b45309;
+  --syntax-function: #2567a8;
+  --syntax-type: #1d4f82;
+  --syntax-variable: #16181d;
+  --syntax-operator: #4a5160;
+  --syntax-punctuation: #667085;
+  --syntax-constant: #b45309;
+}
+
 .dark {
+  --syntax-plain: #d0d5dd;
+  --syntax-comment: #7c8594;
+  --syntax-keyword: #c4b5fd;
+  --syntax-string: #67e8f9;
+  --syntax-number: #fbbf24;
+  --syntax-function: #6fb2e7;
+  --syntax-type: #a8d1f2;
+  --syntax-variable: #fafafa;
+  --syntax-operator: #b4bdc9;
+  --syntax-punctuation: #7c8594;
+  --syntax-constant: #fbbf24;
+
   --color-background: #09090b;
   --color-surface: #111318;
   --color-card: #181a20;
@@ -793,6 +819,208 @@
 
     .keyboard-key {
       transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+  }
+
+  @keyframes mermaidPanelIn {
+    from {
+      opacity: 0;
+      translate: 0 16px;
+      scale: 0.98;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+      scale: 1;
+    }
+  }
+
+  @keyframes mermaidPanelOut {
+    from {
+      opacity: 1;
+      translate: 0 0;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      translate: 0 10px;
+      scale: 0.985;
+    }
+  }
+
+  .mermaid-panel-in {
+    animation: mermaidPanelIn 240ms linear both;
+  }
+
+  .mermaid-panel-out {
+    animation: mermaidPanelOut 240ms linear both;
+  }
+
+  .mermaid-stage {
+    background-image:
+      radial-gradient(
+        circle at 1px 1px,
+        color-mix(in srgb, var(--color-foreground) 7%, transparent) 1px,
+        transparent 0
+      ),
+      radial-gradient(
+        120% 100% at 50% 0%,
+        color-mix(in srgb, var(--color-primary-500) 6%, transparent),
+        transparent 72%
+      );
+    background-size: 20px 20px, 100% 100%;
+  }
+
+  .mermaid-stage svg g.node[data-role="data"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-primary-500) 14%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-primary-500);
+  }
+
+  .mermaid-stage svg g.node[data-role="process"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-accent-500) 13%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-accent-500);
+  }
+
+  .mermaid-stage svg g.node[data-role="decision"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-warning) 14%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-warning);
+  }
+
+  .mermaid-stage svg g.node[data-role="external"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-secondary-500) 12%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-secondary-600);
+  }
+
+  .mermaid-stage svg g.node[data-role="start"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-secondary-500) 18%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-secondary-600);
+  }
+
+  .mermaid-stage svg g.node[data-role="success"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-success) 14%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-success);
+  }
+
+  .mermaid-stage svg g.node[data-role="warning"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-error) 12%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-error);
+  }
+
+  .mermaid-stage svg g.node[data-role="neutral"] {
+    --mermaid-role-fill: color-mix(
+      in srgb,
+      var(--color-muted) 10%,
+      transparent
+    );
+    --mermaid-role-stroke: var(--color-muted);
+  }
+
+  .mermaid-stage svg g.node[data-role] > rect,
+  .mermaid-stage svg g.node[data-role] > path,
+  .mermaid-stage svg g.node[data-role] > polygon,
+  .mermaid-stage svg g.node[data-role] > circle,
+  .mermaid-stage svg g.node[data-role] > ellipse {
+    fill: var(--mermaid-role-fill) !important;
+    stroke: var(--mermaid-role-stroke) !important;
+    stroke-width: 1.6px !important;
+    rx: 10px !important;
+    ry: 10px !important;
+    filter: drop-shadow(
+      0 5px 12px color-mix(in srgb, var(--color-foreground) 8%, transparent)
+    );
+    transition: filter 160ms ease;
+  }
+
+  .mermaid-stage svg g.node[data-role] > .outer-path {
+    filter: drop-shadow(
+      0 5px 12px color-mix(in srgb, var(--color-foreground) 8%, transparent)
+    );
+    transition: filter 160ms ease;
+  }
+
+  .mermaid-stage svg g.node[data-role] > .outer-path > path {
+    fill: var(--mermaid-role-fill) !important;
+    stroke: var(--mermaid-role-stroke) !important;
+    stroke-width: 1.6px !important;
+  }
+
+  .mermaid-stage svg g.node foreignObject {
+    overflow: visible !important;
+  }
+
+  .mermaid-stage svg g.node[data-role] .nodeLabel {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .mermaid-stage svg g.cluster > rect {
+    fill: color-mix(in srgb, var(--color-primary-500) 5%, transparent) !important;
+    stroke: color-mix(
+      in srgb,
+      var(--color-primary-500) 28%,
+      var(--color-border)
+    ) !important;
+    stroke-width: 1.2px !important;
+    rx: 14px !important;
+    ry: 14px !important;
+  }
+
+  .mermaid-stage svg .cluster-label .nodeLabel {
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+
+  .mermaid-stage svg .edgeLabel rect {
+    fill: var(--color-surface) !important;
+    opacity: 0.94;
+    rx: 6px !important;
+    ry: 6px !important;
+  }
+
+  .mermaid-stage svg .edgePath path,
+  .mermaid-stage svg path.flowchart-link {
+    stroke-width: 1.6px !important;
+    stroke-linecap: round;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .mermaid-stage svg g.node[data-role]:hover > rect,
+    .mermaid-stage svg g.node[data-role]:hover > path,
+    .mermaid-stage svg g.node[data-role]:hover > polygon,
+    .mermaid-stage svg g.node[data-role]:hover > circle,
+    .mermaid-stage svg g.node[data-role]:hover > ellipse,
+    .mermaid-stage svg g.node[data-role]:hover > .outer-path {
+      filter: drop-shadow(
+        0 10px 22px color-mix(in srgb, var(--color-primary-500) 22%, transparent)
+      );
     }
   }
 

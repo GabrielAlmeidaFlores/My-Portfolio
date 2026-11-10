@@ -3,7 +3,6 @@ import {
   ArticleCode,
   ArticleH2,
   ArticleH3,
-  ArticleImg,
   ArticleLi,
   ArticleMermaid,
   ArticleOl,
@@ -19,10 +18,10 @@ import {
 import type { ReactNode } from "react";
 
 const ARCHITECTURE_CHART = `flowchart TB
-  Client["1. MCP client / Agent"]
+  Client(["1. MCP client / Agent"])
   MCP["2. MCP server"]
-  SearX["3. Local SearXNG"]
-  Engines["4. External engines"]
+  SearX{{"3. Local SearXNG"}}
+  Engines(["4. External engines"])
 
   Client -->|"search_web / fetch_url"| MCP
   MCP -->|"local HTTP JSON"| SearX
@@ -32,7 +31,7 @@ const ARCHITECTURE_CHART = `flowchart TB
   MCP -->|"context"| Client`;
 
 const DECISION_CHART = `flowchart TB
-  Start["Web search in the agent"]
+  Start(["Web search in the agent"])
 
   Start --> A["A: scraper MCP"]
   Start --> B["B: MCP + SearXNG"]
@@ -45,7 +44,7 @@ const DECISION_CHART = `flowchart TB
   ResultB --> Pick["Decision: B"]`;
 
 const PROBLEM_CHART = `flowchart TB
-  Need["Agent needs the web"]
+  Need(["Agent needs the web"])
   Need --> Paid["Paid search API"]
   Need --> Scrape["Direct scraper MCP"]
   Paid --> PainPaid["Quota / cost / privacy"]
@@ -54,9 +53,9 @@ const PROBLEM_CHART = `flowchart TB
   PainScrape --> Gap`;
 
 const OPTION_B_CHART = `flowchart LR
-  Ag["Agent"] --> Mcp["Ready MCP"]
-  Mcp --> Sx["Local SearXNG"]
-  Sx --> Eng["Engines"]
+  Ag(["Agent"]) --> Mcp["Ready MCP"]
+  Mcp --> Sx{{"Local SearXNG"}}
+  Sx --> Eng(["Engines"])
   Eng --> Sx
   Sx --> Mcp
   Mcp --> Ag`;
@@ -1056,18 +1055,36 @@ Cite links and separate configuration causes from engine blocks.`}
         points, not multiply by 1.3.
       </ArticleP>
 
-      <ArticleImg
-        src="/images/publications/busca-web-local-mcp-searxng/brave-simpleqa-grounding.jpg"
-        alt="Brave SimpleQA chart showing high performance with AI Grounding versus baselines"
-        caption={
-          <>
-            Visual reference: factuality jump with grounding. Source: Brave
-            Search (
-            <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>
-            ).
-          </>
-        }
-      />
+      <ArticleTable caption="Benchmark references cited in the text">
+        <ArticleThead>
+          <ArticleTr>
+            <ArticleTh>Scenario</ArticleTh>
+            <ArticleTh>Result</ArticleTh>
+            <ArticleTh>Source</ArticleTh>
+          </ArticleTr>
+        </ArticleThead>
+        <ArticleTbody>
+          <ArticleTr>
+            <ArticleTd>Without search (GPT-4o, SimpleQA)</ArticleTd>
+            <ArticleTd>Below ~40%</ArticleTd>
+            <ArticleTd>
+              <TermLink href={SIMPLEQA_URL}>SimpleQA</TermLink>
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>With AI Grounding (Brave, SimpleQA)</ArticleTd>
+            <ArticleTd>F1 of 94.1%</ArticleTd>
+            <ArticleTd>
+              <TermLink href={GROUNDING_URL}>Brave Search</TermLink>
+            </ArticleTd>
+          </ArticleTr>
+          <ArticleTr>
+            <ArticleTd>Vendor analyses (SimpleQA and FRAMES)</ArticleTd>
+            <ArticleTd>Typical gain of +25 to +40 percentage points</ArticleTd>
+            <ArticleTd>Vendor analyses</ArticleTd>
+          </ArticleTr>
+        </ArticleTbody>
+      </ArticleTable>
 
       <ArticleCallout variant="note" title="What I am not promising">
         <ArticleP>

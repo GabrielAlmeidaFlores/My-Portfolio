@@ -18,7 +18,7 @@ import {
 import type { ReactNode } from "react";
 
 const WHY_CHART = `flowchart TB
-  User["Usuário digita busca"]
+  User(["Usuário digita busca"])
   Api["API monta consulta"]
   Like["LIKE com wildcard"]
   SeqScan["Escaneamento completo"]
@@ -33,26 +33,26 @@ const WHY_CHART = `flowchart TB
 
 const FTS_CHART = `flowchart TB
   subgraph indexPath ["1. Indexação no banco"]
-    Docs["Texto do documento"]
+    Docs[["Texto do documento"]]
     Norm["Normalização<br/>caixa e acento"]
     Tok["Tokenização"]
     Stop["Remove stop words"]
     Stem["Stemming / lexema"]
-    Post["Postings<br/>doc + freq + posição"]
-    Inv["Índice invertido<br/>FULLTEXT ou GIN"]
+    Post[("Postings<br/>doc + freq + posição")]
+    Inv[("Índice invertido<br/>FULLTEXT ou GIN")]
     Docs --> Norm --> Tok --> Stop --> Stem --> Post --> Inv
   end
 
   Map["Mapa termo para docs<br/>fone: Doc1<br/>bluetooth: Doc1, Doc2<br/>mouse: Doc2"]
 
   subgraph queryPath ["2. Execução da busca"]
-    User["Query: fone bluetooth"]
+    User(["Query: fone bluetooth"])
     QPipe["Mesmo pipeline<br/>na query"]
     Look["Lookup dos termos"]
     Bool["Cruza postings<br/>interseção ou união"]
     Score["Score e ranking"]
-    Page["Ordena e pagina"]
-    Out["Resultados finais"]
+    Page["Ordena e página"]
+    Out(["Resultados finais"])
     User --> QPipe --> Look --> Bool --> Score --> Page --> Out
   end
 
@@ -120,7 +120,7 @@ export function FullTextSearchMysqlPostgresqlContentPt() {
           rel="noopener noreferrer"
           className={linkClass}
         >
-          O QUE NINGUEM TE ENSINOU SOBRE BUSCAS INTELIGENTES NO BANCO DE DADOS
+          O QUE NINGUÉM TE ENSINOU SOBRE BUSCAS INTELIGENTES NO BANCO DE DADOS
         </a>
         . A base de conteúdo, os exemplos e a sequência conceitual vêm dessa aula.
       </ArticleP>

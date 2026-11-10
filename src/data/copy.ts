@@ -49,6 +49,19 @@ export interface SiteCopy {
     subtitle: string;
     ariaLabel: string;
   };
+  article: {
+    diagramLabel: string;
+    expandDiagram: string;
+    zoomIn: string;
+    zoomOut: string;
+    resetView: string;
+    downloadDiagram: string;
+    closeDiagram: string;
+    panHint: string;
+    copyCode: string;
+    copiedCode: string;
+    copyCodeAria: string;
+  };
   publications: {
     title: string;
     subtitle: string;
@@ -60,6 +73,11 @@ export interface SiteCopy {
     publishedOn: string;
     tableOfContents: string;
     tableOfContentsAria: string;
+    paginationAria: string;
+    previousPage: string;
+    nextPage: string;
+    pageStatus: string;
+    goToPage: string;
   };
   contact: {
     eyebrow: string;
@@ -152,6 +170,19 @@ const ptBR: SiteCopy = {
     subtitle: "Trajetória acadêmica e especialização contínua.",
     ariaLabel: "Formação acadêmica",
   },
+  article: {
+    diagramLabel: "Diagrama",
+    expandDiagram: "Expandir diagrama",
+    zoomIn: "Aumentar zoom",
+    zoomOut: "Diminuir zoom",
+    resetView: "Redefinir visualização",
+    downloadDiagram: "Baixar diagrama",
+    closeDiagram: "Fechar diagrama",
+    panHint: "Arraste para mover e use a roda para dar zoom.",
+    copyCode: "Copiar código",
+    copiedCode: "Copiado",
+    copyCodeAria: "Copiar código para a área de transferência",
+  },
   publications: {
     title: "Posts",
     subtitle:
@@ -165,6 +196,11 @@ const ptBR: SiteCopy = {
     publishedOn: "Publicado em",
     tableOfContents: "Neste artigo",
     tableOfContentsAria: "Índice do artigo",
+    paginationAria: "Paginação dos posts",
+    previousPage: "Página anterior",
+    nextPage: "Próxima página",
+    pageStatus: "Página {current} de {total}",
+    goToPage: "Ir para a página {page}",
   },
   contact: {
     eyebrow: "// vamos construir",
@@ -258,6 +294,19 @@ const en: SiteCopy = {
     subtitle: "Academic background and continuous specialization.",
     ariaLabel: "Education",
   },
+  article: {
+    diagramLabel: "Diagram",
+    expandDiagram: "Expand diagram",
+    zoomIn: "Zoom in",
+    zoomOut: "Zoom out",
+    resetView: "Reset view",
+    downloadDiagram: "Download diagram",
+    closeDiagram: "Close diagram",
+    panHint: "Drag to move and use the wheel to zoom.",
+    copyCode: "Copy code",
+    copiedCode: "Copied",
+    copyCodeAria: "Copy code to clipboard",
+  },
   publications: {
     title: "Posts",
     subtitle:
@@ -271,6 +320,11 @@ const en: SiteCopy = {
     publishedOn: "Published on",
     tableOfContents: "In this article",
     tableOfContentsAria: "Article table of contents",
+    paginationAria: "Posts pagination",
+    previousPage: "Previous page",
+    nextPage: "Next page",
+    pageStatus: "Page {current} of {total}",
+    goToPage: "Go to page {page}",
   },
   contact: {
     eyebrow: "// let's build",
@@ -364,6 +418,19 @@ const es: SiteCopy = {
     subtitle: "Trayectoria académica y especialización continua.",
     ariaLabel: "Formación académica",
   },
+  article: {
+    diagramLabel: "Diagrama",
+    expandDiagram: "Expandir diagrama",
+    zoomIn: "Acercar",
+    zoomOut: "Alejar",
+    resetView: "Restablecer vista",
+    downloadDiagram: "Descargar diagrama",
+    closeDiagram: "Cerrar diagrama",
+    panHint: "Arrastra para mover y usa la rueda para hacer zoom.",
+    copyCode: "Copiar código",
+    copiedCode: "Copiado",
+    copyCodeAria: "Copiar código al portapapeles",
+  },
   publications: {
     title: "Posts",
     subtitle:
@@ -377,6 +444,11 @@ const es: SiteCopy = {
     publishedOn: "Publicado el",
     tableOfContents: "En este artículo",
     tableOfContentsAria: "Índice del artículo",
+    paginationAria: "Paginación de los posts",
+    previousPage: "Página anterior",
+    nextPage: "Página siguiente",
+    pageStatus: "Página {current} de {total}",
+    goToPage: "Ir a la página {page}",
   },
   contact: {
     eyebrow: "// construyamos",
