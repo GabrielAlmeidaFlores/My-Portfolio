@@ -1,0 +1,45 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="180" y1="120" x2="1460" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#1F2937"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="glow" x="260" y="120" width="1080" height="560" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="42"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+
+  <g filter="url(#glow)">
+    <ellipse cx="800" cy="360" rx="420" ry="200" fill="#22D3EE" fill-opacity="0.14"/>
+  </g>
+
+  <rect x="250" y="200" width="200" height="300" rx="24" fill="url(#pill)" stroke="#334155" stroke-width="2"/>
+  <rect x="470" y="200" width="200" height="300" rx="24" fill="url(#pill)" stroke="#334155" stroke-width="2"/>
+  <rect x="690" y="200" width="200" height="300" rx="24" fill="url(#pill)" stroke="#334155" stroke-width="2"/>
+  <rect x="910" y="200" width="200" height="300" rx="24" fill="url(#pill)" stroke="#334155" stroke-width="2"/>
+  <rect x="1130" y="200" width="200" height="300" rx="24" fill="url(#pill)" stroke="#334155" stroke-width="2"/>
+
+  <text x="350" y="360" text-anchor="middle" fill="#22D3EE" font-family="Inter, Arial, sans-serif" font-size="112" font-weight="700">S</text>
+  <text x="350" y="420" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="500">one reason</text>
+  <text x="570" y="360" text-anchor="middle" fill="#A78BFA" font-family="Inter, Arial, sans-serif" font-size="112" font-weight="700">O</text>
+  <text x="570" y="420" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="500">extension</text>
+  <text x="790" y="360" text-anchor="middle" fill="#34D399" font-family="Inter, Arial, sans-serif" font-size="112" font-weight="700">L</text>
+  <text x="790" y="420" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="500">contract</text>
+  <text x="1010" y="360" text-anchor="middle" fill="#FBBF24" font-family="Inter, Arial, sans-serif" font-size="112" font-weight="700">I</text>
+  <text x="1010" y="420" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="500">roles</text>
+  <text x="1230" y="360" text-anchor="middle" fill="#F472B6" font-family="Inter, Arial, sans-serif" font-size="112" font-weight="700">D</text>
+  <text x="1230" y="420" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="500">abstraction</text>
+
+  <text x="140" y="720" fill="#E2E8F0" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="700">
+    SOLID in practice
+  </text>
+  <text x="140" y="776" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">
+    five principles, examples and tradeoffs
+  </text>
+</svg>

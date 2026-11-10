@@ -1,0 +1,47 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="180" y1="120" x2="1460" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#1F2937"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="glow" x="200" y="120" width="1200" height="560" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="42"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+
+  <g filter="url(#glow)">
+    <ellipse cx="800" cy="350" rx="460" ry="200" fill="#22D3EE" fill-opacity="0.12"/>
+  </g>
+
+  <rect x="250" y="190" width="470" height="330" rx="26" fill="url(#panel)" stroke="#334155" stroke-width="2"/>
+  <rect x="880" y="190" width="470" height="330" rx="26" fill="url(#panel)" stroke="#334155" stroke-width="2"/>
+
+  <text x="485" y="270" text-anchor="middle" fill="#A78BFA" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">EF CORE</text>
+  <text x="485" y="320" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="500">LINQ · tracking · migrations</text>
+  <rect x="320" y="360" width="330" height="16" rx="8" fill="#475569"/>
+  <rect x="320" y="395" width="270" height="16" rx="8" fill="#475569"/>
+  <rect x="320" y="430" width="300" height="16" rx="8" fill="#475569"/>
+  <rect x="320" y="465" width="180" height="16" rx="8" fill="#A78BFA" fill-opacity="0.8"/>
+
+  <text x="1115" y="270" text-anchor="middle" fill="#22D3EE" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">DAPPER</text>
+  <text x="1115" y="320" text-anchor="middle" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="500">SQL · parameters · mapping</text>
+  <rect x="950" y="360" width="330" height="16" rx="8" fill="#22D3EE" fill-opacity="0.8"/>
+  <rect x="950" y="395" width="250" height="16" rx="8" fill="#475569"/>
+  <rect x="950" y="430" width="300" height="16" rx="8" fill="#475569"/>
+  <rect x="950" y="465" width="200" height="16" rx="8" fill="#34D399" fill-opacity="0.8"/>
+
+  <text x="800" y="380" text-anchor="middle" fill="#E2E8F0" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="700">vs</text>
+
+  <text x="140" y="720" fill="#E2E8F0" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="700">
+    Dapper and Entity Framework Core
+  </text>
+  <text x="140" y="776" fill="#94A3B8" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">
+    micro-ORMs, tradeoffs and other .NET data tools
+  </text>
+</svg>
