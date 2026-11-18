@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>João Gabriel Almeida Flores - Carta de Apresentação</title>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #0f172a;
+            --accent: #2563eb;
+            --text: #334155;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #cbd5e1;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 32px 36px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        button.secondary {
+            background-color: #64748b;
+        }
+        button.secondary:hover {
+            background-color: #475569;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.45rem;
+            margin: 0 0 5px 0;
+        }
+
+        .contact-info {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .contact-info span {
+            margin: 0 8px;
+        }
+
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .letter-date {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 6px 0 18px 0;
+        }
+
+        .letter p {
+            margin: 0 0 14px 0;
+            font-size: 0.92rem;
+            text-align: justify;
+        }
+
+        .greeting {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+        }
+
+        .closing {
+            margin-top: 18px;
+            font-size: 0.92rem;
+        }
+
+        .signature {
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 4px;
+            font-size: 0.95rem;
+        }
+
+        .letter-socials {
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .letter-socials a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .letter-socials span {
+            margin: 0 8px;
+        }
+
+        @media (max-width: 600px) {
+            .contact-info span,
+            .letter-socials span {
+                display: block;
+                margin: 2px 0;
+            }
+        }
+
+        @media print {
+            html {
+                font-size: 12px;
+            }
+            .toolbar {
+                display: none;
+            }
+            body {
+                background: white;
+                padding: 0;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            header {
+                margin-bottom: 12px;
+            }
+            .letter p {
+                margin-bottom: 10px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .letter-socials {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="document.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="toolbar">
+        <div class="btn-group" role="group" aria-label="Idioma / Language">
+            <button type="button" class="btn btn-secondary lang-btn" data-lang="pt" onclick="setLanguage('pt')" aria-pressed="true">PT</button>
+            <button type="button" class="btn btn-secondary lang-btn" data-lang="en" onclick="setLanguage('en')" aria-pressed="false">EN</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="print-btn" onclick="window.print()">Imprimir / Salvar PDF</button>
+        </div>
+    </div>
+    <header>
+        <h1 id="name">João Gabriel Almeida Flores</h1>
+        <div class="contact-info">
+            <span id="location">Sorocaba, Brasil</span> |
+            <a href="https://wa.me/5515997752074" target="_blank" id="phone">(15) 99775-2074</a> |
+            <a href="mailto:gabrielalmeidaflores@hotmail.com" id="email">gabrielalmeidaflores@hotmail.com</a> |
+            <a href="https://www.linkedin.com/in/joao-gabriel-flores/" target="_blank" id="linkedin-link">LinkedIn</a> |
+            <a href="https://gabrielflores.kybers.com.br/" target="_blank" id="portfolio-link">Portfólio</a>
+        </div>
+    </header>
+    <div class="letter-date" id="letter-date">Sorocaba, 18 de novembro de 2026</div>
+    <div class="letter">
+        <p class="greeting" id="greeting"></p>
+        <p id="p1"></p>
+        <p id="p2"></p>
+        <p id="p3"></p>
+        <p id="p4"></p>
+        <p class="closing" id="closing"></p>
+        <p class="signature" id="signature"></p>
+    </div>
+    <div class="letter-socials">
+        <span id="socials-label"></span>
+        <a href="https://www.linkedin.com/in/joao-gabriel-flores/" target="_blank">LinkedIn</a> |
+        <a href="https://gabrielflores.kybers.com.br/" target="_blank">Portfólio</a> |
+        <a href="mailto:gabrielalmeidaflores@hotmail.com">gabrielalmeidaflores@hotmail.com</a> |
+        <a href="https://wa.me/5515997752074" target="_blank">(15) 99775-2074</a>
+    </div>
+</div>
+
+<script>
+    const translations = {
+        pt: {
+            "print-btn": "Imprimir / Salvar PDF",
+            "location": "Sorocaba, Brasil",
+            "greeting": "Prezado time de recrutamento,",
+            "p1": "Sou desenvolvedor de software com foco em backend e cloud e escrevo para me candidatar à vaga de Desenvolvedor de Software. Tenho mais de 3 anos de experiência no setor financeiro, com sistemas distribuídos, arquitetura multi-tenant e serviços que precisam de disponibilidade, segurança e rastreabilidade, além de projetos envolvendo blockchain e uso de IA no desenvolvimento.",
+            "p2": "Meu dia a dia envolve APIs REST, microsserviços e arquitetura orientada a eventos, com C#/.NET, Go, Java e TypeScript/Node.js. Também trabalho com AWS e Azure, Docker, CI/CD com GitHub Actions, Linux e observabilidade. Tenho prática com Clean Architecture, SOLID, bancos relacionais e NoSQL, Redis, testes automatizados e code review. Em projetos com blockchain, atuei com rastreabilidade e imutabilidade de registros, e tenho experiência no uso de IA como apoio para acelerar análise, implementação e revisão de código sem abrir mão da validação técnica.",
+            "p3": "Em experiências recentes, desenvolvi serviços backend em Go na AWS para o setor financeiro, incluindo Lambda, EventBridge, SQS, RDS, ElastiCache e Cognito. Boa parte do trabalho esteve em idempotência, retry, consistência e isolamento por cliente, problemas que aparecem rápido em sistemas distribuídos. Também participei de arquiteturas cloud-native em AWS e Azure, padronização de CI/CD e resolução de incidentes em produção.",
+            "p4": "Tenho as certificações AWS Certified Developer - Associate, AWS Certified Solutions Architect - Associate, AWS Cloud Practitioner, Google Cloud Digital Leader e LPI Linux Essentials. Sou português nativo, com inglês fluente e espanhol intermediário. Gostaria de entender melhor o contexto do time e as prioridades da posição para avaliar como posso contribuir já nos primeiros meses.",
+            "closing": "Fico à disposição para conversar. Obrigado pela atenção.",
+            "signature": "João Gabriel Almeida Flores",
+            "socials-label": "Conecte-se comigo:"
+        },
+        en: {
+            "print-btn": "Print / Save PDF",
+            "location": "Sorocaba, Brazil",
+            "greeting": "Dear Hiring Team,",
+            "p1": "I am a software developer focused on backend and cloud, and I am writing to apply for a Software Developer role. I have 3+ years of experience in the financial sector, working with distributed systems, multi-tenant architecture, and services that require availability, security, and traceability, as well as projects involving blockchain and AI-assisted development.",
+            "p2": "My day-to-day work involves REST APIs, microservices, and event-driven architecture with C#/.NET, Go, Java, and TypeScript/Node.js. I also work with AWS and Azure, Docker, CI/CD with GitHub Actions, Linux, and observability. I have hands-on experience with Clean Architecture, SOLID, relational and NoSQL databases, Redis, automated tests, and code review. In blockchain projects, I worked with traceability and immutability of records, and I have hands-on experience using AI-assisted development to speed up analysis, implementation, and code review without skipping technical validation.",
+            "p3": "In recent roles, I have developed Go backend services on AWS for the financial sector, including Lambda, EventBridge, SQS, RDS, ElastiCache, and Cognito. A large part of the work is handling idempotency, retry, consistency, and per-client isolation, problems that show up quickly in distributed systems. I have also contributed to cloud-native architectures on AWS and Azure, CI/CD standardization, and production incident resolution.",
+            "p4": "I hold the AWS Certified Developer - Associate, AWS Certified Solutions Architect - Associate, AWS Cloud Practitioner, Google Cloud Digital Leader, and LPI Linux Essentials certifications. I am a native Portuguese speaker with fluent English and intermediate Spanish. I would like to understand the team context and the priorities of the role to assess how I can contribute in the first months.",
+            "closing": "I would be glad to discuss this opportunity. Thank you for your time.",
+            "signature": "João Gabriel Almeida Flores",
+            "socials-label": "Connect with me:"
+        }
+    };
+
+    const uiOnlyKeys = new Set(["print-btn"]);
+
+    function applyTranslations(lang) {
+        const data = translations[lang];
+        document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
+        document.title = lang === "pt"
+            ? "João Gabriel Almeida Flores - Carta de Apresentação"
+            : "João Gabriel Almeida Flores - Cover Letter";
+
+        for (const [id, text] of Object.entries(data)) {
+            if (uiOnlyKeys.has(id)) continue;
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
+        const printBtn = document.getElementById("print-btn");
+        if (printBtn) printBtn.textContent = data["print-btn"];
+
+        const dateEl = document.getElementById("letter-date");
+        if (dateEl) {
+            const today = new Date();
+            dateEl.textContent = lang === "pt"
+                ? `Sorocaba, ${today.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}`
+                : `Sorocaba, ${today.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`;
+        }
+    }
+
+    function setLanguage(lang) {
+        applyTranslations(lang);
+        document.querySelectorAll(".lang-btn").forEach((button) => {
+            button.setAttribute("aria-pressed", String(button.dataset.lang === lang));
+        });
+    }
+
+    setLanguage("pt");
+</script>
+
+</body>
+</html>

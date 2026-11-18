@@ -111,6 +111,8 @@ Additional route:
 
 - `/publicacoes/:slug` renders the full publication page.
 
+Editable CV and cover letter sources live in `public/cv/` (`resume.html`, `cover-letter.html`, and shared `document.css`).
+
 Conventions and implementation details: [`AGENTS.md`](./AGENTS.md).
 
 ---
@@ -119,7 +121,7 @@ Conventions and implementation details: [`AGENTS.md`](./AGENTS.md).
 
 ```
 Gabriel-Flores-Portfolio/
-├── public/                    # assets, CV, icons
+├── public/                    # assets, CV HTML/PDF, cover letter, icons
 │   └── images/publications/   # covers and post images
 ├── src/
 │   ├── components/            # article, layout, sections, ui

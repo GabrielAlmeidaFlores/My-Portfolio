@@ -79,7 +79,7 @@ Gabriel-Flores-Portfolio/
 │   ├── images/              # Fotos, projetos, logos, badges
 │   │   └── publications/    # Imagens das publicações (por slug)
 │   ├── fonts/
-│   └── cv/                  # Currículo em PDF
+│   └── cv/                  # Currículo e carta de apresentação (PDF + HTML)
 ├── src/
 │   ├── components/
 │   │   ├── article/         # Kit tipográfico para publicações (Article, Img, Mermaid...)

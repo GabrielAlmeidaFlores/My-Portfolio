@@ -5,8 +5,8 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   "pt-BR": [
     {
       id: "nuclea-software-developer",
-      role: "Desenvolvedor de Software (Contractor via Code Group)",
-      company: "Núclea",
+      role: "Desenvolvedor de Software",
+      company: "Núclea - Contractor via Code Group",
       period: "Agosto 2026 a Atual · Tempo integral",
       logo: "/images/organizations/nuclea.png",
       responsibilitiesLabel: "Principais responsabilidades",
@@ -199,8 +199,8 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   en: [
     {
       id: "nuclea-software-developer",
-      role: "Software Developer (Contractor via Code Group)",
-      company: "Núclea",
+      role: "Software Developer",
+      company: "Núclea - Contractor via Code Group",
       period: "August 2026 to Present · Full-time",
       logo: "/images/organizations/nuclea.png",
       responsibilitiesLabel: "Key responsibilities",
@@ -393,8 +393,8 @@ export const experiencesByLocale: Record<Locale, Experience[]> = {
   es: [
     {
       id: "nuclea-software-developer",
-      role: "Desarrollador de Software (Contractor via Code Group)",
-      company: "Núclea",
+      role: "Desarrollador de Software",
+      company: "Núclea - Contractor via Code Group",
       period: "Agosto 2026 a Actual · Tiempo completo",
       logo: "/images/organizations/nuclea.png",
       responsibilitiesLabel: "Principales responsabilidades",
