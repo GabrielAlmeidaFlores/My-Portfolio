@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>João Gabriel Almeida Flores - Currículo</title>
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #0f172a;
+            --accent: #2563eb;
+            --text: #334155;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #cbd5e1;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 32px 36px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        button.secondary {
+            background-color: #64748b;
+        }
+        button.secondary:hover {
+            background-color: #475569;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.45rem;
+            margin: 0 0 5px 0;
+        }
+
+        .contact-info {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .contact-info span {
+            margin: 0 8px;
+        }
+
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 0.95rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 4px;
+            margin-top: 48px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            margin: 0 0 8px 0;
+            font-size: 0.88rem;
+            text-align: justify;
+            text-indent: 1.5em;
+        }
+
+        .job {
+            margin-bottom: 20px;
+        }
+
+        .edu {
+            margin-bottom: 20px;
+        }
+
+        .job-header, .edu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 6px;
+        }
+
+        .job-header > div:first-child,
+        .edu-header > div:first-child {
+            max-width: 62%;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .job-title {
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .job-company {
+            color: #475569;
+            font-style: italic;
+            display: block;
+        }
+
+        .job-date {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 500;
+            flex-shrink: 0;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        ul {
+            margin: 0 0 8px 18px;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 3px;
+            font-size: 0.88rem;
+        }
+
+        .job-bullets {
+            margin: 0 0 4px 18px;
+        }
+
+        .job-bullets li {
+            margin-bottom: 6px;
+            text-align: left;
+        }
+
+        .skills-list {
+            display: grid;
+            grid-template-columns: max-content minmax(0, 1fr);
+            column-gap: 16px;
+            align-items: baseline;
+        }
+
+        .skill-row {
+            display: contents;
+        }
+
+        .skill-category,
+        .skill-items {
+            padding-bottom: 18px;
+        }
+
+        .skill-row:last-child .skill-category,
+        .skill-row:last-child .skill-items {
+            padding-bottom: 0;
+        }
+
+        .skill-category {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 6px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .skill-tag {
+            display: inline;
+        }
+
+        .skill-tag:not(:last-child)::after {
+            content: ",";
+        }
+
+        .langs-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 24px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .langs-inline li {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .skills-list {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-category {
+                padding-bottom: 0;
+            }
+
+            .skill-row:last-child .skill-items {
+                padding-bottom: 0;
+            }
+        }
+
+        @media print {
+            html {
+                font-size: 12px;
+            }
+            .toolbar {
+                display: none;
+            }
+            body {
+                background: white;
+                padding: 0;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            header {
+                margin-bottom: 8px;
+            }
+            h2 {
+                margin-top: 20px;
+                margin-bottom: 8px;
+            }
+            p {
+                margin-bottom: 6px;
+                text-indent: 1.2em;
+            }
+            ul {
+                margin: 0 0 5px 18px;
+            }
+            .job {
+                margin-bottom: 16px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .edu {
+                margin-bottom: 16px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .job-header {
+                margin-bottom: 4px;
+            }
+            .job-bullets {
+                margin-bottom: 0;
+            }
+            li {
+                margin-bottom: 3px;
+            }
+            .job-bullets li {
+                margin-bottom: 5px;
+            }
+            .skill-category,
+            .skill-items {
+                padding-bottom: 12px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="document.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="toolbar">
+        <div class="btn-group" role="group" aria-label="Idioma / Language">
+            <button type="button" class="btn btn-secondary lang-btn" data-lang="pt" onclick="setLanguage('pt')" aria-pressed="true">PT</button>
+            <button type="button" class="btn btn-secondary lang-btn" data-lang="en" onclick="setLanguage('en')" aria-pressed="false">EN</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="print-btn" onclick="window.print()">Imprimir / Salvar PDF</button>
+        </div>
+    </div>
+    <header>
+        <h1 id="name">João Gabriel Almeida Flores</h1>
+        <div class="contact-info">
+            <span id="location">Sorocaba, Brasil</span> |
+            <a href="https://wa.me/5515997752074" target="_blank" id="phone">(15) 99775-2074</a> |
+            <a href="mailto:gabrielalmeidaflores@hotmail.com" id="email">gabrielalmeidaflores@hotmail.com</a> |
+            <a href="https://www.linkedin.com/in/joao-gabriel-flores/" target="_blank" id="linkedin-link">LinkedIn</a> |
+            <a href="https://gabrielflores.kybers.com.br/" target="_blank" id="portfolio-link">Portfólio</a>
+        </div>
+    </header>
+    <section>
+        <h2 id="sec-summary">Perfil Profissional</h2>
+        <p id="summary-text"></p>
+    </section>
+    <section>
+        <h2 id="sec-experience">Principais Experiências Profissionais</h2>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title" id="job1-title"></span><span class="job-company" id="job1-company"></span>
+                </div>
+                <div class="job-date" id="job1-date"></div>
+            </div>
+            <ul class="job-bullets">
+                <li id="job1-b1"></li>
+                <li id="job1-b2"></li>
+                <li id="job1-b3"></li>
+                <li id="job1-b4"></li>
+                <li id="job1-b5"></li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title" id="job2-title"></span><span class="job-company" id="job2-company"></span>
+                </div>
+                <div class="job-date" id="job2-date"></div>
+            </div>
+            <ul class="job-bullets">
+                <li id="job2-b1"></li>
+                <li id="job2-b2"></li>
+                <li id="job2-b3"></li>
+                <li id="job2-b4"></li>
+                <li id="job2-b5"></li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title" id="job3-title"></span><span class="job-company" id="job3-company"></span>
+                </div>
+                <div class="job-date" id="job3-date"></div>
+            </div>
+            <ul class="job-bullets">
+                <li id="job3-b1"></li>
+                <li id="job3-b2"></li>
+                <li id="job3-b3"></li>
+                <li id="job3-b4"></li>
+            </ul>
+        </div>
+    </section>
+    <section>
+        <h2 id="sec-education">Formação Acadêmica</h2>
+        <div class="edu">
+            <div class="job-header">
+                <div>
+                    <span class="job-title" id="edu1-title"></span><span class="job-company" id="edu1-school"></span>
+                </div>
+                <div class="job-date" id="edu1-date"></div>
+            </div>
+        </div>
+        <div class="edu">
+            <div class="job-header">
+                <div>
+                    <span class="job-title" id="edu2-title"></span><span class="job-company" id="edu2-school"></span>
+                </div>
+                <div class="job-date" id="edu2-date"></div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2 id="sec-skills">Proficiências Técnicas</h2>
+        <div class="skills-list">
+            <div class="skill-row">
+                <div class="skill-category" id="cat-backend"></div>
+                <div class="skill-items">
+                    <span class="skill-tag">Go</span>
+                    <span class="skill-tag">C# / .NET</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">TypeScript / Node.js</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">ASP.NET Core</span>
+                    <span class="skill-tag">Spring Boot</span>
+                    <span class="skill-tag">NestJS</span>
+                    <span class="skill-tag">Gin</span>
+                    <span class="skill-tag">REST APIs</span>
+                    <span class="skill-tag">API Design</span>
+                    <span class="skill-tag">React.js</span>
+                    <span class="skill-tag">Next.js</span>
+                    <span class="skill-tag">Angular</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">Tailwind CSS</span>
+                </div>
+            </div>
+            <div class="skill-row">
+                <div class="skill-category" id="cat-cloud"></div>
+                <div class="skill-items">
+                    <span class="skill-tag">AWS (EC2, Lambda, RDS, S3, DynamoDB, SQS, SNS, EventBridge, Cognito, ElastiCache)</span>
+                    <span class="skill-tag">Azure</span>
+                    <span class="skill-tag">Cloud Architecture</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">CI/CD</span>
+                    <span class="skill-tag">GitHub Actions</span>
+                    <span class="skill-tag">Linux</span>
+                    <span class="skill-tag">Nginx</span>
+                    <span class="skill-tag">Serverless</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">Bash</span>
+                </div>
+            </div>
+            <div class="skill-row">
+                <div class="skill-category" id="cat-arch"></div>
+                <div class="skill-items">
+                    <span class="skill-tag">Microservices</span>
+                    <span class="skill-tag">Clean Architecture</span>
+                    <span class="skill-tag">Hexagonal Architecture</span>
+                    <span class="skill-tag">Modular Architecture</span>
+                    <span class="skill-tag">Cloud-Native</span>
+                    <span class="skill-tag">Multi-tenant</span>
+                    <span class="skill-tag">Event-Driven Architecture</span>
+                    <span class="skill-tag">Distributed Systems</span>
+                    <span class="skill-tag">High Availability</span>
+                    <span class="skill-tag">Scalability</span>
+                    <span class="skill-tag">Resilience</span>
+                    <span class="skill-tag">Idempotency</span>
+                    <span class="skill-tag">Retry</span>
+                    <span class="skill-tag">SOLID</span>
+                    <span class="skill-tag">Clean Code</span>
+                    <span class="skill-tag">Design Patterns</span>
+                    <span class="skill-tag">Code Review</span>
+                    <span class="skill-tag">Automated Tests</span>
+                    <span class="skill-tag">Unit Tests</span>
+                    <span class="skill-tag">Integration Tests</span>
+                    <span class="skill-tag">Scrum / Agile</span>
+                    <span class="skill-tag">Technical Leadership</span>
+                    <span class="skill-tag">Mentoring</span>
+                </div>
+            </div>
+            <div class="skill-row">
+                <div class="skill-category" id="cat-db"></div>
+                <div class="skill-items">
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">SQL Server</span>
+                    <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">DynamoDB</span>
+                    <span class="skill-tag">Redis (ElastiCache)</span>
+                    <span class="skill-tag">NoSQL</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Data Modeling</span>
+                    <span class="skill-tag">Query Optimization</span>
+                    <span class="skill-tag">OpenTelemetry</span>
+                    <span class="skill-tag">Observability</span>
+                    <span class="skill-tag">Structured Logs</span>
+                    <span class="skill-tag">Metrics</span>
+                    <span class="skill-tag">Tracing</span>
+                    <span class="skill-tag">OAuth2</span>
+                    <span class="skill-tag">Security Hardening</span>
+                    <span class="skill-tag">Application Security</span>
+                </div>
+            </div>
+            <div class="skill-row">
+                <div class="skill-category" id="cat-ai"></div>
+                <div class="skill-items">
+                    <span class="skill-tag">AI-Assisted Development</span>
+                    <span class="skill-tag">LLM Integration</span>
+                    <span class="skill-tag">Prompt Engineering</span>
+                    <span class="skill-tag">Test Automation</span>
+                    <span class="skill-tag">Static Analysis</span>
+                    <span class="skill-tag">SonarQube</span>
+                    <span class="skill-tag">Code Review Automation</span>
+                    <span class="skill-tag">Blockchain</span>
+                    <span class="skill-tag">Smart Contracts</span>
+                    <span class="skill-tag">Asset Tokenization</span>
+                    <span class="skill-tag">On-chain / Off-chain</span>
+                    <span class="skill-tag">Traceability</span>
+                    <span class="skill-tag">Immutability</span>
+                    <span class="skill-tag">Financial Systems</span>
+                    <span class="skill-tag">Payments</span>
+                    <span class="skill-tag">Asset Trading</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2 id="sec-certs">Cursos e Certificações</h2>
+        <ul>
+            <li id="cert1"></li>
+            <li id="cert2"></li>
+            <li id="cert3"></li>
+            <li id="cert4"></li>
+            <li id="cert5"></li>
+        </ul>
+    </section>
+    <section>
+        <h2 id="sec-langs">Idiomas</h2>
+        <ul class="langs-inline">
+            <li><strong id="lang1-name"></strong> <span id="lang1-level"></span></li>
+            <li><strong id="lang2-name"></strong> <span id="lang2-level"></span></li>
+            <li><strong id="lang3-name"></strong> <span id="lang3-level"></span></li>
+        </ul>
+    </section>
+</div>
+
+<script>
+    const skillLabelsPt = {
+        "REST APIs": "APIs REST",
+        "API Design": "Design de APIs",
+        "Cloud Architecture": "Arquitetura Cloud",
+        "Microservices": "Microsserviços",
+        "Clean Architecture": "Arquitetura Limpa",
+        "Hexagonal Architecture": "Arquitetura Hexagonal",
+        "Modular Architecture": "Arquitetura Modular",
+        "Event-Driven Architecture": "Arquitetura Orientada a Eventos",
+        "Distributed Systems": "Sistemas Distribuídos",
+        "High Availability": "Alta Disponibilidade",
+        "Scalability": "Escalabilidade",
+        "Resilience": "Resiliência",
+        "Idempotency": "Idempotência",
+        "Retry": "Retentativa",
+        "Clean Code": "Código Limpo",
+        "Design Patterns": "Padrões de Projeto",
+        "Code Review": "Revisão de Código",
+        "Automated Tests": "Testes Automatizados",
+        "Unit Tests": "Testes Unitários",
+        "Integration Tests": "Testes de Integração",
+        "Scrum / Agile": "Scrum / Ágil",
+        "Technical Leadership": "Liderança Técnica",
+        "Mentoring": "Mentoria",
+        "Data Modeling": "Modelagem de Dados",
+        "Query Optimization": "Otimização de Consultas",
+        "Observability": "Observabilidade",
+        "Structured Logs": "Logs Estruturados",
+        "Metrics": "Métricas",
+        "Tracing": "Rastreamento",
+        "Security Hardening": "Endurecimento de Segurança",
+        "Application Security": "Segurança de Aplicações",
+        "AI-Assisted Development": "Desenvolvimento Assistido por IA",
+        "LLM Integration": "Integração com LLMs",
+        "Prompt Engineering": "Engenharia de Prompt",
+        "Test Automation": "Automação de Testes",
+        "Static Analysis": "Análise Estática",
+        "Code Review Automation": "Automação de Revisão de Código",
+        "Smart Contracts": "Contratos Inteligentes",
+        "Asset Tokenization": "Tokenização de Ativos",
+        "Traceability": "Rastreabilidade",
+        "Immutability": "Imutabilidade",
+        "Financial Systems": "Sistemas Financeiros",
+        "Payments": "Pagamentos",
+        "Asset Trading": "Negociação de Ativos",
+    };
+
+    const translations = {
+        pt: {
+            "print-btn": "Imprimir / Salvar PDF",
+            "location": "Sorocaba, Brasil",
+            "sec-summary": "Perfil Profissional",
+            "sec-experience": "Principais Experiências Profissionais",
+            "sec-education": "Formação Acadêmica",
+            "sec-skills": "Proficiências Técnicas",
+            "sec-certs": "Cursos e Certificações",
+            "sec-langs": "Idiomas",
+            "summary-text": "Desenvolvedor de software com experiência em cloud, Linux e backend, criando sistemas distribuídos e aplicações multi-tenant para o setor financeiro. Trabalho com C#, Go, TypeScript e Python em APIs REST, microsserviços e arquitetura orientada a eventos, com execução em AWS e Azure. Uso Clean Architecture, SOLID, testes automatizados, CI/CD e observabilidade para manter entregas previsíveis e código sustentável. Já integrei IA e LLMs em produtos e no fluxo de trabalho, usando essas ferramentas para apoiar análise, implementação e code review com validação técnica. Também liderei times e apoiei decisões de arquitetura, com atuação em blockchain, smart contracts e rastreabilidade de registros.",
+            "job1-title": "Desenvolvedor de Software",
+            "job1-company": "Núclea - Contractor via Code Group",
+            "job1-date": "ago 2026 - Presente",
+            "job1-b1": "Desenvolvo e mantenho APIs REST e serviços backend multi-tenant em Go (Gin) para o setor financeiro, aplicando Clean Architecture e isolamento por cliente em infraestrutura AWS (RDS PostgreSQL, ElastiCache Redis, Lambda, EventBridge, SQS, SES e Cognito), com foco em escalabilidade, segurança e alta disponibilidade.",
+            "job1-b2": "Projeto e implemento microsserviços distribuídos com arquitetura orientada a eventos (event-driven) para transações financeiras e compra e venda de ativos, garantindo consistência, idempotência e confiabilidade em alta concorrência, além de integrações com blockchain para rastreabilidade e imutabilidade de registros (on-chain e off-chain).",
+            "job1-b3": "Integro APIs de terceiros e serviços AWS de forma segura, com autenticação OAuth2, tratamento robusto de erros, retry logic com backoff exponencial e mecanismos de resiliência, com foco em segurança, observabilidade e confiabilidade.",
+            "job1-b4": "Automatizo testes, análise estática (SonarQube) e validações de segurança em pipelines de CI/CD com GitHub Actions e Docker, elevando a qualidade, a previsibilidade e a cobertura de testes das entregas.",
+            "job1-b5": "Colaboro em code reviews, refatorações técnicas e pair programming, aplicando boas práticas (Clean Code, SOLID) e apoio de IA em ciclos Agile/Scrum, mantendo alta qualidade e manutenibilidade do código.",
+            "job2-title": "Líder Técnico",
+            "job2-company": "Ousion - Soluções em tecnologia, Sorocaba, Brasil",
+            "job2-date": "abr 2024 - ago 2026",
+            "job2-b1": "Projetei e evoluí arquitetura cloud-native multi-tenant e microsserviços em AWS/Azure (EC2, Lambda, RDS, S3, DynamoDB), aplicando Hexagonal, Modular e Clean Architecture para isolamento por cliente e escala horizontal.",
+            "job2-b2": "Padronizei pipelines de CI/CD com GitHub Actions e Docker (incluindo fluxos serverless), reduzindo atrito de release e aumentando previsibilidade das entregas.",
+            "job2-b3": "Endureci a operação Linux (security hardening, Nginx, alta disponibilidade) e introduzi práticas de observabilidade para detectar e resolver incidentes mais rápido.",
+            "job2-b4": "Desenvolvi e revisei código em Go (Gin), C#/.NET (ASP.NET Core), TypeScript/Node.js (Nest.js), Java (Spring Boot) e Python, alinhando qualidade técnica às prioridades do negócio.",
+            "job2-b5": "Atuei no diagnóstico e resolução de incidentes em produção (cloud e Linux), reduzindo tempo de recuperação e impacto para os clientes.",
+            "job3-title": "Desenvolvedor Full-Stack Pleno",
+            "job3-company": "Ousion - Soluções em tecnologia, Sorocaba, Brasil",
+            "job3-date": "jan 2024 - abr 2024",
+            "job3-b1": "Entreguei funcionalidades full-stack em C#/.NET (ASP.NET Core), Angular, React.js e Next.js sob Scrum/Agile, com APIs REST seguras e integrações com serviços de terceiros.",
+            "job3-b2": "Otimizei consultas em SQL Server, PostgreSQL, MySQL e MongoDB em fluxos críticos, melhorando tempo de resposta e estabilidade sob carga.",
+            "job3-b3": "Refatorei módulos legados com abordagem modular e Clean Architecture, e introduzi testes/automação no fluxo do time, reduzindo regressões nas versões.",
+            "job3-b4": "Implementei e evoluí capacidades multi-tenant no produto, garantindo isolamento de dados e configuração por cliente.",
+            "edu1-title": "Pós-graduação Lato Sensu em Arquitetura de Software, Cibersegurança e Ciência de Dados",
+            "edu1-school": "Pontifícia Universidade Católica do Paraná",
+            "edu1-date": "jan 2025 - dez 2026",
+            "edu2-title": "Curso Superior de Tecnologia em Análise e Desenvolvimento de Sistemas",
+            "edu2-school": "Universidade de Sorocaba",
+            "edu2-date": "jan 2022 - jan 2025",
+            "cat-backend": "Backend & Frontend",
+            "cat-cloud": "Cloud & DevOps",
+            "cat-arch": "Arquitetura",
+            "cat-db": "Dados & Segurança",
+            "cat-ai": "IA & Blockchain",
+            "cert1": "AWS Certified Developer - Associate - 2025",
+            "cert2": "GCP Cloud Digital Leader - 2024",
+            "cert3": "AWS Certified Solutions Architect - Associate - 2023",
+            "cert4": "AWS Certified Cloud Practitioner - 2023",
+            "cert5": "LPI Linux Essentials - Linux Professional Institute - 2022",
+            "lang1-name": "Português:",
+            "lang1-level": "Nativo",
+            "lang2-name": "Inglês:",
+            "lang2-level": "Fluente",
+            "lang3-name": "Espanhol:",
+            "lang3-level": "Intermediário"
+        },
+        en: {
+            "print-btn": "Print / Save PDF",
+            "location": "Sorocaba, Brazil",
+            "sec-summary": "Professional Summary",
+            "sec-experience": "Key Professional Experience",
+            "sec-education": "Education",
+            "sec-skills": "Technical Proficiencies",
+            "sec-certs": "Certifications & Courses",
+            "sec-langs": "Languages",
+            "summary-text": "Software developer with experience in cloud, Linux, and backend, building distributed systems and multi-tenant applications for the financial sector. I work with C#, Go, TypeScript, and Python on REST APIs, microservices, and event-driven architecture running on AWS and Azure. I use Clean Architecture, SOLID, automated tests, CI/CD, and observability to keep delivery predictable and code maintainable. I have integrated AI and LLMs into products and workflows, using these tools to support analysis, implementation, and code review with technical validation. I have also led teams and supported architecture decisions, with work in blockchain, smart contracts, and record traceability.",
+            "job1-title": "Software Developer",
+            "job1-company": "Núclea - Contractor via Code Group",
+            "job1-date": "Aug 2026 - Present",
+            "job1-b1": "Develop and maintain REST APIs and multi-tenant backend services in Go (Gin) for the financial sector, applying Clean Architecture and per-client isolation on AWS infrastructure (RDS PostgreSQL, ElastiCache Redis, Lambda, EventBridge, SQS, SES, and Cognito), with a focus on scalability, security, and high availability.",
+            "job1-b2": "Design and implement distributed microservices with event-driven architecture for financial transactions and asset trading, ensuring consistency, idempotency, and reliability under high concurrency, plus blockchain integrations for traceability and immutability of records (on-chain and off-chain).",
+            "job1-b3": "Integrate third-party APIs and AWS services securely, with OAuth2 authentication, robust error handling, retry logic with exponential backoff, and resilience mechanisms, focusing on security, observability, and reliability.",
+            "job1-b4": "Automate tests, static analysis (SonarQube), and security validations in CI/CD pipelines with GitHub Actions and Docker, raising delivery quality, predictability, and test coverage.",
+            "job1-b5": "Collaborate on code reviews, technical refactoring, and pair programming, applying best practices (Clean Code, SOLID) and AI support in Agile/Scrum cycles, maintaining high code quality and sustainability.",
+            "job2-title": "Technical Lead",
+            "job2-company": "Ousion - Technology Solutions, Sorocaba, Brazil",
+            "job2-date": "Apr 2024 - Aug 2026",
+            "job2-b1": "Designed and evolved a cloud-native multi-tenant and microservices architecture on AWS/Azure (EC2, Lambda, RDS, S3, DynamoDB), applying Hexagonal, Modular, and Clean Architecture for per-client isolation and horizontal scale.",
+            "job2-b2": "Standardized CI/CD pipelines with GitHub Actions and Docker (including serverless workflows), reducing release friction and improving delivery predictability.",
+            "job2-b3": "Hardened Linux operations (security hardening, Nginx, high availability) and introduced observability practices to detect and resolve incidents faster.",
+            "job2-b4": "Developed and reviewed code in Go (Gin), C#/.NET (ASP.NET Core), TypeScript/Node.js (Nest.js), Java (Spring Boot), and Python, aligning technical quality with business priorities.",
+            "job2-b5": "Diagnosed and resolved production incidents across cloud and Linux environments, reducing recovery time and customer impact.",
+            "job3-title": "Mid-level Full-Stack Developer",
+            "job3-company": "Ousion - Technology Solutions, Sorocaba, Brazil",
+            "job3-date": "Jan 2024 - Apr 2024",
+            "job3-b1": "Delivered full-stack features in C#/.NET (ASP.NET Core), Angular, React.js, and Next.js under Scrum/Agile, with secure REST APIs and third-party integrations.",
+            "job3-b2": "Optimized queries in SQL Server, PostgreSQL, MySQL, and MongoDB on critical paths, improving response time and stability under load.",
+            "job3-b3": "Refactored legacy modules using modular and Clean Architecture approaches, and introduced testing/automation into the team workflow, reducing regressions across releases.",
+            "job3-b4": "Implemented and evolved multi-tenant product capabilities, ensuring data isolation and per-client configuration.",
+            "edu1-title": "Postgraduate Specialization in Software Architecture, Cybersecurity, and Data Science",
+            "edu1-school": "Pontifical Catholic University of Paraná",
+            "edu1-date": "Jan 2025 - Dec 2026",
+            "edu2-title": "Technology Degree in Systems Analysis and Development",
+            "edu2-school": "University of Sorocaba",
+            "edu2-date": "Jan 2022 - Jan 2025",
+            "cat-backend": "Backend & Frontend",
+            "cat-cloud": "Cloud & DevOps",
+            "cat-arch": "Architecture",
+            "cat-db": "Data & Security",
+            "cat-ai": "AI & Blockchain",
+            "cert1": "AWS Certified Developer - Associate - 2025",
+            "cert2": "GCP Cloud Digital Leader - 2024",
+            "cert3": "AWS Certified Solutions Architect - Associate - 2023",
+            "cert4": "AWS Certified Cloud Practitioner - 2023",
+            "cert5": "LPI Linux Essentials - Linux Professional Institute - 2022",
+            "lang1-name": "Portuguese:",
+            "lang1-level": "Native",
+            "lang2-name": "English:",
+            "lang2-level": "Fluent",
+            "lang3-name": "Spanish:",
+            "lang3-level": "Intermediate"
+        }
+    };
+
+    const uiOnlyKeys = new Set(["print-btn"]);
+
+    function applyTranslations(lang) {
+        const data = translations[lang];
+        document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
+        document.title = lang === "pt"
+            ? "João Gabriel Almeida Flores - Currículo"
+            : "João Gabriel Almeida Flores - Resume";
+
+        for (const [id, text] of Object.entries(data)) {
+            if (uiOnlyKeys.has(id)) continue;
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
+        const printBtn = document.getElementById("print-btn");
+        if (printBtn) printBtn.textContent = data["print-btn"];
+
+        localizeSkills(lang);
+    }
+
+    function localizeSkills(lang) {
+        document.querySelectorAll(".skill-tag").forEach((tag) => {
+            const english = tag.dataset.en ?? tag.textContent.trim();
+            tag.dataset.en = english;
+            tag.textContent = lang === "pt" ? skillLabelsPt[english] ?? english : english;
+        });
+    }
+
+    function setLanguage(lang) {
+        applyTranslations(lang);
+        document.querySelectorAll(".lang-btn").forEach((button) => {
+            button.setAttribute("aria-pressed", String(button.dataset.lang === lang));
+        });
+    }
+
+    setLanguage("pt");
+</script>
+
+</body>
+</html>
